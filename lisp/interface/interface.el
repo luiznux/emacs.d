@@ -25,6 +25,7 @@
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
+  :defines doom-modeline--default-format
   :init
   ;; Prevent flash of unstyled modeline at startup
   (unless after-init-time
@@ -62,7 +63,8 @@
   (doom-modeline-mode . nyan-mode))
 
 (use-package parrot
-  :config
+  :commands parrot-set-parrot-type parrot-start-animation
+  :init
   (parrot-mode)
   (parrot-set-parrot-type 'emacs)
   (setq parrot-num-rotations 6)
@@ -161,6 +163,11 @@
 ;;  (add-hook 'dashboard-mode-hook (lambda () (goto-char (point-min)))))
 
 (use-package centaur-tabs
+  :defines evil-normal-state-map
+  :commands (centaur-tabs-group-by-projectile-project
+             centaur-tabs-get-group-name
+             centaur-tabs-headline-match
+             centaur-tabs-change-fonts)
   :config
   (setq centaur-tabs-style                    "chamfer"
         centaur-tabs-height                   32

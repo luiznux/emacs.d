@@ -20,7 +20,6 @@
   :config
   (setq-default olivetti-body-width 100))
 
-
 ;; games and useless things
 (use-package hackernews
   :commands (hackernews))
@@ -29,7 +28,6 @@
 (use-package speed-type
   :commands (speed-type-text))
 (use-package snow)
-
 
 (use-package vimrc-mode)
 (use-package google-this)

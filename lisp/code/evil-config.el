@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package evil
+  :commands evil-set-initial-state
   :init
   (setq evil-want-integration t
         evil-want-keybinding nil)
@@ -16,6 +17,7 @@
 
 (use-package evil-collection
   :after evil
+  :defines evil-collection-company-use-tng
   :config
   (evil-collection-init)
   (setq evil-collection-setup-minibuffer t
@@ -34,6 +36,7 @@
   (global-evil-leader-mode))
 
 (use-package evil-org
+  :functions evil-org-agenda-set-keys
   :after evil org
   :config
   (add-hook 'org-mode-hook (lambda () (evil-org-mode)))

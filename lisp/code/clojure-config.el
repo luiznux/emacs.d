@@ -9,6 +9,7 @@
   (setq cljr-hotload-dependencies t))
 
 (use-package cider
+  :functions 'cider-company-enable-fuzzy-completion
   :config
   (setq cider-repl-pop-to-buffer-on-connect      'nil ;;display-only
         cider-completion-annotations-include-ns  'always
@@ -30,6 +31,7 @@
   (eros-mode 1))
 
 (use-package dizzee
+  :functions jcf-lein-datomic-stop jcf-lein-headless-stop
   :commands (jcf-lein-datomic-start jcf-lein-headless-start)
   :config
   (dz-defservice jcf-lein-headless

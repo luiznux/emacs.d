@@ -110,13 +110,14 @@
   (set-selection-coding-system 'utf-8)
   (modify-coding-system-alist 'process "*" 'utf-8))
 
-(defun visual-config-modes()
+(defun various-emacs-config()
   "Visual modes, remove tool and menu bar,remove scroll bar and display line numbers."
   (setq inhibit-startup-message           t
         delete-selection-mode             t
         menu-bar-mode                     nil
         tool-bar-mode                     nil
         scroll-bar-mode                   nil)
+  (setq password-cache-expiry nil)
 
   ;; more smooth scrollig
   (setq mouse-wheel-progressive-speed   t
@@ -228,26 +229,27 @@
            (error-message-string "Fail to get path name.")))))
 
 ;; Linux coding style for Emacs.
-(defun c-lineup-arglist-tabs-only (ignored)
-  "Line up argument lists by tabs, not spaces.
-IGNORED"
-  (let* ((anchor (c-langelem-pos c-syntactic-element))
-         (column (c-langelem-2nd-pos c-syntactic-element))
-         (offset (- (1+ column) anchor))
-         (steps (floor offset c-basic-offset)))
-    (* (max steps 1)
-       c-basic-offset)))
-(defun call-clineup-arg ()
-  "Call the c-lineup."
-  (add-hook 'c-mode-common-hook
-            (lambda ()
-              ;; Add kernel style
-              (c-add-style
-               "linux-tabs-only"
-               '("linux" (c-offsets-alist
-                          (arglist-cont-nonempty
-                           c-lineup-gcc-asm-reg
-                           c-lineup-arglist-tabs-only)))))))
+;;(defun c-lineup-arglist-tabs-only (ignored)
+;;  "Line up argument lists by tabs, not spaces.
+;;IGNORED"
+;;  (let* ((anchor (c-langelem-pos c-syntactic-element))
+;;         (column (c-langelem-2nd-pos c-syntactic-element))
+;;         (offset (- (1+ column) anchor))
+;;         (steps (floor offset c-basic-offset)))
+;;    (* (max steps 1)
+;;       c-basic-offset)))
+;;
+;;(defun call-clineup-arg ()
+;;  "Call the c-lineup."
+;;  (add-hook 'c-mode-common-hook
+;;            (lambda ()
+;;              ;; Add kernel style
+;;              (c-add-style
+;;               "linux-tabs-only"
+;;               '("linux" (c-offsets-alist
+;;                          (arglist-cont-nonempty
+;;                           c-lineup-gcc-asm-reg
+;;                           c-lineup-arglist-tabs-only)))))))
 
 ;; Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el
 (defun revert-buffer-no-confirm ()
@@ -310,9 +312,13 @@ The original function deletes trailing whitespace of the current line."
     (delete-trailing-whitespace-except-current-line)))
 (add-hook 'before-save-hook #'smart-delete-trailing-whitespace)
 
-(defun org-src--construct-edit-buffer-name (org-buffer-name lang)
-  "Construct the buffer name for a source editing buffer."
-  (concat org-buffer-name " (org src)"))
+;;(defun gambeta-pandoc ()
+;;  "Uma gambeta muito boa pra converter o arquivo org  atual em pdf."
+;;  (interactive)
+;;  (setq  my-buffer (current-buffer))
+;;
+;;
+;;  )
 
 (defun do-not-show-trailing-whitespace ()
   "Not show some whitespaces in some modes."
@@ -332,11 +338,11 @@ The original function deletes trailing whitespace of the current line."
   (setq use-dialog-box nil))
 
 (witch-sys?)
-(visual-config-modes)
+(various-emacs-config)
 (set-default-indentation)
 (enable-ido-mode)
 (read-path-variable-from-zshrc)
-(call-clineup-arg)
+;;(call-clineup-arg)
 (sasa/call-help-temp-buffers)
 (do-not-show-trailing-whitespace)
 (simplify-prompts)

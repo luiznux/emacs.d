@@ -14,6 +14,13 @@
 ;;; Code:
 
 (use-package counsel
+  :defines wiper-action-recenter
+  :commands (ivy-immediate-done
+             ivy-alt-done
+             ivy-set-occur
+             ivy-next-line
+             ivy-previous-line
+             )
   :preface
   (defun config-ivy-with-empty-ivy-extra-directories (f &rest args)
     (let ((ivy-extra-directories nil))
@@ -98,6 +105,7 @@
 
 
 (use-package ivy-rich
+  :commands ivy-format-function-line
   :custom
   (sivy-rich-path-style 'abbrev)
   (ivy-rich-switch-buffer-align-virtual-buffer nil)

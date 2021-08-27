@@ -60,18 +60,43 @@
           org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "IMPORTANT" "DOING"))
     (org-wild-notifier-mode))
 
+  (use-package org-gcal
+    :if  (file-exists-p "~/org/org-api.el")
+    :defines luiznux-client-id luiznux-client-secret
+    :config
+    (load "~/org/org-api.el") ;; file with the keys
+    (setq org-gcal-client-id  luiznux-client-id
+          org-gcal-client-secret luiznux-client-secret
+          org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
+
   (use-package verb
     :config
     (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
-  (use-package ox-jira)
+  (use-package org-roam
+    :custom
+    (org-roam-directory (file-truename "~/org/"))
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n g" . org-roam-graph)
+           ("C-c n i" . org-roam-node-insert)
+           ("C-c n c" . org-roam-capture)
+           ;; Dailies
+           ("C-c n j" . org-roam-dailies-capture-today))
+    :config
+    (org-roam-db-autosync-mode)
+    ;; If using org-roam-protocol
+    (require 'org-roam-protocol))
+
   (use-package org-web-tools)
   (use-package org-alert)
   (use-package org-sidebar))
 
 (use-package org
   :ensure nil
-  :config
+  :bind ("C-c c" . 'org-capture)
+  :defines org-babel-clojure-backend
+  :init
   ;; load some org-modules
   (with-eval-after-load 'org
     (add-to-list 'org-modules 'org-habit t))
@@ -116,6 +141,8 @@
                                              ("DOING"        . (:foreground "#A020F0" :weight bold))
                                              ("CANCELLED"    . (:foreground "#ff6c6b" :weight bold))
                                              ("DONE"         . (:foreground "#1E90FF" :weight bold)))
+        ;; config `org-capture'
+        org-default-notes-file             "~/org/cap .org"
 
         ;; `org-babel' config
         org-confirm-babel-evaluate         nil
@@ -124,6 +151,10 @@
         org-src-window-setup               'current-window
         ;; `cider' backend for org babel
         org-babel-clojure-backend          'cider)
+
+  ;; cool message for scratch  ( ͡° ͜ʖ ͡°)
+  (setq initial-major-mode 'org-mode
+        initial-scratch-message "Eai seu *CORNO* 🐂 \n\n#+begin_src\n\n#+end_src")
 
   ;; varlist for `org-babel' languages
   (defvar load-language-list '((emacs-lisp . t)
@@ -150,28 +181,26 @@
   (org-babel-do-load-languages 'org-babel-load-languages
                                load-language-list)
 
+  (defun org-src--construct-edit-buffer-name (org-buffer-name lang)
+    "Construct the buffer name for a source editing buffer."
+    (concat org-buffer-name " (org src)"))
+
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 
   ;; easy templates special blocks in latex export
   (add-to-list 'org-structure-template-alist '("f" . "figure"))
 
-  ;; config `org-capture'
-  (setq org-default-notes-file "~/org/cap .org")
-  (global-set-key (kbd "C-c c") 'org-capture)
-
-  ;; cool message for scratch  ( ͡° ͜ʖ ͡°)
-  (setq initial-major-mode 'org-mode
-        initial-scratch-message "Eai seu *CORNO* 🐂 \n\n#+begin_src\n\n#+end_src" )
 
   ;; Redo agenda after capturing.
   (add-hook 'org-capture-after-finalize-hook 'org-agenda-maybe-redo)
 
+  :config
   (setup-org-packages))
 
 
 (use-package org-habit
   :ensure nil
-  :config
+  :init
   (setq org-habit-completed-glyph           10003
         org-habit-today-glyph               10082
         org-habit-graph-column              60
@@ -183,18 +212,19 @@
 
 (use-package org-agenda
   :ensure nil
-  :config
+  :functions renewOrgBuffer org-agenda-maybe-redo org-agenda-files
+  :init
   (setq org-agenda-skip-deadline-prewarning-if-scheduled   t
         org-agenda-skip-scheduled-delay-if-deadline        t
         org-agenda-skip-deadline-if-done                   t
-        ;;        org-agenda-include-diary                           t
         org-agenda-breadcrumbs-separator                   " ❱ "
         org-agenda-prefer-last-repeat                      t
         org-agenda-show-future-repeats                     t
         org-agenda-skip-unavailable-files                  t
         org-agenda-compact-blocks                          nil
         org-agenda-block-separator                         61
-        org-agenda-span                                    6 ; show 15 days in agenda
+        org-agenda-span                                    6
+        calendar-week-start-day                            1
         org-agenda-current-time-string                     " ᐊ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ NOW "
         org-agenda-time-grid                               '((daily today require-timed)
                                                              (800 1000 1200 1400 1600 1800 2000)
@@ -208,21 +238,27 @@
                                                              "~/org/coll.org"
                                                              "~/org/cap .org"
                                                              "~/org/work .org"))
-        ;; Diary
-        ;;diary-file                                         "~/org/diary"
-        ;;       calendar-mark-diary-entries-flag                   t
-        calendar-week-start-day                            1
-        ;;calendar-view-diary-initially-flag                 t
-        ;;calendar-mark-diary-entries-flag                   t
-        ;; Remove default holidays
-        ;;holiday-christian-holidays                         nil
-        ;;holiday-oriental-holidays                          nil
-        ;;holiday-bahai-holidays                             nil
-        ;;holiday-islamic-holidays                           nil
-        ;;holiday-hebrew-holidays                            nil
+
         org-agenda-custom-commands                        '(("x" "Simple agenda view"
                                                              ((agenda "")))))
+  ;; Diary
+  ;;org-agenda-include-diary                           t
+  ;;diary-file                                         "~/org/diary"
+  ;;calendar-mark-diary-entries-flag                   t
+  ;;calendar-view-diary-initially-flag                 t
+  ;;calendar-mark-diary-entries-flag                   t
+  ;;Remove default holidays
+  ;;holiday-christian-holidays                         nil
+  ;;holiday-oriental-holidays                          nil
+  ;;holiday-bahai-holidays                             nil
+  ;;holiday-islamic-holidays                           nil
+  ;;holiday-hebrew-holidays                            nil
+  ;; Calendar Hooks
+  ;;(add-hook 'diary-display-hook 'fancy-diary-display)
+  (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
+  ;;(add-hook 'list-diary-entries-hook 'sort-diary-entries t)
 
+  :config
   (defun mpereira/org-paste-clipboard-image ()
     "TODO: docstring."
     (interactive)
@@ -247,33 +283,23 @@ based on `org-agenda-files'."
                       (mapcar 'expand-file-name (org-agenda-files t)))
           (save-buffer)))))
 
-  (defun setup-google-calendar ()
-    "Config the client id and secret for org-gcal.
-Those values are loaded from another files.  If not found, will
-print a message on *Messages* buffer."
-    (if (file-exists-p "~/org/org-api.el")
-        (use-package org-gcal
-          :config
-          (load "~/org/org-api.el") ;; file with the keys
-          (setq org-gcal-client-id  luiznux-client-id
-                org-gcal-client-secret luiznux-client-secret
-                org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
-      (message "Keys for Org-Gcal not found!")))
-  (setup-google-calendar)
+  (defun renewOrgBuffer ()
+    (interactive)
+    (dolist (buffer (buffer-list))
+      (with-current-buffer buffer
+        (when (derived-mode-p 'org-agenda-mode)
+          (org-agenda-maybe-redo)))))
 
   ;; save all the agenda files after each capture
-  (add-hook 'org-agenda-finalize-hook 'my/save-all-agenda-buffers)
-
-  ;; Calendar Hooks
-  (add-hook 'diary-display-hook 'fancy-diary-display)
-  (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
-  (add-hook 'list-diary-entries-hook 'sort-diary-entries t)
+  ;; (add-hook 'org-agenda-finalize-hook 'my/save-all-agenda-buffers)
 
   ;; Auto save agenda files
-  (add-hook 'org-agenda-mode-hook
-            (lambda ()
-              (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
-              (auto-save-mode))))
+  ;;(add-hook 'org-agenda-mode-hook
+  ;;          (lambda ()
+  ;;            (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
+  ;;            (auto-save-mode)))
+  ;; Auto rebuild agenda buffer after 30 seconds
+  (run-with-timer 3 600 #'renewOrgBuffer))
 
 ;;(cl-defun ap/org-set-level-faces (&key (first-parent 'outline-1))
 ;;   (solarized-with-color-variables 'dark

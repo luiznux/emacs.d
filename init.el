@@ -94,14 +94,12 @@ If you experience stuttering, increase this.")
 (require 'code-config)
 (require 'other-modes)
 
-;; Org and Agenda config
-
-
 (require 'terminal-config)
 (require 'clojure-config)
 (require 'python-config)
 (require 'web-config)
 
+;; Org and Agenda config
 (require 'org-config)
 (require 'file-color-agenda)
 
@@ -116,11 +114,7 @@ If you experience stuttering, increase this.")
  '(evil-undo-system 'undo-tree)
  '(fci-rule-color "#dedede")
  '(global-auto-revert-mode t)
- '(helm-icons-provider 'all-the-icons)
- '(helm-minibuffer-history-key "M-p")
  '(line-spacing 0.2)
- '(package-selected-packages
-   '(diminish-buffer zprint-mode yasnippet-snippets yaml-mode whitespace-cleanup-mode which-key web-mode vterm-toggle vimrc-mode verb use-package undo-tree typescript-mode treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org switch-window sudo-edit speed-type solaire-mode snow smooth-scrolling smooth-scroll skewer-mode shackle ranger rainbow-mode rainbow-delimiters quickrun pyvenv pdf-tools parrot paradox page-break-lines ox-pandoc ox-jira overseer org-wild-notifier org-web-tools org-tree-slide org-superstar org-sticky-header org-sidebar org-make-toc org-gcal org-fragtog org-download org-bullets org-autolist org-alert olivetti ob-http ob-go nyan-mode multi-vterm minimap memory-usage math-preview magit-todos magit-org-todos macrostep lsp-ui lsp-python-ms lsp-origami lsp-java lsp-ivy lsp-dart logview live-py-mode latex-preview-pane js2-refactor ivy-yasnippet ivy-xref ivy-prescient inf-clojure impatient-showdown ibuffer-projectile highlight-symbol highlight-indent-guides highlight-defined highlight hide-mode-line hackernews google-translate google-this go-mode gnu-elpa-keyring-update ggtags format-all forge flyspell-popup flyspell-correct-ivy flycheck flx evil-surround evil-org evil-matchit evil-leader evil-collection esup eros emojify elisp-refs dumb-jump doom-themes doom-modeline dockerfile-mode docker dizzee diminish diff-hl dashboard csv-mode counsel-projectile company-quickhelp company-prescient company-posframe company-box clojure-snippets clj-refactor centaur-tabs ccls bug-hunter benchmark-init auto-rename-tag auto-package-update anzu amx all-the-icons-ivy-rich all-the-icons-ivy all-the-icons-ibuffer aggressive-indent ag 2048-game))
  '(standard-indent 4))
 
 (custom-set-faces

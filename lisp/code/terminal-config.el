@@ -1,5 +1,7 @@
 
 (use-package vterm
+  :defines evil-move-cursor-back evil-insert-state-cursor
+  :functions evil-collection-vterm-escape-stay
   :config
   (defun evil-collection-vterm-escape-stay ()
     "Go back to normal state but don't move
@@ -11,6 +13,12 @@ not appropriate in some cases like terminals."
 
 (use-package  multi-vterm
   :after vterm
+  :commands multi-vterm-next multi-vterm-prev
+  :functions (vterm-send-return
+              vterm--self-insert
+              evil-insert-state
+              evil-define-key
+              evil-insert-resume)
   :config
   (add-hook 'vterm-mode-hook
 			(lambda ()
@@ -47,6 +55,7 @@ not appropriate in some cases like terminals."
 
 (use-package vterm-toggle
   :after vterm
+  :defines centaur-tabs-buffer-groups-function vterm-toggle--vterm-buffer-p-function
   :config
   (global-set-key [f2] 'vterm-toggle)
   (global-set-key [C-f2] 'vterm-toggle-cd)

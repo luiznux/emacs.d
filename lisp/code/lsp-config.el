@@ -14,7 +14,10 @@
 
 (use-package lsp-mode
   :defines (lsp-clients-python-library-directories
-            lsp-rust-server)
+            lsp-rust-server
+            lsp-bash-highlight-parsing-errors
+            lsp-bash-explainshell-endpoint
+            lsp-bash-glob-pattern)
 
   :commands (lsp
              lsp-deferred
@@ -62,6 +65,7 @@
     (lsp-install-server t)))
 
 (defun lsp-go-install-save-hooks ()
+  "Install save hooks."
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t)
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))

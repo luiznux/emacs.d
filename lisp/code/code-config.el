@@ -23,14 +23,13 @@
 
 (use-package yasnippet
   :hook (after-init-hook . yas-global-mode)
-  :config (yas-global-mode 1))
-
-(use-package yasnippet-snippets
-  :after yasnippet)
+  :config
+  (yas-global-mode 1)
+  (use-package yasnippet-snippets))
 
 (use-package flycheck
-  :init (add-hook 'after-init-hook #'global-flycheck-mode)
-  :config
+  :init
+  (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-to-list 'display-buffer-alist ;; custom flycheck buffer display(smaller and at the bottom)
                `(,(rx bos "*Flycheck errors*" eos)
                  (display-buffer-reuse-window
@@ -42,6 +41,7 @@
 (use-package flyspell
   :ensure nil
   :if (executable-find "aspell")
+  :commands ispell-init-process
   :hook
   ((org-mode yaml-mode markdown-mode git-commit-mode) . flyspell-mode)
   (prog-mode . flyspell-prog-mode)
@@ -77,27 +77,27 @@
   (setq flyspell-correct-interface #'flyspell-correct-ivy))
 
 (use-package flyspell-popup
-  :config
+  :init
   (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)
   (add-hook 'flyspell-mode-hook #'flyspell-popup-auto-correct-mode))
 
 (use-package origami
-  :config
+  :init
   (global-origami-mode))
 
 ;; Autoclose brackets, quotes.
 (use-package elec-pair
-  :config
+  :init
   (electric-pair-mode 1))
 
   ;;; https://github.com/purcell/whitespace-cleanup-mode
 (use-package whitespace-cleanup-mode
-  :config
+  :init
   (setq  global-whitespace-cleanup-mode nil))
 
   ;;; https://github.com/Malabarba/aggressive-indent-mode
 (use-package aggressive-indent
-  :config
+  :init
   (global-aggressive-indent-mode 0)
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
@@ -106,9 +106,8 @@
   :bind
   ("C-r"   . anzu-query-replace-regexp)
   ("C-M-r" . anzu-query-replace-at-cursor-thing)
-  :hook
-  (after-init . global-anzu-mode)
-  :config
+  :hook (after-init . global-anzu-mode)
+  :init
   (setq anzu-replace-to-string-separator " => "
         anzu-deactivate-region           t
         anzu-mode-lighter                ""))
@@ -142,28 +141,39 @@
   (use-package ag)
 
   (use-package dumb-jump
-    :config
+    :commands xref-show-definitions-completing-read
+    :init
     (setq  dumb-jump-prefer-searcher       'ag
            dumb-jump-force-searcher        'ag
            xref-show-definitions-function  #'xref-show-definitions-completing-read)
     (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)) ;; use M-. to go to definition
 
   (use-package ggtags
-    :config
+    :init
     (add-hook 'c-mode-common-hook
               (lambda ()
                 (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
                   (ggtags-mode 1)))))
 
   (use-package projectile
-    :config
+    :init
     (setq projectile-project-search-path '("~/projects/"))
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (projectile-mode +1))
 
   (use-package treemacs
     :defer t
-    :config
+    :defines treemacs-resize-icons
+    :commands treemacs-toggle-fixed-width treemacs--find-python3 treemacs-follow-mode treemacs-filewatch-mode treemacs-fringe-indicator-mode treemacs-git-mode
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("C-x t t"   . treemacs)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag))
+    :init
     (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
     (add-hook 'treemacs-mode-hook (lambda() (treemacs-toggle-fixed-width)))
 
@@ -208,58 +218,46 @@
             treemacs-user-mode-line-format         nil
             treemacs-user-header-line-format       nil
             treemacs-workspace-switch-cleanup      nil
-            treemacs-width                         35)
+            treemacs-width                         35
+            treemacs-follow-mode                   t
+            treemacs-filewatch-mode                t
+            treemacs-resize-icons                  18
+            treemacs-fringe-indicator-mode         t)
 
-      ;; The default width and height of the icons is 22 pixels. If you are
-      ;; using a Hi-DPI display, uncomment this to double the icon size.
-      ;; (treemacs-resize-icons 44)
-      ;; (treemacs-load-theme "alltheicons")
-
-      (treemacs-follow-mode t)
-      (treemacs-filewatch-mode t)
-      (treemacs-resize-icons 18)
-      (treemacs-fringe-indicator-mode t)
       (pcase (cons (not (null (executable-find "git")))
                    (not (null (treemacs--find-python3))))
         (`(t . t)
          (treemacs-git-mode 'deferred))
         (`(t . _)
-         (treemacs-git-mode 'simple))))
-    :bind
-    (:map global-map
-          ("M-0"       . treemacs-select-window)
-          ("C-x t 1"   . treemacs-delete-other-windows)
-          ("C-x t t"   . treemacs)
-          ("C-x t B"   . treemacs-bookmark)
-          ("C-x t C-t" . treemacs-find-file)
-          ("C-x t M-t" . treemacs-find-tag)))
+         (treemacs-git-mode 'extended))))
 
-  (use-package treemacs-evil
-    :after treemacs evil)
+    :config
+    (use-package treemacs-evil
+      :after treemacs evil)
 
-  (use-package treemacs-projectile
-    :after treemacs projectile)
+    (use-package treemacs-projectile
+      :after treemacs projectile)
 
-  (use-package treemacs-icons-dired
-    :after treemacs dired
-    :config (treemacs-icons-dired-mode))
+    (use-package treemacs-icons-dired
+      :after treemacs dired
+      :init (treemacs-icons-dired-mode))
 
-  (use-package treemacs-magit
-    :after treemacs magit)
+    (use-package treemacs-magit
+      :after treemacs magit))
 
   (use-package minimap
     :custom
     (minimap-major-modes '(prog-mode))
-    :config
+    :custom-face
+    '(minimap-font-face ((t (:height 32 :family "DejaVu Sans Mono"))))
+    '(minimap-active-region-background ((t (:extend t :background "#232526"))))
+    '(minimap-current-line-face ((t (:background "#344256"))))
+    :init
     (setq minimap-window-location 'right
           minimap-update-delay 0.5
           minimap-highlight-line  t
           minimap-hide-scroll-bar nil
-          minimap-display-semantic-overlays t)
-    :custom-face
-    '(minimap-font-face ((t (:height 32 :family "DejaVu Sans Mono"))))
-    '(minimap-active-region-background ((t (:extend t :background "#232526"))))
-    '(minimap-current-line-face ((t (:background "#344256"))))))
+          minimap-display-semantic-overlays t)))
 
 (defun setup-git-packages()
   "Call git packages."
@@ -268,10 +266,14 @@
     :defer t)
 
   (use-package diff-hl
-    :config
+    :init
     (global-diff-hl-mode)
     (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)))
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+
+  (use-package grip-mode
+    :init
+    (setq grip-preview-use-webkit t)))
 
 
 (setup-git-packages)
