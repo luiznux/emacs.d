@@ -265,6 +265,13 @@
   (use-package magit
     :defer t)
 
+
+  (use-package exec-path-from-shell
+    :init
+    (setq exec-path-from-shell-variables '("SSH_AUTH_SOCK" "SSH_AGENT_PID" ))
+    :config
+    (exec-path-from-shell-initialize))
+
   (use-package diff-hl
     :init
     (global-diff-hl-mode)
