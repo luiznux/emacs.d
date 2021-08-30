@@ -265,7 +265,6 @@
   (use-package magit
     :defer t)
 
-
   (use-package exec-path-from-shell
     :init
     (setq exec-path-from-shell-variables '("SSH_AUTH_SOCK" "SSH_AGENT_PID" ))
