@@ -55,10 +55,10 @@
     :hook (org-mode . (lambda () (org-autolist-mode))))
 
   (use-package org-wild-notifier
-    :config
+    :hook (after-init . org-wild-notifier-mode)
+    :init
     (setq org-wild-notifier-alert-times-property "NOTIFIER"
-          org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "IMPORTANT" "DOING"))
-    (org-wild-notifier-mode))
+          org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "IMPORTANT" "DOING")))
 
   (use-package org-gcal
     :if  (file-exists-p "~/org/org-api.el")

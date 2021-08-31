@@ -100,8 +100,7 @@
 
 
 (use-package lsp-treemacs
-  :config
-  (lsp-treemacs-sync-mode 1))
+  :hook (after-init . lsp-treemacs-sync-mode))
 
 (use-package lsp-origami
   :config

@@ -141,8 +141,8 @@
   :init
   (progn
     (setq recentf-exclude '("/org/*")) ;prevent  show recent org-agenda files
-    (setq dashboard-items '((recents   . 8)
-                            (projects  .  7))))
+    (setq dashboard-items '((recents   . 9)
+                            (projects  . 5))))
   :config
   (dashboard-setup-startup-hook)
 
