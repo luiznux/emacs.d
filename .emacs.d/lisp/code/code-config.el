@@ -120,11 +120,6 @@
   :ensure nil
   :hook (after-init . global-auto-revert-mode))
 
-;; Syntax highlighting of known Elisp symbols
-;;(use-package highlight-defined
-;;  :hook (emacs-lisp-mode . highlight-defined-mode)
-;;  :init (setq highlight-defined-face-use-itself t))
-
 (use-package quickrun
   :bind
   (("<f5>" . quickrun)
@@ -156,10 +151,21 @@
                   (ggtags-mode 1)))))
 
   (use-package projectile
+    :bind (:map projectile-mode-map
+                ("C-c p" . projectile-command-map))
+    :hook (after-init . projectile-mode)
     :init
-    (setq projectile-project-search-path '("~/projects/"))
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-    (projectile-mode +1))
+    (setq projectile-sort-order 'recentf
+          projectile-use-git-grep t)
+    :config
+    ;; Use the faster searcher to handle project files: ripgrep `rg'.
+    (when (and (not (executable-find "fd"))
+               (executable-find "rg"))
+      (setq projectile-generic-command
+            (let ((rg-cmd ""))
+              (dolist (dir projectile-globally-ignored-directories)
+                (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
+              (concat "rg -0 --files --color=never --hidden" rg-cmd)))))
 
   (use-package treemacs
     :defer t
