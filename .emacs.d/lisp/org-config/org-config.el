@@ -58,7 +58,17 @@
     :hook (after-init . org-wild-notifier-mode)
     :init
     (setq org-wild-notifier-alert-times-property "NOTIFIER"
-          org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "IMPORTANT" "DOING")))
+          org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING")))
+
+  (use-package org-fancy-priorities
+    :defines org-fancy-priorities-list
+    :hook (org-mode . org-fancy-priorities-mode)
+    :config
+    (setq org-fancy-priorities-list '("🅰" "🅱" "🅲" "🅳" "🅴")))
+
+  (use-package org-pretty-tags
+    :config
+    (org-pretty-tags-global-mode))
 
   (use-package org-gcal
     :if  (file-exists-p "~/org/org-api.el")
@@ -69,13 +79,9 @@
           org-gcal-client-secret luiznux-client-secret
           org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
 
-  (use-package verb
-    :config
-    (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
-
   (use-package org-roam
     :custom
-    (org-roam-directory (file-truename "~/org/"))
+    (org-roam-directory (file-truename "~/org/roam/"))
     :bind (("C-c n l" . org-roam-buffer-toggle)
            ("C-c n f" . org-roam-node-find)
            ("C-c n g" . org-roam-graph)
@@ -108,6 +114,8 @@
         org-startup-indented               t
         org-use-fast-todo-selection        t
 
+        ;;bidi-paragraph-direction           t
+
         ;; log time on rescheduling and changing deadlines
         org-log-reschedule                 'time
         org-log-redeadline                 'time
@@ -120,29 +128,33 @@
         ;; turn on speed keys for headlines
         org-use-speed-commands             t
 
+        org-directory                      "~/org"
+
         ;; Set `org-agenda' custom tags
-        org-tag-alist                      '(("work" . ?w)
-                                             ("agenda" . ?a)
-                                             ("project" . ?p)
-                                             ("capture" . ?c))
+        org-tag-alist                      '(("work " . ?w)
+                                             ("project " . ?p)
+                                             ("agenda " . ?a)
+                                             ("bday " . ?b)
+                                             ("college" . ?c)
+                                             ("capture" . ?s))
 
         ;; Set `org' priority custom faces
-        org-priority-faces                 '((?A . (:foreground "red"   ))
-                                             (?B . (:foreground "yellow"))
-                                             (?C . (:foreground "green" )))
+        org-priority-faces                 '((?A . (:foreground "#f32020"))
+                                             (?B . (:foreground "#F1FF52"))
+                                             (?C . (:foreground "#6CCB6E")))
 
         ;; Add and customize org TODO keywords
         org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "|" "DONE(d!)")
-                                                   (sequence "IMPORTANT(i)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
+                                                   (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
 
         org-todo-keyword-faces             '(("TODO"         . (:foreground "#ff8080" :weight bold))
-                                             ("IMPORTANT"    . (:foreground "#f32020" :weight bold))
+                                             ("WARNING"      . (:foreground "#f32020" :weight bold))
                                              ("WAITING"      . (:foreground "#ffb378" :weight bold))
                                              ("DOING"        . (:foreground "#A020F0" :weight bold))
                                              ("CANCELLED"    . (:foreground "#ff6c6b" :weight bold))
                                              ("DONE"         . (:foreground "#1E90FF" :weight bold)))
         ;; config `org-capture'
-        org-default-notes-file             "~/org/cap .org"
+        org-default-notes-file             "~/org/capture.org"
 
         ;; `org-babel' config
         org-confirm-babel-evaluate         nil
@@ -155,6 +167,10 @@
   ;; cool message for scratch  ( ͡° ͜ʖ ͡°)
   (setq initial-major-mode 'org-mode
         initial-scratch-message "Eai seu *CORNO* 🐂 \n\n#+begin_src\n\n#+end_src")
+
+  (use-package verb
+    :config
+    (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
   ;; varlist for `org-babel' languages
   (defvar load-language-list '((emacs-lisp . t)
@@ -190,7 +206,6 @@
   ;; easy templates special blocks in latex export
   (add-to-list 'org-structure-template-alist '("f" . "figure"))
 
-
   ;; Redo agenda after capturing.
   (add-hook 'org-capture-after-finalize-hook 'org-agenda-maybe-redo)
 
@@ -212,8 +227,22 @@
 
 (use-package org-agenda
   :ensure nil
-  :functions renewOrgBuffer org-agenda-maybe-redo org-agenda-files
+  :commands org-current-level
+  :functions renewOrgBuffer org-agenda-maybe-redo org-agenda-files my-agenda-indent-string
   :init
+
+  (defun my-agenda-prefix ()
+    (format "%s" (my-agenda-indent-string (org-current-level))))
+
+  (defun my-agenda-indent-string (level)
+    (if (= level 1)
+        ""
+      (let ((str ""))
+        (while (> level 2)
+          (setq level (1- level)
+                str (concat str "   ╰→")))
+        (concat str ""))))
+
   (setq org-agenda-skip-deadline-prewarning-if-scheduled   t
         org-agenda-skip-scheduled-delay-if-deadline        t
         org-agenda-skip-deadline-if-done                   t
@@ -222,7 +251,7 @@
         org-agenda-show-future-repeats                     t
         org-agenda-skip-unavailable-files                  t
         org-agenda-compact-blocks                          nil
-        org-agenda-block-separator                         61
+        org-agenda-block-separator                         ""
         org-agenda-span                                    6
         calendar-week-start-day                            1
         org-agenda-current-time-string                     " ᐊ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ NOW "
@@ -230,17 +259,63 @@
                                                              (800 1000 1200 1400 1600 1800 2000)
                                                              " ...... " "----------------")
 
-        org-directory                                      "~/org"
-        org-agenda-files                                   (quote
-                                                            ("~/org/agenda .org"
-                                                             "~/org/project.org"
-                                                             "~/org/bday .org"
-                                                             "~/org/coll.org"
-                                                             "~/org/cap .org"
-                                                             "~/org/work .org"))
+        org-agenda-files                                   (quote ("~/org/agenda .org"
+                                                                   "~/org/project.org"
+                                                                   "~/org/birthdays .org"
+                                                                   "~/org/college.org"
+                                                                   "~/org/capture.org"
+                                                                   "~/org/work .org"))
 
-        org-agenda-custom-commands                        '(("x" "Simple agenda view"
-                                                             ((agenda "")))))
+                                        ;org-tags-match-list-sublevels 'indented
+        org-agenda-custom-commands                        '(("x" "My Agenda :)"
+                                                             (
+                                                              (agenda ""     (
+                                                                              (org-agenda-overriding-header "My Agenda 📅 \n")
+                                                                              (org-agenda-remove-tags t)
+                                                                              (org-agenda-span '2)))
+
+                                                              (tags-todo "work" ((org-agenda-overriding-header "Work Stuffs 🖥 \n")
+                                                                                 (org-agenda-prefix-format "%e %(my-agenda-prefix)")
+                                                                                 (org-agenda-sorting-strategy '(priority-down category-keep))
+                                                                                 (org-use-property-inheritance '("PRIORITY"))
+                                                                                 (org-tags-match-list-sublevels t)
+                                                                                 (org-agenda-remove-tags t)
+                                                                                 (org-agenda-skip-scheduled-if-done t)
+                                                                                 (org-agenda-skip-deadline-if-done  t)
+                                                                                 ;;(org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
+                                                                                 (org-agenda-todo-ignore-scheduled 'all)))
+
+                                                              (tags-todo "college" ((org-agenda-overriding-header "College \n")
+                                                                                    ;;(org-agenda-prefix-format " %e %(my-agenda-prefix) ")
+                                                                                    (org-agenda-prefix-format " ")
+                                                                                    (org-tags-match-list-sublevels t)
+                                                                                    (org-agenda-sorting-strategy '(priority-down category-keep))
+                                                                                    (org-use-property-inheritance '("PRIORITY"))
+                                                                                    (org-agenda-dim-blocked-tasks 'invisible)
+                                                                                    (org-agenda-remove-tags t)
+                                                                                    (org-enforce-todo-dependencies t)
+                                                                                    (org-agenda-skip-scheduled-if-done t)
+                                                                                    (org-agenda-skip-deadline-if-done  t)
+                                                                                    ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
+                                                                                    (org-agenda-todo-ignore-scheduled 'all)))
+
+                                                              ;; (tags "project" (
+                                                              ;;                  (org-agenda-overriding-header "My Projects  \n")
+                                                              ;;                  (org-agenda-sorting-strategy '(priority-down))
+                                                              ;;                  (org-agenda-remove-tags t)
+                                                              ;;                  (org-agenda-prefix-format "%e %(my-agenda-prefix)")
+
+                                                              ;;                  (org-agenda-skip-scheduled-if-done t)
+                                                              ;;                  (org-agenda-skip-deadline-if-done  t)
+                                                              ;;                  ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
+                                                              ;;                  (org-agenda-todo-ignore-scheduled 'all)))
+                                                              ))))
+  ;;testing
+  (setq org-agenda-use-tag-inheritance '(search timeline agenda)
+        org-agenda-ignore-properties '(effort appt category))
+
+  (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
+
   ;; Diary
   ;;org-agenda-include-diary                           t
   ;;diary-file                                         "~/org/diary"
@@ -255,7 +330,6 @@
   ;;holiday-hebrew-holidays                            nil
   ;; Calendar Hooks
   ;;(add-hook 'diary-display-hook 'fancy-diary-display)
-  (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
   ;;(add-hook 'list-diary-entries-hook 'sort-diary-entries t)
 
   :config
