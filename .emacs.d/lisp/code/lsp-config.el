@@ -103,7 +103,7 @@
   :hook (after-init . lsp-treemacs-sync-mode))
 
 (use-package lsp-origami
-  :config
+  :init
   (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable))
 
 (use-package lsp-dart
