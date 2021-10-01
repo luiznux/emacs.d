@@ -128,14 +128,34 @@
   (setq user-full-name "Luiz Tagliaferro"
         user-mail-address "luiz@luiznux.com")
 
+  (setq history-length 100)
+  (put 'minibuffer-history 'history-length 50)
+  (put 'evil-ex-history 'history-length 50)
+  (put 'kill-ring 'history-length 25)
+
   (setq password-cache-expiry nil)
   (setq load-prefer-newer t)
   (setq auto-window-vscroll nil)
 
   (global-hl-line-mode)
   (show-paren-mode 1)
-  (global-display-line-numbers-mode)
-  (global-set-key [mouse-3] 'mouse-popup-menubar-stuff))
+  (global-set-key [mouse-3] 'mouse-popup-menubar-stuff)
+  (global-display-line-numbers-mode))
+
+(require 'display-line-numbers)
+(defcustom display-line-numbers-exempt-modes
+  '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode org-agenda-mode)
+  "Major modes on which to disable line numbers."
+  :group 'display-line-numbers
+  :type 'list
+  :version "green")
+
+(defun display-line-numbers--turn-on ()
+  "Turn on line numbers except for certain major modes.
+Exempt major modes are defined in `display-line-numbers-exempt-modes'."
+  (unless (or (minibufferp)
+              (member major-mode display-line-numbers-exempt-modes))
+    (display-line-numbers-mode)))
 
 (defun reload-init-file ()
   "Reload Emacs configurations."
@@ -354,6 +374,7 @@ The original function deletes trailing whitespace of the current line."
 (global-set-key (kbd "C-c C-l") #'reload-init-file)
 (global-set-key (kbd "C-a") 'beginning-of-line++)
 
+(encode-mode)
 
 (provide 'customizations)
 ;;; customizations.el ends here
