@@ -36,7 +36,13 @@
     (setq org-tree-slide-skip-outline-level 2))
 
   (use-package org-superstar
-    :hook (org-mode . org-superstar-mode))
+    :hook (org-mode . org-superstar-mode)
+    :init
+    (setq org-superstar-special-todo-items t)
+    ;; Enable custom bullets for TODO items
+    (setq org-superstar-todo-bullet-alist
+          '(("CANCELLED" . ?✘)
+            ("DONE" . ?✔))))
 
   (use-package org-fragtog
     :config (add-hook 'org-mode-hook 'org-fragtog-mode))
@@ -59,7 +65,6 @@
     :init
     (setq org-wild-notifier-alert-times-property "NOTIFIER"
           org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING")))
-
   (use-package org-fancy-priorities
     :defines org-fancy-priorities-list
     :hook (org-mode . org-fancy-priorities-mode)
@@ -79,6 +84,7 @@
           org-gcal-client-secret luiznux-client-secret
           org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
 
+
   (use-package org-roam
     :custom
     (org-roam-directory (file-truename "~/org/roam/"))
@@ -89,6 +95,9 @@
            ("C-c n c" . org-roam-capture)
            ;; Dailies
            ("C-c n j" . org-roam-dailies-capture-today))
+    :init
+    (setq org-roam-v2-ack t)
+    (add-hook 'before-save-hook 'time-stamp)
     :config
     (org-roam-db-autosync-mode)
     ;; If using org-roam-protocol
@@ -113,8 +122,10 @@
         org-hide-emphasis-markers          t
         org-startup-indented               t
         org-use-fast-todo-selection        t
-
-        ;;bidi-paragraph-direction           t
+        org-enforce-todo-dependencies      t
+        org-cycle-separator-lines          2
+        org-ellipsis                       "⤵"
+        bidi-paragraph-direction           t
 
         ;; log time on rescheduling and changing deadlines
         org-log-reschedule                 'time
@@ -129,6 +140,13 @@
         org-use-speed-commands             t
 
         org-directory                      "~/org"
+
+        org-agenda-prefix-format           '((agenda . " %i %-12c%?-12t% s")
+                                             (todo . " %i %-12 c")
+                                             (tags . " %i")
+                                             (search . " %i %-12 c"))
+
+        org-blank-before-new-entry          '((heading . t) (plain-list-item . auto))
 
         ;; Set `org-agenda' custom tags
         org-tag-alist                      '(("work " . ?w)
@@ -155,6 +173,12 @@
                                              ("DONE"         . (:foreground "#1E90FF" :weight bold)))
         ;; config `org-capture'
         org-default-notes-file             "~/org/capture.org"
+        org-capture-templates              '(("t" "TODO" entry
+                                              (file "~/org/capture.org") "* TODO %^{Title}")
+                                             ("e" "Event" entry
+                                              (file "~/org/agenda .org.org") "* %^{Is it a todo?||TODO}%^{Title}\n%^t\n%?")
+                                             ("w" "Work TODO" entry
+                                              (file "~/org/work.org") "* TODO %^{Title}"))
 
         ;; `org-babel' config
         org-confirm-babel-evaluate         nil
@@ -228,9 +252,13 @@
 (use-package org-agenda
   :ensure nil
   :commands org-current-level
-  :functions renewOrgBuffer org-agenda-maybe-redo org-agenda-files my-agenda-indent-string
+  :functions (renewOrgBuffer
+              org-agenda-maybe-redo
+              org-agenda-files
+              my-agenda-indent-string
+              my/style-org-agenda
+              org-agenda-format-date-aligned)
   :init
-
   (defun my-agenda-prefix ()
     (format "%s" (my-agenda-indent-string (org-current-level))))
 
@@ -243,6 +271,11 @@
                 str (concat str "   ╰→")))
         (concat str ""))))
 
+  (defun my/style-org-agenda()
+    (set-face-attribute 'org-agenda-date nil :height 1.1)
+    (set-face-attribute 'org-agenda-date-today nil :height 1.1 :slant 'italic)
+    (set-face-attribute 'org-agenda-date-weekend nil :height 1.1))
+
   (setq org-agenda-skip-deadline-prewarning-if-scheduled   t
         org-agenda-skip-scheduled-delay-if-deadline        t
         org-agenda-skip-deadline-if-done                   t
@@ -251,26 +284,30 @@
         org-agenda-show-future-repeats                     t
         org-agenda-skip-unavailable-files                  t
         org-agenda-compact-blocks                          nil
-        org-agenda-block-separator                         ""
+        org-agenda-block-separator                         #x2501
         org-agenda-span                                    6
         calendar-week-start-day                            1
         org-agenda-current-time-string                     " ᐊ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ NOW "
-        org-agenda-time-grid                               '((daily today require-timed)
-                                                             (800 1000 1200 1400 1600 1800 2000)
-                                                             " ...... " "----------------")
+        org-agenda-time-grid                              '((daily today require-timed)
+                                                            (800 1000 1200 1400 1600 1800 2000)
+                                                            " ...... " "----------------")
 
-        org-agenda-files                                   (quote ("~/org/agenda .org"
-                                                                   "~/org/project.org"
-                                                                   "~/org/birthdays .org"
-                                                                   "~/org/college.org"
-                                                                   "~/org/capture.org"
-                                                                   "~/org/work .org"))
+        org-agenda-format-date                            (lambda (date) (concat "\n" (make-string (window-width) 9472)
+                                                                                 "\n"
+                                                                                 (org-agenda-format-date-aligned date)))
+
+        org-agenda-files                                  (quote ("~/org/agenda .org"
+                                                                  "~/org/project.org"
+                                                                  "~/org/birthdays .org"
+                                                                  "~/org/college.org"
+                                                                  "~/org/capture.org"
+                                                                  "~/org/work .org"))
 
                                         ;org-tags-match-list-sublevels 'indented
         org-agenda-custom-commands                        '(("x" "My Agenda :)"
                                                              (
                                                               (agenda ""     (
-                                                                              (org-agenda-overriding-header "My Agenda 📅 \n")
+                                                                              (org-agenda-overriding-header "My Agenda 📅")
                                                                               (org-agenda-remove-tags t)
                                                                               (org-agenda-span '2)))
 
@@ -310,11 +347,13 @@
                                                               ;;                  ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
                                                               ;;                  (org-agenda-todo-ignore-scheduled 'all)))
                                                               ))))
+
   ;;testing
   (setq org-agenda-use-tag-inheritance '(search timeline agenda)
         org-agenda-ignore-properties '(effort appt category))
 
   (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
+  (add-hook 'org-agenda-mode-hook 'my/style-org-agenda)
 
   ;; Diary
   ;;org-agenda-include-diary                           t
@@ -374,38 +413,6 @@ based on `org-agenda-files'."
   ;;            (auto-save-mode)))
   ;; Auto rebuild agenda buffer after 30 seconds
   (run-with-timer 3 600 #'renewOrgBuffer))
-
-;;(cl-defun ap/org-set-level-faces (&key (first-parent 'outline-1))
-;;   (solarized-with-color-variables 'dark
-;;                                   (require 'color)
-;;                                   (require 'dash)
-;;                                   (require 'org-inlinetask)
-;;                                   (let ((org-level-color-list (-cycle (list red orange yellow green cyan blue violet magenta))))
-;;                                     (cl-flet ((modify-color (color) (thread-first color
-;;                                                                       (color-desaturate-name 30))))
-;;                                       (cl-loop for level from 1 to (1- org-inlinetask-min-level)
-;;                                                for face = (intern (format "org-level-%s" level))
-;;                                                for parent = (cl-case level
-;;                                                               (1 (list first-parent 'highlight))
-;;                                                               (t (intern (format "org-level-%s" (1- level)))))
-;;                                                for height = (cond ((= level 1) 1.3)
-;;                                                                   ((<= level 4) 0.9)
-;;                                                                   (t 1.0))
-;;                                                for weight = (if (<= level 8) 'bold 'normal)
-;;                                                unless (internal-lisp-face-p face)
-;;                                                do (custom-declare-face face `((t :inherit ,(intern (format "outline-%s" (1- level)))))
-;;                                                                        (format "Face for Org level %s headings." (1- level)))
-;;                                                do (set-face-attribute face nil
-;;                                                                       :inherit parent
-;;                                                                       :foreground (modify-color (nth level org-level-color-list))
-;;                                                                       :height height
-;;                                                                       :weight weight
-;;                                                                       :overline t)
-;;                                                collect face into faces
-;;                                                finally do (defconst org-level-faces faces)
-;;                                                finally do (setq org-n-level-faces (length org-level-faces)))))))
-
-;;(ap/org-set-level-faces :first-parent 'variable-pitch)
 
 
 (provide 'org-config)
