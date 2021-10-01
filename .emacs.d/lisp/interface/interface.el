@@ -141,26 +141,28 @@
   :init
   (progn
     (setq recentf-exclude '("/org/*")) ;prevent  show recent org-agenda files
-    (setq dashboard-items '((recents   . 9)
-                            (projects  . 5))))
+    (setq dashboard-items '((recents   . 8)
+                            (projects  . 7))))
   :config
   (dashboard-setup-startup-hook)
 
   (setq dashboard-set-heading-icons  t
         dashboard-set-file-icons     t
         dashboard-set-navigator      t
+        dashboard-set-init-info      t
         dashboard-startup-banner     'logo)
 
   (setq dashboard-navigator-buttons
-        `(;;line1
-          ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
-            "Homepage"
-            "Browse homepage"
+        `((;;line1
+           (,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+            "Github" "My github homepage"
             (lambda (&rest _) (browse-url "https://github.com/luiznux")))
-           (" " "Refresh" "Refresh" (lambda (&rest _) (dashboard-refresh-buffer)) nil))))
+
+           (,(all-the-icons-faicon "refresh" :height 1.1 :v-adjust 0.0)
+            "" "Refresh Dashboard"
+            (lambda (&rest _) (dashboard-refresh-buffer))))))
 
   (add-hook 'dashboard-mode-hook (lambda () (org-agenda t "x")) (lambda () (ace-window))))
-;;  (add-hook 'dashboard-mode-hook (lambda () (goto-char (point-min)))))
 
 (use-package centaur-tabs
   :defines evil-normal-state-map
@@ -264,6 +266,7 @@
   :config
   ;; Build pdfinfo if needed, locking until it's complete
   (with-no-warnings
+    ;; Build pdfinfo if needed, locking until it's complete
     (defun my-pdf-tools-install ()
       (unless (file-executable-p pdf-info-epdfinfo-program)
         (let ((wconf (current-window-configuration)))
@@ -274,7 +277,48 @@
             (sleep-for 1))
           (when (file-executable-p pdf-info-epdfinfo-program)
             (set-window-configuration wconf)))))
-    (advice-add #'pdf-view-decrypt-document :before #'my-pdf-tools-install)))
+    (advice-add #'pdf-view-decrypt-document :before #'my-pdf-tools-install)
+
+    ;; Highlight matches
+    (defun my-pdf-isearch-hl-matches (current matches &optional occur-hack-p)
+      "Highlighting edges CURRENT and MATCHES."
+      (cl-destructuring-bind (fg1 bg1 fg2 bg2)
+          (pdf-isearch-current-colors)
+        (let* ((width (car (pdf-view-image-size)))
+               (page (pdf-view-current-page))
+               (window (selected-window))
+               (buffer (current-buffer))
+               (tick (cl-incf pdf-isearch--hl-matches-tick))
+               (pdf-info-asynchronous
+                (lambda (status data)
+                  (when (and (null status)
+                             (eq tick pdf-isearch--hl-matches-tick)
+                             (buffer-live-p buffer)
+                             (window-live-p window)
+                             (eq (window-buffer window)
+                                 buffer))
+                    (with-selected-window window
+                      (when (and (derived-mode-p 'pdf-view-mode)
+                                 (or isearch-mode
+                                     occur-hack-p)
+                                 (eq page (pdf-view-current-page)))
+                        (pdf-view-display-image
+                         (pdf-view-create-image data :width width))))))))
+          (pdf-info-renderpage-text-regions
+           page width t nil
+           `(,fg1 ,bg1 ,@(pdf-util-scale-pixel-to-relative
+                          current))
+           `(,fg2 ,bg2 ,@(pdf-util-scale-pixel-to-relative
+                          (apply 'append
+                                 (remove current matches))))))))
+    (advice-add #'pdf-isearch-hl-matches :override #'my-pdf-isearch-hl-matches))
+
+  ;; Recover last viewed position
+  (use-package saveplace-pdf-view
+    :commands (saveplace-pdf-view-find-file-advice saveplace-pdf-view-to-alist-advice)
+    :init
+    (advice-add 'save-place-find-file-hook :around #'saveplace-pdf-view-find-file-advice)
+    (advice-add 'save-place-to-alist :around #'saveplace-pdf-view-to-alist-advice)))
 
 (use-package ranger
   :config
@@ -418,6 +462,21 @@
           (list-environment-mode :select t :size 0.3 :align 'below :autoclose t)
           (tabulated-list-mode :size 0.4 :align 'below))))
 
+;;(use-package popper
+;;  :bind (("C-`"   . popper-toggle-latest)
+;;         ("M-`"   . popper-cycle)
+;;         ("C-M-`" . popper-toggle-type))
+;;  :functions popper-reference-buffers
+;;  :init
+;;  (setq popper-reference-buffers
+;;        '("\\*Messages\\*"
+;;          "Output\\*$"
+;;          "\\*Async Shell Command\\*"
+;;          help-mode
+;;          vterm-mode-hook
+;;          compilation-mode))
+;;  (popper-mode +1))
+
 (use-package winner
   :ensure nil
   :commands (winner-undo winner-redo)
@@ -433,11 +492,14 @@
                                       "*Ibuffer*"
                                       "*esh command on file*")))
 
+;; Directional window-selection routines
+(use-package windmove
+  :hook (after-init . windmove-default-keybindings))
+
+
 (use-package latex-preview-pane)
 (use-package math-preview)
-
 (use-package switch-window)
-
 (use-package page-break-lines)
 
 
