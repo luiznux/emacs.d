@@ -36,7 +36,7 @@
   (require 'use-package))
 
 ;; Required by `use-package'
-(use-package diminish)
+;;(use-package diminish)
 (use-package bind-key)
 
 ;; A modern Packages Menu
