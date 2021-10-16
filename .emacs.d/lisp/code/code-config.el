@@ -1,24 +1,30 @@
-;;; code-config.el --- Packages for code features
+;;; code-config.el --- Packages for code features  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Code features packages configuration
-;;;
-;;;    ██████╗ ██████╗ ██████╗ ███████╗
-;;;   ██╔════╝██╔═══██╗██╔══██╗██╔════╝
-;;;   ██║     ██║   ██║██║  ██║█████╗
-;;;   ██║     ██║   ██║██║  ██║██╔══╝
-;;;   ╚██████╗╚██████╔╝██████╔╝███████╗
-;;;    ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
-;;;
-;;; Packages on this file:
-;;;
-;;; * yasnippet, yasnippet-snippets
-;;; * flycheck, flyspell, flyspell-popup
-;;; * origami, format-all, whitespace-cleanup-mode
-;;; * aggressive-indent, anzu, sudo-edit, bug-hunter
-;;; * logview
-;;;
-;;; For more packages info, look for look for each one's github.
-;;;
+;;
+;; Code features packages configuration
+;;
+;;    ██████╗ ██████╗ ██████╗ ███████╗
+;;   ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+;;   ██║     ██║   ██║██║  ██║█████╗
+;;   ██║     ██║   ██║██║  ██║██╔══╝
+;;   ╚██████╗╚██████╔╝██████╔╝███████╗
+;;    ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
+;;
+;; Packages on this file:
+;;
+;; * yasnippet, yasnippet-snippets
+;; * flycheck, flyspell, flyspell-popup
+;; * origami, format-all, whitespace-cleanup-mode
+;; * aggressive-indent, anzu, sudo-edit, bug-hunter
+;; * logview
+;;
+;; For more packages info, look for look for each one's github.
+;;
 ;;; Code:
 
 (use-package yasnippet

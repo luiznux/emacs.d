@@ -1,16 +1,21 @@
-;;; lsp-config.el --- Package configuration file
+;;; lsp-config.el --- LSP Package configuration file  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Emacs Packages configuration --- Package configuration for Emacs
-;;;
-;;; ██╗     ███████╗██████╗
-;;; ██║     ██╔════╝██╔══██╗
-;;; ██║     ███████╗██████╔╝
-;;; ██║     ╚════██║██╔═══╝
-;;; ███████╗███████║██║
-;;; ╚══════╝╚══════╝╚═╝
-;;;
+;;
+;; LSP packages for Emacs better coding
+;;
+;; ██╗     ███████╗██████╗
+;; ██║     ██╔════╝██╔══██╗
+;; ██║     ███████╗██████╔╝
+;; ██║     ╚════██║██╔═══╝
+;; ███████╗███████║██║
+;; ╚══════╝╚══════╝╚═╝
+;;
 ;;; Code:
-
 
 (use-package lsp-mode
   :defines (lsp-clients-python-library-directories

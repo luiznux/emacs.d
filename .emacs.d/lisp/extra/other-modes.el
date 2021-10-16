@@ -1,14 +1,26 @@
-;;; other-modes.el --- Package configuration for other modes packages.
+;;; other-modes.el --- Package configuration for other modes packages  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Emacs other modes configuration.
-;;;
+;;
+;; Emacs other modes configuration.
+;;
+;;   ██████╗ ████████╗██╗  ██╗███████╗██████╗ ███████╗
+;;  ██╔═══██╗╚══██╔══╝██║  ██║██╔════╝██╔══██╗██╔════╝
+;;  ██║   ██║   ██║   ███████║█████╗  ██████╔╝███████╗
+;;  ██║   ██║   ██║   ██╔══██║██╔══╝  ██╔══██╗╚════██║
+;;  ╚██████╔╝   ██║   ██║  ██║███████╗██║  ██║███████║
+;;   ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
+;;
 ;;; Code:
 
 (use-package go-mode
   :config
   (autoload 'go-mode "go-mode" nil t)
   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)))
-
 
 (use-package docker
   :bind ("C-c d" . docker))
@@ -38,7 +50,6 @@
   :custom
   (google-translate-default-source-language "en")
   (google-translate-default-target-language "ja"))
-
 
 ;; emacs stuffs
 (use-package esup

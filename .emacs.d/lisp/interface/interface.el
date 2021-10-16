@@ -1,20 +1,20 @@
-;;; interface.el --- visual beauties for Emacs
+;;; interface.el --- visual beauties for Emacs  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Visual beauties for you code more happier :)
-;;;
-;;;       ⣿⣷⡶⠚⠉⢀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠠⣴⣿⣿⣿⣿⣶⣤⣤⣤
-;;;       ⠿⠥⢶⡏⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⢀⣴⣷⣌⢿⣿⣿⣿⣿⣿⣿⣿
-;;;       ⣍⡛⢷⣠⣿⣿⣿⣿⣿⣟⠻⣯⠽⣿⣿⠟⠁⣠⠿⠿⣿⣿⣎⠻⣿⣿⣿⡿⠟⣿
-;;;       ⣿⣿⣦⠙⣿⣿⣿⣿⣿⣿⣷⣏⡧⠙⠁⣀⢾⣧    ⠈⣿⡟  ⠙⣫⣵⣶⠇⣋
-;;;       ⣿⣿⣿⢀⣿⣿⣿⣿⣿⣿⣿⠟⠃⢀⣀⢻⣎⢻⣷⣤⣴⠟  ⣠⣾⣿⢟⣵⡆⢿
-;;;       ⣿⣯⣄⢘⢻⣿⣿⣿⣿⡟⠁⢀⣤⡙⢿⣴⣿⣷⡉⠉⢀  ⣴⣿⡿⣡⣿⣿⡿⢆
-;;;       ⠿⣿⣧⣤⡘⢿⣿⣿⠏  ⡔⠉⠉⢻⣦⠻⣿⣿⣶⣾⡟⣼⣿⣿⣱⣿⡿⢫⣾⣿
-;;;       ⣷⣮⣝⣛⣃⡉⣿⡏  ⣾⣧⡀    ⣿⡇⢘⣿⠋    ⠻⣿⣿⣿⢟⣵⣿⣿⣿
-;;;       ⣿⣿⣿⣿⣿⣿⣌⢧⣴⣘⢿⣿⣶⣾⡿⠁⢠⠿⠁⠜    ⣿⣿⣿⣿⡿⣿⣿⣿
-;;;       ⣿⣿⣿⣿⣿⣿⣿⣦⡙⣿⣷⣉⡛⠋    ⣰⣾⣦⣤⣤⣤⣿⢿⠟⢋⣴⣿⣿⣿
-;;;       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣌⢿⣿⣿⣿⣿⢰⡿⣻⣿⣿⣿⣿⣿⢃⣰⣫⣾⣿⣿⣿
-;;;       ⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠿⠿⠿⠛⢰⣾⡿⢟⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-;;;
+;;
+;; Visual beauties for you code more happier :)
+;;
+;;  ██████╗ ██╗   ██╗██╗
+;; ██╔════╝ ██║   ██║██║
+;; ██║  ███╗██║   ██║██║
+;; ██║   ██║██║   ██║██║
+;; ╚██████╔╝╚██████╔╝██║
+;;  ╚═════╝  ╚═════╝ ╚═╝
+;;
 ;;; Code:
 
 (use-package doom-themes)
@@ -130,14 +130,16 @@
 
 (use-package emojify
   :hook (after-init . global-emojify-mode)
-  :config
+  :init
   (setq emojify-company-tooltips-p t
+        emojify-display-style      'image
         emojify-composed-text-p    nil))
 
 (use-package rainbow-mode
   :hook (emacs-lisp-mode . rainbow-mode))
 
 (use-package dashboard
+  :functions all-the-icons-faicon
   :init
   (progn
     (setq recentf-exclude '("/org/*")) ;prevent  show recent org-agenda files
@@ -149,7 +151,6 @@
   (setq dashboard-set-heading-icons  t
         dashboard-set-file-icons     t
         dashboard-set-navigator      t
-        dashboard-set-init-info      t
         dashboard-startup-banner     'logo)
 
   (setq dashboard-navigator-buttons
@@ -493,8 +494,8 @@
                                       "*esh command on file*")))
 
 ;; Directional window-selection routines
-(use-package windmove
-  :hook (after-init . windmove-default-keybindings))
+;;(use-package windmove
+;;  :hook (after-init . windmove-default-keybindings))
 
 
 (use-package latex-preview-pane)

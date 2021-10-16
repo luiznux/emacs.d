@@ -1,16 +1,22 @@
 ;;; ivy-config.el --- Loads all `ivy' configs and packages
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Ivy config.
-;;;
-;;;   ██╗██╗   ██╗██╗   ██╗
-;;;   ██║██║   ██║╚██╗ ██╔╝
-;;;   ██║██║   ██║ ╚████╔╝
-;;;   ██║╚██╗ ██╔╝  ╚██╔╝
-;;;   ██║ ╚████╔╝    ██║
-;;;   ╚═╝  ╚═══╝     ╚═╝
-;;;
-;;; More info : https://github.com/abo-abo/swiper
-;;;
+;;
+;; Ivy config.
+;;
+;;   ██╗██╗   ██╗██╗   ██╗
+;;   ██║██║   ██║╚██╗ ██╔╝
+;;   ██║██║   ██║ ╚████╔╝
+;;   ██║╚██╗ ██╔╝  ╚██╔╝
+;;   ██║ ╚████╔╝    ██║
+;;   ╚═╝  ╚═══╝     ╚═╝
+;;
+;; More info : https://github.com/abo-abo/swiper
+;;
 ;;; Code:
 
 (use-package counsel

@@ -1,5 +1,23 @@
+;;; web-config.el --- Packages for frontend/web languages  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
+;;; Commentary:
+;;
+;; JS, CSS and HTML packages for better coding
+;;
+;;  ██╗    ██╗███████╗██████╗
+;;  ██║    ██║██╔════╝██╔══██╗
+;;  ██║ █╗ ██║█████╗  ██████╔╝
+;;  ██║███╗██║██╔══╝  ██╔══██╗
+;;  ╚███╔███╔╝███████╗██████╔╝
+;;   ╚══╝╚══╝ ╚══════╝╚═════╝
+;;
+;;; Code:
 
-;; JavaScript
+;; JS
 (use-package js2-mode
   :defines flycheck-javascript-eslint-executable
   :mode (("\\.js\\'" . js2-mode)
@@ -83,3 +101,4 @@
 (use-package csv-mode)
 
 (provide 'web-config)
+;;; web-config.el ends here

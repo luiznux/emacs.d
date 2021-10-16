@@ -1,6 +1,20 @@
-;;; evil-config.el --- Package configuration for evil packages
+;;; evil-config.el --- Package configuration for `evil'  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Emacs Evil configuration --- Package configuration for Emacs evil
+;;
+;; Emacs Evil configuration --- Package configuration for Emacs evil
+;;
+;; ███████╗██╗   ██╗██╗██╗
+;; ██╔════╝██║   ██║██║██║
+;; █████╗  ██║   ██║██║██║
+;; ██╔══╝  ╚██╗ ██╔╝██║██║
+;; ███████╗ ╚████╔╝ ██║███████╗
+;; ╚══════╝  ╚═══╝  ╚═╝╚══════╝
+;;
 ;;; Code:
 
 (use-package evil

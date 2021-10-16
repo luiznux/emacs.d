@@ -1,4 +1,21 @@
-
+;;; pyhton-config.el --- `python' packages for emacs  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
+;;; Commentary:
+;;
+;; Packages for better python coding experience
+;;
+;; ██████╗ ██╗   ██╗████████╗██╗  ██╗ ██████╗ ███╗   ██╗
+;; ██╔══██╗╚██╗ ██╔╝╚══██╔══╝██║  ██║██╔═══██╗████╗  ██║
+;; ██████╔╝ ╚████╔╝    ██║   ███████║██║   ██║██╔██╗ ██║
+;; ██╔═══╝   ╚██╔╝     ██║   ██╔══██║██║   ██║██║╚██╗██║
+;; ██║        ██║      ██║   ██║  ██║╚██████╔╝██║ ╚████║
+;; ╚═╝        ╚═╝      ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+;;
+;;; Code:
 
 (use-package python
   :ensure nil
@@ -28,3 +45,4 @@
   (pyvenv-mode 1))
 
 (provide 'python-config)
+;;; python-config.el ends here

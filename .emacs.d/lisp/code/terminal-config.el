@@ -1,3 +1,21 @@
+;;; terminal-config.el --- Packages for running a terminal emulator inside emacs  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
+;;; Commentary:
+;;
+;; Using Vterm on Emacs is one of the best way.
+;;
+;; ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗ ██╗
+;; ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗██║
+;;    ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║███████║██║
+;;    ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║██║
+;;    ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██║  ██║███████╗
+;;    ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝
+;;
+;;; Code:
 
 (use-package vterm
   :defines evil-move-cursor-back evil-insert-state-cursor
@@ -12,6 +30,7 @@ not appropriate in some cases like terminals."
     (setq-local evil-move-cursor-back nil))
 
   (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
+
 
 (use-package vterm-toggle
   :after vterm
@@ -101,3 +120,4 @@ not appropriate in some cases like terminals."
 ;;  (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
 
 (provide 'terminal-config)
+;;; terminal-config.el ends here

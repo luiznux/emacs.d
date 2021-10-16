@@ -1,7 +1,20 @@
-;;; agenda-config.el --- Package for config org agenda
+;;; file-color-agenda.el --- Package for fancy agenda UI  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Emacs org agenda config
+;;
+;; This package simply apply a background and foreground color
+;; to a specific headers(that are defined above).
+;;
+;; Also, it is not made by myself(I only done some mods for work as want),
+;; source: https://llazarek.github.io/2018/07/improving-the-agenda.html
+;;
 ;;; Code:
+
+(declare-function reduce "reduce")
 
 ;; Helper definitions
 (setq ll/org/agenda-todo-words
@@ -59,6 +72,10 @@ from the left."
 
 
 (add-hook 'org-agenda-finalize-hook #'ll/org/colorize-headings)
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars noruntime)
+;; End:
 
 (provide 'file-color-agenda)
 ;;; file-color-agenda.el ends here

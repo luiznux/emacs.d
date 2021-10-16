@@ -1,9 +1,27 @@
+;;; clojure-config.el --- Packages for clojure language coding  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
+;;; Commentary:
+;;
+;; Code features for clojure language
+;;
+;;   ██████╗██╗      ██████╗      ██╗██╗   ██╗██████╗ ███████╗
+;;  ██╔════╝██║     ██╔═══██╗     ██║██║   ██║██╔══██╗██╔════╝
+;;  ██║     ██║     ██║   ██║     ██║██║   ██║██████╔╝█████╗
+;;  ██║     ██║     ██║   ██║██   ██║██║   ██║██╔══██╗██╔══╝
+;;  ╚██████╗███████╗╚██████╔╝╚█████╔╝╚██████╔╝██║  ██║███████╗
+;;   ╚═════╝╚══════╝ ╚═════╝  ╚════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝
+;;
+;;; Code:
 
-;;CLOJURE
 (use-package clojure-snippets)
 (use-package inf-clojure)
 (use-package zprint-mode)
 (use-package clojure-mode)
+
 (use-package clj-refactor
   :config
   (setq cljr-hotload-dependencies t))
@@ -43,4 +61,6 @@
                  "lein"
                  :args ("datomic")))
 
+
 (provide 'clojure-config)
+;;; clojure-config.el ends here

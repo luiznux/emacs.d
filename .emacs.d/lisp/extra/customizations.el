@@ -1,11 +1,23 @@
-;;; customizations.el --- Configs and key maps for Emacs.
+;;; customizations.el --- Configs and key maps for Emacs  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Configure Emacs --- Configs and key maps for Emacs.
-;;;
+;;
+;; Custom functions and variables
+;;
+;;   ██████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ███╗
+;;  ██╔════╝██║   ██║██╔════╝╚══██╔══╝██╔═══██╗████╗ ████║
+;;  ██║     ██║   ██║███████╗   ██║   ██║   ██║██╔████╔██║
+;;  ██║     ██║   ██║╚════██║   ██║   ██║   ██║██║╚██╔╝██║
+;;  ╚██████╗╚██████╔╝███████║   ██║   ╚██████╔╝██║ ╚═╝ ██║
+;;   ╚═════╝ ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝
+;;
 ;;; Code:
 
 ;;----------------- Consts -------------------------
-
 (defconst sys/win32p
   (eq system-type 'windows-nt)
   "Are we running on a WinTel system?")
@@ -116,8 +128,8 @@
         delete-selection-mode             t
         menu-bar-mode                     nil
         tool-bar-mode                     nil
-        scroll-bar-mode                   nil)
-  (setq password-cache-expiry nil)
+        scroll-bar-mode                   nil
+        auto-window-vscroll               nil)
 
   ;; more smooth scrollig
   (setq mouse-wheel-progressive-speed   t
@@ -125,17 +137,16 @@
         mouse-wheel-follow-mouse        't
         scroll-step                     1)
 
-  (setq user-full-name "Luiz Tagliaferro"
-        user-mail-address "luiz@luiznux.com")
+  (setq password-cache-expiry      nil
+        load-prefer-newer          t
+        system-time-locale         "C"
+        user-full-name             "Luiz Tagliaferro"
+        user-mail-address          "luiz@luiznux.com")
 
   (setq history-length 100)
   (put 'minibuffer-history 'history-length 50)
   (put 'evil-ex-history 'history-length 50)
   (put 'kill-ring 'history-length 25)
-
-  (setq password-cache-expiry nil)
-  (setq load-prefer-newer t)
-  (setq auto-window-vscroll nil)
 
   (global-hl-line-mode)
   (show-paren-mode 1)
@@ -374,7 +385,6 @@ The original function deletes trailing whitespace of the current line."
 (global-set-key (kbd "C-c C-l") #'reload-init-file)
 (global-set-key (kbd "C-a") 'beginning-of-line++)
 
-(encode-mode)
 
 (provide 'customizations)
 ;;; customizations.el ends here

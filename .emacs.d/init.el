@@ -1,22 +1,25 @@
-;;; init.el --- Initialization file for Emacs
+;;; init.el --- Initialization file for Emacs  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Emacs Startup File --- initialization for Emacs
-;;;
-;;;  ███████╗███╗   ███╗ █████╗  ██████╗███████╗
-;;;  ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
-;;;  █████╗  ██╔████╔██║███████║██║     ███████╗
-;;;  ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║
-;;;  ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
-;;;  ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
-;;;
-;;;
+;;
+;; Emacs Startup File --- initialization for Emacs
+;;
+;;  ███████╗███╗   ███╗ █████╗  ██████╗███████╗
+;;  ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
+;;  █████╗  ██╔████╔██║███████║██║     ███████╗
+;;  ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║
+;;  ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
+;;  ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
+;;
+;;
 ;;; Code:
-
-
 
 ;; Speed up Emacs startup time increasing
 ;; the garbage collector number of bytes
-
 (defvar emacs-gc-cons-threshold (if (display-graphic-p) 64000000 1600000)
   "The default value to use for `gc-cons-threshold'.
 If you experience freezing, decrease this.

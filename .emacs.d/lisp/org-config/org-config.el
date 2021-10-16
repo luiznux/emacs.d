@@ -1,6 +1,20 @@
-;;; org-config.el --- Emacs org mode config
+;;; org-config.el --- Emacs org mode config  -*- lexical-binding: t; -*-
+;;
+;; Author: Luiz Tagliaferro <luiz@luiznux.com>
+;; URL: https://luiznux.com
+;; This file is free software :)
+;;
 ;;; Commentary:
-;;; Emacs org config
+;;
+;;  ██████╗ ██████╗  ██████╗     ███╗   ███╗ ██████╗ ██████╗ ███████╗
+;; ██╔═══██╗██╔══██╗██╔════╝     ████╗ ████║██╔═══██╗██╔══██╗██╔════╝
+;; ██║   ██║██████╔╝██║  ███╗    ██╔████╔██║██║   ██║██║  ██║█████╗
+;; ██║   ██║██╔══██╗██║   ██║    ██║╚██╔╝██║██║   ██║██║  ██║██╔══╝
+;; ╚██████╔╝██║  ██║╚██████╔╝    ██║ ╚═╝ ██║╚██████╔╝██████╔╝███████╗
+;;  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
+;;
+;; Emacs org mode and its packages config
+;;
 ;;; Code:
 
 (defun setup-org-packages ()
@@ -65,6 +79,7 @@
     :init
     (setq org-wild-notifier-alert-times-property "NOTIFIER"
           org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING")))
+
   (use-package org-fancy-priorities
     :defines org-fancy-priorities-list
     :hook (org-mode . org-fancy-priorities-mode)
@@ -154,7 +169,8 @@
                                              ("agenda " . ?a)
                                              ("bday " . ?b)
                                              ("college" . ?c)
-                                             ("capture" . ?s))
+                                             ("capture" . ?s)
+                                             ("week-days" . ?f))
 
         ;; Set `org' priority custom faces
         org-priority-faces                 '((?A . (:foreground "#f32020"))
@@ -286,15 +302,16 @@
         org-agenda-compact-blocks                          nil
         org-agenda-block-separator                         #x2501
         org-agenda-span                                    6
+        org-agenda-remove-tags                             t
         calendar-week-start-day                            1
         org-agenda-current-time-string                     " ᐊ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ NOW "
         org-agenda-time-grid                              '((daily today require-timed)
                                                             (800 1000 1200 1400 1600 1800 2000)
                                                             " ...... " "----------------")
 
-        org-agenda-format-date                            (lambda (date) (concat "\n" (make-string (window-width) 9472)
-                                                                                 "\n"
-                                                                                 (org-agenda-format-date-aligned date)))
+        org-agenda-format-date                            (lambda (date) (concat  (make-string (window-width) 9472)
+                                                                                  "\n"
+                                                                                  (org-agenda-format-date-aligned date)))
 
         org-agenda-files                                  (quote ("~/org/agenda .org"
                                                                   "~/org/project.org"
