@@ -1,4 +1,4 @@
-;;; interface.el --- visual beauties for Emacs  -*- lexical-binding: t; -*-
+;;; interface.el --- visual beauties for Emacs  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

@@ -1,4 +1,4 @@
-;;; file-color-agenda.el --- Package for fancy agenda UI  -*- lexical-binding: t; -*-
+;;; file-color-agenda.el --- Package for fancy agenda UI  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

@@ -1,4 +1,4 @@
-;;; web-config.el --- Packages for frontend/web languages  -*- lexical-binding: t; -*-
+;;; web-config.el --- Packages for frontend/web languages  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

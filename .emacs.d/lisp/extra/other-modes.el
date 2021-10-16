@@ -1,4 +1,4 @@
-;;; other-modes.el --- Package configuration for other modes packages  -*- lexical-binding: t; -*-
+;;; other-modes.el --- Package configuration for other modes packages  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

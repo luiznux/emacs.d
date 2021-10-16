@@ -1,4 +1,4 @@
-;;; clojure-config.el --- Packages for clojure language coding  -*- lexical-binding: t; -*-
+;;; clojure-config.el --- Packages for clojure language coding  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

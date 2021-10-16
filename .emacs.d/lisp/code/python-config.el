@@ -1,4 +1,4 @@
-;;; pyhton-config.el --- `python' packages for emacs  -*- lexical-binding: t; -*-
+;;; pyhton-config.el --- `python' packages for emacs  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

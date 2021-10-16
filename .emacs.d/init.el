@@ -1,4 +1,4 @@
-;;; init.el --- Initialization file for Emacs  -*- lexical-binding: t; -*-
+;;; init.el --- Initialization file for Emacs  -*- lexical-binding: t no-byte-compile: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

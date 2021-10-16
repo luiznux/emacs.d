@@ -1,4 +1,4 @@
-;;; terminal-config.el --- Packages for running a terminal emulator inside emacs  -*- lexical-binding: t; -*-
+;;; terminal-config.el --- Packages for running a terminal emulator inside emacs  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

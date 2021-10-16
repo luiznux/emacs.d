@@ -1,4 +1,4 @@
-;;; customizations.el --- Configs and key maps for Emacs  -*- lexical-binding: t; -*-
+;;; customizations.el --- Configs and key maps for Emacs  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

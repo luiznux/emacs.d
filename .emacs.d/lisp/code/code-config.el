@@ -1,4 +1,4 @@
-;;; code-config.el --- Packages for code features  -*- lexical-binding: t; -*-
+;;; code-config.el --- Packages for code features  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

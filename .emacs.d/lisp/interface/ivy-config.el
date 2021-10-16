@@ -1,4 +1,4 @@
-;;; ivy-config.el --- Loads all `ivy' configs and packages
+;;; ivy-config.el --- Loads all `ivy' configs and packages  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

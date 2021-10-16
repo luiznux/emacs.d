@@ -1,4 +1,4 @@
-;;; company-config.el --- Company groups and packages configs  -*- lexical-binding: t; -*-
+;;; company-config.el --- Company groups and packages configs  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

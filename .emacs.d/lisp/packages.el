@@ -1,4 +1,4 @@
-;;; packages.el --- Package configuration file  -*- lexical-binding: t; -*-
+;;; packages.el --- Package configuration file  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com

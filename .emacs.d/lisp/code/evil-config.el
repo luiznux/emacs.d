@@ -1,4 +1,4 @@
-;;; evil-config.el --- Package configuration for `evil'  -*- lexical-binding: t; -*-
+;;; evil-config.el --- Package configuration for `evil'  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
