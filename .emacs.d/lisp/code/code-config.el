@@ -49,7 +49,7 @@
   :if (executable-find "aspell")
   :commands ispell-init-process
   :hook
-  ((org-mode yaml-mode markdown-mode git-commit-mode) . flyspell-mode)
+  ((yaml-mode markdown-mode git-commit-mode) . flyspell-mode)
   (prog-mode . flyspell-prog-mode)
   (before-save-hook . flyspell-buffer)
   (flyspell-mode . (lambda ()
