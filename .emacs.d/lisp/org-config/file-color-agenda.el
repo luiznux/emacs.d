@@ -63,7 +63,7 @@ from the left."
   (ll/org/agenda/color-headers-with "coll 🎓 " "#2d2d2d" "#c792ea")
   (ll/org/agenda/color-headers-with "project  " "#2d2d2d" "#839ce4")
   (ll/org/agenda/color-headers-with "agenda  " "#2d2d2d" "#da8548")
-  (ll/org/agenda/color-headers-with "habit 🍩 " "#2d2d2d" "#e06c75")
+  (ll/org/agenda/color-headers-with "habit 🍩 " "#c8b6ff" "#655bc2")
   (ll/org/agenda/color-headers-with "bday  " "#2d2d2d" "#89ddff")
   (ll/org/agenda/color-headers-with "cap  " "#2d2d2d" "#c3e88d")
   (ll/org/agenda/color-headers-with "Work Stuffs 🖥 " "#2d2d2d" "#6d8dad")
