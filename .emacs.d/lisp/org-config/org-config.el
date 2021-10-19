@@ -315,6 +315,7 @@
 
         org-agenda-files                                  (quote ("~/org/agenda .org"
                                                                   "~/org/project.org"
+                                                                  "~/org/habit.org"
                                                                   "~/org/birthdays .org"
                                                                   "~/org/college.org"
                                                                   "~/org/capture.org"
