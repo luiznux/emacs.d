@@ -1,4 +1,4 @@
-;;; org-config.el --- Emacs org mode config  -*- lexical-binding: t -*-
+;;; org-config.el --- Emacs org mode config  -*- lexical-binding: t no-byte-compile: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
