@@ -313,13 +313,13 @@
                                                                                   "\n"
                                                                                   (org-agenda-format-date-aligned date)))
 
-        org-agenda-files                                  (quote ("~/org/agenda .org"
+        org-agenda-files                                  (quote ("~/org/agenda.org"
                                                                   "~/org/project.org"
                                                                   "~/org/habit.org"
-                                                                  "~/org/birthdays .org"
+                                                                  "~/org/birthdays.org"
                                                                   "~/org/college.org"
                                                                   "~/org/capture.org"
-                                                                  "~/org/work .org"))
+                                                                  "~/org/work.org"))
 
                                         ;org-tags-match-list-sublevels 'indented
         org-agenda-custom-commands                        '(("x" "My Agenda :)"
