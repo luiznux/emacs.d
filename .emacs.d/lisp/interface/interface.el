@@ -17,23 +17,24 @@
 ;;
 ;;; Code:
 
+(require 'customizations)
+
 (use-package doom-themes)
+
 (use-package solaire-mode
-  :config
-  (solaire-global-mode +1)
+  :hook (after-load-theme . solaire-global-mode)
+  :init
   (load-theme 'doom-one t))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
-  :defines doom-modeline--default-format
   :init
   ;; Prevent flash of unstyled modeline at startup
   (unless after-init-time
-    (setq doom-modeline--default-format mode-line-format)
     (setq-default mode-line-format nil))
-  :config
-  (setq doom-modeline-buffer-file-name-style      'truncate-with-project
-        doom-modeline-icon                        t
+
+  (setq doom-modeline-icon                        t
+        doom-modeline-bar-width                   2
         doom-modeline-major-mode-icon             t
         doom-modeline-buffer-state-icon           t
         doom-modeline-major-mode-color-icon       t
@@ -45,15 +46,25 @@
         doom-modeline-checker-simple-format       t
         doom-modeline-persp-name                  t
         doom-modeline-persp-icon                  t
-        doom-modeline-bar-width                   2
+        doom-modeline-buffer-file-name-style      'truncate-with-project
+        doom-modeline-project-detection           'auto
         doom-modeline-minor-modes                 nil
         doom-modeline-enable-word-count           nil
         doom-modeline-buffer-encoding             nil)
 
   :custom-face
   '(mode-line-inactive nil)
-  '(mode-line ((t (:family "Source Code Pro" :height 1))))
-  '(mode-line-inactive ((t (:family "Source Code Pro" :height 1)))))
+  '(mode-line ((t (:family "Source Code Pro" :height 1)))))
+
+
+(use-package hide-mode-line
+  :hook (((completion-list-mode
+           completion-in-region-mode
+           pdf-annot-list-mode
+           flycheck-error-list-mode
+           vterm-mode
+           ido-mode
+           lsp-treemacs-error-list-mode) . hide-mode-line-mode)))
 
 (use-package nyan-mode
   :custom
@@ -72,8 +83,84 @@
   (add-hook 'evil-visual-state-entry-hook #'parrot-start-animation)
   (add-hook 'evil-emacs-state-entry-hook  #'parrot-start-animation))
 
+(use-package rainbow-mode
+  :hook (emacs-lisp-mode . rainbow-mode))
 
-(require 'iso-transl)
+;; Display ugly ^L page breaks as tidy horizontal lines
+(use-package page-break-lines
+  :diminish
+  :hook (after-init . global-page-break-lines-mode))
+
+;; Use fixed pitch where it's sensible
+(use-package mixed-pitch
+  :diminish)
+
+;; Good pixel line scrolling
+(when emacs/>=27p
+  (use-package good-scroll
+    :diminish
+    :hook (after-init . good-scroll-mode)
+    :bind (([remap next] . good-scroll-up-full-screen)
+           ([remap prior] . good-scroll-down-full-screen))))
+
+;; Smooth scrolling over images
+(when emacs/>=26p
+  (use-package iscroll
+    :diminish
+    :hook (image-mode . iscroll-mode)))
+
+;; A minor-mode menu for mode-line
+(when emacs/>=25.2p
+  (use-package minions
+    :hook (doom-modeline-mode . minions-mode)))
+
+(use-package posframe
+  :hook (after-load-theme . posframe-delete-all)
+  :init
+  (with-eval-after-load 'persp-mode
+    (add-hook 'persp-load-buffer-functions
+              (lambda (&rest _)
+                (posframe-delete-all))))
+  :config
+  (with-no-warnings
+    (defun my-posframe--prettify-frame (&rest _)
+      (set-face-background 'fringe nil posframe--frame))
+    (advice-add #'posframe--create-posframe :after #'my-posframe--prettify-frame)
+
+    (defun posframe-poshandler-frame-center-near-bottom (info)
+      (cons (/ (- (plist-get info :parent-frame-width)
+                  (plist-get info :posframe-width))
+               2)
+            (/ (plist-get info :parent-frame-height)
+               2)))))
+
+(use-package which-key
+  :hook (after-init . which-key-mode)
+  :init
+  (setq which-key-max-description-length 30
+        which-key-show-remaining-keys t))
+
+(use-package ranger
+  :config
+  (ranger-override-dired-mode t))
+
+;; Fast search tool `ripgrep'
+(use-package rg
+  :defines projectile-command-map
+  :hook (after-init . rg-enable-default-bindings)
+  :bind (:map rg-global-map
+              ("c" . rg-dwim-current-dir)
+              ("f" . rg-dwim-current-file)
+              ("m" . rg-menu))
+  :init (setq rg-group-result t
+              rg-show-columns t)
+  :config
+  (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases)
+
+  (with-eval-after-load 'projectile
+    (bind-key "s R" #'rg-project projectile-command-map)))
+
+
 (use-package highlight-indent-guides
   :config
   (setq highlight-indent-guides-method     'character
@@ -87,47 +174,6 @@
         ("M-p" . highlight-symbol-prev)
         ("M-n" . highlight-symbol-next)))
 
-(use-package which-key
-  :config
-  (which-key-mode))
-
-;;  (use-package smex
-;;    :config
-;;    (global-set-key (kbd "M-x") 'smex))
-
-;; Add icons for emacs
-(use-package all-the-icons)
-
-(use-package ibuffer
-  :ensure nil
-  :bind ("C-x C-b" . ibuffer)
-  :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold)))
-  :config
-  ;; Display icons for buffers
-  (use-package all-the-icons-ibuffer
-    :init (all-the-icons-ibuffer-mode 1)
-    :config
-
-    (with-eval-after-load 'counsel
-      (with-no-warnings
-        (defun my-ibuffer-find-file ()
-          (interactive)
-          (let ((default-directory (let ((buf (ibuffer-current-buffer)))
-                                     (if (buffer-live-p buf)
-                                         (with-current-buffer buf
-                                           default-directory)
-                                       default-directory))))
-            (counsel-find-file default-directory)))
-        (advice-add #'ibuffer-find-file :override #'my-ibuffer-find-file)))))
-
-;; Group ibuffer's list by project root
-(use-package ibuffer-projectile
-  :functions all-the-icons-octicon ibuffer-do-sort-by-alphabetic
-  :hook ((ibuffer . (lambda ()
-                      (ibuffer-projectile-set-filter-groups)
-                      (unless (eq ibuffer-sorting-mode 'alphabetic)
-                        (ibuffer-do-sort-by-alphabetic))))))
-
 (use-package emojify
   :hook (after-init . global-emojify-mode)
   :init
@@ -135,375 +181,138 @@
         emojify-display-style      'image
         emojify-composed-text-p    nil))
 
-(use-package rainbow-mode
-  :hook (emacs-lisp-mode . rainbow-mode))
-
-(use-package dashboard
-  :functions all-the-icons-faicon
-  :init
-  (progn
-    (setq recentf-exclude '("/org/*")) ;prevent  show recent org-agenda files
-    (setq dashboard-items '((recents   . 8)
-                            (projects  . 7))))
-  :config
-  (dashboard-setup-startup-hook)
-
-  (setq dashboard-set-heading-icons  t
-        dashboard-set-file-icons     t
-        dashboard-set-navigator      t
-        dashboard-startup-banner     'logo)
-
-  (setq dashboard-navigator-buttons
-        `((;;line1
-           (,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
-            "Github" "My github homepage"
-            (lambda (&rest _) (browse-url "https://github.com/luiznux")))
-
-           (,(all-the-icons-faicon "refresh" :height 1.1 :v-adjust 0.0)
-            "" "Refresh Dashboard"
-            (lambda (&rest _) (dashboard-refresh-buffer))))))
-
-  (add-hook 'dashboard-mode-hook (lambda () (org-agenda t "x")) (lambda () (ace-window))))
-
-(use-package centaur-tabs
-  :defines evil-normal-state-map
-  :commands (centaur-tabs-group-by-projectile-project
-             centaur-tabs-get-group-name
-             centaur-tabs-headline-match
-             centaur-tabs-change-fonts)
-  :config
-  (setq centaur-tabs-style                    "chamfer"
-        centaur-tabs-height                   32
-        centaur-tabs-set-icons                t
-        centaur-tabs-set-bar                  'under
-        x-underline-at-descent-line           t
-        centaur-tabs-set-modified-marker      t
-        centaur-tabs-show-navigation-buttons  t)
-
-  (centaur-tabs-headline-match)
-  (centaur-tabs-group-by-projectile-project)
-  (centaur-tabs-mode t)
-  (centaur-tabs-change-fonts "Source Code Pro" 102)
-  (defun centaur-tabs-buffer-groups ()
-    "`centaur-tabs-buffer-groups' control buffers' group rules.
- Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
- All buffer name start with * will group to \"Emacs\".
- Other buffer group by `centaur-tabs-get-group-name' with project name."
-    (list
-     (cond
-      ((or (string-equal "*" (substring (buffer-name) 0 1))
-           (memq major-mode '(magit-process-mode
-                              magit-status-mode
-                              magit-diff-mode
-                              magit-log-mode
-                              magit-file-mode
-                              magit-blob-mode
-                              magit-blame-mode
-                              )))
-       "Emacs")
-      ((derived-mode-p 'prog-mode)
-       "Editing")
-      ((derived-mode-p 'emacs-lisp-mode)
-       "Elisp")
-      ((derived-mode-p 'dired-mode)
-       "Dired")
-      ((memq major-mode '(helpful-mode
-                          help-mode))
-       "Help")
-      ((memq major-mode '(org-mode
-                          org-agenda-clockreport-mode
-                          org-src-mode
-                          org-agenda-mode
-                          org-beamer-mode
-                          org-indent-mode
-                          org-bullets-mode
-                          org-cdlatex-mode
-                          org-agenda-log-mode
-                          diary-mode))
-       "OrgMode")
-      (t
-       (centaur-tabs-get-group-name (current-buffer))))))
-  :hook
-  (dashboard-mode . centaur-tabs-local-mode)
-  (term-mode . centaur-tabs-local-mode)
-  (calendar-mode . centaur-tabs-local-mode)
-  (org-agenda-mode . centaur-tabs-local-mode)
-  (helpful-mode . centaur-tabs-local-mode)
-  :bind
-  ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward)
-  ("C-c t" . centaur-tabs-counsel-switch-group)
-  (:map evil-normal-state-map
-        ("g t" . centaur-tabs-forward)
-        ("g T" . centaur-tabs-backward)))
-
-(use-package pdf-view
-  :ensure pdf-tools
-  :defines pdf-annot-activate-created-annotations
-  :functions (my-pdf-view-set-midnight-colors my-pdf-view-set-dark-theme)
-  :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
-  :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
-  :magic ("%PDF" . pdf-view-mode)
-  :bind (:map pdf-view-mode-map
-              ("C-s" . isearch-forward))
-  :init
-  (setq pdf-annot-activate-created-annotations t)
-
-  ;; Set dark theme
-  (defun my-pdf-view-set-midnight-colors ()
-    "Set pdf-view midnight colors."
-    (setq pdf-view-midnight-colors
-          `(,(face-foreground 'default) . ,(face-background 'default))))
-  (my-pdf-view-set-midnight-colors)
-
-  (defun my-pdf-view-set-dark-theme ()
-    "Set pdf-view midnight theme as color theme."
-    (my-pdf-view-set-midnight-colors)
-    (dolist (buf (buffer-list))
-      (with-current-buffer buf
-        (when (eq major-mode 'pdf-view-mode)
-          (pdf-view-midnight-minor-mode (if pdf-view-midnight-minor-mode 1 -1))))))
-  (add-hook 'after-load-theme-hook #'my-pdf-view-set-dark-theme)
-  :config
-  ;; Build pdfinfo if needed, locking until it's complete
-  (with-no-warnings
-    ;; Build pdfinfo if needed, locking until it's complete
-    (defun my-pdf-tools-install ()
-      (unless (file-executable-p pdf-info-epdfinfo-program)
-        (let ((wconf (current-window-configuration)))
-          (pdf-tools-install t)
-          (message "Building epdfinfo. Please wait for a moment...")
-          (while compilation-in-progress
-            ;; Block until `pdf-tools-install' is done
-            (sleep-for 1))
-          (when (file-executable-p pdf-info-epdfinfo-program)
-            (set-window-configuration wconf)))))
-    (advice-add #'pdf-view-decrypt-document :before #'my-pdf-tools-install)
-
-    ;; Highlight matches
-    (defun my-pdf-isearch-hl-matches (current matches &optional occur-hack-p)
-      "Highlighting edges CURRENT and MATCHES."
-      (cl-destructuring-bind (fg1 bg1 fg2 bg2)
-          (pdf-isearch-current-colors)
-        (let* ((width (car (pdf-view-image-size)))
-               (page (pdf-view-current-page))
-               (window (selected-window))
-               (buffer (current-buffer))
-               (tick (cl-incf pdf-isearch--hl-matches-tick))
-               (pdf-info-asynchronous
-                (lambda (status data)
-                  (when (and (null status)
-                             (eq tick pdf-isearch--hl-matches-tick)
-                             (buffer-live-p buffer)
-                             (window-live-p window)
-                             (eq (window-buffer window)
-                                 buffer))
-                    (with-selected-window window
-                      (when (and (derived-mode-p 'pdf-view-mode)
-                                 (or isearch-mode
-                                     occur-hack-p)
-                                 (eq page (pdf-view-current-page)))
-                        (pdf-view-display-image
-                         (pdf-view-create-image data :width width))))))))
-          (pdf-info-renderpage-text-regions
-           page width t nil
-           `(,fg1 ,bg1 ,@(pdf-util-scale-pixel-to-relative
-                          current))
-           `(,fg2 ,bg2 ,@(pdf-util-scale-pixel-to-relative
-                          (apply 'append
-                                 (remove current matches))))))))
-    (advice-add #'pdf-isearch-hl-matches :override #'my-pdf-isearch-hl-matches))
-
-  ;; Recover last viewed position
-  (use-package saveplace-pdf-view
-    :commands (saveplace-pdf-view-find-file-advice saveplace-pdf-view-to-alist-advice)
-    :init
-    (advice-add 'save-place-find-file-hook :around #'saveplace-pdf-view-find-file-advice)
-    (advice-add 'save-place-to-alist :around #'saveplace-pdf-view-to-alist-advice)))
-
-(use-package ranger
-  :config
-  (ranger-override-dired-mode t))
-
-(use-package hide-mode-line
-  :hook (((completion-list-mode
-           completion-in-region-mode
-           pdf-annot-list-mode
-           flycheck-error-list-mode
-           vterm-mode
-           ido-mode
-           lsp-treemacs-error-list-mode) . hide-mode-line-mode)))
-
-;; Enforce rules for popups
-(use-package shackle
-  :functions org-switch-to-buffer-other-window
-  :commands shackle-display-buffer
-  :hook (after-init . shackle-mode)
+;; Add icons for emacs
+(use-package all-the-icons
+  :functions font-installed-p
+  :init (unless (font-installed-p "all-the-icons")
+          (all-the-icons-install-fonts t))
   :config
   (with-no-warnings
-    (defvar shackle--popup-window-list nil) ; all popup windows
-    (defvar-local shackle--current-popup-window nil) ; current popup window
-    (put 'shackle--current-popup-window 'permanent-local t)
-
-    (defun shackle-last-popup-buffer ()
-      "View last popup buffer."
+    (defun all-the-icons-reset ()
+      "Reset the icons."
       (interactive)
-      (ignore-errors
-        (display-buffer shackle-last-buffer)))
-    (bind-key "C-h z" #'shackle-last-popup-buffer)
+      (dolist (func '(all-the-icons-icon-for-dir
+                      all-the-icons-icon-for-file
+                      all-the-icons-icon-for-mode
+                      all-the-icons-icon-for-url
+                      all-the-icons-icon-family-for-file
+                      all-the-icons-icon-family-for-mode
+                      all-the-icons-icon-family))
+        (all-the-icons-cache func))
+      (message "Reset all-the-icons")))
 
-    ;; Add keyword: `autoclose'
-    (defun shackle-display-buffer-hack (fn buffer alist plist)
-      (let ((window (funcall fn buffer alist plist)))
-        (setq shackle--current-popup-window window)
+  ;; Support more icons
+  (let ((extension-icon-alist
+         '(("bat"  all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver)
+           ("cmd"  all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver)
+           ("conf" all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-yellow)
+           ("eln"  all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-dsilver)
+           ("epub" all-the-icons-faicon "book"         :height 1.0 :v-adjust -0.1 :face all-the-icons-green)
+           ("exe"  all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-dsilver)
+           ("make" all-the-icons-fileicon "gnu"        :face all-the-icons-dorange)
+           ("rss"  all-the-icons-octicon "rss"         :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
+           ("toml" all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-yellow)
+           ("tsx"  all-the-icons-fileicon "tsx"        :height 1.0 :v-adjust -0.1 :face all-the-icons-cyan-alt)
+           ("xpm"  all-the-icons-octicon "file-media"  :v-adjust 0.0 :face all-the-icons-dgreen))))
+    (dolist (icon extension-icon-alist)
+      (add-to-list 'all-the-icons-extension-icon-alist icon)))
 
-        (when (plist-get plist :autoclose)
-          (push (cons window buffer) shackle--popup-window-list))
-        window))
+  (let ((regexp-icon-alist
+         '(("\\.[bB][iI][nN]$"               all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-yellow)
+           ("^config$"                       all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-dorange)
+           ("\\.\\(ba\\|z\\)shrc$"           all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dpink)
+           ("\\.\\(bash\\|zsh\\)*_?profile$" all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dred)
+           ("\\.\\(ba\\|z\\)sh_history$"     all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dsilver)
+           ("\\.zshenv$"                     all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dred)
+           ("Cask\\'"                        all-the-icons-fileicon "elisp"      :height 1.0 :v-adjust -0.2 :face all-the-icons-blue)
+           ("NEWS$"                          all-the-icons-faicon "newspaper-o"  :height 0.9 :v-adjust -0.2)
+           ("^Rakefile$"                     all-the-icons-alltheicon "ruby-alt" :face all-the-icons-red)
+           ("^go.\\(sum\\|mod\\)$"           all-the-icons-fileicon "go"         :face all-the-icons-dpurple))))
+    (dolist (icon regexp-icon-alist)
+      (add-to-list 'all-the-icons-regexp-icon-alist icon)))
 
-    (defun shackle-close-popup-window-hack (&rest _)
-      "Close current popup window via `C-g'."
-      (setq shackle--popup-window-list
-            (cl-loop for (window . buffer) in shackle--popup-window-list
-                     if (and (window-live-p window)
-                             (equal (window-buffer window) buffer))
-                     collect (cons window buffer)))
-      ;; `C-g' can deactivate region
-      (when (and (called-interactively-p 'interactive)
-                 (not (region-active-p)))
-        (let (window buffer process)
-          (if (one-window-p)
-              (progn
-                (setq window (selected-window))
-                (when (equal (buffer-local-value 'shackle--current-popup-window
-                                                 (window-buffer window))
-                             window)
-                  (winner-undo)))
-            (progn
-              (setq window (caar shackle--popup-window-list))
-              (setq buffer (cdar shackle--popup-window-list))
-              (when (and (window-live-p window)
-                         (equal (window-buffer window) buffer))
-                (setq process (get-buffer-process buffer))
-                (when (process-live-p process)
-                  (kill-process process))
-                (delete-window window)
+  (let ((mode-icon-alist
+         '((xwidget-webkit-mode           all-the-icons-faicon "chrome"          :v-adjust -0.1 :face all-the-icons-blue)
+           (bongo-playlist-mode           all-the-icons-material "queue_music"   :height 1.2 :face all-the-icons-green)
+           (bongo-library-mode            all-the-icons-material "library_music" :height 1.1 :face all-the-icons-green)
+           (gnus-group-mode               all-the-icons-fileicon "gnu"           :face all-the-icons-silver)
+           (gnus-summary-mode             all-the-icons-octicon "inbox"          :height 1.0 :v-adjust 0.0 :face all-the-icons-orange)
+           (gnus-article-mode             all-the-icons-octicon "mail"           :height 1.1 :v-adjust 0.0 :face all-the-icons-lblue)
+           (message-mode                  all-the-icons-octicon "mail"           :height 1.1 :v-adjust 0.0 :face all-the-icons-lblue)
+           (diff-mode                     all-the-icons-octicon "git-compare"    :v-adjust 0.0 :face all-the-icons-lred)
+           (flycheck-error-list-mode      all-the-icons-octicon "checklist"      :height 1.1 :v-adjust 0.0 :face all-the-icons-lred)
+           (elfeed-search-mode            all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
+           (elfeed-show-mode              all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
+           (newsticker-mode               all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
+           (newsticker-treeview-mode      all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
+           (newsticker-treeview-list-mode all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-orange)
+           (newsticker-treeview-item-mode all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
+           (conf-mode                     all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-yellow)
+           (conf-space-mode               all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-yellow)
+           (gitconfig-mode                all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-dorange)
+           (forge-topic-mode              all-the-icons-alltheicon "git"         :face all-the-icons-blue)
+           (help-mode                     all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1 :face all-the-icons-purple)
+           (helpful-mode                  all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1 :face all-the-icons-purple)
+           (Info-mode                     all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1)
+           (cask-mode                     all-the-icons-fileicon "elisp"         :height 1.0 :v-adjust -0.2 :face all-the-icons-blue)
+           (ein:notebooklist-mode         all-the-icons-faicon "book"            :face all-the-icons-lorange)
+           (ein:notebook-mode             all-the-icons-fileicon "jupyter"       :height 1.2 :face all-the-icons-orange)
+           (ein:notebook-multilang-mode   all-the-icons-fileicon "jupyter"       :height 1.2 :face all-the-icons-dorange)
+           (nov-mode                      all-the-icons-faicon "book"            :height 1.0 :v-adjust -0.1 :face all-the-icons-green)
+           (gfm-mode                      all-the-icons-octicon "markdown"       :face all-the-icons-lblue)
+           (osx-dictionary-mode           all-the-icons-material "library_books" :face all-the-icons-lblue)
+           (youdao-dictionary-mode        all-the-icons-material "library_books" :face all-the-icons-lblue)
+           (fanyi-mode                    all-the-icons-material "library_books" :face all-the-icons-lblue))))
+    (dolist (icon mode-icon-alist)
+      (add-to-list 'all-the-icons-mode-icon-alist icon))))
 
-                (pop shackle--popup-window-list)))))))
-
-    (advice-add #'keyboard-quit :before #'shackle-close-popup-window-hack)
-    (advice-add #'shackle-display-buffer :around #'shackle-display-buffer-hack))
-
-  ;; HACK: compatibility issue with `org-switch-to-buffer-other-window'
-  (advice-add #'org-switch-to-buffer-other-window :override #'switch-to-buffer-other-window)
-
-  ;; rules
-  (setq shackle-default-size 0.4
-        shackle-default-alignment 'below
-        shackle-default-rule nil
-        shackle-rules
-        '((("*Help*" "*Apropos*") :select t :size 0.3 :align 'below :autoclose t)
-          (("*Directory*") :select t :size 0.1 :align 'below :autoclose t)
-          (compilation-mode :select t :size 0.3 :align 'below :autoclose t)
-          (comint-mode :select t :size 0.4 :align 'below :autoclose t)
-          ("*Completions*" :size 0.3 :align 'below :autoclose t)
-          ("*Pp Eval Output*" :size 15 :align 'below :autoclose t)
-          ("*Backtrace*" :select t :size 15 :align 'below)
-          ("^\\*.*Shell Command.*\\*$" :regexp t :size 0.3 :align 'below :autoclose t)
-          ("\\*[Wo]*Man.*\\*" :regexp t :select t :align 'below :autoclose t)
-          ("*Calendar*" :select t :size 0.3 :align 'below)
-          (("*shell*" "*eshell*" "*ielm*") :popup t :size 0.3 :align 'below)
-          ("^\\*vc-.*\\*$" :regexp t :size 0.3 :align 'below :autoclose t)
-          ("*gud-debug*" :select t :size 0.4 :align 'below :autoclose t)
-          ("\\*ivy-occur .*\\*" :regexp t :select t :size 0.3 :align 'below)
-          (" *undo-tree*" :select t)
-          ("*quickrun*" :select t :size 15 :align 'below)
-          ("*tldr*" :size 0.4 :align 'below :autoclose t)
-          ("*osx-dictionary*" :size 20 :align 'below :autoclose t)
-          ("*Youdao Dictionary*" :size 15 :align 'below :autoclose t)
-          ("*Finder*" :select t :size 0.3 :align 'below :autoclose t)
-          ("^\\*macro expansion\\**" :regexp t :size 0.4 :align 'below)
-          ("^\\*elfeed-entry" :regexp t :size 0.7 :align 'below :autoclose t)
-          (" *Install vterm* " :size 0.35 :same t :align 'below)
-          (("*Paradox Report*" "*package update results*") :size 0.2 :align 'below :autoclose t)
-          ("*Package-Lint*" :size 0.4 :align 'below :autoclose t)
-          ("*How Do You*" :select t :size 0.5 :align 'below :autoclose t)
-
-          (("\\*Capture\\*" "^CAPTURE-.*\\.org*") :regexp t :select t :size 0.3 :align 'below :autoclose t)
-
-          ("*ert*" :size 15 :align 'below :autoclose t)
-          (overseer-buffer-mode :size 15 :align 'below :autoclose t)
-
-          (" *Flycheck checkers*" :select t :size 0.3 :align 'below :autoclose t)
-          ((flycheck-error-list-mode flymake-diagnostics-buffer-mode)
-           :select t :size 0.25 :align 'below :autoclose t)
-
-          (("*lsp-help*" "*lsp session*") :size 0.3 :align 'below :autoclose t)
-          ("*DAP Templates*" :select t :size 0.4 :align 'below :autoclose t)
-          (dap-server-log-mode :size 15 :align 'below :autoclose t)
-          ("*rustfmt*" :select t :size 0.3 :align 'below :autoclose t)
-          ((rustic-compilation-mode rustic-cargo-clippy-mode rustic-cargo-outdated-mode rustic-cargo-test-mode) :select t :size 0.3 :align 'below :autoclose t)
-
-          (profiler-report-mode :select t :size 0.5 :align 'below)
-          ("*ELP Profiling Restuls*" :select t :size 0.5 :align 'below)
-
-          ((inferior-python-mode inf-ruby-mode swift-repl-mode) :size 0.4 :align 'below)
-          ("*prolog*" :size 0.4 :align 'below)
-
-          (("*Gofmt Errors*" "*Go Test*") :select t :size 0.3 :align 'below :autoclose t)
-          (godoc-mode :select t :size 0.4 :align 'below :autoclose t)
-
-          ("\\*cider-repl .*\\*" :regexp t :select t :size 0.4 :align 'below)
-
-          ((grep-mode rg-mode deadgrep-mode ag-mode pt-mode) :select t :size 0.4 :align 'below)
-          (Buffer-menu-mode :select t :size 20 :align 'below :autoclose t)
-          (gnus-article-mode :select t :size 0.7 :align 'below :autoclose t)
-          (helpful-mode :select t :size 0.3 :align 'below :autoclose t)
-          ((process-menu-mode cargo-process-mode) :select t :size 0.3 :align 'below :autoclose t)
-          (list-environment-mode :select t :size 0.3 :align 'below :autoclose t)
-          (tabulated-list-mode :size 0.4 :align 'below))))
-
-;;(use-package popper
-;;  :bind (("C-`"   . popper-toggle-latest)
-;;         ("M-`"   . popper-cycle)
-;;         ("C-M-`" . popper-toggle-type))
-;;  :functions popper-reference-buffers
-;;  :init
-;;  (setq popper-reference-buffers
-;;        '("\\*Messages\\*"
-;;          "Output\\*$"
-;;          "\\*Async Shell Command\\*"
-;;          help-mode
-;;          vterm-mode-hook
-;;          compilation-mode))
-;;  (popper-mode +1))
-
-(use-package winner
+(use-package composite
   :ensure nil
-  :commands (winner-undo winner-redo)
-  :hook (after-init . winner-mode)
-  :init (setq winner-boring-buffers '("*Completions*"
-                                      "*Compile-Log*"
-                                      "*inferior-lisp*"
-                                      "*Fuzzy Completions*"
-                                      "*Apropos*"
-                                      "*Help*"
-                                      "*cvs*"
-                                      "*Buffer List*"
-                                      "*Ibuffer*"
-                                      "*esh command on file*")))
-
-;; Directional window-selection routines
-;;(use-package windmove
-;;  :hook (after-init . windmove-default-keybindings))
+  :defines emacs/>=27p
+  :init (defvar composition-ligature-table (make-char-table nil))
+  :hook (((prog-mode conf-mode nxml-mode markdown-mode help-mode)
+          . (lambda () (setq-local composition-function-table composition-ligature-table))))
+  :config
+  ;; support ligatures, some toned down to prevent hang
+  (when emacs/>=27p
+    (let ((alist
+           '((33 . ".\\(?:\\(==\\|[!=]\\)[!=]?\\)")
+             (35 . ".\\(?:\\(###?\\|_(\\|[(:=?[_{]\\)[#(:=?[_{]?\\)")
+             (36 . ".\\(?:\\(>\\)>?\\)")
+             (37 . ".\\(?:\\(%\\)%?\\)")
+             (38 . ".\\(?:\\(&\\)&?\\)")
+             (42 . ".\\(?:\\(\\*\\*\\|[*>]\\)[*>]?\\)")
+             ;; (42 . ".\\(?:\\(\\*\\*\\|[*/>]\\).?\\)")
+             (43 . ".\\(?:\\([>]\\)>?\\)")
+             ;; (43 . ".\\(?:\\(\\+\\+\\|[+>]\\).?\\)")
+             (45 . ".\\(?:\\(-[->]\\|<<\\|>>\\|[-<>|~]\\)[-<>|~]?\\)")
+             ;; (46 . ".\\(?:\\(\\.[.<]\\|[-.=]\\)[-.<=]?\\)")
+             (46 . ".\\(?:\\(\\.<\\|[-=]\\)[-<=]?\\)")
+             (47 . ".\\(?:\\(//\\|==\\|[=>]\\)[/=>]?\\)")
+             ;; (47 . ".\\(?:\\(//\\|==\\|[*/=>]\\).?\\)")
+             (48 . ".\\(?:x[a-zA-Z]\\)")
+             (58 . ".\\(?:\\(::\\|[:<=>]\\)[:<=>]?\\)")
+             (59 . ".\\(?:\\(;\\);?\\)")
+             (60 . ".\\(?:\\(!--\\|\\$>\\|\\*>\\|\\+>\\|-[-<>|]\\|/>\\|<[-<=]\\|=[<>|]\\|==>?\\||>\\||||?\\|~[>~]\\|[$*+/:<=>|~-]\\)[$*+/:<=>|~-]?\\)")
+             (61 . ".\\(?:\\(!=\\|/=\\|:=\\|<<\\|=[=>]\\|>>\\|[=>]\\)[=<>]?\\)")
+             (62 . ".\\(?:\\(->\\|=>\\|>[-=>]\\|[-:=>]\\)[-:=>]?\\)")
+             (63 . ".\\(?:\\([.:=?]\\)[.:=?]?\\)")
+             (91 . ".\\(?:\\(|\\)[]|]?\\)")
+             ;; (92 . ".\\(?:\\([\\n]\\)[\\]?\\)")
+             (94 . ".\\(?:\\(=\\)=?\\)")
+             (95 . ".\\(?:\\(|_\\|[_]\\)_?\\)")
+             (119 . ".\\(?:\\(ww\\)w?\\)")
+             (123 . ".\\(?:\\(|\\)[|}]?\\)")
+             (124 . ".\\(?:\\(->\\|=>\\||[-=>]\\||||*>\\|[]=>|}-]\\).?\\)")
+             (126 . ".\\(?:\\(~>\\|[-=>@~]\\)[-=>@~]?\\)"))))
+      (dolist (char-regexp alist)
+        (set-char-table-range composition-ligature-table (car char-regexp)
+                              `([,(cdr char-regexp) 0 font-shape-gstring]))))
+    (set-char-table-parent composition-ligature-table composition-function-table)))
 
 
 (use-package latex-preview-pane)
 (use-package math-preview)
-(use-package switch-window)
-(use-package page-break-lines)
-
-
 
 
 (provide 'interface)

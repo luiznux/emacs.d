@@ -77,8 +77,8 @@
   (use-package org-wild-notifier
     :hook (after-init . org-wild-notifier-mode)
     :init
-    (setq org-wild-notifier-alert-times-property "NOTIFIER"
-          org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING")))
+    (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING")
+          org-wild-notifier-notification-title   "Agenda 📅"))
 
   (use-package org-fancy-priorities
     :defines org-fancy-priorities-list
@@ -119,8 +119,7 @@
     (require 'org-roam-protocol))
 
   (use-package org-web-tools)
-  (use-package org-alert)
-  (use-package org-sidebar))
+  (use-package org-alert))
 
 (use-package org
   :ensure nil
@@ -321,7 +320,9 @@
                                                                   "~/org/capture.org"
                                                                   "~/org/work.org"))
 
-                                        ;org-tags-match-list-sublevels 'indented
+        ;;org-tags-match-list-sublevels 'indented
+
+
         org-agenda-custom-commands                        '(("x" "My Agenda :)"
                                                              (
                                                               (agenda ""     (
@@ -346,7 +347,7 @@
                                                                                     (org-tags-match-list-sublevels t)
                                                                                     (org-agenda-sorting-strategy '(priority-down category-keep))
                                                                                     (org-use-property-inheritance '("PRIORITY"))
-                                                                                    (org-agenda-dim-blocked-tasks 'invisible)
+                                                                                    ;;(org-agenda-dim-blocked-tasks 'invisible)
                                                                                     (org-agenda-remove-tags t)
                                                                                     (org-enforce-todo-dependencies t)
                                                                                     (org-agenda-skip-scheduled-if-done t)
@@ -367,8 +368,9 @@
                                                               ))))
 
   ;;testing
-  (setq org-agenda-use-tag-inheritance '(search timeline agenda)
-        org-agenda-ignore-properties '(effort appt category))
+  (setq org-agenda-ignore-properties      '(effort appt category)
+        org-agenda-dim-blocked-tasks      nil
+        org-agenda-use-tag-inheritance    nil)
 
   (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
   (add-hook 'org-agenda-mode-hook 'my/style-org-agenda)

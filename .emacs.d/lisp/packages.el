@@ -20,7 +20,8 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/")
+             '("elpa" . "https://elpa.gnu.org/packages/"))
 
 ;; Initialize packages
 (unless (bound-and-true-p package--initialized) ; To avoid warnings in 27
@@ -45,6 +46,9 @@
 (use-package diminish)
 (use-package bind-key)
 
+;; Update GPG keyring for GNU ELPA
+(use-package gnu-elpa-keyring-update)
+
 ;; A modern Packages Menu
 (use-package paradox
   :init
@@ -66,9 +70,6 @@
                   (with-current-buffer buf
                     (page-break-lines-mode 1))))
               t)))
-
-;; Update GPG keyring for GNU ELPA
-(use-package gnu-elpa-keyring-update)
 
 ;; Auto update packages
 (use-package auto-package-update

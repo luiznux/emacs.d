@@ -49,13 +49,10 @@
   :config
   (global-evil-leader-mode))
 
-(use-package evil-org
-  :functions evil-org-agenda-set-keys
-  :after evil org
-  :config
-  (add-hook 'org-mode-hook (lambda () (evil-org-mode)))
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
+;;(use-package evil-org
+;;  :ensure t
+;;  :after org
+;;  :hook (org-mode . (lambda () evil-org-mode)))
 
 (use-package undo-tree ;; dependency for evil-undo-system
   :config

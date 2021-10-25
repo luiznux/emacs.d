@@ -88,13 +88,23 @@ If you experience stuttering, increase this.")
 ;; Core packages
 (require 'customizations)
 (require 'interface)
+(require 'window-config)
+
+;;visual
+(require 'centaur-tabs-config)
+(require 'dashboard-config)
+(require 'treemacs-config)
 
 (require 'evil-config)
 (require 'company-config)
 (require 'ivy-config)
 (require 'lsp-config)
-
 (require 'code-config)
+(require 'git-config)
+(require 'elisp-config)
+
+(require 'pdf-config)
+(require 'flycheck-config)
 (require 'other-modes)
 
 (require 'terminal-config)
@@ -134,8 +144,7 @@ If you experience stuttering, increase this.")
  '(org-scheduled ((t (:foreground "SlateBlue2"))))
  '(org-scheduled-previously ((t (:foreground "medium turquoise"))))
  '(org-scheduled-today ((t (:foreground "deep sky blue"))))
- '(org-super-agenda-header ((t (:inherit default :foreground "#a3f7ff" :weight bold))))
- '(quote (mode-line-inactive nil)))
+ '(org-super-agenda-header ((t (:inherit default :foreground "#a3f7ff" :weight bold)))))
 
 (message (emacs-init-time))
 ;;; init.el ends here
