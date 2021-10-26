@@ -42,7 +42,6 @@
         doom-modeline-modal-icon                  t
         doom-modeline-lsp                         t
         doom-modeline-github                      t
-        inhibit-compacting-font-caches            t
         doom-modeline-checker-simple-format       t
         doom-modeline-persp-name                  t
         doom-modeline-persp-icon                  t

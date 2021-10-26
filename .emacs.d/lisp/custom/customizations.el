@@ -162,7 +162,7 @@
   (setq mouse-wheel-progressive-speed          t
         mouse-wheel-scroll-amount              '(1 ((shift) . 1))
         mouse-wheel-scroll-amount-horizontal   1
-        mouse-wheel-follow-mouse               't
+        mouse-wheel-follow-mouse               t
         scroll-preserve-screen-position        t
         scroll-conservatively                  100000
         auto-window-vscroll                    nil
@@ -183,6 +183,8 @@
   ;; Inhibit resizing frame
   (setq frame-inhibit-implied-resize t
         frame-resize-pixelwise t)
+
+  (setq inhibit-compacting-font-caches  t)
 
   (setq history-length 100)
   (put 'minibuffer-history 'history-length 50)
