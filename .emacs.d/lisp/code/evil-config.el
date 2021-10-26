@@ -49,10 +49,20 @@
   :config
   (global-evil-leader-mode))
 
-;;(use-package evil-org
-;;  :ensure t
-;;  :after org
-;;  :hook (org-mode . (lambda () evil-org-mode)))
+;; evil-org-mode workaround
+;; https://github.com/Somelauw/evil-org-mode/issues/93
+(with-no-warnings
+  (fset 'evil-redirect-digit-argument 'ignore)
+  (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+  (evil-define-key 'motion 'evil-org-mode
+    (kbd "0") 'evil-org-beginning-of-line))
+(use-package evil-org
+  :functions evil-org-agenda-set-keys
+  :after evil org
+  :config
+  (add-hook 'org-mode-hook (lambda () (evil-org-mode)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
 
 (use-package undo-tree ;; dependency for evil-undo-system
   :config
