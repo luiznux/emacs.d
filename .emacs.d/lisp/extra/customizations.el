@@ -50,6 +50,29 @@
   (eq system-type 'gnu/linux)
   "Are we running on a Linux system?")
 
+(defconst emacs/>=26p
+  (>= emacs-major-version 26)
+  "Emacs is 26 or above.")
+
+(defconst emacs/>=25.3p
+  (or emacs/>=26p
+      (and (= emacs-major-version 25)
+           (>= emacs-minor-version 3)))
+  "Emacs is 25.3 or above.")
+
+(defconst emacs/>=25.2p
+  (or emacs/>=26p
+      (and (= emacs-major-version 25)
+           (>= emacs-minor-version 2)))
+  "Emacs is 25.2 or above.")
+
+(defconst emacs/>=27p
+  (>= emacs-major-version 27)
+  "Emacs is 27 or above.")
+
+(defconst emacs/>=28p
+  (>= emacs-major-version 28)
+  "Emacs is 28 or above.")
 
 ;;----------------- Defuns -------------------------
 
@@ -109,7 +132,8 @@
       (setq alert-default-style 'libnotify)))))
 
 (defun encode-mode()
-  "Explicitly set the prefered coding systems to avoid annoying prompt from Emacs (especially on Microsoft Windows)."
+  "Explicitly set the prefered coding systems,
+ to avoid annoying prompt from Emacs (especially on Microsoft Windows)."
   (prefer-coding-system 'utf-8)
   (setq locale-coding-system 'utf-8)
   (set-language-environment 'utf-8)
@@ -123,25 +147,44 @@
   (modify-coding-system-alist 'process "*" 'utf-8))
 
 (defun various-emacs-config()
-  "Visual modes, remove tool and menu bar,remove scroll bar and display line numbers."
+  "Various config for Emacs."
+
   (setq inhibit-startup-message           t
+        inhibit-startup-screen            t
         delete-selection-mode             t
         menu-bar-mode                     nil
         tool-bar-mode                     nil
         scroll-bar-mode                   nil
+        tab-always-indent                 'complete
         auto-window-vscroll               nil)
 
   ;; more smooth scrollig
-  (setq mouse-wheel-progressive-speed   t
-        mouse-wheel-scroll-amount       '(1 ((shift) . 1))
-        mouse-wheel-follow-mouse        't
-        scroll-step                     1)
+  (setq mouse-wheel-progressive-speed          t
+        mouse-wheel-scroll-amount              '(1 ((shift) . 1))
+        mouse-wheel-scroll-amount-horizontal   1
+        mouse-wheel-follow-mouse               t
+        scroll-preserve-screen-position        t
+        scroll-conservatively                  100000
+        auto-window-vscroll                    nil
+        scroll-step                            1)
 
   (setq password-cache-expiry      nil
         load-prefer-newer          t
         system-time-locale         "C"
         user-full-name             "Luiz Tagliaferro"
         user-mail-address          "luiz@luiznux.com")
+
+  ;; Optimization
+  (setq idle-update-delay 1.0)
+
+  (setq fast-but-imprecise-scrolling t)
+  (setq redisplay-skip-fontification-on-input t)
+
+  ;; Inhibit resizing frame
+  (setq frame-inhibit-implied-resize t
+        frame-resize-pixelwise t)
+
+  (setq inhibit-compacting-font-caches  t)
 
   (setq history-length 100)
   (put 'minibuffer-history 'history-length 50)
@@ -152,6 +195,11 @@
   (show-paren-mode 1)
   (global-set-key [mouse-3] 'mouse-popup-menubar-stuff)
   (global-display-line-numbers-mode))
+
+;; Font
+(defun font-installed-p (font-name)
+  "Check if font with FONT-NAME is available."
+  (find-font (font-spec :name font-name)))
 
 (require 'display-line-numbers)
 (defcustom display-line-numbers-exempt-modes
@@ -338,7 +386,8 @@ The original function deletes trailing whitespace of the current line."
           (delete-trailing-whitespace)
           (widen))))))
 (defun smart-delete-trailing-whitespace ()
-  "Invoke `delete-trailing-whitespace-except-current-line' on selected major modes only."
+  "Invoke `delete-trailing-whitespace-except-current-line'
+on selected major modes only."
   (unless (member major-mode '(diff-mode))
     (delete-trailing-whitespace-except-current-line)))
 (add-hook 'before-save-hook #'smart-delete-trailing-whitespace)
