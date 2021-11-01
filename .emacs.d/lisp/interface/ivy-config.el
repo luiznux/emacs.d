@@ -32,6 +32,7 @@
       (apply f args)))
 
   :bind (("M-x"     . 'counsel-M-x)
+         ("C-s"      . swiper-isearch)
          ("C-x C-f" . #'counsel-find-file)
          ("C-x b" . ivy-switch-buffer)
          ("C-c U" . #'counsel-unicode-char)
