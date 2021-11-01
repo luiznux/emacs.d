@@ -1,9 +1,17 @@
 ;; init-elisp.el --- Initialize Emacs Lisp configurations.	-*- lexical-binding: t -*-
-;;; Commentary:
 ;;
 ;; Emacs Lisp configurations.
 ;; This code is not made by myself and the source is:
 ;; https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-elisp.el
+;;
+;;; Commentary:
+;;
+;; ███████╗██╗     ██╗███████╗██████╗
+;; ██╔════╝██║     ██║██╔════╝██╔══██╗
+;; █████╗  ██║     ██║███████╗██████╔╝
+;; ██╔══╝  ██║     ██║╚════██║██╔═══╝
+;; ███████╗███████╗██║███████║██║
+;; ╚══════╝╚══════╝╚═╝╚══════╝╚═╝
 ;;
 ;;; Code:
 
@@ -13,9 +21,9 @@
 (use-package elisp-mode
   :ensure nil
   :bind (:map emacs-lisp-mode-map
-              ("C-c C-x" . ielm)
-              ("C-c C-c" . eval-defun)
-              ("C-c C-b" . eval-buffer))
+         ("C-c C-x" . ielm)
+         ("C-c C-c" . eval-defun)
+         ("C-c C-b" . eval-buffer))
   :config
   (when (boundp 'elisp-flymake-byte-compile-load-path)
     (add-to-list 'elisp-flymake-byte-compile-load-path load-path))
