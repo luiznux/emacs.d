@@ -6,6 +6,10 @@
 ;;
 ;;; Commentary:
 ;;
+;; First of all, thank you very much seagle0128 for sharing your
+;; configs and helping the whole community. See more at :
+;; https://github.com/seagle0128/.emacs.d
+
 ;; Custom functions and variables
 ;;
 ;;   ██████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ███╗
@@ -73,6 +77,76 @@
 (defconst emacs/>=28p
   (>= emacs-major-version 28)
   "Emacs is 28 or above.")
+
+(defcustom centaur-prettify-symbols-alist
+  '(("lambda" . ?λ)
+    ("<-" . ?←)
+    ("->" . ?→)
+    ("->>" . ?↠)
+    ("=>" . ?⇒)
+    ("map" . ?↦)
+    ("/=" . ?≠)
+    ("!=" . ?≠)
+    ("==" . ?≡)
+    ("<=" . ?≤)
+    (">=" . ?≥)
+    ("=<<" . (?= (Br . Bl) ?≪))
+    (">>=" . (?≫ (Br . Bl) ?=))
+    ("<=<" . ?↢)
+    (">=>" . ?↣)
+    ("&&" . ?∧)
+    ("||" . ?∨)
+    ("not" . ?¬))
+  "Alist of symbol prettifications.
+Nil to use font supports ligatures."
+  :group 'centaur
+  :type '(alist :key-type string :value-type (choice character sexp)))
+
+(defcustom centaur-prettify-org-symbols-alist
+  '(("[ ]" . ?☐)
+    ("[X]" . ?☑)
+    ("[-]" . ?⛝)
+
+    ("#+ARCHIVE:" . ?📦)
+    ("#+archive:" . ?📦)
+
+    ("#+AUTHOR:" . ?👤)
+    ("#+author:" . ?👤)
+
+    ("#+DESCRIPTION:" . ?⸙)
+    ("#+description:" . ?⸙)
+
+    ("#+EMAIL:" . ?📧)
+    ("#+email:" . ?📧)
+
+    ("#+CREATOR:" . ?💁)
+    ("#+DATE:" . ?📆)
+
+    ("#+OPTIONS:" . ?⛭)
+    ("#+SETUPFILE:" . ?⛮)
+    ("#+TAGS:" . ?🏷)
+    ("#+TITLE:" . ?📓)
+    ("#+STARTUP:" . ?⏻)
+    ("#+FILETAGS:" . ?📘)
+    ("#+CATEGORY:" . ?)
+    (":PROPERTIES:" . ?⚙ )
+    (":WILD_NOTIFIER_NOTIFY_BEFORE:" . ?)
+
+    ("#+BEGIN_SRC" . ?✎)
+    ("#+END_SRC" . ?□)
+    ("#+begin_src" . ?✎)
+    ("#+end_src" . ?□)
+
+    ("#+BEGIN_QUOTE" . ?»)
+    ("#+END_QUOTE" . ?«)
+    ("#+begin_quote" . ?»)
+    ("#+end_quote" . ?«)
+
+    ("#+HEADERS" . ?☰)
+    ("#+RESULTS:" . ?💻))
+  "Alist of symbol prettifications for `org-mode'."
+  :group 'centaur
+  :type '(alist :key-type string :value-type (choice character sexp)))
 
 ;;----------------- Defuns -------------------------
 
@@ -180,11 +254,11 @@
   (setq fast-but-imprecise-scrolling t)
   (setq redisplay-skip-fontification-on-input t)
 
+  (setq inhibit-compacting-font-caches  t)
+
   ;; Inhibit resizing frame
   (setq frame-inhibit-implied-resize t
         frame-resize-pixelwise t)
-
-  (setq inhibit-compacting-font-caches  t)
 
   (setq history-length 100)
   (put 'minibuffer-history 'history-length 50)
