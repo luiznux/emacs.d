@@ -50,11 +50,9 @@
         doom-modeline-minor-modes                 nil
         doom-modeline-enable-word-count           nil
         doom-modeline-buffer-encoding             nil)
-
   :custom-face
   '(mode-line-inactive nil)
   '(mode-line ((t (:family "Source Code Pro" :height 1)))))
-
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
@@ -148,9 +146,9 @@
   :defines projectile-command-map
   :hook (after-init . rg-enable-default-bindings)
   :bind (:map rg-global-map
-              ("c" . rg-dwim-current-dir)
-              ("f" . rg-dwim-current-file)
-              ("m" . rg-menu))
+         ("c" . rg-dwim-current-dir)
+         ("f" . rg-dwim-current-file)
+         ("m" . rg-menu))
   :init (setq rg-group-result t
               rg-show-columns t)
   :config
@@ -159,19 +157,60 @@
   (with-eval-after-load 'projectile
     (bind-key "s R" #'rg-project projectile-command-map)))
 
-
+;; Highlight indentions
 (use-package highlight-indent-guides
+  :diminish
+  :hook ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+  :init (setq highlight-indent-guides-method 'character
+              highlight-indent-guides-responsive 'top
+              highlight-indent-guides-suppress-auto-error t)
   :config
-  (setq highlight-indent-guides-method     'character
-        highlight-indent-guides-responsive 'top)
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+  (with-no-warnings
+    ;; Disable in `macrostep' expanding
+    (with-eval-after-load 'macrostep
+      (advice-add #'macrostep-expand
+                  :after (lambda (&rest _)
+                           (when highlight-indent-guides-mode
+                             (highlight-indent-guides-mode -1))))
+      (advice-add #'macrostep-collapse
+                  :after (lambda (&rest _)
+                           (when (derived-mode-p 'prog-mode 'yaml-mode)
+                             (highlight-indent-guides-mode 1)))))
+
+    ;; Don't display indentations in `swiper'
+    ;; https://github.com/DarthFennec/highlight-indent-guides/issues/40
+    (with-eval-after-load 'ivy
+      (defun my-ivy-cleanup-indentation (str)
+        "Clean up indentation highlighting in ivy minibuffer."
+        (let ((pos 0)
+              (next 0)
+              (limit (length str))
+              (prop 'highlight-indent-guides-prop))
+          (while (and pos next)
+            (setq next (text-property-not-all pos limit prop nil str))
+            (when next
+              (setq pos (text-property-any next limit prop nil str))
+              (ignore-errors
+                (remove-text-properties next pos '(display nil face nil) str))))))
+      (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation))))
 
 (use-package highlight-symbol
-  :bind
-  (:map prog-mode-map
-        ("M-o h" . highlight-symbol)
-        ("M-p" . highlight-symbol-prev)
-        ("M-n" . highlight-symbol-next)))
+  :bind (:map prog-mode-map
+         ("M-o h" . highlight-symbol)
+         ("M-p" . highlight-symbol-prev)
+         ("M-n" . highlight-symbol-next)))
+
+;; Highlight some operations
+(use-package volatile-highlights
+  :diminish
+  :hook (after-init . volatile-highlights-mode)
+  :config
+  (with-no-warnings
+    (when (fboundp 'pulse-momentary-highlight-region)
+      (defun my-vhl-pulse (beg end &optional _buf face)
+        "Pulse the changes."
+        (pulse-momentary-highlight-region beg end face))
+      (advice-add #'vhl/.make-hl :override #'my-vhl-pulse))))
 
 (use-package emojify
   :hook (after-init . global-emojify-mode)
@@ -308,7 +347,6 @@
         (set-char-table-range composition-ligature-table (car char-regexp)
                               `([,(cdr char-regexp) 0 font-shape-gstring]))))
     (set-char-table-parent composition-ligature-table composition-function-table)))
-
 
 (use-package latex-preview-pane)
 (use-package math-preview)
