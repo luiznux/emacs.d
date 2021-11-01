@@ -17,6 +17,8 @@
 ;;
 ;;; Code:
 
+(require 'customizations)
+
 (defun setup-org-packages ()
   "Setup and call org packages."
 
@@ -31,12 +33,12 @@
   (use-package org-tree-slide
     :functions (org-display-inline-images org-remove-inline-images)
     :bind (:map org-mode-map
-                ("s-<f7>" . org-tree-slide-mode)
-                :map org-tree-slide-mode-map
-                ("<left>" . org-tree-slide-move-previous-tree)
-                ("<right>" . org-tree-slide-move-next-tree)
-                ("S-SPC" . org-tree-slide-move-previous-tree)
-                ("SPC" . org-tree-slide-move-next-tree))
+           ("s-<f7>" . org-tree-slide-mode)
+           :map org-tree-slide-mode-map
+           ("<left>" . org-tree-slide-move-previous-tree)
+           ("<right>" . org-tree-slide-move-next-tree)
+           ("S-SPC" . org-tree-slide-move-previous-tree)
+           ("SPC" . org-tree-slide-move-next-tree))
     :hook ((org-tree-slide-play . (lambda ()
                                     (text-scale-increase 4)
                                     (org-display-inline-images)
@@ -77,7 +79,7 @@
   (use-package org-wild-notifier
     :hook (after-init . org-wild-notifier-mode)
     :init
-    (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING")
+    (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING" "MEETING")
           org-wild-notifier-notification-title   "Agenda 📅"))
 
   (use-package org-fancy-priorities
@@ -123,8 +125,23 @@
 
 (use-package org
   :ensure nil
-  :bind ("C-c c" . 'org-capture)
   :defines org-babel-clojure-backend
+  :custom-face (org-ellipsis ((t (:foreground nil))))
+  :bind (("C-c c" . 'org-capture)
+         ("C-c a" . org-agenda))
+  :hook
+  (((org-babel-after-execute org-mode) . org-redisplay-inline-images) ; display image
+   (org-mode . (lambda ()
+                 "Beautify org symbols."
+                 (setq prettify-symbols-alist centaur-prettify-org-symbols-alist)
+                 (prettify-symbols-mode 1)))
+   (org-indent-mode . (lambda()
+                        (diminish 'org-indent-mode)
+                        ;; WORKAROUND: Prevent text moving around while using brackets
+                        ;; @see https://github.com/seagle0128/.emacs.d/issues/88
+                        (make-variable-buffer-local 'show-paren-mode)
+                        (setq show-paren-mode nil))))
+
   :init
   ;; load some org-modules
   (with-eval-after-load 'org
@@ -173,16 +190,18 @@
 
         ;; Set `org' priority custom faces
         org-priority-faces                 '((?A . (:foreground "#f32020"))
-                                             (?B . (:foreground "#F1FF52"))
+                                             (?B . (:foreground "#dd8844"))
                                              (?C . (:foreground "#6CCB6E")))
 
+
         ;; Add and customize org TODO keywords
-        org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "|" "DONE(d!)")
+        org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "MEETING(m!)" "|" "DONE(d!)")
                                                    (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
 
         org-todo-keyword-faces             '(("TODO"         . (:foreground "#ff8080" :weight bold))
                                              ("WARNING"      . (:foreground "#f32020" :weight bold))
                                              ("WAITING"      . (:foreground "#ffb378" :weight bold))
+                                             ("MEETING"      . (:foreground "#6CCB6E" :weight bold))
                                              ("DOING"        . (:foreground "#A020F0" :weight bold))
                                              ("CANCELLED"    . (:foreground "#ff6c6b" :weight bold))
                                              ("DONE"         . (:foreground "#1E90FF" :weight bold)))
