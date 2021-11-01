@@ -52,17 +52,19 @@
 ;; evil-org-mode workaround
 ;; https://github.com/Somelauw/evil-org-mode/issues/93
 (with-no-warnings
-  (fset 'evil-redirect-digit-argument 'ignore)
-  (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
-  (evil-define-key 'motion 'evil-org-mode
-    (kbd "0") 'evil-org-beginning-of-line))
+(fset 'evil-redirect-digit-argument 'ignore)
+(add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+(evil-define-key 'motion 'evil-org-mode
+  (kbd "0") 'evil-org-beginning-of-line))
+
 (use-package evil-org
   :functions evil-org-agenda-set-keys
   :after evil org
   :config
   (add-hook 'org-mode-hook (lambda () (evil-org-mode)))
   (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
+  (evil-org-agenda-set-keys)
+  (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading)))
 
 (use-package undo-tree ;; dependency for evil-undo-system
   :config
