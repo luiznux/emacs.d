@@ -19,7 +19,9 @@
 
 (use-package company
   :defines (company-dabbrev-ignore-case company-dabbrev-downcase)
+
   :commands company-cancel
+
   :bind (("M-/" . company-complete)
          ("C-M-i" . company-complete)
          :map company-active-map
@@ -27,7 +29,9 @@
          ("M-k" . company-select-previous-or-abort)
          ("<tab>" . company-complete-common-or-cycle)
          ("<backtab>" . my-company-yasnippet))
-  :hook ( after-init . global-company-mode)
+
+  :hook (after-init . global-company-mode) (lsp-mode . company-mode)
+
   :init
   (setq company-tooltip-align-annotations   t
         company-tooltip-limit               12
@@ -301,7 +305,7 @@
   (use-package company-quickhelp
     :defines company-quickhelp-delay
     :bind (:map company-active-map
-                ("M-h" . company-quickhelp-manual-begin))
+           ("M-h" . company-quickhelp-manual-begin))
     :hook (global-company-mode . company-quickhelp-mode)
     :custom (company-quickhelp-delay 0.5))
 
@@ -309,7 +313,7 @@
   (use-package company-quickhelp-terminal
     :defines company-quickhelp-delay
     :bind (:map company-active-map
-                ([remap company-show-doc-buffer] . company-quickhelp-manual-begin))
+           ([remap company-show-doc-buffer] . company-quickhelp-manual-begin))
     :hook ((global-company-mode . company-quickhelp-mode)
            (company-quickhelp-mode  . company-quickhelp-terminal-mode))
     :init (setq company-quickhelp-delay 0.3))
