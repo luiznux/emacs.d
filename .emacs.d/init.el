@@ -1,12 +1,10 @@
-;;; init.el --- Initialization file for Emacs  -*- lexical-binding: t no-byte-compile: t -*-
+;;; init.el --- Initialization file for Emacs  -*- lexical-binding: t  no-byte-compile: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
 ;; This file is free software :)
 ;;
 ;;; Commentary:
-;;
-;; Emacs Startup File --- initialization for Emacs
 ;;
 ;;  ███████╗███╗   ███╗ █████╗  ██████╗███████╗
 ;;  ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
@@ -20,6 +18,7 @@
 
 ;; Speed up Emacs startup time increasing
 ;; the garbage collector number of bytes
+
 (defvar emacs-gc-cons-threshold (if (display-graphic-p) 64000000 1600000)
   "The default value to use for `gc-cons-threshold'.
 If you experience freezing, decrease this.
@@ -85,12 +84,12 @@ If you experience stuttering, increase this.")
 
 (require 'packages)
 
-;; Core packages
+;; core packages
 (require 'customizations)
 (require 'interface)
 (require 'window-config)
 
-;;visual
+;; visual
 (require 'centaur-tabs-config)
 (require 'dashboard-config)
 (require 'treemacs-config)
@@ -100,6 +99,7 @@ If you experience stuttering, increase this.")
 (require 'ivy-config)
 (require 'lsp-config)
 (require 'code-config)
+(require 'ctags-config)
 (require 'git-config)
 (require 'elisp-config)
 
@@ -123,6 +123,7 @@ If you experience stuttering, increase this.")
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(alert-fade-time 10)
+ '(auth-source-save-behavior nil)
  '(blink-cursor-mode nil)
  '(evil-undo-system 'undo-tree)
  '(fci-rule-color "#dedede")
@@ -138,13 +139,18 @@ If you experience stuttering, increase this.")
  '(default ((t (:inherit nil :stipple nil :foreground "#c5c8c6" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "ADBO" :family "Source Code Pro"))))
  '(all-the-icons-ivy-rich-dir-face ((t (:inherit default))))
  '(centaur-tabs-selected ((t (:background "#282c34" :foreground "#bbc2cf" :overline nil :underline "#51afef" :weight semi-bold :height 99 :width normal :family "Source Code Pro"))))
- '(ivy-minibuffer-match-face-1 ((t (:inherit font-lock-doc-face :foreground nil))))
+ '(flycheck-posframe-background-face ((t (:inherit tooltip))))
+ '(flycheck-posframe-border-face ((t (:inherit font-lock-comment-face))))
+ '(flycheck-posframe-face ((t (:foreground "#98be65"))))
+ '(flycheck-posframe-info-face ((t (:foreground "#98be65"))))
+ '(ivy-minibuffer-match-face-1 ((t (:foreground "#83898d"))))
  '(macrostep-expansion-highlight-face ((t (:inherit tooltip :extend t))))
  '(org-agenda-date-today ((t (:foreground "lime green" :weight ultra-bold))))
  '(org-scheduled ((t (:foreground "SlateBlue2"))))
  '(org-scheduled-previously ((t (:foreground "medium turquoise"))))
  '(org-scheduled-today ((t (:foreground "deep sky blue"))))
- '(org-super-agenda-header ((t (:inherit default :foreground "#a3f7ff" :weight bold)))))
+ '(org-super-agenda-header ((t (:inherit default :foreground "#a3f7ff" :weight bold))))
+ '(quote (mode-line-inactive nil)))
 
 (message (emacs-init-time))
 ;;; init.el ends here
