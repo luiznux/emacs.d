@@ -15,7 +15,6 @@
 ;;   ╚██████╗╚██████╔╝██████╔╝███████╗
 ;;    ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
 ;;
-;;
 ;;; Code:
 
 (require 'customizations)
@@ -28,13 +27,15 @@
   (use-package yasnippet-snippets))
 
 (use-package origami
-  :init
-  (global-origami-mode))
+  :hook (prog-mode . origami-mode)
+  :init (setq origami-show-fold-header t)
+  :config (face-spec-reset-face 'origami-fold-header-face))
 
-;; Autoclose brackets, quotes.
+;; Automatic parenthesis pairing
 (use-package elec-pair
-  :init
-  (electric-pair-mode 1))
+  :ensure nil
+  :hook (after-init . electric-pair-mode)
+  :init (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 
   ;;; https://github.com/purcell/whitespace-cleanup-mode
 (use-package whitespace-cleanup-mode
@@ -46,17 +47,39 @@
   :init
   (global-aggressive-indent-mode 0)
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
+  (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+  ;; Disable in some commands
+  (add-to-list 'aggressive-indent-protected-commands #'delete-trailing-whitespace t))
 
+;; Show number of matches in mode-line while searching
 (use-package anzu
   :bind
-  ("C-r"   . anzu-query-replace-regexp)
-  ("C-M-r" . anzu-query-replace-at-cursor-thing)
+  (([remap query-replace] . anzu-query-replace)
+   ([remap query-replace-regexp] . anzu-query-replace-regexp)
+   :map isearch-mode-map
+   ([remap isearch-query-replace] . anzu-isearch-query-replace)
+   ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
+
   :hook (after-init . global-anzu-mode)
   :init
   (setq anzu-replace-to-string-separator " => "
         anzu-deactivate-region           t
         anzu-mode-lighter                ""))
+
+;; Drag stuff (lines, words, region, etc...) around
+(use-package drag-stuff
+  :diminish
+  :commands drag-stuff-define-keys
+  :hook (after-init . drag-stuff-global-mode)
+  :config
+  (with-no-warnings
+    (add-to-list 'drag-stuff-except-modes 'org-mode)
+    (drag-stuff-define-keys)))
+
+;; Smartly select region, rectangle, multi cursors
+(use-package smart-region
+  :hook (after-init . smart-region-on))
+
 
 (use-package rainbow-delimiters
   :hook
@@ -72,6 +95,15 @@
    ("M-<f5>" . quickrun-shell)
    ("C-c e" . quickrun)
    ("C-c C-e" . quickrun-shell)))
+
+;; Prettify Symbols
+;; e.g. display “lambda” as “λ”
+(use-package prog-mode
+  :ensure nil
+  :hook (prog-mode . prettify-symbols-mode)
+  :init
+  (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
+  (setq prettify-symbols-unprettify-at-point 'right-edge))
 
 ;; Cross-referencing commands
 (use-package xref
