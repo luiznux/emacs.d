@@ -1,9 +1,10 @@
 ;;; treemacs-config.el --- Packages for treemacs config  -*- lexical-binding: t -*-
-;;; Commentary:
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
 ;; This file is free software :)
+;;
+;;; Commentary:
 ;;
 ;; ████████╗██████╗ ███████╗███████╗███╗   ███╗ █████╗  ██████╗███████╗
 ;; ╚══██╔══╝██╔══██╗██╔════╝██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
