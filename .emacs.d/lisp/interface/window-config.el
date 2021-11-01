@@ -15,11 +15,6 @@
 ;;
 ;;; Code:
 
-;; Directional window-selection routines
-(use-package windmove
-  :ensure nil
-  :hook (after-init . windmove-default-keybindings))
-
 ;; Restore old window configurations
 (use-package winner
   :ensure nil
@@ -167,7 +162,6 @@
     ;; Compatible with org
     (advice-add #'org-switch-to-buffer-other-window
                 :override #'switch-to-buffer-other-window)))
-
 
 (use-package ibuffer
   :ensure nil
