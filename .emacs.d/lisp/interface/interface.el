@@ -18,6 +18,7 @@
 ;;; Code:
 
 (require 'customizations)
+(require 'my-custom-emojis)
 
 (use-package doom-themes)
 
@@ -215,9 +216,14 @@
 (use-package emojify
   :hook (after-init . global-emojify-mode)
   :init
-  (setq emojify-company-tooltips-p t
-        emojify-display-style      'image
-        emojify-composed-text-p    nil))
+  (with-no-warnings
+    (when (featurep 'emojify)
+      (emojify-set-emoji-data)))
+
+  (setq emojify-company-tooltips-p    t
+        emojify-composed-text-p       nil
+        emojify-display-style         'image
+        emojify-user-emojis           my-custom-emojis))
 
 ;; Add icons for emacs
 (use-package all-the-icons

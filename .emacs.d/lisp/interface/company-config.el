@@ -46,7 +46,7 @@
 
         company-backends                    '((company-capf :with company-yasnippet)
                                               (company-dabbrev-code company-keywords company-files)
-                                              company-dabbrev))
+                                              (company-emojify) company-dabbrev))
 
   (defun my-company-yasnippet ()
     "Hide the current completeions and show snippets."
@@ -319,7 +319,13 @@
     :init (setq company-quickhelp-delay 0.3))
 
   (use-package company-posframe
-    :hook (company-mode . company-posframe-mode)))
+    :hook (company-mode . company-posframe-mode))
+
+  (use-package company-emojify
+    :after emojify
+    :init
+    (setq company-emojify-emoji-styles '(github)
+          company-emojify-document     t)))
 
 
 (provide 'company-config)
