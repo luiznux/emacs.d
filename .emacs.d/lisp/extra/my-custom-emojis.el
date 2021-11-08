@@ -143,19 +143,19 @@
 
     ;;;Others
     (":jango:"          .    (("name" . "Jango Fett")
-                              ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/jango.gif")
+                              ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/jango.gif")
                               ("style" . "github")))
 
     (":parrot-60fps:"   .    (("name" . "Parrot 60fps")
-                              ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/parrot-60fps.gif")
+                              ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/parrot-60fps.gif")
                               ("style" . "github")))
 
     (":paypal:"         .    (("name" . "Paypal")
-                              ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/paypal.png")
+                              ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/paypal.png")
                               ("style" . "github")))
 
     (":stonks:"         .    (("name" . "Stonks")
-                              ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/stonks.png")
+                              ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/stonks.png")
                               ("style" . "github")))))
 
 
