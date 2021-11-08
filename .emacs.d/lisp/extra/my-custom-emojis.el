@@ -46,10 +46,6 @@
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-finger.png")
                                  ("style" . "github")))
 
-    (":pepe-fuckyou:"      .    (("name" . "Fuck You Pepe")
-                                 ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-fuckyou.png")
-                                 ("style" . "github")))
-
     (":pepe-happy:"        .    (("name" . "Happy Pepe")
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-happy.png")
                                  ("style" . "github")))
@@ -60,6 +56,10 @@
 
     (":pepe-laughing:"     .    (("name" . "Laughing Pepe")
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-laughing.png")
+                                 ("style" . "github")))
+
+    (":pepe-look:"         .    (("name" . "Looking Pepe")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-look.png")
                                  ("style" . "github")))
 
     (":pepe-punch:"        .    (("name" . "Punch Pepe")
@@ -76,6 +76,10 @@
 
     (":pepe-smug:"         .    (("name" . "Smug Pepe")
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-sad.png")
+                                 ("style" . "github")))
+
+    (":pepe-sweat"         .    (("name" . "Sweat Pepe")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-sweat.png")
                                  ("style" . "github")))
 
     (":pepe-super-rage:"   .    (("name" . "Rage Super Pepe")
