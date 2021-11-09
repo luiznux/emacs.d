@@ -58,6 +58,10 @@
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-laughing.png")
                                  ("style" . "github")))
 
+    (":pepe-ok:"           .    (("name" . "OK Pepe")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-ok.png")
+                                 ("style" . "github")))
+
     (":pepe-look:"         .    (("name" . "Looking Pepe")
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-look.png")
                                  ("style" . "github")))
@@ -96,67 +100,76 @@
 
 
     ;;; CHAD COLECTION
-    (":yeschad:"         .    (("name" . "Yes Chad")
-                               ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/yes-chad.png")
-                               ("style" . "github")))
+    (":yeschad:"           .    (("name" . "Yes Chad")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/yes-chad.png")
+                                 ("style" . "github")))
 
-    (":gigachad:"        .    (("name" . "Gigachad")
-                               ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/gigachad.png")
-                               ("style" . "github")))
+    (":gigachad:"          .    (("name" . "Gigachad")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/gigachad.png")
+                                 ("style" . "github")))
 
-    (":gigachad-alt:"    .    (("name" . "Gigachad alt")
-                               ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/gigachad-2.png")
-                               ("style" . "github")))
+    (":gigachad-alt:"      .    (("name" . "Gigachad alt")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/gigachad-2.png")
+                                 ("style" . "github")))
 
-    (":chad-squidward:"  .    (("name" . "Squidward Chad")
-                               ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/gigachad-2.png")
-                               ("style" . "github")))
+    (":chad-squidward:"    .    (("name" . "Squidward Chad")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/gigachad-2.png")
+                                 ("style" . "github")))
 
     ;;; Programing
-    (":archlinux:"    .    (("name" . "ArchLinux")
-                            ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/archlinux.png")
-                            ("style" . "github")))
+    (":archlinux:"         .    (("name" . "ArchLinux")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/archlinux.png")
+                                 ("style" . "github")))
 
-    (":clojure:"      .    (("name" . "Clojure")
-                            ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/clojure.png")
-                            ("style" . "github")))
+    (":clojure:"           .    (("name" . "Clojure")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/clojure.png")
+                                 ("style" . "github")))
 
-    (":emacs:"        .    (("name" . "Emacs")
-                            ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/emacs.png")
-                            ("style" . "github")))
+    (":emacs:"             .    (("name" . "Emacs")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/emacs.png")
+                                 ("style" . "github")))
 
-    (":golang:"       .    (("name" . "Golang")
-                            ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/golang.png")
-                            ("style" . "github")))
+    (":golang:"            .    (("name" . "Golang")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/golang.png")
+                                 ("style" . "github")))
 
-    (":java:"         .    (("name" . "Java")
-                            ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/java.png")
-                            ("style" . "github")))
+    (":java:"              .    (("name" . "Java")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/java.png")
+                                 ("style" . "github")))
 
-    (":lambda:"       .    (("name" . "Lambda")
-                            ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/lambda.png")
-                            ("style" . "github")))
+    (":lambda:"            .    (("name" . "Lambda")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/lambda.png")
+                                 ("style" . "github")))
 
-    (":linux:"        .    (("name" . "Linux")
-                            ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/linux.png")
-                            ("style" . "github")))
+    (":linux:"             .    (("name" . "Linux")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/linux.png")
+                                 ("style" . "github")))
+
+    (":org-mode"           .    (("name" . "Org Mode")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/org-mode.png")
+                                 ("style" . "github")))
 
     ;;;Others
-    (":jango:"          .    (("name" . "Jango Fett")
-                              ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/jango.gif")
-                              ("style" . "github")))
 
-    (":parrot-60fps:"   .    (("name" . "Parrot 60fps")
-                              ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/parrot-60fps.gif")
-                              ("style" . "github")))
+    ("pain-naruto"         .    (("name" . "Bad Animation Pain naruto")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/pain-naruto.jpg")
+                                 ("style" . "github")))
 
-    (":paypal:"         .    (("name" . "Paypal")
-                              ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/paypal.png")
-                              ("style" . "github")))
+    (":jango:"             .    (("name" . "Jango Fett")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/jango.gif")
+                                 ("style" . "github")))
 
-    (":stonks:"         .    (("name" . "Stonks")
-                              ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/stonks.png")
-                              ("style" . "github")))))
+    (":parrot-60fps:"      .    (("name" . "Parrot 60fps")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/parrot-60fps.gif")
+                                 ("style" . "github")))
+
+    (":paypal:"            .    (("name" . "Paypal")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/paypal.png")
+                                 ("style" . "github")))
+
+    (":stonks:"            .    (("name" . "Stonks")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/stonks.png")
+                                 ("style" . "github")))))
 
 
 (provide 'my-custom-emojis)
