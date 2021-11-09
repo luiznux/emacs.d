@@ -186,7 +186,8 @@
                                              ("bday " . ?b)
                                              ("college" . ?c)
                                              ("capture" . ?s)
-                                             ("week-days" . ?f))
+                                             ("week-days" . ?f)
+                                             ("daily" .?d))
 
         ;; Set `org' priority custom faces
         org-priority-faces                 '((?A . (:foreground "#f32020"))
@@ -195,8 +196,9 @@
 
 
         ;; Add and customize org TODO keywords
-        org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "MEETING(m!)" "|" "DONE(d!)")
-                                                   (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
+        org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)"  "|" "DONE(d!)")
+                                                   (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
+                                                   (sequence "MEETING(m!)" "|" "DONE(d!)")))
 
         org-todo-keyword-faces             '(("TODO"         . (:foreground "#ff8080" :weight bold))
                                              ("WARNING"      . (:foreground "#f32020" :weight bold))
@@ -328,8 +330,8 @@
                                                             " ...... " "----------------")
 
         org-agenda-format-date                            (lambda (date) (concat  (make-string (window-width) 9472)
-                                                                                  "\n"
-                                                                                  (org-agenda-format-date-aligned date)))
+                                                                             "\n"
+                                                                             (org-agenda-format-date-aligned date)))
 
         org-agenda-files                                  (quote ("~/org/agenda.org"
                                                                   "~/org/project.org"
@@ -357,7 +359,6 @@
                                                                                  (org-agenda-remove-tags t)
                                                                                  (org-agenda-skip-scheduled-if-done t)
                                                                                  (org-agenda-skip-deadline-if-done  t)
-                                                                                 ;;(org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
                                                                                  (org-agenda-todo-ignore-scheduled 'all)))
 
                                                               (tags-todo "college" ((org-agenda-overriding-header "College \n")
