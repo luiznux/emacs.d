@@ -79,7 +79,7 @@
                                  ("style" . "github")))
 
     (":pepe-smug:"         .    (("name" . "Smug Pepe")
-                                 ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-sad.png")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-smug.png")
                                  ("style" . "github")))
 
     (":pepe-sweat"         .    (("name" . "Sweat Pepe")
