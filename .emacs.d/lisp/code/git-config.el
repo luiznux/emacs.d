@@ -24,12 +24,6 @@
   :config
   (exec-path-from-shell-initialize))
 
-(use-package diff-hl
-  :init
-  (global-diff-hl-mode)
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
-
 (use-package grip-mode
   :init
   (setq grip-preview-use-webkit t))
