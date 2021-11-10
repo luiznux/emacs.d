@@ -46,7 +46,8 @@
 
         company-backends                    '((company-capf :with company-yasnippet)
                                               (company-dabbrev-code company-keywords company-files)
-                                              (company-emojify) company-dabbrev))
+                                              (company-emojify)
+                                              company-dabbrev))
 
   (defun my-company-yasnippet ()
     "Hide the current completeions and show snippets."
