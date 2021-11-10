@@ -158,61 +158,6 @@
   (with-eval-after-load 'projectile
     (bind-key "s R" #'rg-project projectile-command-map)))
 
-;; Highlight indentions
-(use-package highlight-indent-guides
-  :diminish
-  :hook ((prog-mode yaml-mode) . highlight-indent-guides-mode)
-  :init (setq highlight-indent-guides-method 'character
-              highlight-indent-guides-responsive 'top
-              highlight-indent-guides-suppress-auto-error t)
-  :config
-  (with-no-warnings
-    ;; Disable in `macrostep' expanding
-    (with-eval-after-load 'macrostep
-      (advice-add #'macrostep-expand
-                  :after (lambda (&rest _)
-                           (when highlight-indent-guides-mode
-                             (highlight-indent-guides-mode -1))))
-      (advice-add #'macrostep-collapse
-                  :after (lambda (&rest _)
-                           (when (derived-mode-p 'prog-mode 'yaml-mode)
-                             (highlight-indent-guides-mode 1)))))
-
-    ;; Don't display indentations in `swiper'
-    ;; https://github.com/DarthFennec/highlight-indent-guides/issues/40
-    (with-eval-after-load 'ivy
-      (defun my-ivy-cleanup-indentation (str)
-        "Clean up indentation highlighting in ivy minibuffer."
-        (let ((pos 0)
-              (next 0)
-              (limit (length str))
-              (prop 'highlight-indent-guides-prop))
-          (while (and pos next)
-            (setq next (text-property-not-all pos limit prop nil str))
-            (when next
-              (setq pos (text-property-any next limit prop nil str))
-              (ignore-errors
-                (remove-text-properties next pos '(display nil face nil) str))))))
-      (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation))))
-
-(use-package highlight-symbol
-  :bind (:map prog-mode-map
-         ("M-o h" . highlight-symbol)
-         ("M-p" . highlight-symbol-prev)
-         ("M-n" . highlight-symbol-next)))
-
-;; Highlight some operations
-(use-package volatile-highlights
-  :diminish
-  :hook (after-init . volatile-highlights-mode)
-  :config
-  (with-no-warnings
-    (when (fboundp 'pulse-momentary-highlight-region)
-      (defun my-vhl-pulse (beg end &optional _buf face)
-        "Pulse the changes."
-        (pulse-momentary-highlight-region beg end face))
-      (advice-add #'vhl/.make-hl :override #'my-vhl-pulse))))
-
 (use-package emojify
   :hook (after-init . global-emojify-mode)
   :init
@@ -220,10 +165,10 @@
     (when (featurep 'emojify)
       (emojify-set-emoji-data)))
 
-  (setq emojify-company-tooltips-p    t
-        emojify-composed-text-p       nil
-        emojify-display-style         'image
-        emojify-user-emojis           my-custom-emojis))
+  (setq emojify-company-tooltips-p   t
+        emojify-display-style        'image
+        emojify-composed-text-p      nil
+        emojify-user-emojis          my-custom-emojis))
 
 ;; Add icons for emacs
 (use-package all-the-icons
