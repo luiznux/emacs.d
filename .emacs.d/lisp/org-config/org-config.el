@@ -157,6 +157,7 @@
         org-cycle-separator-lines          2
         org-ellipsis                       "⤵"
         bidi-paragraph-direction           t
+        org-image-actual-width             nil ;avoid wrong size of images
 
         ;; log time on rescheduling and changing deadlines
         org-log-reschedule                 'time
