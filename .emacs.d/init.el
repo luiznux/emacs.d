@@ -87,6 +87,7 @@ If you experience stuttering, increase this.")
 ;; core packages
 (require 'customizations)
 (require 'interface)
+(require 'highlight-config)
 (require 'window-config)
 
 ;; visual
