@@ -67,10 +67,9 @@
   (with-no-warnings
     (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))))
 
-(use-package undo-tree ;; dependency for evil-undo-system
-  :config
-  (global-undo-tree-mode))
-
+;; dependency for evil-undo-system
+(use-package undo-tree
+  :hook (after-init . global-undo-tree-mode))
 
 
 (provide 'evil-config)
