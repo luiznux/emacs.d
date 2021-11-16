@@ -61,11 +61,6 @@
   (setq esup-depth 0)
   :pin melpa)
 
-(use-package benchmark-init
-  :config
-  ;; To disable collection of benchmark data after init is done.
-  (add-hook 'after-init-hook 'benchmark-init/deactivate))
-
 (use-package memory-usage)
 (use-package bug-hunter)
 (use-package logview
