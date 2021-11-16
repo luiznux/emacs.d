@@ -197,7 +197,7 @@
 
 
         ;; Add and customize org TODO keywords
-        org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)"  "|" "DONE(d!)")
+        org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "|" "DONE(d!)")
                                                    (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
                                                    (sequence "MEETING(m!)" "|" "DONE(d!)")))
 
