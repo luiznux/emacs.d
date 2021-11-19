@@ -18,10 +18,26 @@
 ;;
 ;;; Code:
 
+(require 'constants)
+(require 'custom-config)
+(require 'functions)
+
+;; Load `custom-file'
+(and (file-readable-p custom-file) (load custom-file))
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/")
              '("elpa" . "https://elpa.gnu.org/packages/"))
+
+
+;; HACK: DO NOT copy package-selected-packages to init/custom file forcibly.
+;; https://github.com/jwiegley/use-package/issues/383#issuecomment-247801751
+(defun my-save-selected-packages (&optional value)
+  "Set `package-selected-packages' to VALUE but don't save to `custom-file'."
+  (when value
+    (setq package-selected-packages value)))
+(advice-add 'package--save-selected-packages :override #'my-save-selected-packages)
 
 ;; Initialize packages
 (unless (bound-and-true-p package--initialized) ; To avoid warnings in 27
@@ -51,24 +67,20 @@
 
 ;; A modern Packages Menu
 (use-package paradox
-  :init
-  (setq paradox-execute-asynchronously t
-        paradox-github-token t
-        paradox-display-star-count nil)
-
-  ;; Replace default `list-packages'
-  (defun my-paradox-enable (&rest _)
-    "Enable paradox, overriding the default package-menu."
-    (paradox-enable))
-  (advice-add #'list-packages :before #'my-paradox-enable)
+  :hook (after-init . paradox-enable)
+  :init (setq paradox-execute-asynchronously t
+              paradox-github-token t
+              paradox-display-star-count nil)
   :config
   (when (fboundp 'page-break-lines-mode)
     (add-hook 'paradox-after-execute-functions
               (lambda (&rest _)
-                (let ((buf (get-buffer-create "*Paradox Report*"))
+                "Display `page-break-lines' in \"*Paradox Report*\"."
+                (let ((buf (get-buffer "*Paradox Report*"))
                       (inhibit-read-only t))
-                  (with-current-buffer buf
-                    (page-break-lines-mode 1))))
+                  (when (buffer-live-p buf)
+                    (with-current-buffer buf
+                      (page-break-lines-mode 1)))))
               t)))
 
 ;; Auto update packages

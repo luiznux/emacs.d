@@ -17,7 +17,7 @@
 ;;
 ;;; Code:
 
-(require 'customizations)
+(require 'custom-config)
 
 (defun setup-org-packages ()
   "Setup and call org packages."
@@ -122,6 +122,21 @@
 
   (use-package org-web-tools)
   (use-package org-alert))
+
+(use-package brazilian-holidays
+  :hook ((calendar-mode . brazilian-holidays-mode)
+         (org-agenda-mode . brazilian-holidays-mode))
+  :config
+  (setq org-agenda-include-diary                           t
+        diary-file                                         "~/org/diary"
+        calendar-mark-diary-entries-flag                   t
+        calendar-view-diary-initially-flag                 t
+        calendar-mark-diary-entries-flag                   t
+        brazilian-sp-holidays                              t)
+
+  ;;Calendar Hooks
+  (add-hook 'diary-display-hook 'fancy-diary-display)
+  (add-hook 'list-diary-entries-hook 'sort-diary-entries t))
 
 (use-package org
   :ensure nil
@@ -396,21 +411,11 @@
   (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
   (add-hook 'org-agenda-mode-hook 'my/style-org-agenda)
 
+
+
   ;; Diary
-  ;;org-agenda-include-diary                           t
-  ;;diary-file                                         "~/org/diary"
-  ;;calendar-mark-diary-entries-flag                   t
-  ;;calendar-view-diary-initially-flag                 t
-  ;;calendar-mark-diary-entries-flag                   t
-  ;;Remove default holidays
-  ;;holiday-christian-holidays                         nil
-  ;;holiday-oriental-holidays                          nil
-  ;;holiday-bahai-holidays                             nil
-  ;;holiday-islamic-holidays                           nil
-  ;;holiday-hebrew-holidays                            nil
-  ;; Calendar Hooks
-  ;;(add-hook 'diary-display-hook 'fancy-diary-display)
-  ;;(add-hook 'list-diary-entries-hook 'sort-diary-entries t)
+
+
 
   :config
   (defun mpereira/org-paste-clipboard-image ()

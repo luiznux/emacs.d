@@ -15,7 +15,7 @@
 ;;
 ;;; Code:
 
-(require 'customizations)
+(require 'constants)
 
 (use-package magit
   :defer t

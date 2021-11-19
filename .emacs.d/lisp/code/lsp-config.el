@@ -17,12 +17,12 @@
 ;;
 ;;; Code:
 
-(require 'customizations)
+(require 'constants)
 
-(use-package eglot
-  :hook (prog-mode . (lambda ()
-                       (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode)
-                         (eglot-ensure)))))
+;;(use-package eglot
+;;  :hook (prog-mode . (lambda ()
+;;                       (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode)
+;;                         (eglot-ensure)))))
 
 (use-package lsp-mode
 

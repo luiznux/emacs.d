@@ -21,6 +21,20 @@
              centaur-tabs-get-group-name
              centaur-tabs-headline-match
              centaur-tabs-change-fonts)
+
+  :hook ((dashboard-mode . centaur-tabs-local-mode)
+         (term-mode . centaur-tabs-local-mode)
+         (calendar-mode . centaur-tabs-local-mode)
+         (org-agenda-mode . centaur-tabs-local-mode)
+         (helpful-mode . centaur-tabs-local-mode))
+
+  :bind(("C-<prior>" . centaur-tabs-backward)
+        ("C-<next>" . centaur-tabs-forward)
+        ("C-c t" . centaur-tabs-counsel-switch-group)
+        (:map evil-normal-state-map
+         ("g t" . centaur-tabs-forward)
+         ("g T" . centaur-tabs-backward)))
+
   :config
   (setq centaur-tabs-style                    "chamfer"
         centaur-tabs-height                   32
@@ -75,19 +89,34 @@ from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
        "OrgMode")
       (t
        (centaur-tabs-get-group-name (current-buffer))))))
-  :hook
-  (dashboard-mode . centaur-tabs-local-mode)
-  (term-mode . centaur-tabs-local-mode)
-  (calendar-mode . centaur-tabs-local-mode)
-  (org-agenda-mode . centaur-tabs-local-mode)
-  (helpful-mode . centaur-tabs-local-mode)
-  :bind
-  ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward)
-  ("C-c t" . centaur-tabs-counsel-switch-group)
-  (:map evil-normal-state-map
-   ("g t" . centaur-tabs-forward)
-   ("g T" . centaur-tabs-backward)))
+  (defun centaur-tabs-hide-tab (x)
+    "Do no to show buffer X in tabs."
+    (let ((name (format "%s" x)))
+      (or
+       ;; Current window is not dedicated window.
+       (window-dedicated-p (selected-window))
+
+       ;; Buffer name not match below blacklist.
+       (string-prefix-p "*epc" name)
+       (string-prefix-p "*helm" name)
+       (string-prefix-p "*Helm" name)
+       (string-prefix-p "*Compile-Log*" name)
+       (string-prefix-p "*lsp" name)
+       (string-prefix-p "*company" name)
+       (string-prefix-p "*Flycheck" name)
+       (string-prefix-p "*tramp" name)
+       (string-prefix-p " *Mini" name)
+       (string-prefix-p "*help" name)
+       (string-prefix-p "*straight" name)
+       (string-prefix-p " *temp" name)
+       (string-prefix-p "*Help" name)
+       (string-prefix-p "*mybuf" name)
+       (string-prefix-p "*Org Agenda*" name)
+       (string-prefix-p "*dashboard*" name)
+
+       ;; Is not magit buffer.
+       (and (string-prefix-p "magit" name)
+	        (not (file-name-extension name)))))))
 
 
 (provide 'centaur-tabs-config)

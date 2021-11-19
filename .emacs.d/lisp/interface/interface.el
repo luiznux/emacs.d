@@ -17,7 +17,8 @@
 ;;
 ;;; Code:
 
-(require 'customizations)
+(require 'constants)
+(require 'functions)
 (require 'my-custom-emojis)
 
 (use-package doom-themes)
@@ -25,7 +26,7 @@
 (use-package solaire-mode
   :hook (after-load-theme . solaire-global-mode)
   :init
-  (load-theme 'doom-one t))
+  (load-theme 'doom-vibrant t))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -84,15 +85,6 @@
 (use-package rainbow-mode
   :hook (emacs-lisp-mode . rainbow-mode))
 
-;; Display ugly ^L page breaks as tidy horizontal lines
-(use-package page-break-lines
-  :diminish
-  :hook (after-init . global-page-break-lines-mode))
-
-;; Use fixed pitch where it's sensible
-(use-package mixed-pitch
-  :diminish)
-
 ;; Good pixel line scrolling
 (when emacs/>=27p
   (use-package good-scroll
@@ -106,6 +98,15 @@
   (use-package iscroll
     :diminish
     :hook (image-mode . iscroll-mode)))
+
+;; Use fixed pitch where it's sensible
+(use-package mixed-pitch
+  :diminish)
+
+;; Display ugly ^L page breaks as tidy horizontal lines
+(use-package page-break-lines
+  :diminish
+  :hook (after-init . global-page-break-lines-mode))
 
 ;; A minor-mode menu for mode-line
 (when emacs/>=25.2p
