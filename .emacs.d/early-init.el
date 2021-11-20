@@ -49,8 +49,6 @@
 (when (featurep 'ns)
   (push '(ns-transparent-titlebar . t) default-frame-alist))
 
-;; Disable Splash Screen
-(setq inhibit-startup-screen t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; early-init.el ends here
