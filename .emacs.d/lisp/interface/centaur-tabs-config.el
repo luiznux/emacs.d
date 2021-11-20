@@ -110,7 +110,9 @@ from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
        (string-prefix-p "*straight" name)
        (string-prefix-p " *temp" name)
        (string-prefix-p "*Help" name)
+       (string-prefix-p "*Ibuffer*" name)
        (string-prefix-p "*mybuf" name)
+       (string-prefix-p "diary" name)
        (string-prefix-p "*Org Agenda*" name)
        (string-prefix-p "*dashboard*" name)
 

@@ -73,10 +73,10 @@
   (doom-modeline-mode . nyan-mode))
 
 (use-package parrot
-  :commands parrot-set-parrot-type parrot-start-animation
+  :commands (parrot-set-parrot-type parrot-start-animation)
+  :custom-face (parrot-set-parrot-type 'emacs)
+  :hook (after-init . parrot-mode)
   :init
-  (parrot-mode)
-  (parrot-set-parrot-type 'emacs)
   (setq parrot-num-rotations 6)
   (add-hook 'evil-insert-state-entry-hook #'parrot-start-animation)
   (add-hook 'evil-visual-state-entry-hook #'parrot-start-animation)
