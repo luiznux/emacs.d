@@ -21,7 +21,10 @@
 (require 'functions)
 (require 'my-custom-emojis)
 
-(use-package doom-themes)
+(use-package doom-themes
+  :config
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 (use-package solaire-mode
   :hook (after-load-theme . solaire-global-mode)
