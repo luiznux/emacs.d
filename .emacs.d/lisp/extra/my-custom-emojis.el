@@ -21,7 +21,6 @@
 (defvar my-custom-emojis
   '(
     ;;; PEPE COLECTION
-
     (":pepe-angry-ping:"   .    (("name" . "Angry ping Pepe")
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-angry-ping.png")
                                  ("style" . "github")))
@@ -116,6 +115,7 @@
                                  ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/gigachad-2.png")
                                  ("style" . "github")))
 
+
     ;;; Programing
     (":archlinux:"         .    (("name" . "ArchLinux")
                                  ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/archlinux.png")
@@ -149,8 +149,114 @@
                                  ("image" . "~/.emacs.d/emojis/luiznux/program-emojis/org-mode.png")
                                  ("style" . "github")))
 
-    ;;;Others
 
+    ;;; Magic the Gathering
+    (":mtg-0:"                   .    (("name" . "0 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-0.png")
+                                       ("style" . "github")))
+
+    (":mtg-1:"                   .    (("name" . "1 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-1.png")
+                                       ("style" . "github")))
+
+    (":mtg-2:"                   .    (("name" . "2 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-2.png")
+                                       ("style" . "github")))
+
+    (":mtg-3:"                   .    (("name" . "3 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-3.png")
+                                       ("style" . "github")))
+
+    (":mtg-4:"                   .    (("name" . "4 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-4.png")
+                                       ("style" . "github")))
+
+    (":mtg-5:"                   .    (("name" . "5 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-5.png")
+                                       ("style" . "github")))
+
+    (":mtg-6:"                   .    (("name" . "6 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-6.png")
+                                       ("style" . "github")))
+
+    (":mtg-7:"                   .    (("name" . "7 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-7.png")
+                                       ("style" . "github")))
+
+    (":mtg-8:"                   .    (("name" . "8 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-8.png")
+                                       ("style" . "github")))
+
+    (":mtg-9:"                   .    (("name" . "9 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-9.png")
+                                       ("style" . "github")))
+
+    (":mtg-10:"                  .    (("name" . "10 number mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-10.png")
+                                       ("style" . "github")))
+
+    (":mtg-x:"                   .    (("name" . "X mtg symbol")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-x.png")
+                                       ("style" . "github")))
+
+    (":mtg-tap:"                 .    (("name" . "Tap mtg symbol")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-tap.png")
+                                       ("style" . "github")))
+
+    (":mtg-black:"               .    (("name" . "Black mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-black.png")
+                                       ("style" . "github")))
+
+    (":mtg-white:"               .    (("name" . "White mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-white.png")
+                                       ("style" . "github")))
+
+    (":mtg-red:"                 .    (("name" . "Red mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-red.png")
+                                       ("style" . "github")))
+
+    (":mtg-blue:"                .    (("name" . "Blue mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-blue.png")
+                                       ("style" . "github")))
+
+    (":mtg-green:"               .    (("name" . "Green mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-green.png")
+                                       ("style" . "github")))
+
+    (":mtg-black-phyrexiana:"    .    (("name" . "Black phyrexiana mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-bp.png")
+                                       ("style" . "github")))
+
+    (":mtg-white-phyrexiana:"    .    (("name" . "White phyrexiana mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-wp.png")
+                                       ("style" . "github")))
+
+    (":mtg-red-phyrexiana:"      .    (("name" . "Red phyrexiana mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-rp.png")
+                                       ("style" . "github")))
+
+    (":mtg-blue-phyrexiana:"     .    (("name" . "Blue phyrexiana mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-bp.png")
+                                       ("style" . "github")))
+
+    (":mtg-green-phyrexiana:"    .    (("name" . "Green phyrexiana mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-gp.png")
+                                       ("style" . "github")))
+
+    (":mtg-now:"                 .    (("name" . "X mtg symbol")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-s.png")
+                                       ("style" . "github")))
+
+    (":mtg-colorless:"           .    (("name" . "Colorless mana mtg")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-colorless.png")
+                                       ("style" . "github")))
+
+    (":mtg-logo:"                .    (("name" . "Mtg Logo")
+                                       ("image" . "~/.emacs.d/emojis/luiznux/mtg-emojis/mtg-logo.png")
+                                       ("style" . "github")))
+
+
+    ;;; Others
     ("pain-naruto"         .    (("name" . "Bad Animation Pain naruto")
                                  ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/pain-naruto.jpg")
                                  ("style" . "github")))
