@@ -66,11 +66,13 @@ Nil to use font supports ligatures."
     ("#+SETUPFILE:" . ?⛮)
     ("#+TAGS:" . ?🏷)
     ("#+TITLE:" . ?📓)
+    ("#+title:" . ?📓)
     ("#+STARTUP:" . ?⏻)
     ("#+FILETAGS:" . ?📘)
     ("#+CATEGORY:" . ?)
     (":PROPERTIES:" . ?⚙ )
     (":WILD_NOTIFIER_NOTIFY_BEFORE:" . ?)
+    (":ID:" . ?)
 
     ("#+BEGIN_SRC" . ?✎)
     ("#+END_SRC" . ?□)
