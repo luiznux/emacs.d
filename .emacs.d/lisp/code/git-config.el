@@ -50,6 +50,33 @@
       (transient-append-suffix 'magit-status-jump '(0 0 -1)
         '("T " "Todos" magit-todos-jump-to-todos)))))
 
+(use-package transient-posframe
+  :diminish
+  :custom-face
+  (transient-posframe ((t (:inherit tooltip))))
+  (transient-posframe-border ((t (:background ,(face-foreground 'font-lock-comment-face nil t)))))
+  :hook (after-init . transient-posframe-mode)
+  :init
+  (setq transient-posframe-border-width 3
+        transient-posframe-min-height nil
+        transient-posframe-min-width 80
+        transient-posframe-poshandler 'posframe-poshandler-frame-center
+        transient-posframe-parameters '((left-fringe . 8)
+                                        (right-fringe . 8)))
+  :config
+  (add-hook
+   'after-load-theme-hook
+   (lambda ()
+     (custom-set-faces
+      '(transient-posframe ((t (:inherit tooltip))))
+      `(transient-posframe-border ((t (:background ,(face-foreground 'font-lock-comment-face nil t))))))))
+
+  (with-no-warnings
+    (defun my-transient-posframe--hide ()
+      "Hide transient posframe."
+      (posframe-hide transient--buffer-name))
+    (advice-add #'transient-posframe--delete :override #'my-transient-posframe--hide)))
+
 ;; Walk through git revisions of a file
 (use-package git-timemachine
   :custom-face
@@ -151,6 +178,11 @@
         (run-hook-with-args 'git-messenger:after-popup-hook popuped-message)))
     (advice-add #'git-messenger:popup-close :override #'ignore)
     (advice-add #'git-messenger:popup-message :override #'my-git-messenger:popup-message)))
+
+;; Open github/gitlab/bitbucket page
+(use-package browse-at-remote
+  :bind (:map vc-prefix-map
+         ("B" . browse-at-remote)))
 
 (use-package grip-mode
   :init
