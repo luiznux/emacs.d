@@ -17,6 +17,8 @@
 ;;
 ;;; Code:
 
+(require 'custom-config)
+
 
 ;; Emacs config
 
@@ -32,10 +34,16 @@
         tab-always-indent                 'complete
         auto-window-vscroll               nil)
 
-  ;;TODO Testtando
-  (setq use-file-dialog nil
-        use-dialog-box nil
-        inhibit-startup-echo-area-message t)
+  ;;  TODO Testtando
+  ;;  (setq inhibit-startup-echo-area-message  t
+  ;;        use-file-dialog                    nil
+  ;;        use-dialog-box                     nil)
+  ;;  ;; Display dividers between windows
+  ;;  (setq window-divider-default-places t
+  ;;        window-divider-default-bottom-width 1
+  ;;        window-divider-default-right-width 1)
+  ;;  (add-hook 'window-setup-hook #'window-divider-mode)
+
 
   ;; more smooth scrollig
   (setq mouse-wheel-progressive-speed          t
