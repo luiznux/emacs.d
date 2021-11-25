@@ -15,9 +15,6 @@
 ;;
 ;;; Code:
 
-(use-package helpful)
-
-;; Emacs lisp mode
 (use-package elisp-mode
   :ensure nil
   :bind (:map emacs-lisp-mode-map
