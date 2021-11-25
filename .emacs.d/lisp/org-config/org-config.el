@@ -29,6 +29,19 @@
   (use-package org-download
     :hook ('dired-mode-hook 'org-download-enable))
 
+  (use-package org-cliplink
+    :bind("C-x p i" . org-cliplink))
+
+  (use-package ox-pandoc
+    :when (executable-find "pandoc")
+    :after ox
+    :init
+    (add-to-list 'org-export-backends 'pandoc)
+    (setq org-pandoc-options
+          '((standalone . t)
+            (mathjax . t)
+            (variable . "revealjs-url=https://revealjs.com"))))
+
   ;; Presentation
   (use-package org-tree-slide
     :functions (org-display-inline-images org-remove-inline-images)
