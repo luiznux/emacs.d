@@ -10,7 +10,8 @@
       calendar-latitude        23.33
       calendar-longitude       46.38)
 
-(set-face-attribute 'default nil :font "Source Code Pro Medium 9")
+(set-face-attribute 'default nil
+                    :font "Source Code Pro Medium 9")
 
 ;; Sets ibuffer as default.
 (defalias 'list-buffers 'ibuffer)
@@ -61,8 +62,6 @@
  '(org-scheduled ((t (:foreground "SlateBlue2"))))
  '(org-scheduled-previously ((t (:foreground "medium turquoise"))))
  '(org-scheduled-today ((t (:foreground "deep sky blue"))))
- '(org-super-agenda-header ((t (:inherit default :foreground "#a3f7ff" :weight bold))))
- '(quote (mode-line-inactive nil))
- '(symbol-overlay-default-face ((t (:inherit (region bold))))))
+ '(org-super-agenda-header ((t (:inherit default :foreground "#a3f7ff" :weight bold)))))
 
 ;;; custom.el ends here
