@@ -47,7 +47,7 @@
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-mode t)
-  (centaur-tabs-change-fonts "Source Code Pro" 102)
+  (centaur-tabs-change-fonts "Source Code Pro" 80)
 
   (defun centaur-tabs-buffer-groups ()
     "`centaur-tabs-buffer-groups' control buffers' group rules.

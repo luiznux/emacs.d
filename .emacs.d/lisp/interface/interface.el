@@ -55,9 +55,9 @@
         doom-modeline-minor-modes                 nil
         doom-modeline-enable-word-count           nil
         doom-modeline-buffer-encoding             nil)
-  :custom-face
-  '(mode-line-inactive nil)
-  '(mode-line ((t (:family "Source Code Pro" :height 1)))))
+  :config
+  (set-face-attribute 'mode-line nil :family "Source Code Pro" :height 85)
+  (set-face-attribute 'mode-line-inactive nil :family "Source Code Pro" :height 85))
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
@@ -89,7 +89,7 @@
   :hook (emacs-lisp-mode . rainbow-mode))
 
 ;; Good pixel line scrolling
-(when emacs/>=27p
+(when (and emacs/>=27p (not sys/macp))
   (use-package good-scroll
     :diminish
     :hook (after-init . good-scroll-mode)
