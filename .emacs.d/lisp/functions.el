@@ -44,16 +44,20 @@
   ;;        window-divider-default-right-width 1)
   ;;  (add-hook 'window-setup-hook #'window-divider-mode)
 
+  ;; Mouse & Smooth Scroll
+  ;; Scroll one line at a time (less "jumpy" than defaults)
+  (when (display-graphic-p)
+    (setq mouse-wheel-scroll-amount              '(1 ((shift) . 1))
+          mouse-wheel-scroll-amount-horizontal   1
+          mouse-wheel-progressive-speed          nil))
 
-  ;; more smooth scrollig
-  (setq mouse-wheel-progressive-speed          t
-        mouse-wheel-scroll-amount              '(1 ((shift) . 1))
-        mouse-wheel-scroll-amount-horizontal   1
+  (setq scroll-step                            1
+        scroll-margin                          0
+        scroll-conservatively                  100000
+
         mouse-wheel-follow-mouse               't
         scroll-preserve-screen-position        t
-        scroll-conservatively                  100000
-        auto-window-vscroll                    nil
-        scroll-step                            1)
+        auto-window-vscroll                    nil)
 
   (setq password-cache-expiry      nil
         load-prefer-newer          t
@@ -71,7 +75,7 @@
 
   ;; Inhibit resizing frame
   (setq frame-inhibit-implied-resize t
-        frame-resize-pixelwise t)
+        frame-resize-pixelwise       t)
 
   (setq history-length 100)
   (put 'minibuffer-history 'history-length 50)
