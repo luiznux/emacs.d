@@ -77,6 +77,10 @@
   (>= emacs-major-version 28)
   "Emacs is 28 or above.")
 
+(defconst emacs/>=29p
+  (>= emacs-major-version 29)
+  "Emacs is 29 or above.")
+
 
 (provide 'constants)
 ;;; constants.el ends here
