@@ -97,6 +97,10 @@
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-weary.png")
                                  ("style" . "github")))
 
+    (":pepe-yugi:"         .    (("name" . "Yu Gi Oh Pepe")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-yugi.png")
+                                 ("style" . "github")))
+
 
     ;;; CHAD COLECTION
     (":yeschad:"           .    (("name" . "Yes Chad")
@@ -114,7 +118,6 @@
     (":chad-squidward:"    .    (("name" . "Squidward Chad")
                                  ("image" . "~/.emacs.d/emojis/luiznux/chad-emojis/gigachad-2.png")
                                  ("style" . "github")))
-
 
     ;;; Programing
     (":archlinux:"         .    (("name" . "ArchLinux")
@@ -257,16 +260,12 @@
 
 
     ;;; Others
-    ("pain-naruto"         .    (("name" . "Bad Animation Pain naruto")
-                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/pain-naruto.jpg")
+    (":pain-naruto:"       .    (("name" . "Bad Animation Pain naruto")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/pain-naruto.png")
                                  ("style" . "github")))
 
     (":jango:"             .    (("name" . "Jango Fett")
-                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/jango.gif")
-                                 ("style" . "github")))
-
-    (":parrot-60fps:"      .    (("name" . "Parrot 60fps")
-                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/parrot-60fps.gif")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/jango.png")
                                  ("style" . "github")))
 
     (":paypal:"            .    (("name" . "Paypal")
@@ -275,6 +274,10 @@
 
     (":stonks:"            .    (("name" . "Stonks")
                                  ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/stonks.png")
+                                 ("style" . "github")))
+
+    (":yugioh-card:"       .    (("name" . "Yu Gi Oh Card Back")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/yugioh-card-back.png")
                                  ("style" . "github")))))
 
 
