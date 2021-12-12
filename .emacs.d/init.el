@@ -19,13 +19,6 @@
 ;; Speed up startup
 (setq auto-mode-case-fold nil)
 
-;; Speed up Emacs startup time increasing
-;; the garbage collector number of bytes
-(defvar emacs-gc-cons-threshold (if (display-graphic-p) 64000000 1600000)
-  "The default value to use for `gc-cons-threshold'.
-If you experience freezing, decrease this.
-If you experience stuttering, increase this.")
-
 (unless (or (daemonp) noninteractive)
   (let ((old-file-name-handler-alist file-name-handler-alist))
     ;; If `file-name-handler-alist' is nil, no 256 colors in TUI
