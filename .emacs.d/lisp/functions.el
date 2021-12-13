@@ -25,24 +25,23 @@
 (defun various-emacs-config ()
   "Various config for Emacs."
 
-  (setq inhibit-startup-message           t
-        inhibit-startup-screen            t
-        delete-selection-mode             t
-        menu-bar-mode                     nil
-        tool-bar-mode                     nil
-        scroll-bar-mode                   nil
-        tab-always-indent                 'complete
-        auto-window-vscroll               nil)
+  (setq inhibit-startup-echo-area-message   t
+        inhibit-startup-message             t
+        inhibit-startup-screen              t
+        delete-selection-mode               t
+        menu-bar-mode                       nil
+        tool-bar-mode                       nil
+        scroll-bar-mode                     nil
+        use-dialog-box                      nil
+        use-file-dialog                     nil
+        tab-always-indent                   'complete
+        auto-window-vscroll                 nil)
 
-  ;;  TODO Testtando
-  ;;  (setq inhibit-startup-echo-area-message  t
-  ;;        use-file-dialog                    nil
-  ;;        use-dialog-box                     nil)
-  ;;  ;; Display dividers between windows
-  ;;  (setq window-divider-default-places t
-  ;;        window-divider-default-bottom-width 1
-  ;;        window-divider-default-right-width 1)
-  ;;  (add-hook 'window-setup-hook #'window-divider-mode)
+  ;; Display dividers between windows
+  (setq window-divider-default-bottom-width  0
+        window-divider-default-right-width   4
+        window-divider-default-places        t)
+  (add-hook 'window-setup-hook #'window-divider-mode)
 
   ;; Mouse & Smooth Scroll
   ;; Scroll one line at a time (less "jumpy" than defaults)
@@ -74,8 +73,8 @@
   (setq inhibit-compacting-font-caches  t)
 
   ;; Inhibit resizing frame
-  (setq frame-inhibit-implied-resize t
-        frame-resize-pixelwise       t)
+  (setq frame-inhibit-implied-resize   t
+        frame-resize-pixelwise         t)
 
   (setq history-length 100)
   (put 'minibuffer-history 'history-length 50)
