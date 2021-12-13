@@ -32,6 +32,32 @@
   (use-package org-cliplink
     :bind("C-x p i" . org-cliplink))
 
+  (use-package org-fragtog
+    :config (add-hook 'org-mode-hook 'org-fragtog-mode))
+
+  ;; Table of contents
+  (use-package toc-org
+    :hook (org-mode . toc-org-mode))
+
+  (use-package org-make-toc
+    :after org)
+
+  (use-package org-sticky-header
+    :hook (org-mode . org-sticky-header-mode))
+
+  (use-package org-autolist
+    :hook (org-mode . (lambda () (org-autolist-mode))))
+
+  (use-package org-pretty-tags
+    :config
+    (org-pretty-tags-global-mode))
+
+  (use-package org-appear
+    :hook (org-mode . org-appear-mode))
+
+  (use-package org-web-tools)
+  (use-package org-alert)
+
   (use-package ox-pandoc
     :when (executable-find "pandoc")
     :after ox
@@ -41,6 +67,15 @@
           '((standalone . t)
             (mathjax . t)
             (variable . "revealjs-url=https://revealjs.com"))))
+
+  (use-package org-superstar
+    :hook (org-mode . org-superstar-mode)
+    :init
+    (setq org-superstar-special-todo-items t)
+    ;; Enable custom bullets for TODO items
+    (setq org-superstar-todo-bullet-alist
+          '(("CANCELLED" . ?✘)
+            ("DONE" . ?✔))))
 
   ;; Presentation
   (use-package org-tree-slide
@@ -64,46 +99,17 @@
     (org-tree-slide-simple-profile)
     (setq org-tree-slide-skip-outline-level 2))
 
-  (use-package org-superstar
-    :hook (org-mode . org-superstar-mode)
-    :init
-    (setq org-superstar-special-todo-items t)
-    ;; Enable custom bullets for TODO items
-    (setq org-superstar-todo-bullet-alist
-          '(("CANCELLED" . ?✘)
-            ("DONE" . ?✔))))
-
-  (use-package org-fragtog
-    :config (add-hook 'org-mode-hook 'org-fragtog-mode))
-
-  ;; Table of contents
-  (use-package toc-org
-    :hook (org-mode . toc-org-mode))
-
-  (use-package org-make-toc
-    :after org)
-
-  (use-package org-sticky-header
-    :hook (org-mode . org-sticky-header-mode))
-
-  (use-package org-autolist
-    :hook (org-mode . (lambda () (org-autolist-mode))))
-
-  (use-package org-wild-notifier
-    :hook (after-init . org-wild-notifier-mode)
-    :init
-    (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING" "MEETING")
-          org-wild-notifier-notification-title   "Agenda 📅"))
-
   (use-package org-fancy-priorities
     :defines org-fancy-priorities-list
     :hook (org-mode . org-fancy-priorities-mode)
     :config
     (setq org-fancy-priorities-list '("🅰" "🅱" "🅲" "🅳" "🅴")))
 
-  (use-package org-pretty-tags
-    :config
-    (org-pretty-tags-global-mode))
+  (use-package org-wild-notifier
+    :hook (after-init . org-wild-notifier-mode)
+    :init
+    (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING" "MEETING")
+          org-wild-notifier-notification-title   "Agenda 📅"))
 
   (use-package org-gcal
     :if  (file-exists-p "~/org/org-api.el")
@@ -117,6 +123,7 @@
   (use-package org-roam
     :custom
     (org-roam-directory (file-truename "~/org/roam/"))
+
     :bind (("C-c n l" . org-roam-buffer-toggle)
            ("C-c n f" . org-roam-node-find)
            ("C-c n g" . org-roam-graph)
@@ -134,18 +141,15 @@
 
   (use-package org-roam-ui
     :after org-roam
-    ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-    ;;         a hookable mode anymore, you're advised to pick something yourself
-    ;;         if you don't care about startup time, use
-    ;;  :hook (after-init . org-roam-ui-mode)
+    ;; normally we'd recommend hooking orui after org-roam, but since org-roam
+    ;; does not have a hookable mode anymore, you're advised to pick something
+    ;; yourself if you don't care about startup time, use:
+    ;; :hook (after-init . org-roam-ui-mode)
     :config
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
-
-  (use-package org-web-tools)
-  (use-package org-alert))
+          org-roam-ui-open-on-start t)))
 
 (use-package brazilian-holidays
   :hook ((calendar-mode . brazilian-holidays-mode)
