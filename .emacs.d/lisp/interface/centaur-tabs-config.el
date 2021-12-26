@@ -117,6 +117,8 @@ from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
        (string-prefix-p "*dashboard*" name)
        (string-prefix-p "*eldoc-posframe-buffer*" name)
        (string-prefix-p "*flycheck-posframe-buffer*" name)
+       (string-prefix-p "*which-key*" name)
+       (string-prefix-p "*LSP Error List*" name)
 
        ;; Is not magit buffer.
        (and (string-prefix-p "magit" name)
