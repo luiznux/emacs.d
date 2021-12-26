@@ -18,6 +18,7 @@
 ;;; Code:
 
 (require 'custom-config)
+(require 'functions)
 
 (defun setup-org-packages ()
   "Setup and call org packages."
@@ -123,6 +124,15 @@
   (use-package org-roam
     :custom
     (org-roam-directory (file-truename "~/org/roam/"))
+    (org-roam-capture-templates
+     '(("d" "default" plain "%?"
+        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        :unnarrowed t)
+
+       ("c" "custom-luiznux" plain ""
+        :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org"
+                            "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+DATE: %u\n#+EMAIL: %(get-user-email)\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n\n")
+        :unnarrowed t)))
 
     :bind (("C-c n l" . org-roam-buffer-toggle)
            ("C-c n f" . org-roam-node-find)
