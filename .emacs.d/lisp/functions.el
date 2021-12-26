@@ -25,6 +25,8 @@
 (defun various-emacs-config ()
   "Various config for Emacs."
 
+  (setq line-breaker page-delimiter)
+
   (setq inhibit-startup-echo-area-message   t
         inhibit-startup-message             t
         inhibit-startup-screen              t
@@ -345,6 +347,9 @@ on selected major modes only."
   "Simplify Yes/No Prompts."
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq use-dialog-box nil))
+
+(defun get-user-email()
+  (setq user-email user-mail-address))
 
 
 
