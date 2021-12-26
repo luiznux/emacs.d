@@ -181,7 +181,8 @@
   :defines org-babel-clojure-backend
   :custom-face (org-ellipsis ((t (:foreground nil))))
   :bind (("C-c c" . 'org-capture)
-         ("C-c a" . org-agenda))
+         ("C-c a" . org-agenda)
+         ("C-c l" . 'org-store-link))
   :hook
   (((org-babel-after-execute org-mode) . org-redisplay-inline-images) ; display image
    (org-mode . (lambda ()
@@ -280,7 +281,7 @@
 
   ;; cool message for scratch  ( ͡° ͜ʖ ͡°)
   (setq initial-major-mode 'org-mode
-        initial-scratch-message "Eai seu *CORNO* 🐂 \n\n#+begin_src\n\n#+end_src")
+        initial-scratch-message "*Scratch* ta aqui pra isso :pepe-happy: :pepe-ok: \n\n#+begin_src\n\n#+end_src")
 
   (use-package verb
     :config
@@ -358,8 +359,8 @@
       (let ((str ""))
         (while (> level 2)
           (setq level (1- level)
-                str (concat str "   ╰→")))
-        (concat str ""))))
+                str (concat str "  ")))
+        (concat str " ╰→"))))
 
   (defun my/style-org-agenda()
     (set-face-attribute 'org-agenda-date nil :height 1.1)
