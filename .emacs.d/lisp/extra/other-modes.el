@@ -28,13 +28,34 @@
 (use-package dockerfile-mode
   :defer t)
 
-(use-package terraform-mode)
-
-
+(use-package google-translate
+  :bind
+  ("M-o t" . google-translate-at-point)
+  ("M-o T" . google-translate-at-point-reverse)
+  :custom
+  (google-translate-default-source-language "en")
+  (google-translate-default-target-language "ja"))
 
 (use-package olivetti
   :config
   (setq-default olivetti-body-width 100))
+
+(use-package terraform-mode)
+(use-package jenkinsfile-mode)
+(use-package vimrc-mode)
+(use-package google-this)
+
+;; emacs stuffs
+(use-package esup
+  :config
+  ;; Work around a bug where esup tries to step into the byte-compiled
+  ;; version of `cl-lib', and fails horribly.
+  (setq esup-depth 0)
+  :pin melpa)
+(use-package memory-usage)
+(use-package bug-hunter)
+(use-package logview
+  :defer t)
 
 ;; games and useless things
 (use-package hackernews
@@ -44,29 +65,6 @@
 (use-package speed-type
   :commands (speed-type-text))
 (use-package snow)
-
-(use-package vimrc-mode)
-(use-package google-this)
-(use-package google-translate
-  :bind
-  ("M-o t" . google-translate-at-point)
-  ("M-o T" . google-translate-at-point-reverse)
-  :custom
-  (google-translate-default-source-language "en")
-  (google-translate-default-target-language "ja"))
-
-;; emacs stuffs
-(use-package esup
-  :config
-  ;; Work around a bug where esup tries to step into the byte-compiled
-  ;; version of `cl-lib', and fails horribly.
-  (setq esup-depth 0)
-  :pin melpa)
-
-(use-package memory-usage)
-(use-package bug-hunter)
-(use-package logview
-  :defer t)
 
 
 (provide 'other-modes)
