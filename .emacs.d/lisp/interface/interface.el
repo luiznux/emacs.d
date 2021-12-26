@@ -55,7 +55,13 @@
         doom-modeline-minor-modes                 nil
         doom-modeline-enable-word-count           nil
         doom-modeline-buffer-encoding             nil)
+
   :config
+  ;; thanks to this stupid commit:
+  ;; https://git.savannah.gnu.org/cgit/emacs.git/commit/?id=3f843b25dc96867043feebb1d928bde4a7a777a3
+  ;; now I use this WORKAROUND, mentioned in :
+  ;; https://github.com/seagle0128/doom-modeline/issues/486
+  ;; :pepe-sad:
   (set-face-attribute 'mode-line nil :family "Source Code Pro" :height 85)
   (set-face-attribute 'mode-line-inactive nil :family "Source Code Pro" :height 85))
 
