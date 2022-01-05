@@ -19,168 +19,13 @@
 
 (require 'custom-config)
 (require 'functions)
-
-(defun setup-org-packages ()
-  "Setup and call org packages."
-
-  (use-package org-bullets
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-  (use-package org-download
-    :hook ('dired-mode-hook 'org-download-enable))
-
-  (use-package org-cliplink
-    :bind("C-x p i" . org-cliplink))
-
-  (use-package org-fragtog
-    :config (add-hook 'org-mode-hook 'org-fragtog-mode))
-
-  ;; Table of contents
-  (use-package toc-org
-    :hook (org-mode . toc-org-mode))
-
-  (use-package org-make-toc
-    :after org)
-
-  (use-package org-sticky-header
-    :hook (org-mode . org-sticky-header-mode))
-
-  (use-package org-autolist
-    :hook (org-mode . (lambda () (org-autolist-mode))))
-
-  (use-package org-pretty-tags
-    :config
-    (org-pretty-tags-global-mode))
-
-  (use-package org-appear
-    :hook (org-mode . org-appear-mode))
-
-  (use-package org-web-tools)
-  (use-package org-alert)
-
-  (use-package ox-pandoc
-    :when (executable-find "pandoc")
-    :after ox
-    :init
-    (add-to-list 'org-export-backends 'pandoc)
-    (setq org-pandoc-options
-          '((standalone . t)
-            (mathjax . t)
-            (variable . "revealjs-url=https://revealjs.com"))))
-
-  (use-package org-superstar
-    :hook (org-mode . org-superstar-mode)
-    :init
-    (setq org-superstar-special-todo-items t)
-    ;; Enable custom bullets for TODO items
-    (setq org-superstar-todo-bullet-alist
-          '(("CANCELLED" . ?✘)
-            ("DONE" . ?✔))))
-
-  ;; Presentation
-  (use-package org-tree-slide
-    :functions (org-display-inline-images org-remove-inline-images)
-    :bind (:map org-mode-map
-           ("s-<f7>" . org-tree-slide-mode)
-           :map org-tree-slide-mode-map
-           ("<left>" . org-tree-slide-move-previous-tree)
-           ("<right>" . org-tree-slide-move-next-tree)
-           ("S-SPC" . org-tree-slide-move-previous-tree)
-           ("SPC" . org-tree-slide-move-next-tree))
-    :hook ((org-tree-slide-play . (lambda ()
-                                    (text-scale-increase 4)
-                                    (org-display-inline-images)
-                                    (read-only-mode 1)))
-           (org-tree-slide-stop . (lambda ()
-                                    (text-scale-increase 0)
-                                    (org-remove-inline-images)
-                                    (read-only-mode -1))))
-    :config
-    (org-tree-slide-simple-profile)
-    (setq org-tree-slide-skip-outline-level 2))
-
-  (use-package org-fancy-priorities
-    :defines org-fancy-priorities-list
-    :hook (org-mode . org-fancy-priorities-mode)
-    :config
-    (setq org-fancy-priorities-list '("🅰" "🅱" "🅲" "🅳" "🅴")))
-
-  (use-package org-wild-notifier
-    :hook (after-init . org-wild-notifier-mode)
-    :init
-    (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING" "MEETING")
-          org-wild-notifier-notification-title   "Agenda 📅"))
-
-  (use-package org-gcal
-    :if  (file-exists-p "~/org/org-api.el")
-    :defines luiznux-client-id luiznux-client-secret
-    :config
-    (load "~/org/org-api.el") ;; file with the keys
-    (setq org-gcal-client-id  luiznux-client-id
-          org-gcal-client-secret luiznux-client-secret
-          org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
-
-  (use-package org-roam
-    :custom
-    (org-roam-directory (file-truename "~/org/roam/"))
-    (org-roam-capture-templates
-     '(("d" "default" plain "%?"
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-        :unnarrowed t)
-
-       ("c" "custom-luiznux" plain ""
-        :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org"
-                            "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+DATE: %u\n#+EMAIL: %(get-user-email)\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n\n")
-        :unnarrowed t)))
-
-    :bind (("C-c n l" . org-roam-buffer-toggle)
-           ("C-c n f" . org-roam-node-find)
-           ("C-c n g" . org-roam-graph)
-           ("C-c n i" . org-roam-node-insert)
-           ("C-c n c" . org-roam-capture)
-           ;; Dailies
-           ("C-c n j" . org-roam-dailies-capture-today))
-    :init
-    (setq org-roam-v2-ack t)
-    (add-hook 'before-save-hook 'time-stamp)
-    :config
-    (org-roam-db-autosync-mode)
-    ;; If using org-roam-protocol
-    (require 'org-roam-protocol))
-
-  (use-package org-roam-ui
-    :after org-roam
-    ;; normally we'd recommend hooking orui after org-roam, but since org-roam
-    ;; does not have a hookable mode anymore, you're advised to pick something
-    ;; yourself if you don't care about startup time, use:
-    ;; :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t)))
-
-(use-package brazilian-holidays
-  :hook ((calendar-mode . brazilian-holidays-mode)
-         (org-agenda-mode . brazilian-holidays-mode))
-  :config
-  (setq org-agenda-include-diary                           t
-        diary-file                                         "~/org/diary"
-        calendar-mark-diary-entries-flag                   t
-        calendar-view-diary-initially-flag                 t
-        calendar-mark-diary-entries-flag                   t
-        brazilian-sp-holidays                              t)
-
-  ;;Calendar Hooks
-  (add-hook 'diary-display-hook 'fancy-diary-display)
-  (add-hook 'list-diary-entries-hook 'sort-diary-entries t))
+(require 'my-org-packages)
 
 (use-package org
   :ensure nil
   :defines org-babel-clojure-backend
   :custom-face (org-ellipsis ((t (:foreground nil))))
-  :bind (("C-c c" . 'org-capture)
+  :bind (("C-c c RET" . 'org-capture)
          ("C-c a" . org-agenda)
          ("C-c l" . 'org-store-link))
   :hook
@@ -202,7 +47,6 @@
     (add-to-list 'org-modules 'org-habit t))
 
   (setq org-catch-invisible-edits         'smart
-        org-log-done                      'time
         org-pretty-entities                nil
         org-hide-emphasis-markers          t
         org-startup-indented               t
@@ -214,8 +58,11 @@
         org-image-actual-width             nil ;avoid wrong size of images
 
         ;; log time on rescheduling and changing deadlines
+        org-log-done                       'time
         org-log-reschedule                 'time
         org-log-redeadline                 'time
+        org-log-repeat                     nil
+        org-log-into-drawer                "LOG"
         org-agenda-show-log                t
 
         ;; on links `RET' follows the link
@@ -255,10 +102,10 @@
                                                    (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
                                                    (sequence "MEETING(m!)" "|" "DONE(d!)")))
 
-        org-todo-keyword-faces             '(("TODO"         . (:foreground "#ff8080" :weight bold))
+        org-todo-keyword-faces             '(("TODO"         . (:foreground "#6CCB6E" :weight bold))
                                              ("WARNING"      . (:foreground "#f32020" :weight bold))
                                              ("WAITING"      . (:foreground "#ffb378" :weight bold))
-                                             ("MEETING"      . (:foreground "#6CCB6E" :weight bold))
+                                             ("MEETING"      . (:foreground "#6EC1D6" :weight bold))
                                              ("DOING"        . (:foreground "#A020F0" :weight bold))
                                              ("CANCELLED"    . (:foreground "#ff6c6b" :weight bold))
                                              ("DONE"         . (:foreground "#1E90FF" :weight bold)))
@@ -278,6 +125,14 @@
         org-src-window-setup               'current-window
         ;; `cider' backend for org babel
         org-babel-clojure-backend          'cider)
+
+  ;; Strike through headlines for done tasks in Org
+  (setq org-fontify-done-headline t)
+  (custom-set-faces
+   '(org-done ((t (:strike-through t))))
+   '(org-headline-done
+     ((((class color) (min-colors 16) (background dark))
+       (:strike-through t)))))
 
   ;; cool message for scratch  ( ͡° ͜ʖ ͡°)
   (setq initial-major-mode 'org-mode
