@@ -119,6 +119,12 @@
   (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
+;; Tree-sitter
+(use-package tree-sitter
+  :ensure tree-sitter-langs
+  :hook ((after-init . global-tree-sitter-mode)
+         (tree-sitter-after-on . tree-sitter-hl-mode)))
+
 ;; Cross-referencing commands
 (use-package xref
   :ensure nil
