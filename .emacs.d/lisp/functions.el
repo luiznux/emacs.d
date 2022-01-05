@@ -17,10 +17,11 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-
 
 ;; Emacs config
+
+(defvar line-breaker)
+(defvar user-email)
 
 (defun various-emacs-config ()
   "Various config for Emacs."
@@ -34,8 +35,8 @@
         menu-bar-mode                       nil
         tool-bar-mode                       nil
         scroll-bar-mode                     nil
-        use-dialog-box                      nil
-        use-file-dialog                     nil
+        use-dialog-box                      t
+        use-file-dialog                     t
         tab-always-indent                   'complete
         auto-window-vscroll                 nil)
 
