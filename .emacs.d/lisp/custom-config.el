@@ -71,6 +71,7 @@ Nil to use font supports ligatures."
     ("#+FILETAGS:" . ?📘)
     ("#+CATEGORY:" . ?)
     (":PROPERTIES:" . ?⚙ )
+    (":LOG:" . ?)
     (":WILD_NOTIFIER_NOTIFY_BEFORE:" . ?)
     (":ID:" . ?)
 
