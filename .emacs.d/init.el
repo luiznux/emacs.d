@@ -41,7 +41,7 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
             "Recover GC values after startup."
-            (setq gc-cons-threshold 800000
+            (setq gc-cons-threshold 100000000
                   gc-cons-percentage 0.1)))
 
 ;; Load path
@@ -67,13 +67,13 @@
 (require 'interface)
 (require 'window-config)
 (require 'highlight-config)
+(require 'evil-config)
 
 ;; visual
 (require 'centaur-tabs-config)
 (require 'dashboard-config)
 (require 'treemacs-config)
 
-(require 'evil-config)
 (require 'company-config)
 (require 'ivy-config)
 (require 'lsp-config)
@@ -93,6 +93,7 @@
 
 ;; Org and Agenda config
 (require 'org-config)
+(require 'org-auto-update-state)
 (require 'file-color-agenda)
 
 (message (emacs-init-time))
