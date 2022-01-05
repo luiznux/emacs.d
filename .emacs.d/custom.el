@@ -62,6 +62,11 @@
  '(org-scheduled ((t (:foreground "SlateBlue2"))))
  '(org-scheduled-previously ((t (:foreground "medium turquoise"))))
  '(org-scheduled-today ((t (:foreground "deep sky blue"))))
- '(org-super-agenda-header ((t (:inherit default :foreground "#a3f7ff" :weight bold)))))
+ '(org-super-agenda-header ((t (:inherit default :foreground "#a3f7ff" :weight bold))))
+ '(parrot-set-parrot-type 'emacs)
+ '(quote (minimap-font-face ((t (:height 32 :family "DejaVu Sans Mono")))))
+ '(symbol-overlay-default-face ((t (:inherit (region bold)))))
+ '(transient-posframe ((t (:inherit tooltip))))
+ '(transient-posframe-border ((t (:background "#62686E")))))
 
 ;;; custom.el ends here
