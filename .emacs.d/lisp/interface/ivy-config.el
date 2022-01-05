@@ -31,21 +31,55 @@
     (let ((ivy-extra-directories nil))
       (apply f args)))
 
-  :bind (("M-x"     . 'counsel-M-x)
-         ("C-s"      . swiper-isearch)
-         ("C-x C-f" . #'counsel-find-file)
-         ("C-x b" . ivy-switch-buffer)
-         ("C-c U" . #'counsel-unicode-char)
-         ("C-c i" . #'counsel-imenu)
-         ("C-x f" . #'counsel-find-file)
-         ("C-c y" . #'counsel-yank-pop)
-         ("C-c r" . #'counsel-recentf)
-         ("C-c v" . #'counsel-switch-buffer-other-window)
-         ("C-h h" . #'counsel-command-history)
-         ("C-c C-r" . #'ivy-resume)
+  :bind (("M-x"   . 'counsel-M-x)
+         ("C-s"   . swiper-isearch)
+         ("C-S-s" . swiper-all)
+
+         ("C-c C-r" . ivy-resume)
+         ("C-c v p" . ivy-push-view)
+         ("C-c v o" . ivy-pop-view)
+         ("C-c v ." . ivy-switch-view)
+
+         :map counsel-mode-map
+         (([remap swiper] . counsel-grep-or-swiper)
+          ([remap swiper-backward] . counsel-grep-or-swiper-backward)
+          ([remap dired] . counsel-dired)
+          ([remap set-variable] . counsel-set-variable)
+          ([remap insert-char] . counsel-unicode-char)
+          ([remap recentf-open-files] . counsel-recentf)
+          ([remap org-capture] . counsel-org-capture)
+
+          ("C-x j"   . counsel-mark-ring)
+          ("C-x C-f" . counsel-find-file)
+
+          ("C-x b" . ivy-switch-buffer)
+          ("C-c U" . counsel-unicode-char)
+          ("C-c i" . counsel-imenu)
+          ("C-x f" . counsel-find-file)
+          ("C-c y" . counsel-yank-pop)
+          ("C-c r" . counsel-recentf)
+          ("C-c v" . counsel-switch-buffer-other-window)
+          ("C-c h" . counsel-command-history)
+          ("C-c O" . counsel-find-file-extern)
+
+          ("C-c c B" . counsel-bookmarked-directory)
+          ("C-c c e" . counsel-colors-emacs)
+          ("C-c c m" . counsel-minibuffer-history)
+          ("C-c c o" . counsel-outline)
+          ("C-c c p" . counsel-pt)
+          ("C-c c r" . counsel-rg)
+          ("C-c c s" . counsel-ag)
+          ("C-c c t" . counsel-load-theme)
+          ("C-c c u" . counsel-unicode-char)
+          ("C-c c w" . counsel-colors-web)
+          ("C-c c v" . counsel-set-variable)
+          ("C-c c z" . counsel-fzf))
+
+
          :map ivy-minibuffer-map
-         ("M-j" . 'ivy-next-line)
-         ("M-k" . 'ivy-previous-line))
+         (("M-j" . 'ivy-next-line)
+          ("M-k" . 'ivy-previous-line)
+          ("C-w" . ivy-yank-word)))
 
   :hook ((after-init . ivy-mode)
          (ivy-mode . counsel-mode))
@@ -309,13 +343,13 @@ This is for use in `ivy-re-builders-alist'."
           (t . ivy-prescient-re-builder))
         ivy-prescient-sort-commands
         '(:not swiper swiper-isearch ivy-switch-buffer
-               lsp-ivy-workspace-symbol ivy-resume ivy--restore-session
-               counsel-grep counsel-git-grep counsel-rg counsel-ag
-               counsel-ack counsel-fzf counsel-pt counsel-imenu
-               counsel-org-capture counsel-outline counsel-org-goto
-               counsel-load-theme counsel-yank-pop
-               counsel-recentf counsel-buffer-or-recentf
-               centaur-load-theme))
+          lsp-ivy-workspace-symbol ivy-resume ivy--restore-session
+          counsel-grep counsel-git-grep counsel-rg counsel-ag
+          counsel-ack counsel-fzf counsel-pt counsel-imenu
+          counsel-org-capture counsel-outline counsel-org-goto
+          counsel-load-theme counsel-yank-pop
+          counsel-recentf counsel-buffer-or-recentf
+          centaur-load-theme))
 
   (ivy-prescient-mode 1))
 
