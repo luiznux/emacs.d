@@ -15,32 +15,37 @@
 ;;
 ;;; Code:
 
+(require 'custom-config)
+(require 'functions)
+
 (use-package dashboard
+  :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
   :init
-  (progn
-    (setq recentf-exclude '("/org/*")) ;prevent  show recent org-agenda files
-    (setq dashboard-items '((recents   . 8)
-                            (projects  . 7))))
+  (setq dashboard-set-heading-icons    t
+        dashboard-set-file-icons       t
+        dashboard-set-navigator        t
+        dashboard-set-init-info        t
+        dashboard-startup-banner       'logo
+        ;;        dashboard-page-separator       "\n\f\n"
+        recentf-exclude                '("/org/*") ;; prevent  show recent org-agenda files
+        dashboard-items                '((recents   . 8) (projects  . 7))
+        dashboard-navigator-buttons    `((;;line1
+                                          (,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+                                           "Github" "My github homepage"
+                                           (lambda (&rest _) (browse-url "https://github.com/luiznux")))
+
+                                          (,(all-the-icons-faicon "plus" :height 0.9 :v-adjust 0.0)
+                                           "New Tab" "New Tab"
+                                           (lambda (&rest _) (centaur-tabs--create-new-tab)))
+
+                                          (,(all-the-icons-faicon "refresh" :height 1.1 :v-adjust 0.0)
+                                           "" "Refresh Dashboard"
+                                           (lambda (&rest _) (dashboard-refresh-buffer))))))
+
+  (add-hook 'dashboard-mode-hook  #'(lambda () (open-agenda-on-right-buffer)))
+
   :config
-  (dashboard-setup-startup-hook)
-
-  (setq dashboard-set-heading-icons  t
-        dashboard-set-file-icons     t
-        dashboard-set-navigator      t
-        dashboard-startup-banner     'logo)
-
-  (with-no-warnings
-    (setq dashboard-navigator-buttons
-          `((;;line1
-             (,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
-              "Github" "My github homepage"
-              (lambda (&rest _) (browse-url "https://github.com/luiznux")))
-
-             (,(all-the-icons-faicon "refresh" :height 1.1 :v-adjust 0.0)
-              "" "Refresh Dashboard"
-              (lambda (&rest _) (dashboard-refresh-buffer)))))))
-
-  (add-hook 'dashboard-mode-hook (lambda () (org-agenda t "x")) (lambda () (ace-window))))
+  (dashboard-setup-startup-hook))
 
 
 (provide 'dashboard-config)
