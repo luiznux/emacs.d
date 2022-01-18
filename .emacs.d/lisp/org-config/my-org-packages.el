@@ -46,8 +46,24 @@
   (use-package org-appear
     :hook (org-mode . org-appear-mode))
 
+  (use-package valign
+    :hook (org-mode . valign-mode)
+    :init
+    (setq valign-fancy-bar      1
+          valign-max-table-size 5000))
+
+  (use-package ftable)
   (use-package org-web-tools)
   (use-package org-alert)
+  (use-package org-super-agenda)
+  (use-package org-ql)
+
+
+  (use-package org-treeusage
+    :custom
+    ;; Below two settings recreate the above image
+    ((org-treescope-overlay-header nil)
+     (org-treeusage-overlay-usecolorbands nil)))
 
   (use-package ox-pandoc
     :when (executable-find "pandoc")
@@ -92,9 +108,12 @@
 
   (use-package org-fancy-priorities
     :defines org-fancy-priorities-list
-    :hook (org-mode . org-fancy-priorities-mode)
+    :hook (org-mode . org-fancy-priorities-mode) (org-ql-search . org-fancy-priorities-mode) (org-agenda-mode . org-fancy-priorities-mode)
     :config
-    (setq org-fancy-priorities-list '("🅰" "🅱" "🅲" "🅳" "🅴")))
+    (setq org-fancy-priorities-list '((?A . "🅰")
+                                      (?B . "🅱")
+                                      (?C . "🅲")
+                                      (?D . "🅳"))))
 
   (use-package org-wild-notifier
     :hook (after-init . org-wild-notifier-mode)
