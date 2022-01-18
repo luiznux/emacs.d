@@ -18,8 +18,8 @@
 
 ;; Helper definitions
 (setq ll/org/agenda-todo-words
-      '("work  " "coll 🎓 " "project  " "agenda  " "habit 🍩 " "bday  " "cap  "
-        "Work Stuffs 🖥 " "College" "My Projects  "))
+      '("work  " "coll 🎓 " "project  " "agenda  " "habit 🍩 " "bday  " "cap  " "task  "
+        "Work Stuffs 🖥 " "College" "My Projects  " "My Tasks  "))
 
 (defun find-in-line (needle &optional beginning count)
   "Find the position of the start of NEEDLE in the current line.
@@ -66,9 +66,11 @@ from the left."
   (ll/org/agenda/color-headers-with "habit 🍩 " "#c8b6ff" "#655bc2")
   (ll/org/agenda/color-headers-with "bday  " "#2d2d2d" "#89ddff")
   (ll/org/agenda/color-headers-with "cap  " "#2d2d2d" "#c3e88d")
+  (ll/org/agenda/color-headers-with "task  " "#2d2d2d" "#EBCB8B")
   (ll/org/agenda/color-headers-with "Work Stuffs 🖥 " "#2d2d2d" "#6d8dad")
   (ll/org/agenda/color-headers-with "College " "#2d2d2d" "#c792ea")
-  (ll/org/agenda/color-headers-with "My Projects  " "#2d2d2d" "#839ce4"))
+  (ll/org/agenda/color-headers-with "My Projects  " "#2d2d2d" "#839ce4")
+  (ll/org/agenda/color-headers-with "My Tasks  " "#2d2d2d" "#EBCB8B"))
 
 
 (add-hook 'org-agenda-finalize-hook #'ll/org/colorize-headings)
