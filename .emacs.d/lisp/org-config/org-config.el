@@ -26,7 +26,6 @@
   :defines org-babel-clojure-backend
   :custom-face (org-ellipsis ((t (:foreground nil))))
   :bind (("C-c c RET" . 'org-capture)
-         ("C-c a" . org-agenda)
          ("C-c l" . 'org-store-link))
   :hook
   (((org-babel-after-execute org-mode) . org-redisplay-inline-images) ; display image
@@ -52,10 +51,11 @@
         org-startup-indented               t
         org-use-fast-todo-selection        t
         org-enforce-todo-dependencies      t
+        org-use-property-inheritance       t ; We like to inhert properties from their parents
         org-cycle-separator-lines          2
         org-ellipsis                       "⤵"
         bidi-paragraph-direction           t
-        org-image-actual-width             nil ;avoid wrong size of images
+        org-image-actual-width             nil ; avoid wrong size of images
 
         ;; log time on rescheduling and changing deadlines
         org-log-done                       'time
@@ -64,6 +64,7 @@
         org-log-repeat                     nil
         org-log-into-drawer                "LOG"
         org-agenda-show-log                t
+
 
         ;; on links `RET' follows the link
         org-return-follows-link            t
@@ -74,22 +75,20 @@
 
         org-directory                      "~/org"
 
-        org-agenda-prefix-format           '((agenda . " %i %-12c%?-12t% s")
-                                             (todo . " %i %-12 c")
-                                             (tags . " %i")
-                                             (search . " %i %-12 c"))
 
-        org-blank-before-new-entry          '((heading . t) (plain-list-item . auto))
+        org-blank-before-new-entry         '((heading . t) (plain-list-item . auto))
 
         ;; Set `org-agenda' custom tags
         org-tag-alist                      '(("work " . ?w)
                                              ("project " . ?p)
                                              ("agenda " . ?a)
                                              ("bday " . ?b)
+                                             ("task " . ?t)
                                              ("college" . ?c)
                                              ("capture" . ?s)
                                              ("week-days" . ?f)
-                                             ("daily" .?d))
+                                             ("daily" .?d)
+                                             ("ignore" .?i))
 
         ;; Set `org' priority custom faces
         org-priority-faces                 '((?A . (:foreground "#f32020"))
@@ -101,6 +100,8 @@
         org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "|" "DONE(d!)")
                                                    (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
                                                    (sequence "MEETING(m!)" "|" "DONE(d!)")))
+
+
 
         org-todo-keyword-faces             '(("TODO"         . (:foreground "#6CCB6E" :weight bold))
                                              ("WARNING"      . (:foreground "#f32020" :weight bold))
@@ -124,7 +125,15 @@
         org-src-tab-acts-natively          t
         org-src-window-setup               'current-window
         ;; `cider' backend for org babel
-        org-babel-clojure-backend          'cider)
+        org-babel-clojure-backend          'cider
+
+        ;; `org-refile' config. Targets include this file and any file
+        ;; contributing to the agenda - up to 9 levels deep
+        org-refile-targets                       `((nil . (:maxlevel . 9)))
+        org-refile-target-verify-function       'bh/verify-refile-target
+        org-refile-allow-creating-parent-nodes  'confirm
+        org-refile-use-outline-path             'file
+        org-outline-path-complete-in-steps      nil)
 
   ;; Strike through headlines for done tasks in Org
   (setq org-fontify-done-headline t)
@@ -180,6 +189,47 @@
   (add-hook 'org-capture-after-finalize-hook 'org-agenda-maybe-redo)
 
   :config
+
+;;;###autoload
+  (defun unpackaged/org-fix-blank-lines (&optional prefix)
+    "Ensure that blank lines exist between headings and between headings and their contents.
+With prefix, operate on whole buffer. Ensures that blank lines
+exist after each headings's drawers."
+    (interactive "P")
+    (org-map-entries (lambda ()
+                       (org-with-wide-buffer
+                        ;; `org-map-entries' narrows the buffer, which prevents us from seeing
+                        ;; newlines before the current heading, so we do this part widened.
+                        (while (not (looking-back "\n\n" nil))
+                          ;; Insert blank lines before heading.
+                          (insert "\n")))
+                       (let ((end (org-entry-end-position)))
+                         ;; Insert blank lines before entry content
+                         (forward-line)
+                         (while (and (org-at-planning-p)
+                                     (< (point) (point-max)))
+                           ;; Skip planning lines
+                           (forward-line))
+                         (while (re-search-forward org-drawer-regexp end t)
+                           ;; Skip drawers. You might think that `org-at-drawer-p' would suffice, but
+                           ;; for some reason it doesn't work correctly when operating on hidden text.
+                           ;; This works, taken from `org-agenda-get-some-entry-text'.
+                           (re-search-forward "^[ \t]*:END:.*\n?" end t)
+                           (goto-char (match-end 0)))
+                         (unless (or (= (point) (point-max))
+                                     (org-at-heading-p)
+                                     (looking-at-p "\n"))
+                           (insert "\n"))))
+                     t (if prefix
+                           nil
+                         'tree)))
+
+;;;; Refile settings
+  ;; Exclude DONE state tasks from refile targets
+  (defun bh/verify-refile-target ()
+    "Exclude todo keywords with a done state from refile targets"
+    (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+
   (setup-org-packages))
 
 
@@ -199,24 +249,29 @@
   :ensure nil
   :commands org-current-level
   :functions (renewOrgBuffer
-              org-agenda-maybe-redo
               org-agenda-files
-              my-agenda-indent-string
               my/style-org-agenda
+              org-agenda-maybe-redo
+              my-agenda-indent-string
               org-agenda-format-date-aligned)
+  :bind ("C-c a" . org-agenda)
   :init
   (defun my-agenda-prefix ()
     (format "%s" (my-agenda-indent-string (org-current-level))))
 
+  (defun propertizee (t)
+    (propertize t 'face '(:foreground "#b58900")))
+
   (defun my-agenda-indent-string (level)
     (if (= level 1)
-        ""
+        "\n➔"
       (let ((str ""))
         (while (> level 2)
           (setq level (1- level)
                 str (concat str "  ")))
-        (concat str " ╰→"))))
+        (concat str "  ╰→"))))
 
+  ;; Fancy style for my `org-agenda' buffer
   (defun my/style-org-agenda()
     (set-face-attribute 'org-agenda-date nil :height 1.1)
     (set-face-attribute 'org-agenda-date-today nil :height 1.1 :slant 'italic)
@@ -235,67 +290,93 @@
         org-agenda-remove-tags                             t
         calendar-week-start-day                            1
         org-agenda-current-time-string                     " ᐊ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ NOW "
-        org-agenda-time-grid                              '((daily today require-timed)
-                                                            (800 1000 1200 1400 1600 1800 2000)
-                                                            " ...... " "----------------")
+        org-agenda-time-grid                               '((daily today require-timed)
+                                                             (800 1000 1200 1400 1600 1800 2000)
+                                                             " ...... " "----------------")
 
-        org-agenda-format-date                            (lambda (date) (concat  (make-string (window-width) 9472)
-                                                                             "\n"
-                                                                             (org-agenda-format-date-aligned date)))
+        org-agenda-format-date                             (lambda (date) (concat  (make-string (window-width) 9472)
+                                                                              "\n"
+                                                                              (org-agenda-format-date-aligned date)))
 
-        org-agenda-files                                  (quote ("~/org/agenda.org"
-                                                                  "~/org/project.org"
-                                                                  "~/org/habit.org"
-                                                                  "~/org/birthdays.org"
-                                                                  "~/org/college.org"
-                                                                  "~/org/capture.org"
-                                                                  "~/org/work.org"))
+        org-agenda-files                                   '("~/org/agenda.org"
+                                                             "~/org/project.org"
+                                                             "~/org/habit.org"
+                                                             "~/org/tasks.org"
+                                                             "~/org/birthdays.org"
+                                                             "~/org/college.org"
+                                                             "~/org/capture.org"
+                                                             "~/org/work.org")
 
-        ;;org-tags-match-list-sublevels 'indented
+        org-agenda-prefix-format                           '((agenda . " %i %-12c%?-12t% s")
+                                                             (todo . " %i %-12 c")
+                                                             (tags . " %i")
+                                                             (search . " %i %-12 c"))
 
+        org-agenda-custom-commands  '(
+                                      ("x" "My Agenda :)"
+                                       ((agenda
+                                         ""
+                                         ((org-agenda-overriding-header        "My Agenda 📅")
+                                          (org-agenda-remove-tags              t)
+                                          (org-agenda-span                     '2)))
 
-        org-agenda-custom-commands                        '(("x" "My Agenda :)"
-                                                             (
-                                                              (agenda ""     (
-                                                                              (org-agenda-overriding-header "My Agenda 📅")
-                                                                              (org-agenda-remove-tags t)
-                                                                              (org-agenda-span '2)))
+                                        (tags-todo
+                                         "+CATEGORY=\"project \""
+                                         ((org-agenda-overriding-header        "My Projects  ")
+                                          (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
+                                          (org-agenda-sorting-strategy         '(category-keep))
+                                          (org-agenda-remove-tags              t)
+                                          (org-tags-match-list-sublevels       t)
+                                          (org-enforce-todo-dependencies       t)
+                                          (org-agenda-skip-scheduled-if-done   t)
+                                          (org-agenda-skip-deadline-if-done    t)
+                                          (org-agenda-todo-ignore-scheduled    'all)))
 
-                                                              (tags-todo "work" ((org-agenda-overriding-header "Work Stuffs 🖥 \n")
-                                                                                 (org-agenda-prefix-format "%e %(my-agenda-prefix)")
-                                                                                 (org-agenda-sorting-strategy '(priority-down category-keep))
-                                                                                 (org-use-property-inheritance '("PRIORITY"))
-                                                                                 (org-tags-match-list-sublevels t)
-                                                                                 (org-agenda-remove-tags t)
-                                                                                 (org-agenda-skip-scheduled-if-done t)
-                                                                                 (org-agenda-skip-deadline-if-done  t)
-                                                                                 (org-agenda-todo-ignore-scheduled 'all)))
+                                        (tags-todo
+                                         "college"
+                                         ((org-agenda-overriding-header        "College ")
+                                          (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
+                                          (org-agenda-sorting-strategy         '(category-keep))
+                                          (org-tags-match-list-sublevels       t)
+                                          (org-agenda-remove-tags              t)
+                                          (org-enforce-todo-dependencies       t)
+                                          (org-agenda-skip-scheduled-if-done   t)
+                                          (org-agenda-skip-deadline-if-done    t)
+                                          (org-agenda-todo-ignore-scheduled    'all)))
 
-                                                              (tags-todo "college" ((org-agenda-overriding-header "College \n")
-                                                                                    ;;(org-agenda-prefix-format " %e %(my-agenda-prefix) ")
-                                                                                    (org-agenda-prefix-format " ")
-                                                                                    (org-tags-match-list-sublevels t)
-                                                                                    (org-agenda-sorting-strategy '(priority-down category-keep))
-                                                                                    (org-use-property-inheritance '("PRIORITY"))
-                                                                                    ;;(org-agenda-dim-blocked-tasks 'invisible)
-                                                                                    (org-agenda-remove-tags t)
-                                                                                    (org-enforce-todo-dependencies t)
-                                                                                    (org-agenda-skip-scheduled-if-done t)
-                                                                                    (org-agenda-skip-deadline-if-done  t)
-                                                                                    ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
-                                                                                    (org-agenda-todo-ignore-scheduled 'all)))
+                                        (tags-todo
+                                         "work"
+                                         ((org-agenda-overriding-header        "Work Stuffs 🖥 ")
+                                          (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
+                                          (org-agenda-sorting-strategy         '(category-keep))
+                                          (org-agenda-remove-tags              t)
+                                          (org-tags-match-list-sublevels       t)
+                                          (org-enforce-todo-dependencies       t)
+                                          (org-agenda-skip-scheduled-if-done   t)
+                                          (org-agenda-skip-deadline-if-done    t)
+                                          (org-agenda-todo-ignore-scheduled   'all)))
+                                        ))
 
-                                                              ;; (tags "project" (
-                                                              ;;                  (org-agenda-overriding-header "My Projects  \n")
-                                                              ;;                  (org-agenda-sorting-strategy '(priority-down))
-                                                              ;;                  (org-agenda-remove-tags t)
-                                                              ;;                  (org-agenda-prefix-format "%e %(my-agenda-prefix)")
-
-                                                              ;;                  (org-agenda-skip-scheduled-if-done t)
-                                                              ;;                  (org-agenda-skip-deadline-if-done  t)
-                                                              ;;                  ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
-                                                              ;;                  (org-agenda-todo-ignore-scheduled 'all)))
-                                                              ))))
+                                      ("t" "My General Todos"
+                                       ((agenda
+                                         ""
+                                         ((org-agenda-overriding-header        "My Agenda 📅")
+                                          (org-agenda-remove-tags              t)
+                                          (org-agenda-span                     '2)))
+                                        (tags-todo
+                                         "+CATEGORY=\"task \""
+                                         ((org-agenda-overriding-header        "My Tasks  ")
+                                          (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
+                                          (org-agenda-sorting-strategy         '(category-keep))
+                                          (org-agenda-remove-tags              t)
+                                          (org-tags-match-list-sublevels       t)
+                                          (org-enforce-todo-dependencies       t)
+                                          (org-agenda-skip-scheduled-if-done   t)
+                                          (org-agenda-skip-deadline-if-done    t)
+                                          (org-agenda-todo-ignore-scheduled    'all)))
+                                        ))
+                                      )
+        )
 
   ;;testing
   (setq org-agenda-ignore-properties      '(effort appt category)
@@ -304,11 +385,6 @@
 
   (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
   (add-hook 'org-agenda-mode-hook 'my/style-org-agenda)
-
-
-
-  ;; Diary
-
 
 
   :config
@@ -353,6 +429,7 @@ based on `org-agenda-files'."
   ;;            (auto-save-mode)))
   ;; Auto rebuild agenda buffer after 30 seconds
   (run-with-timer 3 600 #'renewOrgBuffer))
+
 
 
 (provide 'org-config)
