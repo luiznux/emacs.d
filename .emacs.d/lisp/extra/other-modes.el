@@ -17,10 +17,16 @@
 ;;
 ;;; Code:
 
+(require 'constants)
+
 (use-package go-mode
   :config
   (autoload 'go-mode "go-mode" nil t)
   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)))
+
+;;(when emacs/>=26p
+;;  (use-package rustic))
+(use-package rust-playground)
 
 (use-package docker
   :bind ("C-c d" . docker))
