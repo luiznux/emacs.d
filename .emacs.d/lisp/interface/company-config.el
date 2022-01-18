@@ -27,6 +27,8 @@
          :map company-active-map
          ("M-j" . company-select-next-or-abort)
          ("M-k" . company-select-previous-or-abort)
+         ("M-<". company-select-first)
+	     ("M->". company-select-last)
          ("<tab>" . company-complete-common-or-cycle)
          ("<backtab>" . my-company-yasnippet))
 
