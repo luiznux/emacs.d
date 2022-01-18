@@ -84,9 +84,15 @@
   (put 'evil-ex-history 'history-length 50)
   (put 'kill-ring 'history-length 25)
 
+
   (global-hl-line-mode)
-  (show-paren-mode 1)
   (global-display-line-numbers-mode))
+
+(defun open-agenda-on-right-buffer ()
+  "Just open agenda in the right buffer and go to of it"
+  (interactive)
+  (org-agenda t "x")
+  (other-window (goto-char (point-min))))
 
 
 ;; UI
