@@ -17,6 +17,18 @@
 ;;
 ;;; Code:
 
+(defgroup luiznux nil
+  "Centaur Emacs customization."
+  :group 'convenience
+  :link '(url-link :tag "Homepage" "https://github.com/luiznux/emacs.d"))
+
+(defcustom luiznux-logo (expand-file-name
+                         (if (display-graphic-p) "logo.png")
+                         user-emacs-directory)
+  "Set My Custom logo. nil means official logo."
+  :group 'luiznux
+  :type 'string)
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom centaur-prettify-symbols-alist
   '(("lambda" . ?λ)
@@ -39,7 +51,7 @@
     ("not" . ?¬))
   "Alist of symbol prettifications.
 Nil to use font supports ligatures."
-  :group 'centaur
+  :group 'luiznux
   :type '(alist :key-type string :value-type (choice character sexp)))
 
 (defcustom centaur-prettify-org-symbols-alist
@@ -68,9 +80,9 @@ Nil to use font supports ligatures."
     ("#+TITLE:" . ?📓)
     ("#+title:" . ?📓)
     ("#+STARTUP:" . ?⏻)
-    ("#+FILETAGS:" . ?📘)
+    ("#+FILETAGS:" . ?)
     ("#+CATEGORY:" . ?)
-    (":PROPERTIES:" . ?⚙ )
+    (":PROPERTIES:" . ?⚙)
     (":LOG:" . ?)
     (":WILD_NOTIFIER_NOTIFY_BEFORE:" . ?)
     (":ID:" . ?)
@@ -88,7 +100,7 @@ Nil to use font supports ligatures."
     ("#+HEADERS" . ?☰)
     ("#+RESULTS:" . ?💻))
   "Alist of symbol prettifications for `org-mode'."
-  :group 'centaur
+  :group 'luiznux
   :type '(alist :key-type string :value-type (choice character sexp)))
 
 ;; Load `custom-file'
