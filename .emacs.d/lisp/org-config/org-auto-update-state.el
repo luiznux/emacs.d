@@ -65,6 +65,9 @@ TODO when none are ticked, and to DOING otherwise"
                 (org-todo-if-needed "DOING"))))))))
 (add-hook 'org-checkbox-statistics-hook #'ct/org-summary-checkbox-cookie)
 
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars noruntime)
+;; End:
 
 (provide 'org-auto-update-state)
 ;;; org-auto-update-state.el ends here

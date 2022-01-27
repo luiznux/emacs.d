@@ -31,7 +31,7 @@
   (((org-babel-after-execute org-mode) . org-redisplay-inline-images) ; display image
    (org-mode . (lambda ()
                  "Beautify org symbols."
-                 (setq prettify-symbols-alist centaur-prettify-org-symbols-alist)
+                 (setq prettify-symbols-alist custom-prettify-org-symbols-alist)
                  (prettify-symbols-mode 1)))
    (org-indent-mode . (lambda()
                         (diminish 'org-indent-mode)
@@ -259,9 +259,6 @@ exist after each headings's drawers."
   (defun my-agenda-prefix ()
     (format "%s" (my-agenda-indent-string (org-current-level))))
 
-  (defun propertizee (t)
-    (propertize t 'face '(:foreground "#b58900")))
-
   (defun my-agenda-indent-string (level)
     (if (= level 1)
         "\n➔"
@@ -383,9 +380,14 @@ exist after each headings's drawers."
         org-agenda-dim-blocked-tasks      nil
         org-agenda-use-tag-inheritance    nil)
 
+  ;; Set Visual changes on agenda buffer
   (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
   (add-hook 'org-agenda-mode-hook 'my/style-org-agenda)
 
+  ;; Remove the mouse face in whole agenda buffer
+  (add-hook 'org-agenda-finalize-hook
+            (lambda () (remove-text-properties
+                   (point-min) (point-max) '(mouse-face t))))
 
   :config
   (defun mpereira/org-paste-clipboard-image ()
@@ -418,18 +420,17 @@ based on `org-agenda-files'."
       (with-current-buffer buffer
         (when (derived-mode-p 'org-agenda-mode)
           (org-agenda-maybe-redo)))))
-
-  ;; save all the agenda files after each capture
-  ;; (add-hook 'org-agenda-finalize-hook 'my/save-all-agenda-buffers)
-
-  ;; Auto save agenda files
-  ;;(add-hook 'org-agenda-mode-hook
-  ;;          (lambda ()
-  ;;            (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
-  ;;            (auto-save-mode)))
-  ;; Auto rebuild agenda buffer after 30 seconds
   (run-with-timer 3 600 #'renewOrgBuffer))
 
+;; save all the agenda files after each capture
+(add-hook 'org-agenda-finalize-hook 'my/save-all-agenda-buffers)
+
+;; Auto save agenda files
+;;(add-hook 'org-agenda-mode-hook
+;;          (lambda ()
+;;            (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
+;;            (auto-save-mode)))
+;; Auto rebuild agenda buffer after 30 seconds
 
 
 (provide 'org-config)
