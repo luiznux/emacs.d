@@ -25,12 +25,12 @@
 (defcustom luiznux-logo (expand-file-name
                          (if (display-graphic-p) "logo.png")
                          user-emacs-directory)
-  "Set My Custom logo. nil means official logo."
+  "Set My Custom logo,  nil means official logo."
   :group 'luiznux
   :type 'string)
 
 ;; source: https://github.com/seagle0128/.emacs.d
-(defcustom centaur-prettify-symbols-alist
+(defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)
     ("<-" . ?←)
     ("->" . ?→)
@@ -54,7 +54,7 @@ Nil to use font supports ligatures."
   :group 'luiznux
   :type '(alist :key-type string :value-type (choice character sexp)))
 
-(defcustom centaur-prettify-org-symbols-alist
+(defcustom custom-prettify-org-symbols-alist
   '(("[ ]" . ?☐)
     ("[X]" . ?☑)
     ("[-]" . ?⛝)
@@ -107,3 +107,4 @@ Nil to use font supports ligatures."
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (provide 'custom-config)
+;;; custom-config.el ends here
