@@ -79,6 +79,7 @@
 (require 'lsp-config)
 (require 'code-config)
 (require 'ctags-config)
+(require 'dired-config)
 (require 'git-config)
 (require 'elisp-config)
 
