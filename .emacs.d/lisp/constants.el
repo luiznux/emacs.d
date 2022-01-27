@@ -7,8 +7,8 @@
 ;;; Commentary:
 ;;
 ;; First of all, thank you very much seagle0128 for sharing your
-;; configs and helping the whole community. See more at :
-;; https://github.com/seagle0128/.emacs.d
+;; configs and helping the whole community.
+;; See more at: https://github.com/seagle0128/.emacs.d
 
 ;; Custom functions and variables
 ;;
@@ -48,6 +48,14 @@
 (defconst sys/cygwinp
   (eq system-type 'cygwin)
   "Are we running on a Cygwin system?")
+
+(defconst sys/linuxp
+  (eq system-type 'gnu/linux)
+  "Are we running on a GNU/Linux system?")
+
+(defconst sys/linux-x-p
+  (and (display-graphic-p) sys/linuxp)
+  "Are we running under X on a GNU/Linux system?")
 
 (defconst sys/gnu-linux
   (eq system-type 'gnu/linux)
