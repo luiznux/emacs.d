@@ -116,7 +116,7 @@
   :ensure nil
   :hook (prog-mode . prettify-symbols-mode)
   :init
-  (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
+  (setq-default prettify-symbols-alist custom-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
 ;; Tree-sitter
@@ -160,7 +160,7 @@
 
 (use-package projectile
   :bind (:map projectile-mode-map
-              ("C-c p" . projectile-command-map))
+         ("C-c p" . projectile-command-map))
   :hook (after-init . projectile-mode)
   :init
   (setq projectile-sort-order 'recentf
