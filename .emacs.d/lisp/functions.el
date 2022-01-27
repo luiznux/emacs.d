@@ -89,7 +89,7 @@
   (global-display-line-numbers-mode))
 
 (defun open-agenda-on-right-buffer ()
-  "Just open agenda in the right buffer and go to of it"
+  "Just open agenda in the right buffer and go to of it."
   (interactive)
   (org-agenda t "x")
   (other-window (goto-char (point-min))))
@@ -112,7 +112,7 @@
 
 (defun display-line-numbers--turn-on ()
   "Turn on line numbers except for certain major modes.
-  Exempt major modes are defined in `display-line-numbers-exempt-modes'."
+Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   (unless (or (minibufferp)
               (member major-mode display-line-numbers-exempt-modes))
     (display-line-numbers-mode)))
@@ -329,7 +329,7 @@ on selected major modes only."
       (setq alert-default-style 'libnotify)))))
 
 (defun recompile-elpa ()
-  "Recompile packages in elpa directory. Useful if you switch Emacs versions."
+  "Recompile packages in elpa directory.  Useful if you switch Emacs versions."
   (interactive)
   (if (fboundp 'async-byte-recompile-directory)
       (async-byte-recompile-directory package-user-dir)
@@ -351,11 +351,12 @@ on selected major modes only."
            exec-path))))
 
 (defun simplify-prompts ()
-  "Simplify Yes/No Prompts."
+  "Simplify Yes/No Prompt."
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq use-dialog-box nil))
 
 (defun get-user-email()
+  "Get the user email adress."
   (setq user-email user-mail-address))
 
 
