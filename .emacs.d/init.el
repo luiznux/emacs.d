@@ -64,6 +64,7 @@
 (require 'packages)
 
 ;; core packages
+(require 'basic)
 (require 'interface)
 (require 'window-config)
 (require 'highlight-config)
