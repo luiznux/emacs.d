@@ -35,7 +35,7 @@
   (use-package exec-path-from-shell
     :init
     (setq exec-path-from-shell-variables '("PATH" "MANPATH" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE")
-          exec-path-from-shell-arguments '("-l"))
+          exec-path-from-shell-arguments '("-i"))
     (exec-path-from-shell-initialize)))
 
 ;; Increase how much is read from processes in a single chunk (default is 4kb)
