@@ -38,6 +38,7 @@
         use-dialog-box                      t
         use-file-dialog                     t
         tab-always-indent                   'complete
+        delete-by-moving-to-trash           t ; Deleting files go to OS's trash folder
         auto-window-vscroll                 nil)
 
   ;; Display dividers between windows
