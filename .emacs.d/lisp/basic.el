@@ -34,8 +34,14 @@
 (when (or sys/mac-x-p sys/linux-x-p (daemonp))
   (use-package exec-path-from-shell
     :init
-    (setq exec-path-from-shell-variables '("PATH" "MANPATH" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE")
-          exec-path-from-shell-arguments '("-i"))
+    (setq exec-path-from-shell-variables '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO"
+                                           "PATH" "MANPATH"
+                                           "LANG" "LC_CTYPE"))
+    ;; change params for bash
+    (if (equal (getenv "SHELL") "/bin/bash")
+        (setq exec-path-from-shell-arguments '("-l"))
+      (setq exec-path-from-shell-arguments '("-i")))
+
     (exec-path-from-shell-initialize)))
 
 ;; Increase how much is read from processes in a single chunk (default is 4kb)
