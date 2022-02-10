@@ -27,7 +27,6 @@
         dashboard-set-init-info        t
         dashboard-startup-banner       'logo
         ;;        dashboard-page-separator       "\n\f\n"
-        recentf-exclude                '("/org/*") ;; prevent  show recent org-agenda files
         dashboard-items                '((recents   . 8) (projects  . 7))
         dashboard-navigator-buttons    `((;;line1
                                           (,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
