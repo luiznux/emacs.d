@@ -84,6 +84,7 @@
                                              ("agenda " . ?a)
                                              ("bday " . ?b)
                                              ("task " . ?t)
+                                             ("contas" . ?b)
                                              ("college" . ?c)
                                              ("capture" . ?s)
                                              ("week-days" . ?f)
@@ -295,15 +296,7 @@ exist after each headings's drawers."
                                                                               "\n"
                                                                               (org-agenda-format-date-aligned date)))
 
-        org-agenda-files                                   '("~/org/agenda.org"
-                                                             "~/org/project.org"
-                                                             "~/org/habit.org"
-                                                             "~/org/tasks.org"
-                                                             "~/org/finances.org"
-                                                             "~/org/birthdays.org"
-                                                             "~/org/college.org"
-                                                             "~/org/capture.org"
-                                                             "~/org/work.org")
+        org-agenda-files                                   '("~/org/agenda/")
 
         org-agenda-prefix-format                           '((agenda . " %i %-12c%?-12t% s")
                                                              (todo . " %i %-12 c")
