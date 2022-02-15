@@ -10,6 +10,8 @@
       calendar-latitude        23.33
       calendar-longitude       46.38)
 
+(setq luiznux-server t)
+
 (set-face-attribute 'default nil
                     :font "Source Code Pro Medium 9")
 
