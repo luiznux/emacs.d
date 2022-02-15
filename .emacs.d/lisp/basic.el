@@ -44,6 +44,16 @@
 
     (exec-path-from-shell-initialize)))
 
+;; Start server
+(require 'server)
+(use-package server
+  :ensure nil
+  :if luiznux-server
+  :init
+  (if (or (server-running-p) (daemonp))
+      (message "Server/Daemon already running!")
+    (add-hook 'after-init-hook 'server-start)))
+
 ;; Increase how much is read from processes in a single chunk (default is 4kb)
 (setq read-process-output-max #x10000)  ; 64kb
 

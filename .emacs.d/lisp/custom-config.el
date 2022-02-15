@@ -29,6 +29,11 @@
   :group 'luiznux
   :type 'string)
 
+(defcustom luiznux-server t
+  "Enable `server-mode' or not."
+  :group 'luiznux
+  :type 'boolean)
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)
