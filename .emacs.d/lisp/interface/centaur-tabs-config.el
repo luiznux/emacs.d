@@ -4,7 +4,7 @@
 ;; URL: https://luiznux.com
 ;; This file is free software :)
 ;;
-;;; commentary:
+;;; Commentary:
 ;;
 ;; ████████╗ █████╗ ██████╗ ███████╗
 ;; ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝
@@ -13,7 +13,7 @@
 ;;    ██║   ██║  ██║██████╔╝███████║
 ;;    ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝
 ;;
-;;; code:
+;;; Code:
 
 (use-package centaur-tabs
   :defines evil-normal-state-map
