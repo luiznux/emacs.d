@@ -298,10 +298,10 @@ exist after each headings's drawers."
 
         org-agenda-files                                   '("~/org/agenda/")
 
-        org-agenda-prefix-format                           '((agenda . " %i %-12c%?-12t% s")
-                                                             (todo . " %i %-12 c")
-                                                             (tags . " %i")
-                                                             (search . " %i %-12 c"))
+        org-agenda-prefix-format                           '((agenda . "%i %-12c%?-12t% s")
+                                                             (todo . "%i %-12 c")
+                                                             (tags . "%i")
+                                                             (search . "%i %-12 c"))
 
         org-agenda-custom-commands  '(
                                       ("x" "My Agenda :)"
