@@ -21,6 +21,11 @@
   :defer t
   :init (setq magit-diff-refine-hunk t)
   :config
+  (when (fboundp 'transient-append-suffix)
+    ;; Add switch: --tags
+    (transient-append-suffix 'magit-fetch
+      "-p" '("-t" "Fetch all tags" ("-t" "--tags"))))
+
   ;; Exterminate Magit buffers
   (with-no-warnings
     (defun my-magit-kill-buffers (&rest _)
@@ -38,6 +43,17 @@
                 buffers))))
     (setq magit-bury-buffer-function #'my-magit-kill-buffers))
 
+  ;; Access Git forges from Magit
+  (when (executable-find "cc")
+    (use-package forge
+      :demand
+      :init
+      (setq forge-topic-list-columns
+            '(("#" 5 forge-topic-list-sort-by-number (:right-align t) number nil)
+              ("Title" 60 t nil title  nil)
+              ("State" 6 t nil state nil)
+              ("Updated" 10 t nil updated nil)))))
+
   ;; Show TODOs in magit
   (when emacs/>=25.2p
     (use-package magit-todos
@@ -47,8 +63,9 @@
       (let ((inhibit-message t))
         (magit-todos-mode 1))
       :config
-      (transient-append-suffix 'magit-status-jump '(0 0 -1)
-        '("T " "Todos" magit-todos-jump-to-todos)))))
+      (with-eval-after-load 'magit-status
+        (transient-append-suffix 'magit-status-jump '(0 0 -1)
+          '("t " "Todos" magit-todos-jump-to-todos))))))
 
 (use-package transient-posframe
   :diminish
@@ -178,6 +195,23 @@
         (run-hook-with-args 'git-messenger:after-popup-hook popuped-message)))
     (advice-add #'git-messenger:popup-close :override #'ignore)
     (advice-add #'git-messenger:popup-message :override #'my-git-messenger:popup-message)))
+
+(use-package blamer
+  :defer 20
+  :custom
+  (blamer-idle-time 1.0)
+  (blamer-min-offset 50)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                   :background  nil
+                   :height      80
+                   :italic      t)))
+  :init
+  (setq blamer--overlay-popup-position  'smart
+        blamer-datetime-formatter       "[%s] "
+        blamer-author-formatter         "✎ %s"
+        blamer-commit-formatter         "● %s"
+        blamer-prettify-time-p          t))
 
 ;; Open github/gitlab/bitbucket page
 (use-package browse-at-remote
