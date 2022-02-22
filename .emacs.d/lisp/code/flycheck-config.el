@@ -89,10 +89,6 @@
   (flyspell-mode . (lambda ()
                      (dolist (key '("C-;" "C-," "C-."))
                        (unbind-key key flyspell-mode-map))))
-  :custom
-  (flyspell-issue-message-flag  nil)
-  (ispell-program-name "aspell")
-  (ispell-dictionary  "en_US")
   :custom-face
   (flyspell-incorrect ((t (:underline (:color "#f1fa8c" :style wave)))))
   (flyspell-duplicate ((t (:underline (:color "#50fa7b" :style wave)))))
@@ -105,17 +101,21 @@
             (advice-add #'message :around #'ignore (list 'name message-off))
             (apply oldfun args))
         (advice-remove #'message message-off))))
+  :init
+  (setq flyspell-issue-message-flag  nil
+        ispell-program-name          "aspell"
+        ispell-extra-args            '("--sug-mode=fast"))
   :config
-  (defun bk/spell-buffer-pt-BR ()
+  (defun spell-buffer-pt-BR ()
     "Spell check in portuguese."
     (interactive)
-    (ispell-change-dictionary "pt_BR")
+    (ispell-change-dictionary "brasileiro")
     (flyspell-buffer))
 
-  (defun bk/spell-buffer-en ()
+  (defun spell-buffer-en-US ()
     "Spell check in english."
     (interactive)
-    (ispell-change-dictionary "en_US")
+    (ispell-change-dictionary "english")
     (flyspell-buffer))
 
   (advice-add #'ispell-init-process :around #'message-off-advice))
@@ -128,10 +128,9 @@
   :after flyspell-correct
   :bind(:map popup-menu-keymap
         ("M-j" . popup-next)
-        ("M-h" . popup-previous))
+        ("M-k" . popup-previous))
   :init
-  (setq flyspell-correct-interface #'flyspell-correct-popup)
-  (add-hook 'flyspell-mode-hook #'flyspell-popup-auto-correct-mode))
+  (setq flyspell-correct-interface #'flyspell-correct-popup))
 
 (use-package langtool
   :config
