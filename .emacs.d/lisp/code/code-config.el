@@ -119,11 +119,12 @@
   (setq-default prettify-symbols-alist custom-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
-;; Tree-sitter
-(use-package tree-sitter
-  :ensure tree-sitter-langs
-  :hook ((after-init . global-tree-sitter-mode)
-         (tree-sitter-after-on . tree-sitter-hl-mode)))
+;; Only support with dynamic module
+(when (functionp 'module-load)
+  (use-package tree-sitter
+    :ensure tree-sitter-langs
+    :hook ((after-init . global-tree-sitter-mode)
+           (tree-sitter-after-on . tree-sitter-hl-mode))))
 
 ;; Cross-referencing commands
 (use-package xref
