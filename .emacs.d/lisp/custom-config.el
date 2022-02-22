@@ -70,8 +70,8 @@ Nil to use font supports ligatures."
     ("#+AUTHOR:" . ?👤)
     ("#+author:" . ?👤)
 
-    ("#+DESCRIPTION:" . ?⸙)
-    ("#+description:" . ?⸙)
+    ("#+DESCRIPTION:" . ?🖋)
+    ("#+description:" . ?🖋)
 
     ("#+EMAIL:" . ?📧)
     ("#+email:" . ?📧)
@@ -81,21 +81,26 @@ Nil to use font supports ligatures."
 
     ("#+OPTIONS:" . ?⛭)
     ("#+SETUPFILE:" . ?⛮)
-    ("#+TAGS:" . ?🏷)
+    ("#+TAGS:" . "")
     ("#+TITLE:" . ?📓)
     ("#+title:" . ?📓)
     ("#+STARTUP:" . ?⏻)
-    ("#+FILETAGS:" . ?)
-    ("#+CATEGORY:" . ?)
-    (":PROPERTIES:" . ?⚙)
-    (":LOG:" . ?)
-    (":WILD_NOTIFIER_NOTIFY_BEFORE:" . ?)
-    (":ID:" . ?)
+    ("#+FILETAGS:" . "")
+    ("#+CATEGORY:" . "")
 
-    ("#+BEGIN_SRC" . ?✎)
-    ("#+END_SRC" . ?□)
-    ("#+begin_src" . ?✎)
-    ("#+end_src" . ?□)
+    (":WILD_NOTIFIER_NOTIFY_BEFORE:" . "")
+    (":PROPERTIES:" . "")
+    (":STYLE:" . "")
+    (":LOG:" . "")
+    (":ID:" . "")
+
+    ("SCHEDULED:" . "")
+    ("DEADLINE:" . ?❗)
+
+    ("#+BEGIN_SRC" . "")
+    ("#+begin_src" . "")
+    ("#+END_SRC" . "")
+    ("#+end_src" . "")
 
     ("#+BEGIN_QUOTE" . ?»)
     ("#+END_QUOTE" . ?«)
