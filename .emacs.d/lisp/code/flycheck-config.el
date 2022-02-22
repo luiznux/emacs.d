@@ -84,16 +84,15 @@
   :if (executable-find "aspell")
   :commands ispell-init-process
   :hook
-  ((yaml-mode markdown-mode git-commit-mode) . flyspell-mode)
-  (prog-mode . flyspell-prog-mode)
+  ((markdown-mode git-commit-mode magit-mode-hook) . flyspell-mode)
   (before-save-hook . flyspell-buffer)
-  ;; (flyspell-mode . (lambda ()
-  ;;                    (dolist (key '("C-;" "C-," "C-."))
-  ;;                      (unbind-key key flyspell-mode-map))))
+  (flyspell-mode . (lambda ()
+                     (dolist (key '("C-;" "C-," "C-."))
+                       (unbind-key key flyspell-mode-map))))
   :custom
-  (flyspell-issue-message-flag nil)
+  (flyspell-issue-message-flag  nil)
   (ispell-program-name "aspell")
-  (ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))
+  (ispell-dictionary  "en_US")
   :custom-face
   (flyspell-incorrect ((t (:underline (:color "#f1fa8c" :style wave)))))
   (flyspell-duplicate ((t (:underline (:color "#50fa7b" :style wave)))))
@@ -107,20 +106,37 @@
             (apply oldfun args))
         (advice-remove #'message message-off))))
   :config
+  (defun bk/spell-buffer-pt-BR ()
+    "Spell check in portuguese."
+    (interactive)
+    (ispell-change-dictionary "pt_BR")
+    (flyspell-buffer))
+
+  (defun bk/spell-buffer-en ()
+    "Spell check in english."
+    (interactive)
+    (ispell-change-dictionary "en_US")
+    (flyspell-buffer))
+
   (advice-add #'ispell-init-process :around #'message-off-advice))
 
-(use-package flyspell-correct-ivy
-  :bind ("C-M-:" . flyspell-correct-at-point)
-  :config
-  (when (eq system-type 'darwin)
-    (progn
-      (global-set-key (kbd "C-M-;") 'flyspell-correct-at-point)))
-  (setq flyspell-correct-interface #'flyspell-correct-ivy))
+(use-package flyspell-correct
+  :after flyspell
+  :bind ("C-c f" . flyspell-correct-at-point))
 
-(use-package flyspell-popup
+(use-package flyspell-correct-popup
+  :after flyspell-correct
+  :bind(:map popup-menu-keymap
+        ("M-j" . popup-next)
+        ("M-h" . popup-previous))
   :init
-                                        ;  (define-key flyspell-mode-map (kbd "C-;") #'flyspell-popup-correct)
+  (setq flyspell-correct-interface #'flyspell-correct-popup)
   (add-hook 'flyspell-mode-hook #'flyspell-popup-auto-correct-mode))
+
+(use-package langtool
+  :config
+  (setq langtool-language-tool-jar
+        "/home/wand/.emacs.d/var/LanguageTool-4.5/languagetool-commandline.jar"))
 
 
 (provide 'flycheck-config)
