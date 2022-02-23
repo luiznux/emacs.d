@@ -132,11 +132,6 @@
   :init
   (setq flyspell-correct-interface #'flyspell-correct-popup))
 
-(use-package langtool
-  :config
-  (setq langtool-language-tool-jar
-        "/home/wand/.emacs.d/var/LanguageTool-4.5/languagetool-commandline.jar"))
-
 
 (provide 'flycheck-config)
 ;;; flycheck-config.el ends here
