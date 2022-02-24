@@ -84,27 +84,18 @@
   :if (executable-find "aspell")
   :commands ispell-init-process
   :hook
-  ((markdown-mode git-commit-mode magit-mode-hook) . flyspell-mode)
-  (before-save-hook . flyspell-buffer)
   (flyspell-mode . (lambda ()
                      (dolist (key '("C-;" "C-," "C-."))
                        (unbind-key key flyspell-mode-map))))
   :custom-face
   (flyspell-incorrect ((t (:underline (:color "#f1fa8c" :style wave)))))
   (flyspell-duplicate ((t (:underline (:color "#50fa7b" :style wave)))))
-  :preface
-  (defun message-off-advice (oldfun &rest args)
-    "Quiet down messages in adviced OLDFUN."
-    (let ((message-off (make-symbol "message-off")))
-      (unwind-protect
-          (progn
-            (advice-add #'message :around #'ignore (list 'name message-off))
-            (apply oldfun args))
-        (advice-remove #'message message-off))))
   :init
   (setq flyspell-issue-message-flag  nil
         ispell-program-name          "aspell"
-        ispell-extra-args            '("--sug-mode=fast"))
+        ispell-extra-args            '("--sug-mode=ultra")
+        ispell-dictionary            "english")
+  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   :config
   (defun spell-buffer-pt-BR ()
     "Spell check in portuguese."
@@ -116,9 +107,7 @@
     "Spell check in english."
     (interactive)
     (ispell-change-dictionary "english")
-    (flyspell-buffer))
-
-  (advice-add #'ispell-init-process :around #'message-off-advice))
+    (flyspell-buffer)))
 
 (use-package flyspell-correct
   :after flyspell
