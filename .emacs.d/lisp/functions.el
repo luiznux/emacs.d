@@ -90,7 +90,7 @@
   (global-display-line-numbers-mode))
 
 (defun open-agenda-on-right-buffer ()
-  "Just open agenda in the right buffer and go to of it."
+  "Open agenda in the right buffer and go to it."
   (interactive)
   (org-agenda t "x")
   (other-window (goto-char (point-min))))
