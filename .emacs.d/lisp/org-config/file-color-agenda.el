@@ -72,8 +72,8 @@ from the left."
   (ll/org/agenda/color-headers-with "College " "#2d2d2d" "#c792ea")
   (ll/org/agenda/color-headers-with "My Projects  " "#2d2d2d" "#839ce4")
   (ll/org/agenda/color-headers-with "My Tasks  " "#2d2d2d" "#EBCB8B")
-  (ll/org/agenda/color-headers-with "➔" "#b58900" nil)
-  (ll/org/agenda/color-headers-with "╰→" "#a9a1e1" nil))
+  (ll/org/agenda/color-headers-with "➔" "#b58900" (face-attribute 'default :background))
+  (ll/org/agenda/color-headers-with "╰→" "#a9a1e1" (face-attribute 'default :background)))
 
 
 (add-hook 'org-agenda-finalize-hook #'ll/org/colorize-headings)
