@@ -102,6 +102,8 @@
              ("S-s-<return>" . toggle-frame-fullscreen)
              ("M-S-<return>" . toggle-frame-fullscreen)))
 
+;; Global keybindings
+(bind-keys ("C-c K" . revert-this-buffer))
 
 (provide 'basic)
 ;;; basic.el ends here
