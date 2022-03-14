@@ -18,7 +18,7 @@
 
 ;; Helper definitions
 (setq ll/org/agenda-todo-words
-      '("work  " "coll 🎓 " "project  " "agenda  " "habit 🍩 " "bday  " "cap  " "task  " "conta 💸 "
+      '("work  " "coll 🎓 " "project  " "agenda  " "habit 🍩 " "bday  " "cap  " "task  " "conta 💸 "
         "Work Stuffs 🖥 " "College" "My Projects  " "My Tasks  " "➔" "╰→"))
 
 (defun find-in-line (needle &optional beginning count)
@@ -59,7 +59,7 @@ from the left."
 (defun ll/org/colorize-headings ()
   "Color all headings with :pers: colors."
 
-  (ll/org/agenda/color-headers-with "work  " "#2d2d2d" "#FA74B2")
+  (ll/org/agenda/color-headers-with "work  " "#2d2d2d" "#FA74B2")
   (ll/org/agenda/color-headers-with "coll 🎓 " "#2d2d2d" "#c792ea")
   (ll/org/agenda/color-headers-with "project  " "#2d2d2d" "#839ce4")
   (ll/org/agenda/color-headers-with "agenda  " "#2d2d2d" "#da8548")
