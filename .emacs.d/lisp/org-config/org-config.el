@@ -26,7 +26,7 @@
   :defines org-babel-clojure-backend
   :custom-face (org-ellipsis ((t (:foreground nil))))
   :bind (("C-c c RET" . 'org-capture)
-         ("C-c l" . 'org-store-link))
+         ("C-c L" . 'org-store-link))
   :hook
   (((org-babel-after-execute org-mode) . org-redisplay-inline-images) ; display image
    (org-mode . (lambda ()
