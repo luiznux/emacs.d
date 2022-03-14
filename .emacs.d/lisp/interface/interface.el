@@ -50,11 +50,11 @@
         doom-modeline-checker-simple-format       t
         doom-modeline-persp-name                  t
         doom-modeline-persp-icon                  t
-        doom-modeline-buffer-file-name-style      'truncate-with-project
-        doom-modeline-project-detection           'auto
         doom-modeline-minor-modes                 nil
         doom-modeline-enable-word-count           nil
-        doom-modeline-buffer-encoding             nil)
+        doom-modeline-buffer-encoding             nil
+        doom-modeline-buffer-file-name-style      'auto
+        doom-modeline-project-detection           'auto)
 
   :config
   ;; thanks to this stupid commit:
@@ -170,6 +170,7 @@
 
 (use-package emojify
   :hook (after-init . global-emojify-mode)
+  :bind ("C-c m" . 'emojify-insert-emoji)
   :init
   (with-no-warnings
     (when (featurep 'emojify)
