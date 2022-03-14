@@ -65,7 +65,7 @@
           ("C-c c B" . counsel-bookmarked-directory)
           ("C-c c e" . counsel-colors-emacs)
           ("C-c c m" . counsel-minibuffer-history)
-          ("C-c c o" . counsel-outline)
+
           ("C-c c p" . counsel-pt)
           ("C-c c r" . counsel-rg)
           ("C-c c s" . counsel-ag)
@@ -75,10 +75,14 @@
           ("C-c c v" . counsel-set-variable)
           ("C-c c z" . counsel-fzf))
 
-
+         ;; Evil mapping for ivy-minibuffer
          :map ivy-minibuffer-map
          (("M-j" . 'ivy-next-line)
           ("M-k" . 'ivy-previous-line)
+          ("M-f" . ivy-scroll-up-command)
+          ("M-u" . ivy-scroll-down-command)
+          ("M->" . ivy-beginning-of-buffer)
+          ("M-<" . ivy-end-of-buffer)
           ("C-w" . ivy-yank-word)))
 
   :hook ((after-init . ivy-mode)
@@ -86,7 +90,7 @@
 
   :init
   (setq enable-recursive-minibuffers   t ; Allow commands in minibuffers
-        ivy-height                     12
+        ivy-height                     13
         ivy-use-selectable-prompt      t
         ivy-use-virtual-buffers        t ; Enable bookmarks and recentf
         ivy-fixed-height-minibuffer    t
@@ -277,23 +281,7 @@
       (interactive)
       (ivy-quit-and-run
         (counsel-fzf (or ivy-text "") default-directory)))
-    (bind-key "<C-return>" #'my-counsel-find-file-toggle-fzf counsel-find-file-map)
-
-    (defun my-swiper-toggle-rg-dwim ()
-      "Toggle `rg-dwim' with the current input."
-      (interactive)
-      (ivy-quit-and-run (my-ivy-switch-to-rg-dwim)))
-    (bind-key "<M-return>" #'my-swiper-toggle-rg-dwim swiper-map)
-    (bind-key "<M-return>" #'my-swiper-toggle-rg-dwim counsel-ag-map)
-
-    (defun my-swiper-toggle-swiper-isearch ()
-      "Toggle `swiper' and `swiper-isearch' with the current input."
-      (interactive)
-      (ivy-quit-and-run
-        (if (eq (ivy-state-caller ivy-last) 'swiper-isearch)
-            (my-ivy-switch-to-swiper)
-          (my-ivy-switch-to-swiper-isearch))))
-    (bind-key "<s-return>" #'my-swiper-toggle-swiper-isearch swiper-map)))
+    (bind-key "<C-return>" #'my-counsel-find-file-toggle-fzf counsel-find-file-map)))
 
 ;; flx is used as the fuzzy-matching indexer backend for ivy.
 (use-package flx
