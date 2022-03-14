@@ -19,10 +19,6 @@
 
 (require 'constants)
 
-;;(use-package eglot
-;;  :hook (prog-mode . (lambda ()
-;;                       (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode)
-;;                         (eglot-ensure)))))
 
 (use-package lsp-mode
 
@@ -90,14 +86,17 @@
   :custom
   ;; what to use when checking on-save. "check" is default, I prefer clippy
   (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-eldoc-render-all t)
-  (lsp-idle-delay 0.6)
+  (lsp-eldoc-render-all nil)
+  (lsp-idle-delay 0.5)
   (lsp-rust-analyzer-server-display-inlay-hints t)
 
   :init
   ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance
   (setq read-process-output-max (* 1024 1024)) ;; 1MB
-  (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-keymap-prefix                  "C-c l"
+        lsp-eldoc-enable-hover             t
+        lsp-lens-enable                    t
+        lsp-modeline-code-actions-enable   t)
 
   ;; For `lsp-clients'
   (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
@@ -157,8 +156,10 @@
         lsp-ui-doc-header                  t
         lsp-ui-peek-enable                 t
         lsp-ui-peek-show-directory         t
+        lsp-ui-sideline-show-code-actions  t
         lsp-ui-sideline-ignore-duplicate   t
-        lsp-ui-doc-delay                   0.1
+        lsp-ui-doc-show-with-mouse         t
+        lsp-ui-doc-delay                   0.9
         lsp-ui-doc-position                'at-point
         lsp-ui-doc-border                  (face-foreground 'font-lock-comment-face nil t)
         lsp-ui-imenu-colors                `(,(face-foreground 'font-lock-keyword-face)
@@ -475,8 +476,10 @@
   :init
   (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable))
 
-(use-package lsp-java
-  :hook (java-mode . (lambda () (require 'lsp-java))))
+;; Java support
+(when emacs/>=25.2p
+  (use-package lsp-java
+    :hook (java-mode . (lambda () (require 'lsp-java)))))
 
 (use-package ccls
   :defines projectile-project-root-files-top-down-recurring
