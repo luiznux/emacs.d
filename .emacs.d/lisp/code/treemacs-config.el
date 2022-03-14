@@ -77,10 +77,11 @@
           treemacs-user-mode-line-format         nil
           treemacs-user-header-line-format       nil
           treemacs-workspace-switch-cleanup      nil
-          treemacs-width                         35
+          treemacs-width                         34
           treemacs-follow-mode                   t
           treemacs-filewatch-mode                t
           treemacs-resize-icons                  18
+          treemacs-text-scale                    -1
           treemacs-fringe-indicator-mode         t)
 
     (pcase (cons (not (null (executable-find "git")))
