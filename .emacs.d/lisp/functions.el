@@ -90,10 +90,17 @@
   (global-display-line-numbers-mode))
 
 (defun open-agenda-on-right-buffer ()
-  "Open agenda in the right buffer and go to it."
+  "Open agenda in the right buffer."
   (interactive)
   (org-agenda t "x")
   (other-window (goto-char (point-min))))
+
+;; define function to shutdown emacs server instance
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server."
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs))
 
 
 ;; UI
@@ -210,11 +217,12 @@ Minibuffer is ignored."
                    (window-height       . 0.2)))
     (setq sasa/help-temp-buffers (cdr sasa/help-temp-buffers))))
 
-;; Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el
-(defun revert-buffer-no-confirm ()
-  "Revert buffer without confirmation."
+(defun revert-this-buffer ()
+  "Revert the current buffer."
   (interactive)
-  (revert-buffer :ignore-auto :noconfirm))
+  (unless (minibuffer-window-active-p (selected-window))
+    (revert-buffer t t)
+    (message "Reverted this buffer")))
 
 
 ;; Edit
