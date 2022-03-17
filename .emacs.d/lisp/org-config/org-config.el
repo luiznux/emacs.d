@@ -111,14 +111,25 @@
                                              ("DOING"        . (:foreground "#A020F0" :weight bold))
                                              ("CANCELLED"    . (:foreground "#ff6c6b" :weight bold))
                                              ("DONE"         . (:foreground "#1E90FF" :weight bold)))
+
         ;; config `org-capture'
-        org-default-notes-file             "~/org/capture.org"
-        org-capture-templates              '(("t" "TODO" entry
-                                              (file "~/org/capture.org") "* TODO %^{Title}")
+        org-default-notes-file             "~/org/agenda/capture.org"
+        org-capture-templates              '(
+                                             ("t" "TODO" entry
+                                              (file "~/org/agenda/capture.org") "* TODO %^{Title} - %A\n%^t\n- %^{Description}"
+                                              :empty-lines-before 2
+                                              :empty-lines-after  2)
+
                                              ("e" "Event" entry
-                                              (file "~/org/agenda .org.org") "* %^{Is it a todo?||TODO}%^{Title}\n%^t\n%?")
+                                              (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
+                                              "** %^{Is it a todo?||TODO||MEETING||WARNING} %^{Title}\n%^t\n- %^{Description}"
+                                              :empty-lines-before 2
+                                              :empty-lines-after  2)
+
                                              ("w" "Work TODO" entry
-                                              (file "~/org/work.org") "* TODO %^{Title}"))
+                                              (file "~/org/agenda/work.org") "* TODO %^{Title}\n%^t\n- %^{Description}"
+                                              :empty-lines-before 2
+                                              :empty-lines-after  2))
 
         ;; `org-babel' config
         org-confirm-babel-evaluate         nil
