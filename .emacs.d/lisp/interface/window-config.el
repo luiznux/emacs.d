@@ -215,7 +215,7 @@
           "^\\*macro expansion\\**"
 
           "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
-          " *Agenda Commands*" " *Org Dashboard*" " *Org Select*" " *Org tags*"
+          " *Agenda Commands*" " *Org Dashboard*" " *Org Select*" " *Org tags*" " *Org links*"
           "\\*cider-repl .*\\*"
           "\\*Gofmt Errors\\*$" "\\*Go Test\\*$" godoc-mode
           "\\*docker-containers\\*" "\\*docker-images\\*" "\\*docker-networks\\*" "\\*docker-volumes\\*"
