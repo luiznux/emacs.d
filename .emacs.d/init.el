@@ -94,9 +94,11 @@
 (require 'web-config)
 
 ;; Org and Agenda config
-(require 'org-config)
+(require 'org-mode-config)
 (require 'org-auto-update-state)
+(require 'org-agenda-config)
 (require 'file-color-agenda)
+
 
 (message (emacs-init-time))
 ;;; init.el ends here
