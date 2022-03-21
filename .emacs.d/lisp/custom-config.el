@@ -34,6 +34,13 @@
   :group 'luiznux
   :type 'boolean)
 
+(defcustom luiznux-enviroment-type nil
+  "Set the type of the current enviroment."
+  :group 'luiznux
+  :type '(choice (const :tag "Work Enviroment" work)
+                 (const :tag "Personal Enviroment" personal)
+                 (const :tag "None" nil)))
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)
