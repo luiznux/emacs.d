@@ -92,7 +92,7 @@ Nil to use font supports ligatures."
     ("#+TITLE:" . ?📓)
     ("#+title:" . ?📓)
     ("#+STARTUP:" . ?⏻)
-    ("#+FILETAGS:" . "")
+    ("#+FILETAGS:" . "")
     ("#+CATEGORY:" . "")
 
     (":WILD_NOTIFIER_NOTIFY_BEFORE:" . "")
