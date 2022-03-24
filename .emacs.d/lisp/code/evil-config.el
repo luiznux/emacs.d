@@ -21,7 +21,8 @@
   :commands evil-set-initial-state
   :init
   (setq evil-want-integration t
-        evil-want-keybinding nil)
+        evil-want-keybinding nil
+        evil-undo-system 'undo-tree)
   :config
   (evil-mode 1)
   (evil-set-initial-state 'term-mode 'emacs)
@@ -32,10 +33,11 @@
 (use-package evil-collection
   :after evil
   :defines evil-collection-company-use-tng
+  :init
+  (setq evil-collection-setup-minibuffer nil
+        evil-collection-company-use-tng  nil)
   :config
-  (evil-collection-init)
-  (setq evil-collection-setup-minibuffer t
-        evil-collection-company-use-tng  nil))
+  (evil-collection-init))
 
 (use-package evil-matchit
   :config
