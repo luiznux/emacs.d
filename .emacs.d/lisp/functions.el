@@ -28,66 +28,23 @@
 
   (setq line-breaker page-delimiter)
 
-  (setq inhibit-startup-echo-area-message   t
-        inhibit-startup-message             t
-        inhibit-startup-screen              t
-        delete-selection-mode               t
-        menu-bar-mode                       nil
-        tool-bar-mode                       nil
-        scroll-bar-mode                     nil
-        use-dialog-box                      t
-        use-file-dialog                     t
-        tab-always-indent                   'complete
-        delete-by-moving-to-trash           t ; Deleting files go to OS's trash folder
-        auto-window-vscroll                 nil)
-
-  ;; Display dividers between windows
-  (setq window-divider-default-bottom-width  0
-        window-divider-default-right-width   4
-        window-divider-default-places        t)
-  (add-hook 'window-setup-hook #'window-divider-mode)
-
-  ;; Mouse & Smooth Scroll
-  ;; Scroll one line at a time (less "jumpy" than defaults)
-  (when (display-graphic-p)
-    (setq mouse-wheel-scroll-amount              '(1 ((shift) . 1))
-          mouse-wheel-scroll-amount-horizontal   1
-          mouse-wheel-progressive-speed          nil))
-
-  (setq scroll-step                            1
-        scroll-margin                          0
-        scroll-conservatively                  100000
-
-        mouse-wheel-follow-mouse               't
-        scroll-preserve-screen-position        t
-        auto-window-vscroll                    nil)
-
   (setq password-cache-expiry      nil
         load-prefer-newer          t
         system-time-locale         "C"
         user-full-name             "Luiz Tagliaferro"
         user-mail-address          "luiz@luiznux.com")
 
-  ;; Optimization
-  (setq idle-update-delay 1.0)
-
-  (setq fast-but-imprecise-scrolling t)
-  (setq redisplay-skip-fontification-on-input t)
-
-  (setq inhibit-compacting-font-caches  t)
-
-  ;; Inhibit resizing frame
-  (setq frame-inhibit-implied-resize   t
-        frame-resize-pixelwise         t)
+  ;;Testing
+  ;;  (with-no-warnings
+  ;;    (setq pixel-scroll-precision-large-scroll-height 40.0)
+  ;;    (setq pixel-scroll-precision-interpolation-factor 30))
 
   (setq history-length 100)
   (put 'minibuffer-history 'history-length 50)
   (put 'evil-ex-history 'history-length 50)
   (put 'kill-ring 'history-length 25)
 
-
-  (global-hl-line-mode)
-  (global-display-line-numbers-mode))
+  (global-hl-line-mode))
 
 (defun open-agenda-on-right-buffer ()
   "Open agenda in the right buffer."

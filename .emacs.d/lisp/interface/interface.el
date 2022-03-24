@@ -21,6 +21,40 @@
 (require 'functions)
 (require 'my-custom-emojis)
 
+
+(setq menu-bar-mode        nil
+      tool-bar-mode        nil
+      scroll-bar-mode      nil
+      blink-cursor-mode    nil)
+
+;; Suppress GUI features
+(setq use-dialog-box                      nil
+      use-file-dialog                     t
+      inhibit-startup-screen              t
+      inhibit-startup-message             t
+      inhibit-startup-echo-area-message   t)
+
+;; Don't use GTK+ tooltip
+(when (boundp 'x-gtk-use-system-tooltips)
+  (setq x-gtk-use-system-tooltips nil))
+
+;; Display dividers between windows
+(setq window-divider-default-bottom-width  0
+      window-divider-default-right-width   4
+      window-divider-default-places        t)
+(add-hook 'window-setup-hook #'window-divider-mode)
+
+;; Optimization
+(setq idle-update-delay 1.0)
+
+(setq fast-but-imprecise-scrolling t)
+(setq redisplay-skip-fontification-on-input t)
+
+;; Inhibit resizing frame
+(setq frame-inhibit-implied-resize   t
+      frame-resize-pixelwise         t)
+
+
 (use-package doom-themes
   :config
   ;; Corrects (and improves) org-mode's native fontification.
@@ -54,7 +88,8 @@
         doom-modeline-enable-word-count           nil
         doom-modeline-buffer-encoding             nil
         doom-modeline-buffer-file-name-style      'auto
-        doom-modeline-project-detection           'auto)
+        doom-modeline-project-detection           'auto
+        doom-modeline-window-width-limit          0.25)
 
   :config
   ;; thanks to this stupid commit:
@@ -62,8 +97,8 @@
   ;; now I use this WORKAROUND, mentioned in :
   ;; https://github.com/seagle0128/doom-modeline/issues/486
   ;; :pepe-sad:
-  (set-face-attribute 'mode-line nil :family "Source Code Pro" :height 85)
-  (set-face-attribute 'mode-line-inactive nil :family "Source Code Pro" :height 85))
+  (set-face-attribute 'mode-line nil :family (face-attribute 'default :font) :height 85)
+  (set-face-attribute 'mode-line-inactive nil :family (face-attribute 'default :font) :height 85))
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
@@ -94,13 +129,29 @@
 (use-package rainbow-mode
   :hook (emacs-lisp-mode . rainbow-mode))
 
+;; Mouse & Smooth Scroll
+;; Scroll one line at a time (less "jumpy" than defaults)
+(when (display-graphic-p)
+  (setq mouse-wheel-scroll-amount              '(1 ((shift) . 1))
+        mouse-wheel-scroll-amount-horizontal   1
+        mouse-wheel-progressive-speed          nil))
+
+(setq scroll-step                          1 ;; keyboard scroll one line at a time
+      scroll-margin                        0 ;; keyboard scroll at the bottom of the screen
+      scroll-conservatively                100000
+      auto-window-vscroll                  nil
+      mouse-wheel-follow-mouse             't ;; scroll window under mouse
+      scroll-preserve-screen-position      t)
+
 ;; Good pixel line scrolling
-(when (and emacs/>=27p (not sys/macp))
-  (use-package good-scroll
-    :diminish
-    :hook (after-init . good-scroll-mode)
-    :bind (([remap next] . good-scroll-up-full-screen)
-           ([remap prior] . good-scroll-down-full-screen))))
+(if (fboundp 'pixel-scroll-precision-mode)
+    (pixel-scroll-precision-mode t)
+  (when (and emacs/>=27p (not sys/macp))
+    (use-package good-scroll
+      :diminish
+      :hook (after-init . good-scroll-mode)
+      :bind (([remap next] . good-scroll-up-full-screen)
+             ([remap prior] . good-scroll-down-full-screen)))))
 
 ;; Smooth scrolling over images
 (when emacs/>=26p
@@ -266,6 +317,25 @@
     (dolist (icon mode-icon-alist)
       (add-to-list 'all-the-icons-mode-icon-alist icon))))
 
+;; Show native line numbers if possible, otherwise use `linum'
+(if (fboundp 'display-line-numbers-mode)
+    (use-package display-line-numbers
+      :ensure nil
+      :hook ((prog-mode yaml-mode) . display-line-numbers-mode)
+      :init (setq display-line-numbers-width-start t))
+  (use-package linum-off
+    :demand
+    :defines linum-format
+    :hook (after-init . global-linum-mode)
+    :init (setq linum-format "%4d ")
+    :config
+    ;; Highlight current line number
+    (use-package hlinum
+      :defines linum-highlight-in-all-buffersp
+      :custom-face (linum-highlight-face ((t (:inherit default :background nil :foreground nil))))
+      :hook (global-linum-mode . hlinum-activate)
+      :init (setq linum-highlight-in-all-buffersp t))))
+
 (use-package composite
   :ensure nil
   :defines emacs/>=27p
@@ -310,6 +380,8 @@
                               `([,(cdr char-regexp) 0 font-shape-gstring]))))
     (set-char-table-parent composition-ligature-table composition-function-table)))
 
+(use-package font-utils)
+(use-package fontawesome)
 (use-package latex-preview-pane)
 (use-package math-preview)
 
