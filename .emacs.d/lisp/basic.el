@@ -102,6 +102,38 @@
              ("S-s-<return>" . toggle-frame-fullscreen)
              ("M-S-<return>" . toggle-frame-fullscreen)))
 
+;; Misc
+(setq inhibit-compacting-font-caches  t ; Don’t compact font caches during GC.
+      delete-by-moving-to-trash       t ; Deleting files go to OS's trash folder
+      delete-old-versions             t ; Delete excess backup files silently
+      delete-selection-mode           t
+      tab-always-indent               'complete
+      uniquify-buffer-name-style      'post-forward-angle-brackets ; Show path if names are same
+
+      adaptive-fill-regexp "[ t]+|[ t]*([0-9]+.|*+)[ t]*"
+      adaptive-fill-first-line-regexp "^* *$"
+      sentence-end "\\([。！？]\\|……\\|[.?!][]\"')}]*\\($\\|[ \t]\\)\\)[ \t\n]*"
+      sentence-end-double-space nil)
+
+;;; Backup Files
+;; Don’t clutter project directories with backup files, e.g.
+;; Emacs.org\~ Watch this great explanation about Emacs temporary
+;; files such as backups, autosaves, etc:
+;; https://www.youtube.com/watch?v=XZjyJG-sFZI
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "tmp/backups/" user-emacs-directory))))
+
+;;; Auto Save Files
+;;auto-save-mode will create temporary files in the same folder as
+;;edited files: #Emacs.org# You can change this using
+;;auto-save-file-name-transforms:
+;; auto-save-mode doesn't create the path automatically!
+(make-directory (expand-file-name "tmp/auto-saves/" user-emacs-directory) t)
+
+(setq auto-save-list-file-prefix (expand-file-name "tmp/auto-saves/sessions/" user-emacs-directory)
+      auto-save-file-name-transforms `((".*" ,(expand-file-name "tmp/auto-saves/" user-emacs-directory) t)))
+
+
 ;; Global keybindings
 (bind-keys ("C-c K" . revert-this-buffer))
 
