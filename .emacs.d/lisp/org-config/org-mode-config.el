@@ -195,6 +195,9 @@
   (add-hook 'org-capture-after-finalize-hook 'org-agenda-maybe-redo)
 
   :config
+  (with-eval-after-load 'counsel
+    (bind-key [remap org-set-tags-command] #'counsel-org-tag org-mode-map))
+
   ;; Load modules
   (setq org-modules '(org-habit org-id))
 
@@ -244,7 +247,7 @@ exist after each headings's drawers."
     (if (executable-find "pngpaste")
         (let ((image-file (concat temporary-file-directory
                                   (make-temp-name "org-image-paste-")
-    ".png")))
+                                  ".png")))
           (call-process-shell-command (concat "pngpaste " image-file))
           (insert (concat  "#+CAPTION: " (read-string "Caption: ") "\n"))
           (insert (format "[[file:%s]]" image-file))

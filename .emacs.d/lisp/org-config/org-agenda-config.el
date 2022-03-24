@@ -1,4 +1,4 @@
-;;; org-agenda-config.el --- Emacs org agenda config  -*- lexical-binding: t no-byte-compile: t -*-
+;;; org-agenda-config.el --- Emacs org agenda config  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -48,9 +48,9 @@
 
   ;; Fancy style for my `org-agenda' buffer
   (defun my/style-org-agenda()
-    (set-face-attribute 'org-agenda-date nil :height 1.1)
-    (set-face-attribute 'org-agenda-date-today nil :height 1.1 :slant 'italic)
-    (set-face-attribute 'org-agenda-date-weekend nil :height 1.1))
+    (set-face-attribute 'org-agenda-date nil :height 1.2)
+    (set-face-attribute 'org-agenda-date-today nil :height 1.2 :slant 'italic)
+    (set-face-attribute 'org-agenda-date-weekend nil :height 1.2))
 
   (setq org-agenda-skip-deadline-prewarning-if-scheduled   t
         org-agenda-skip-scheduled-delay-if-deadline        t
