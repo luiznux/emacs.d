@@ -61,7 +61,6 @@
   (use-package ftable)
   (use-package org-web-tools)
   (use-package org-alert)
-  (use-package org-super-agenda)
   (use-package org-ql)
 
 
@@ -120,7 +119,6 @@
                                       (?B . "🅱")
                                       (?C . "🅲")
                                       (?D . "🅳"))))
-
   (use-package org-wild-notifier
     :hook (after-init . org-wild-notifier-mode)
     :init
