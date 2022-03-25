@@ -24,11 +24,21 @@
   :commands org-current-level
   :functions (renewOrgBuffer
               org-agenda-files
-              my/style-org-agenda
               org-agenda-maybe-redo
               my-agenda-indent-string
               org-agenda-format-date-aligned)
+
   :bind ("C-c a" . org-agenda)
+
+  :custom-face
+  ;; Fancy style for my `org-agenda' buffer
+  (org-agenda-date-today ((t (:foreground "lime green" :height 1.2 :slant italic :weight ultra-bold))))
+  (org-agenda-date-weekend ((t (:height 1.2))))
+  (org-agenda-date ((t (:height 1.2))))
+  (org-scheduled ((t (:foreground "SlateBlue2"))))
+  (org-scheduled-previously ((t (:foreground "medium turquoise"))))
+  (org-scheduled-today ((t (:foreground "deep sky blue"))))
+
   :init
   (defconst luiznux-personal-agenda (concat org-directory "/personal/"))
   (defconst luiznux-work-agenda (concat org-directory "/work/work.org"))
@@ -46,11 +56,6 @@
                 str (concat str "  ")))
         (concat str "  ╰→"))))
 
-  ;; Fancy style for my `org-agenda' buffer
-  (defun my/style-org-agenda()
-    (set-face-attribute 'org-agenda-date nil :height 1.2)
-    (set-face-attribute 'org-agenda-date-today nil :height 1.2 :slant 'italic)
-    (set-face-attribute 'org-agenda-date-weekend nil :height 1.2))
 
   (setq org-agenda-skip-deadline-prewarning-if-scheduled   t
         org-agenda-skip-scheduled-delay-if-deadline        t
@@ -200,14 +205,12 @@
      )
     )
 
-  ;;testing
   (setq org-agenda-ignore-properties      '(effort appt category)
         org-agenda-dim-blocked-tasks      nil
         org-agenda-use-tag-inheritance    nil)
 
   ;; Set Visual changes on agenda buffer
   (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
-  (add-hook 'org-agenda-mode-hook 'my/style-org-agenda)
 
   ;; Remove the mouse face in whole agenda buffer
   (add-hook 'org-agenda-finalize-hook

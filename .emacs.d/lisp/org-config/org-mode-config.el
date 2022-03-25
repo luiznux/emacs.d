@@ -24,9 +24,16 @@
 (use-package org
   :ensure nil
   :defines org-babel-clojure-backend
-  :custom-face (org-ellipsis ((t (:foreground nil))))
+
+  :custom-face
+  (org-ellipsis ((t (:foreground nil))))
+  (org-done ((t (:strike-through t))))
+  (org-headline-done ((((class color) (min-colors 16) (background dark))
+                       (:strike-through t))))
+
   :bind (("C-c c RET" . 'org-capture)
          ("C-c L" . 'org-store-link))
+
   :hook
   (((org-babel-after-execute org-mode) . org-redisplay-inline-images) ; display image
    (org-mode . (lambda ()
@@ -41,9 +48,8 @@
                         (setq show-paren-mode nil))))
 
   :init
-  (setq org-directory  "~/org")
-
-  (setq org-catch-invisible-edits         'smart
+  (setq org-directory                     "~/org"
+        org-catch-invisible-edits         'smart
         org-pretty-entities                nil
         org-hide-emphasis-markers          t
         org-startup-indented               t
@@ -143,11 +149,6 @@
 
   ;; Strike through headlines for done tasks in Org
   (setq org-fontify-done-headline t)
-  (custom-set-faces
-   '(org-done ((t (:strike-through t))))
-   '(org-headline-done
-     ((((class color) (min-colors 16) (background dark))
-       (:strike-through t)))))
 
   ;; cool message for scratch  ( ͡° ͜ʖ ͡°)
   (setq initial-major-mode 'org-mode
