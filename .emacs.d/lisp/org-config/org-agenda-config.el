@@ -98,7 +98,7 @@
 
                                            (tags-todo
                                             "work"
-                                            ((org-agenda-overriding-header        "Work Stuffs 🖥 ")
+                                            ((org-agenda-overriding-header        "Work Stuffs  ")
                                              (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                              (org-agenda-sorting-strategy         '(category-keep))
                                              (org-agenda-remove-tags              t)
