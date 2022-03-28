@@ -80,11 +80,11 @@
         org-blank-before-new-entry         '((heading . t) (plain-list-item . auto))
 
         ;; Set `org-agenda' custom tags
-        org-tag-alist                      '(("work " . ?w)
-                                             ("project " . ?p)
-                                             ("agenda " . ?a)
-                                             ("bday " . ?b)
-                                             ("task " . ?t)
+        org-tag-alist                      '(("work" . ?w)
+                                             ("project" . ?p)
+                                             ("agenda" . ?a)
+                                             ("bday" . ?b)
+                                             ("task" . ?t)
                                              ("contas" . ?b)
                                              ("college" . ?c)
                                              ("capture" . ?s)
@@ -112,30 +112,52 @@
                                              ("CANCELLED"    . (:foreground "#ff6c6b" :weight bold))
                                              ("DONE"         . (:foreground "#1E90FF" :weight bold)))
 
-        ;; config `org-capture'
+        ;; config capture-templates, for more info see `org-capture'
         org-default-notes-file             "~/org/agenda/capture.org"
         org-capture-templates              '(
-                                             ("t" "TODO" entry
-                                              (file "~/org/agenda/capture.org") "* TODO %^{Title} - %A\n%^t\n- %^{Description}"
-                                              :empty-lines-before 2
-                                              :empty-lines-after  2)
+                                             ("C"         ; key
+                                              "Captures"  ; description
+                                              entry       ; type
+                                              (file "~/org/agenda/capture.org") ; target
+                                              "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"  ; template
+                                              :empty-lines-before 2 ; properties
+                                              :empty-lines-after  2
+                                              :created            t)
 
-                                             ("e" "Event" entry
+                                             ("A"
+                                              "Agenda"
+                                              entry
                                               (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
-                                              "** %^{Is it a todo?||TODO||MEETING||WARNING} %^{Title}\n%^t\n- %^{Description}"
+                                              "** %^{Is it a todo?|TODO|MEETING|WARNING} %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
                                               :empty-lines-before 2
-                                              :empty-lines-after  2)
+                                              :empty-lines-after  2
+                                              :jump-to-captured   t)
 
-                                             ("w" "Work TODO" entry
-                                              (file "~/org/agenda/work.org") "* TODO %^{Title}\n%^t\n- %^{Description}"
+                                             ("T"
+                                              "Tasks"
+                                              entry
+                                              (file "~/org/personal/tasks.org")
+                                              "* TODO %^{Title}\n#+description: %^{Description 🖋 }\n%?"
                                               :empty-lines-before 2
-                                              :empty-lines-after  2))
+                                              :empty-lines-after  2
+                                              :jump-to-captured   t
+                                              :created            t)
+
+                                             ("W"
+                                              "Work"
+                                              entry
+                                              (file+regexp "~/org/work/work.org" "~MY TASKS :pepe-sad:~")
+                                              "* TODO %^{Title} %^g\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
+                                              :empty-lines-before 2
+                                              :empty-lines-after  2
+                                              :jump-to-captured   t))
 
         ;; `org-babel' config
         org-confirm-babel-evaluate         nil
         org-src-fontify-natively           t
         org-src-tab-acts-natively          t
         org-src-window-setup               'current-window
+
         ;; `cider' backend for org babel
         org-babel-clojure-backend          'cider
 
