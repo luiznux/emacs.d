@@ -19,7 +19,7 @@
 ;; Helper definitions
 (setq ll/org/agenda-todo-words
       '("work  " "coll 🎓 " "project  " "agenda  " "habit 🍩 " "bday  " "cap  " "task  " "conta 💸 "
-        "Work Stuffs 🖥 " "College" "My Projects  " "My Tasks  " "➔" "╰→"))
+        "Work Stuffs  " "College" "My Projects  " "My Tasks  " "➔" "╰→"))
 
 (defun find-in-line (needle &optional beginning count)
   "Find the position of the start of NEEDLE in the current line.
