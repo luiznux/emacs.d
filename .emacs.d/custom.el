@@ -37,7 +37,8 @@
  '(fci-rule-color "#dedede")
  '(global-auto-revert-mode t)
  '(line-spacing 0.2)
- '(standard-indent 4))
+ '(standard-indent 4)
+ '(warning-suppress-log-types '((comp) (comp))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
