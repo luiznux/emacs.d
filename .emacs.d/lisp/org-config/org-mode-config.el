@@ -115,7 +115,7 @@
         ;; config capture-templates, for more info see `org-capture'
         org-default-notes-file             "~/org/agenda/capture.org"
         org-capture-templates              '(
-                                             ("C"         ; key
+                                             ("t"         ; key
                                               "Captures"  ; description
                                               entry       ; type
                                               (file "~/org/agenda/capture.org") ; target
@@ -124,7 +124,7 @@
                                               :empty-lines-after  2
                                               :created            t)
 
-                                             ("A"
+                                             ("t"
                                               "Agenda"
                                               entry
                                               (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
@@ -133,7 +133,7 @@
                                               :empty-lines-after  2
                                               :jump-to-captured   t)
 
-                                             ("T"
+                                             ("t"
                                               "Tasks"
                                               entry
                                               (file "~/org/personal/tasks.org")
@@ -143,10 +143,10 @@
                                               :jump-to-captured   t
                                               :created            t)
 
-                                             ("W"
+                                             ("w"
                                               "Work"
                                               entry
-                                              (file+regexp "~/org/work/work.org" "~MY TASKS :pepe-sad:~")
+                                              (file "~/org/work/work.org")
                                               "* TODO %^{Title} %^g\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
                                               :empty-lines-before 2
                                               :empty-lines-after  2
