@@ -100,7 +100,7 @@
                                                 (when all-the-icons-dired-monochrome
                                                   `(:face ,(face-at-point))))))))
                       (if (member file '("." ".."))
-                          (all-the-icons-dired--add-overlay (dired-mode-to-filename) "   \t")
+                          (all-the-icons-dired--add-overlay (dired-move-to-filename) "   \t")
                         (all-the-icons-dired--add-overlay (dired-move-to-filename) (concat " " icon "\t"))))))
                 (forward-line 1)))
           (message "Not display icons because of too many items.")))
