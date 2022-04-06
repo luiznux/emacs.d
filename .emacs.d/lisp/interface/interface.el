@@ -199,10 +199,6 @@
   (setq which-key-max-description-length 30
         which-key-show-remaining-keys t))
 
-(use-package ranger
-  :config
-  (ranger-override-dired-mode t))
-
 ;; Fast search tool `ripgrep'
 (use-package rg
   :defines projectile-command-map
