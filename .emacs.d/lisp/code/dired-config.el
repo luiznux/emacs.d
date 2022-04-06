@@ -65,7 +65,6 @@
 
   ;; Colourful dired
   (use-package diredfl
-    :functions diredfl-global-mode
     :init (diredfl-global-mode 1))
 
   ;; Shows icons
