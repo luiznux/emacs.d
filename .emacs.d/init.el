@@ -35,6 +35,7 @@
 
 ;; avoid anoing message
 (setq byte-compile-warnings '(cl-functions))
+(setq warning-suppress-types '((comp)))
 
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.5)
@@ -63,35 +64,20 @@
 
 (require 'packages)
 
-;; core packages
+;; Core packages
 (require 'basic)
 (require 'interface)
 (require 'window-config)
 (require 'highlight-config)
 (require 'evil-config)
+(require 'company-config)
+(require 'ivy-config)
 
-;; visual
+;; Visual
 (require 'centaur-tabs-config)
 (require 'dashboard-config)
 (require 'treemacs-config)
-
-(require 'company-config)
-(require 'ivy-config)
-(require 'lsp-config)
-(require 'code-config)
-(require 'ctags-config)
 (require 'dired-config)
-(require 'git-config)
-(require 'elisp-config)
-
-(require 'pdf-config)
-(require 'flycheck-config)
-(require 'other-modes)
-
-(require 'terminal-config)
-(require 'clojure-config)
-(require 'python-config)
-(require 'web-config)
 
 ;; Org and Agenda config
 (require 'org-mode-config)
@@ -99,6 +85,23 @@
 (require 'org-agenda-config)
 (require 'file-color-agenda)
 
+;; Programming
+(require 'git-config)
+(require 'flycheck-config)
+(require 'projectile-config)
+(require 'lsp-config)
+(require 'ctags-config)
 
-(message (emacs-init-time))
+(require 'code-config)
+(require 'elisp-config)
+(require 'clojure-config)
+(require 'python-config)
+(require 'go-config)
+(require 'rust-config)
+(require 'web-config)
+(require 'terminal-config)
+
+(require 'pdf-config)
+(require 'other-modes)
+
 ;;; init.el ends here
