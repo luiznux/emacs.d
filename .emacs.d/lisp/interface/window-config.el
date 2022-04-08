@@ -185,6 +185,7 @@
             "\\*Backtrace\\*"
             "\\*Calendar\\*"
             "\\*Finder\\*"
+            "\\*Embark Actions\\*"
 
             bookmark-bmenu-mode
             compilation-mode
