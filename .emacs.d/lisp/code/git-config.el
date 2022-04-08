@@ -129,14 +129,6 @@
               git-messenger:use-magit-popup t)
   :config
   (with-no-warnings
-    (with-eval-after-load 'hydra
-      (defhydra git-messenger-hydra (:color blue)
-        ("s" git-messenger:popup-show "show")
-        ("c" git-messenger:copy-commit-id "copy hash")
-        ("m" git-messenger:copy-message "copy message")
-        ("," (catch 'git-messenger-loop (git-messenger:show-parent)) "go parent")
-        ("q" git-messenger:popup-close "quit")))
-
     (defun my-git-messenger:format-detail (vcs commit-id author message)
       (if (eq vcs 'git)
           (let ((date (git-messenger:commit-date commit-id))
@@ -155,10 +147,9 @@
         (git-messenger:format-detail vcs commit-id author message)))
 
     (defun my-git-messenger:popup-message ()
-      "Popup message with `posframe', `pos-tip', `lv' or `message', and dispatch actions with `hydra'."
+      "Popup message with `posframe', `pos-tip', `lv' or `message', and dispatch actions with."
       (interactive)
-      (let* ((hydra-hint-display-type 'message)
-             (vcs (git-messenger:find-vcs))
+      (let* ((vcs (git-messenger:find-vcs))
              (file (buffer-file-name (buffer-base-buffer)))
              (line (line-number-at-pos))
              (commit-info (git-messenger:commit-info-at-line vcs file line))
@@ -177,7 +168,6 @@
               git-messenger:last-message msg
               git-messenger:last-commit-id commit-id)
         (run-hook-with-args 'git-messenger:before-popup-hook popuped-message)
-        (git-messenger-hydra/body)
         (cond ((and (fboundp 'posframe-workable-p) (posframe-workable-p))
                (let ((buffer-name "*git-messenger*"))
                  (posframe-show buffer-name
