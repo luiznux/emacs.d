@@ -103,6 +103,10 @@
              ("M-S-<return>" . toggle-frame-fullscreen)))
 
 ;; Misc
+(if (boundp use-short-answers) ; Simplify Yes/No Prompt
+    (setq use-short-answers t)
+  (fset 'yes-or-no-p 'y-or-n-p))
+
 (setq inhibit-compacting-font-caches  t ; Don’t compact font caches during GC.
       delete-by-moving-to-trash       t ; Deleting files go to OS's trash folder
       delete-old-versions             t ; Delete excess backup files silently
