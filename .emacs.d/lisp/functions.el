@@ -17,6 +17,11 @@
 ;;
 ;;; Code:
 
+(require 'cl-lib)
+
+(require 'constants)
+(require 'custom-config)
+
 
 ;; Emacs config
 
@@ -33,11 +38,6 @@
         system-time-locale         "C"
         user-full-name             "Luiz Tagliaferro"
         user-mail-address          "luiz@luiznux.com")
-
-  ;;Testing
-  ;;  (with-no-warnings
-  ;;    (setq pixel-scroll-precision-large-scroll-height 40.0)
-  ;;    (setq pixel-scroll-precision-interpolation-factor 30))
 
   (setq history-length 100)
   (put 'minibuffer-history 'history-length 50)
@@ -316,11 +316,6 @@ on selected major modes only."
            (split-string-and-unquote path ":")
            exec-path))))
 
-(defun simplify-prompts ()
-  "Simplify Yes/No Prompt."
-  (fset 'yes-or-no-p 'y-or-n-p)
-  (setq use-dialog-box nil))
-
 (defun get-user-email()
   "Get the user email adress."
   (setq user-email user-mail-address))
@@ -334,7 +329,6 @@ on selected major modes only."
 (read-path-variable-from-zshrc)
 (sasa/call-help-temp-buffers)
 (do-not-show-trailing-whitespace)
-(simplify-prompts)
 
 
 (provide 'functions)
