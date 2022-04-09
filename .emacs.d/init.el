@@ -98,6 +98,7 @@
 (require 'python-config)
 (require 'go-config)
 (require 'rust-config)
+(require 'dart-config)
 (require 'web-config)
 (require 'terminal-config)
 
