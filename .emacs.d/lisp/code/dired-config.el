@@ -48,7 +48,7 @@
     ;; Show directory first
     (setq dired-listing-switches "-alh --group-directories-first")
 
-    (use-package dired-quick-sort)
+    (use-package dired-quick-sort))
 
   ;; Show git info in dired
   (use-package dired-git-info
