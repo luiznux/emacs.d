@@ -18,7 +18,7 @@
 ;;; Code:
 
 (defgroup luiznux nil
-  "Centaur Emacs customization."
+  "Luiznux Emacs customization."
   :group 'convenience
   :link '(url-link :tag "Homepage" "https://github.com/luiznux/emacs.d"))
 
