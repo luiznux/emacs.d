@@ -103,7 +103,7 @@
              ("M-S-<return>" . toggle-frame-fullscreen)))
 
 ;; Misc
-(if (boundp use-short-answers) ; Simplify Yes/No Prompt
+(if (boundp 'use-short-answers) ; Simplify Yes/No Prompt
     (setq use-short-answers t)
   (fset 'yes-or-no-p 'y-or-n-p))
 
