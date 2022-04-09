@@ -26,8 +26,8 @@
         dashboard-set-file-icons       t
         dashboard-set-navigator        t
         dashboard-set-init-info        t
-        dashboard-startup-banner       'logo
-                                        ;dashboard-page-separator       "\n\f\n"
+        dashboard-startup-banner       (or luiznux-logo 'logo)
+        ;;dashboard-page-separator       "\n\f\n"
         dashboard-items                '((recents   . 10) (projects  . 5))
         dashboard-navigator-buttons    `(;;line1
                                          ((,(all-the-icons-octicon "mark-github" :height 1.0 :v-adjust 0.0)
