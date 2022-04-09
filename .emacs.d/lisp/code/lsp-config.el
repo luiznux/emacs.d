@@ -263,7 +263,6 @@
     :bind (:map lsp-mode-map
            ("<f5>" . dap-debug))
     :hook ((after-init . dap-auto-configure-mode)
-           (dap-stopped . (lambda (_args) (dap-hydra)))
 
            (python-mode . (lambda () (require 'dap-python)))
            (ruby-mode . (lambda () (require 'dap-ruby)))
@@ -272,8 +271,7 @@
            ((c-mode c++-mode objc-mode swift-mode) . (lambda () (require 'dap-lldb)))
            (php-mode . (lambda () (require 'dap-php)))
            (elixir-mode . (lambda () (require 'dap-elixir)))
-           ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))
-           (powershell-mode . (lambda () (require 'dap-pwsh))))
+           ((js-mode js2-mode) . (lambda () (require 'dap-chrome))))
     :init
     (when (executable-find "python3")
       (setq dap-python-executable "python3"))))
