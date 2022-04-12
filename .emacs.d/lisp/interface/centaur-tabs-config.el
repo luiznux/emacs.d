@@ -53,7 +53,7 @@
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-enable-buffer-reordering)
-  (centaur-tabs-change-fonts (face-attribute 'default :font) 80)
+  (centaur-tabs-change-fonts (face-attribute 'default :font) 70)
 
   (defun centaur-tabs-buffer-groups ()
     "`centaur-tabs-buffer-groups' control buffers' group rules.
