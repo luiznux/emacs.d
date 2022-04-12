@@ -199,11 +199,11 @@
             ivy-occur-mode ivy-occur-grep-mode
             process-menu-mode list-environment-mode cargo-process-mode
 
-            "^\\*eshell.*\\*$" eshell-mode
-            "^\\*shell.*\\*$"  shell-mode
-            "^\\*term.*\\*$"   term-mode
-            "^\\*vterm.*\\*$"  vterm-mode
-
+            "^\\*eshell.*\\*.*$" eshell-mode
+            "^\\*shell.*\\*.*$"  shell-mode
+            "^\\*terminal.*\\*.*$" term-mode
+            "^\\*vterm.*\\*.*$"  vterm-mode
+ 
             "\\*DAP Templates\\*$" dap-server-log-mode
             "\\*ELP Profiling Restuls\\*" profiler-report-mode
             "\\*Flycheck errors\\*$" " \\*Flycheck checker\\*$"
