@@ -100,6 +100,7 @@
 (require 'rust-config)
 (require 'dart-config)
 (require 'web-config)
+(require 'docker-config)
 (require 'terminal-config)
 
 (require 'pdf-config)
