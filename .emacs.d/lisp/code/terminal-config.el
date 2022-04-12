@@ -17,52 +17,93 @@
 ;;
 ;;; Code:
 
-(use-package vterm
-  :init
-  (setq vterm-always-compile-module  t
-        vterm-ignore-blink-cursor    nil))
+;; Better terminal emulator
+;; @see https://github.com/akermu/emacs-libvterm#installation
+(when (and module-file-suffix           ; dynamic module
+           (executable-find "cmake")
+           (executable-find "libtool")
+           (executable-find "make"))
+  (use-package vterm
+    :bind (:map vterm-mode-map
+           ([f9] . (lambda ()
+                     (interactive)
+                     (and (fboundp 'shell-pop-toggle)
+                          (shell-pop-toggle)))))
+    :init (setq vterm-always-compile-module t)))
 
-(use-package  multi-vterm
-  :after vterm
-  :commands multi-vterm-next multi-vterm-prev
-  :functions (vterm-send-return
-              vterm--self-insert
-              evil-insert-state
-              evil-define-key
-              evil-insert-resume)
-  :config
-  (add-hook 'vterm-mode-hook
-			(lambda ()
-			  (setq-local evil-insert-state-cursor 'box)
-			  (evil-insert-state)))
-  (define-key vterm-mode-map [return] #'vterm-send-return)
+;; Shell Pop: leverage `popper'
+(with-no-warnings
+  (defvar shell-pop--frame nil)
+  (defun shell-pop-posframe-hidehandler (_)
+    "Hidehandler used by `shell-pop-posframe-toggle'."
+    (not (eq (selected-frame) posframe--frame)))
 
-  (setq vterm-keymap-exceptions nil)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
-  (evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
-  (evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
-  (evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
-  (evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
-  (evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
-  (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
-  (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
+  (defun shell-pop--shell (&optional arg)
+    "Get shell buffer."
+    (cond ((fboundp 'vterm) (vterm arg))
+          (sys/win32p (eshell arg))
+          (t (shell))))
+
+  (defun shell-pop-posframe-toggle ()
+    "Toggle shell in child frame."
+    (interactive)
+    (let* ((buffer (shell-pop--shell))
+           (window (get-buffer-window buffer)))
+      ;; Hide window: for `popper'
+      (when (window-live-p window)
+        (delete-window window))
+
+      (if (and (frame-live-p shell-pop--frame)
+               (frame-visible-p shell-pop--frame))
+          (progn
+            ;; Hide child frame and refocus in parent frame
+            (make-frame-invisible shell-pop--frame)
+            (select-frame-set-input-focus (frame-parent shell-pop--frame))
+            (setq shell-pop--frame nil))
+        (let ((width  (max 80 (floor (* (frame-width) 0.5))))
+              (height (floor (* (frame-height) 0.5))))
+          ;; Shell pop in child frame
+          (setq shell-pop--frame
+                (posframe-show
+                 buffer
+                 :poshandler #'posframe-poshandler-frame-center
+                 :hidehandler #'shell-pop-posframe-hidehandler
+                 :left-fringe 8
+                 :right-fringe 8
+                 :width width
+                 :height height
+                 :min-width width
+                 :min-height height
+                 :internal-border-width 3
+                 :internal-border-color (face-foreground 'font-lock-comment-face nil t)
+                 :background-color (face-background 'tooltip nil t)
+                 :override-parameters '((cursor-type . t))
+                 :accept-focus t))
+
+          ;; Focus in child frame
+          (select-frame-set-input-focus shell-pop--frame)
+
+          (with-current-buffer buffer
+            (setq-local cursor-type 'box) ; blink cursor
+            (goto-char (point-max))
+            (when (fboundp 'vterm-reset-cursor-point)
+              (vterm-reset-cursor-point)))))))
+  (bind-key "C-`" #'shell-pop-posframe-toggle)
+
+  (defvar shell-pop--window nil)
+  (defun shell-pop-toggle ()
+    "Toggle shell."
+    (interactive)
+    (unless (and (frame-live-p shell-pop--frame)
+                 (frame-visible-p shell-pop--frame))
+      (if (window-live-p shell-pop--window)
+          (progn
+            (delete-window shell-pop--window)
+            (setq shell-pop--window nil))
+        (setq shell-pop--window
+              (get-buffer-window (shell-pop--shell))))))
+  (bind-key [f9] #'shell-pop-toggle))
+
 
 (provide 'terminal-config)
 ;;; terminal-config.el ends here
