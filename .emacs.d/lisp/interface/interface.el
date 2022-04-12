@@ -97,14 +97,17 @@
   ;; now I use this WORKAROUND:, mentioned in :
   ;; https://github.com/seagle0128/doom-modeline/issues/486
   ;; :pepe-sad:
-  (set-face-attribute 'mode-line nil :family (face-attribute 'default :font) :height 80)
-  (set-face-attribute 'mode-line-inactive nil :family (face-attribute 'default :font) :height 80))
+  (set-face-attribute 'mode-line nil :family (face-attribute 'default :font) :height 75)
+  (set-face-attribute 'mode-line-inactive nil :family (face-attribute 'default :font) :height 75))
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
            completion-in-region-mode
            pdf-annot-list-mode
            flycheck-error-list-mode
+           eshell-mode
+           shell-mode
+           term-mode
            vterm-mode
            ido-mode
            lsp-treemacs-error-list-mode) . hide-mode-line-mode)))
@@ -190,7 +193,8 @@
       (cons (/ (- (plist-get info :parent-frame-width)
                   (plist-get info :posframe-width))
                2)
-            (/ (plist-get info :parent-frame-height)
+            (/ (+ (plist-get info :parent-frame-height)
+                  (* 2 (plist-get info :font-height)))
                2)))))
 
 (use-package which-key
