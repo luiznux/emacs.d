@@ -81,8 +81,8 @@
           ("M-k" . 'ivy-previous-line)
           ("M-d" . ivy-scroll-up-command)
           ("M-u" . ivy-scroll-down-command)
-          ("M->" . ivy-beginning-of-buffer)
-          ("M-<" . ivy-end-of-buffer)
+          ("M-<" . ivy-beginning-of-buffer)
+          ("M->" . ivy-end-of-buffer)
           ("C-w" . ivy-yank-word)))
 
   :hook ((after-init . ivy-mode)
