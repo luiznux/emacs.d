@@ -203,7 +203,7 @@
             "^\\*shell.*\\*.*$"  shell-mode
             "^\\*terminal.*\\*.*$" term-mode
             "^\\*vterm.*\\*.*$"  vterm-mode
- 
+
             "\\*DAP Templates\\*$" dap-server-log-mode
             "\\*ELP Profiling Restuls\\*" profiler-report-mode
             "\\*Flycheck errors\\*$" " \\*Flycheck checker\\*$"
@@ -218,8 +218,9 @@
             "^\\*elfeed-entry\\*$"
             "^\\*macro expansion\\**"
 
-            "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
-            " *Agenda Commands*" " *Org Dashboard*" " *Org Select*" " *Org tags*" " *Org links*" "*Org Note*"
+            "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*" "\\*Agenda Commands\\*"
+            "\\*Org Dashboard\\*" "\\*Org links\\*" "\\*Org Note\\*"
+
             "\\*cider-repl .*\\*"
             "\\*Gofmt Errors\\*$" "\\*Go Test\\*$" godoc-mode
             "\\*docker-containers\\*" "\\*docker-images\\*" "\\*docker-networks\\*" "\\*docker-volumes\\*"
