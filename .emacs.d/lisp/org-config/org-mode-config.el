@@ -172,10 +172,6 @@
   ;; Strike through headlines for done tasks in Org
   (setq org-fontify-done-headline t)
 
-  ;; cool message for scratch  ( ͡° ͜ʖ ͡°)
-  (setq initial-major-mode 'org-mode
-        initial-scratch-message "*Scratch* Hello!! :pepe-happy: :pepe-ok: \n\n#+begin_src\n\n#+end_src")
-
   (use-package verb
     :config
     (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
