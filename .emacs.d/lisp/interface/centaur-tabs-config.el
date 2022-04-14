@@ -29,6 +29,7 @@
          (vterm-mode . centaur-tabs-local-mode)
          (calendar-mode . centaur-tabs-local-mode)
          (org-agenda-mode . centaur-tabs-local-mode)
+         (magit-mode . centaur-tabs-local-mode)
          (git-commit-mode . centaur-tabs-local-mode)
          (minibuffer-mode . centaur-tabs-local-mode)
          (org-capture-mode . centaur-tabs-local-mode)
