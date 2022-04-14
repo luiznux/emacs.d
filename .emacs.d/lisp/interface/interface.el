@@ -17,6 +17,7 @@
 ;;
 ;;; Code:
 
+(require 'custom-config)
 (require 'constants)
 (require 'functions)
 (require 'my-custom-emojis)
@@ -336,9 +337,10 @@
       :hook (global-linum-mode . hlinum-activate)
       :init (setq linum-highlight-in-all-buffersp t))))
 
+;; When `custom-prettify-symbols-alist' is `nil' use font supported ligatures
 (use-package composite
   :ensure nil
-  :defines emacs/>=27p
+  :unless custom-prettify-symbols-alist
   :init (defvar composition-ligature-table (make-char-table nil))
   :hook (((prog-mode conf-mode nxml-mode markdown-mode help-mode)
           . (lambda () (setq-local composition-function-table composition-ligature-table))))
@@ -370,7 +372,7 @@
              (91 . ".\\(?:\\(|\\)[]|]?\\)")
              ;; (92 . ".\\(?:\\([\\n]\\)[\\]?\\)")
              (94 . ".\\(?:\\(=\\)=?\\)")
-             (95 . ".\\(?:\\(|_\\|[_]\\)_?\\)")
+
              (119 . ".\\(?:\\(ww\\)w?\\)")
              (123 . ".\\(?:\\(|\\)[|}]?\\)")
              (124 . ".\\(?:\\(->\\|=>\\||[-=>]\\||||*>\\|[]=>|}-]\\).?\\)")
