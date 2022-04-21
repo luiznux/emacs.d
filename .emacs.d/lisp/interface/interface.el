@@ -17,8 +17,8 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
 (require 'constants)
+(require 'custom-config)
 (require 'functions)
 (require 'my-custom-emojis)
 
