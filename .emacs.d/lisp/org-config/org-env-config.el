@@ -1,4 +1,4 @@
-;;; org-enviroment-config.el --- Emacs org agenda config  -*- lexical-binding: t -*-
+;;; org-env-config.el --- Emacs org agenda config  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -242,5 +242,5 @@
   )
 
 
-(provide 'org-enviroment-config)
-;;; org-enviroment-config.el ends here
+(provide 'org-env-config)
+;;; org-env-config.el ends here
