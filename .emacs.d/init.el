@@ -80,6 +80,7 @@
 (require 'dired-config)
 
 ;; Org and Agenda config
+(require 'org-enviroment-config)
 (require 'org-mode-config)
 (require 'org-auto-update-state)
 (require 'org-agenda-config)
