@@ -17,7 +17,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
 (require 'functions)
 (require 'my-org-packages)
 
@@ -114,43 +113,6 @@
 
         ;; config capture-templates, for more info see `org-capture'
         org-default-notes-file             "~/org/agenda/capture.org"
-        org-capture-templates              '(
-                                             ("t"         ; key
-                                              "Captures"  ; description
-                                              entry       ; type
-                                              (file "~/org/agenda/capture.org") ; target
-                                              "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"  ; template
-                                              :empty-lines-before 2 ; properties
-                                              :empty-lines-after  2
-                                              :created            t)
-
-                                             ("t"
-                                              "Agenda"
-                                              entry
-                                              (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
-                                              "** %^{Is it a todo?|TODO|MEETING|WARNING} %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
-                                              :empty-lines-before 2
-                                              :empty-lines-after  2
-                                              :jump-to-captured   t)
-
-                                             ("t"
-                                              "Tasks"
-                                              entry
-                                              (file "~/org/personal/tasks.org")
-                                              "* TODO %^{Title}\n#+description: %^{Description 🖋 }\n%?"
-                                              :empty-lines-before 2
-                                              :empty-lines-after  2
-                                              :jump-to-captured   t
-                                              :created            t)
-
-                                             ("w"
-                                              "Work"
-                                              entry
-                                              (file "~/org/work/work.org")
-                                              "* TODO %^{Title} %^g\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
-                                              :empty-lines-before 2
-                                              :empty-lines-after  2
-                                              :jump-to-captured   t))
 
         ;; `org-babel' config
         org-confirm-babel-evaluate         nil

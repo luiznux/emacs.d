@@ -40,10 +40,6 @@
   (org-scheduled-today ((t (:foreground "deep sky blue"))))
 
   :init
-  (defconst luiznux-personal-agenda (concat org-directory "/personal/"))
-  (defconst luiznux-work-agenda (concat org-directory "/work/work.org"))
-  (defconst luiznux-general-agenda (concat org-directory "/agenda/"))
-
   (defun my-agenda-prefix ()
     (format "%s" (my-agenda-indent-string (org-current-level))))
 
@@ -82,128 +78,6 @@
                                                              (todo . "%i %-12 c")
                                                              (tags . "%i")
                                                              (search . "%i %-12 c")))
-
-  ;; Set the agenda files and custom commands
-  ;; depending witch environment whas chosen
-  (pcase luiznux-enviroment-type
-    ('work
-     (setq org-agenda-files            (list luiznux-work-agenda luiznux-general-agenda)
-           org-agenda-custom-commands  '(
-                                         ("x" "My Agenda :)"
-                                          ((agenda
-                                            ""
-                                            ((org-agenda-overriding-header        "My Agenda 📅")
-                                             (org-agenda-remove-tags              t)
-                                             (org-agenda-span                     '2)))
-
-                                           (tags-todo
-                                            "work"
-                                            ((org-agenda-overriding-header        "Work Stuffs  ")
-                                             (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
-                                             (org-agenda-sorting-strategy         '(category-keep))
-                                             (org-agenda-remove-tags              t)
-                                             (org-tags-match-list-sublevels       t)
-                                             (org-enforce-todo-dependencies       t)
-                                             (org-agenda-skip-scheduled-if-done   t)
-                                             (org-agenda-skip-deadline-if-done    t)
-                                             (org-agenda-todo-ignore-scheduled   'all)))
-                                           )
-                                          )
-
-                                         ("t" "My General Todos"
-                                          ((tags-todo
-                                            "+CATEGORY=\"task \""
-                                            ((org-agenda-overriding-header        "My Tasks  ")
-                                             (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
-                                             (org-agenda-sorting-strategy         '(category-keep))
-                                             (org-agenda-remove-tags              t)
-                                             (org-tags-match-list-sublevels       t)
-                                             (org-enforce-todo-dependencies       t)
-                                             (org-agenda-skip-scheduled-if-done   t)
-                                             (org-agenda-skip-deadline-if-done    t)
-                                             (org-agenda-todo-ignore-scheduled    'all)))))
-                                         )
-           )
-     )
-
-    ('personal
-     (setq org-agenda-files            (list luiznux-personal-agenda luiznux-general-agenda)
-           org-agenda-custom-commands  '(
-                                         ("x" "My Agenda :)"
-                                          ((agenda
-                                            ""
-                                            ((org-agenda-overriding-header        "My Agenda 📅")
-                                             (org-agenda-remove-tags              t)
-                                             (org-agenda-span                     '2)))
-
-                                           (tags-todo
-                                            "college"
-                                            ((org-agenda-overriding-header        "College ")
-                                             (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
-                                             (org-agenda-sorting-strategy         '(category-keep))
-                                             (org-tags-match-list-sublevels       t)
-                                             (org-agenda-remove-tags              t)
-                                             (org-enforce-todo-dependencies       t)
-                                             (org-agenda-skip-scheduled-if-done   t)
-                                             (org-agenda-skip-deadline-if-done    t)
-                                             (org-agenda-todo-ignore-scheduled    'all)))
-
-                                           (tags-todo
-                                            "+CATEGORY=\"project \""
-                                            ((org-agenda-overriding-header        "My Projects  ")
-                                             (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
-                                             (org-agenda-sorting-strategy         '(category-keep))
-                                             (org-agenda-remove-tags              t)
-                                             (org-tags-match-list-sublevels       t)
-                                             (org-enforce-todo-dependencies       t)
-                                             (org-agenda-skip-scheduled-if-done   t)
-                                             (org-agenda-skip-deadline-if-done    t)
-                                             (org-agenda-todo-ignore-scheduled    'all)))
-                                           )
-                                          )
-
-                                         ("t" "My General Todos"
-                                          ((tags-todo
-                                            "+CATEGORY=\"task \""
-                                            ((org-agenda-overriding-header        "My Tasks  ")
-                                             (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
-                                             (org-agenda-sorting-strategy         '(category-keep))
-                                             (org-agenda-remove-tags              t)
-                                             (org-tags-match-list-sublevels       t)
-                                             (org-enforce-todo-dependencies       t)
-                                             (org-agenda-skip-scheduled-if-done   t)
-                                             (org-agenda-skip-deadline-if-done    t)
-                                             (org-agenda-todo-ignore-scheduled    'all)))))
-                                         )
-           )
-     )
-
-    ('nil
-     (setq org-agenda-files            (list org-directory luiznux-general-agenda)
-           org-agenda-custom-commands  '(
-                                         ("x" "My Agenda :)"
-                                          ((agenda
-                                            ""
-                                            ((org-agenda-overriding-header        "My Agenda 📅")
-                                             (org-agenda-remove-tags              t)
-                                             (org-agenda-span                     '2)))))
-
-                                         ("t" "My General Todos"
-                                          ((tags-todo
-                                            "+CATEGORY=\"task \""
-                                            ((org-agenda-overriding-header        "My Tasks  ")
-                                             (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
-                                             (org-agenda-sorting-strategy         '(category-keep))
-                                             (org-agenda-remove-tags              t)
-                                             (org-tags-match-list-sublevels       t)
-                                             (org-enforce-todo-dependencies       t)
-                                             (org-agenda-skip-scheduled-if-done   t)
-                                             (org-agenda-skip-deadline-if-done    t)
-                                             (org-agenda-todo-ignore-scheduled    'all)))))
-                                         )
-           )
-     )
-    )
 
   (setq org-agenda-ignore-properties      '(effort appt category)
         org-agenda-dim-blocked-tasks      nil
