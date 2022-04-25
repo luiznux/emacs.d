@@ -46,7 +46,7 @@
   ;; Access Git forges from Magit
   (when (executable-find "cc")
     (use-package forge
-      :demand
+      :demand t
       :init
       (setq forge-topic-list-columns
             '(("#" 5 forge-topic-list-sort-by-number (:right-align t) number nil)
