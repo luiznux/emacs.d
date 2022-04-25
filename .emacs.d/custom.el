@@ -10,7 +10,7 @@
       calendar-latitude        23.33
       calendar-longitude       46.38)
 
-;; Set custom variables lacated `custom-config'
+;; Set custom variables, for more info see `custom-config'
 (setq luiznux-enviroment-type  'nil
       luiznux-server           t)
 
