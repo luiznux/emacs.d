@@ -68,6 +68,7 @@
 (require 'basic)
 (require 'interface)
 (require 'window-config)
+(require 'ibuffer-config)
 (require 'highlight-config)
 (require 'evil-config)
 (require 'company-config)
