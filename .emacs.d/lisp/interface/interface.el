@@ -64,7 +64,7 @@
 (use-package solaire-mode
   :hook (after-load-theme . solaire-global-mode)
   :init
-  (load-theme 'doom-vibrant t))
+  (load-theme 'doom-one t))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -156,6 +156,9 @@
       :hook (after-init . good-scroll-mode)
       :bind (([remap next] . good-scroll-up-full-screen)
              ([remap prior] . good-scroll-down-full-screen)))))
+
+(setq pixel-scroll-precision-large-scroll-height  40.0
+      pixel-scroll-precision-interpolation-factor 9)
 
 ;; Smooth scrolling over images
 (when emacs/>=26p
@@ -325,7 +328,7 @@
       :hook ((prog-mode yaml-mode) . display-line-numbers-mode)
       :init (setq display-line-numbers-width-start t))
   (use-package linum-off
-    :demand
+    :demand t
     :defines linum-format
     :hook (after-init . global-linum-mode)
     :init (setq linum-format "%4d ")
