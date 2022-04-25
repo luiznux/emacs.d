@@ -18,7 +18,6 @@
 ;;; Code:
 
 (use-package terraform-mode)
-(use-package jenkinsfile-mode)
 (use-package vimrc-mode)
 (use-package google-this)
 
