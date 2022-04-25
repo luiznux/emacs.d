@@ -1,4 +1,4 @@
-;;; org-env-config.el --- Emacs org agenda config  -*- lexical-binding: t -*-
+;;; org-env-config.el --- Emacs org agenda config  -*- lexical-binding: t no-byte-compile: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
