@@ -273,6 +273,7 @@
            (elixir-mode . (lambda () (require 'dap-elixir)))
            ((js-mode js2-mode) . (lambda () (require 'dap-chrome))))
     :init
+    (setq dap-auto-configure-features '(sessions locals breakpoints expressions controls))
     (when (executable-find "python3")
       (setq dap-python-executable "python3"))))
 
