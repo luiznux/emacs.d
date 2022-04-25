@@ -44,7 +44,7 @@
     (setq magit-bury-buffer-function #'my-magit-kill-buffers))
 
   ;; Access Git forges from Magit
-  (when (executable-find "cc")
+  (when (and emacs/>=26p (executable-find "cc"))
     (use-package forge
       :demand t
       :init
