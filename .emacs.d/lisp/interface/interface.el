@@ -22,28 +22,10 @@
 (require 'functions)
 (require 'my-custom-emojis)
 
-
 (setq menu-bar-mode        nil
       tool-bar-mode        nil
       scroll-bar-mode      nil
       blink-cursor-mode    nil)
-
-;; Suppress GUI features
-(setq use-dialog-box                      nil
-      use-file-dialog                     t
-      inhibit-startup-screen              t
-      inhibit-startup-message             t
-      inhibit-startup-echo-area-message   t)
-
-;; Don't use GTK+ tooltip
-(when (boundp 'x-gtk-use-system-tooltips)
-  (setq x-gtk-use-system-tooltips nil))
-
-;; Display dividers between windows
-(setq window-divider-default-bottom-width  0
-      window-divider-default-right-width   4
-      window-divider-default-places        t)
-(add-hook 'window-setup-hook #'window-divider-mode)
 
 ;; Optimization
 (setq idle-update-delay 1.0)
@@ -55,16 +37,22 @@
 (setq frame-inhibit-implied-resize   t
       frame-resize-pixelwise         t)
 
+(use-package solaire-mode
+  :hook (after-load-theme . solaire-global-mode))
 
 (use-package doom-themes
+  :custom-face
+  (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
+  :custom (doom-themes-treemacs-theme "doom-colors")
+  :init (load-theme 'doom-one t)
   :config
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (doom-themes-org-config)
 
-(use-package solaire-mode
-  :hook (after-load-theme . solaire-global-mode)
-  :init
-  (load-theme 'doom-one t))
+  ;; Enable customized theme
+  ;; FIXME https://github.com/emacs-lsp/lsp-treemacs/issues/89
+  (with-eval-after-load 'lsp-treemacs
+    (doom-themes-treemacs-config)))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -74,7 +62,7 @@
     (setq-default mode-line-format nil))
 
   (setq doom-modeline-icon                        t
-        doom-modeline-bar-width                   2
+        doom-modeline-bar-width                   1
         doom-modeline-major-mode-icon             t
         doom-modeline-buffer-state-icon           t
         doom-modeline-major-mode-color-icon       t
@@ -82,10 +70,9 @@
         doom-modeline-modal-icon                  t
         doom-modeline-lsp                         t
         doom-modeline-github                      t
-        doom-modeline-checker-simple-format       t
         doom-modeline-persp-name                  t
         doom-modeline-persp-icon                  t
-        doom-modeline-minor-modes                 nil
+        doom-modeline-minor-modes                 t
         doom-modeline-enable-word-count           nil
         doom-modeline-buffer-encoding             nil
         doom-modeline-buffer-file-name-style      'auto
@@ -132,43 +119,6 @@
 
 (use-package rainbow-mode
   :hook (emacs-lisp-mode . rainbow-mode))
-
-;; Mouse & Smooth Scroll
-;; Scroll one line at a time (less "jumpy" than defaults)
-(when (display-graphic-p)
-  (setq mouse-wheel-scroll-amount              '(1 ((shift) . 1))
-        mouse-wheel-scroll-amount-horizontal   1
-        mouse-wheel-progressive-speed          nil))
-
-(setq scroll-step                          1 ;; keyboard scroll one line at a time
-      scroll-margin                        0 ;; keyboard scroll at the bottom of the screen
-      scroll-conservatively                100000
-      auto-window-vscroll                  nil
-      mouse-wheel-follow-mouse             't ;; scroll window under mouse
-      scroll-preserve-screen-position      t)
-
-;; Good pixel line scrolling
-(if (fboundp 'pixel-scroll-precision-mode)
-    (pixel-scroll-precision-mode t)
-  (when (and emacs/>=27p (not sys/macp))
-    (use-package good-scroll
-      :diminish
-      :hook (after-init . good-scroll-mode)
-      :bind (([remap next] . good-scroll-up-full-screen)
-             ([remap prior] . good-scroll-down-full-screen)))))
-
-(setq pixel-scroll-precision-large-scroll-height  40.0
-      pixel-scroll-precision-interpolation-factor 9)
-
-;; Smooth scrolling over images
-(when emacs/>=26p
-  (use-package iscroll
-    :diminish
-    :hook (image-mode . iscroll-mode)))
-
-;; Use fixed pitch where it's sensible
-(use-package mixed-pitch
-  :diminish)
 
 ;; Display ugly ^L page breaks as tidy horizontal lines
 (use-package page-break-lines
@@ -240,7 +190,7 @@
 (use-package all-the-icons
   :functions font-installed-p
   :init (unless (font-installed-p "all-the-icons")
-          (all-the-icons-install-fonts t))
+          (emacs-install-fonts t))
   :config
   (with-no-warnings
     (defun all-the-icons-reset ()
@@ -339,6 +289,67 @@
       :custom-face (linum-highlight-face ((t (:inherit default :background nil :foreground nil))))
       :hook (global-linum-mode . hlinum-activate)
       :init (setq linum-highlight-in-all-buffersp t))))
+
+;; Suppress GUI features
+(setq use-dialog-box                      nil
+      use-file-dialog                     t
+      inhibit-startup-screen              t
+      inhibit-startup-message             t
+      inhibit-startup-echo-area-message   t)
+
+;; Display dividers between windows
+(setq window-divider-default-bottom-width  0
+      window-divider-default-right-width   4
+      window-divider-default-places        t)
+(add-hook 'window-setup-hook #'window-divider-mode)
+
+;; Mouse & Smooth Scroll
+;; Scroll one line at a time (less "jumpy" than defaults)
+(when (display-graphic-p)
+  (setq mouse-wheel-scroll-amount              '(1 ((shift) . 1))
+        mouse-wheel-scroll-amount-horizontal   1
+        mouse-wheel-progressive-speed          nil))
+
+(setq scroll-step                          1 ;; keyboard scroll one line at a time
+      scroll-margin                        0 ;; keyboard scroll at the bottom of the screen
+      scroll-conservatively                100000
+      auto-window-vscroll                  nil
+      mouse-wheel-follow-mouse             't ;; scroll window under mouse
+      scroll-preserve-screen-position      t)
+
+;; Good pixel line scrolling
+(if (fboundp 'pixel-scroll-precision-mode)
+    (pixel-scroll-precision-mode t)
+  (when (and emacs/>=27p (not sys/macp))
+    (use-package good-scroll
+      :diminish
+      :hook (after-init . good-scroll-mode)
+      :bind (([remap next] . good-scroll-up-full-screen)
+             ([remap prior] . good-scroll-down-full-screen)))))
+
+(setq pixel-scroll-precision-large-scroll-height  40.0
+      pixel-scroll-precision-interpolation-factor 9)
+
+;; Smooth scrolling over images
+(when emacs/>=26p
+  (use-package iscroll
+    :diminish
+    :hook (image-mode . iscroll-mode)))
+
+;; Use fixed pitch where it's sensible
+(use-package mixed-pitch
+  :diminish)
+
+(with-no-warnings
+  (when sys/macp
+    ;; Render thinner fonts
+    (setq ns-use-thin-smoothing t)
+    ;; Don't open a file in a new frame
+    (setq ns-pop-up-frames nil)))
+
+;; Don't use GTK+ tooltip
+(when (boundp 'x-gtk-use-system-tooltips)
+  (setq x-gtk-use-system-tooltips nil))
 
 ;; When `custom-prettify-symbols-alist' is `nil' use font supported ligatures
 (use-package composite
