@@ -22,29 +22,14 @@
 (require 'constants)
 (require 'custom-config)
 
-
-;; Emacs config
-
 (defvar line-breaker)
 (defvar user-email)
 
-(defun various-emacs-config ()
-  "Various config for Emacs."
+(unless (fboundp 'caadr)
+  (defalias 'caadr #'cl-caadr))
 
-  (setq line-breaker page-delimiter)
-
-  (setq password-cache-expiry      nil
-        load-prefer-newer          t
-        system-time-locale         "C"
-        user-full-name             "Luiz Tagliaferro"
-        user-mail-address          "luiz@luiznux.com")
-
-  (setq history-length 100)
-  (put 'minibuffer-history 'history-length 50)
-  (put 'evil-ex-history 'history-length 50)
-  (put 'kill-ring 'history-length 25)
-
-  (global-hl-line-mode))
+
+;; Emacs config
 
 (defun open-agenda-on-right-buffer ()
   "Open agenda in the right buffer."
@@ -59,13 +44,70 @@
   (save-some-buffers)
   (kill-emacs))
 
-
-;; UI
+(defun get-user-email()
+  "Get the user email adress."
+  (setq user-email user-mail-address))
 
+
 ;; Font
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
+
+(defun emacs-install-fonts ()
+  "Install necessary fonts."
+  (interactive)
+
+  (let* ((font-dest (cond
+                     ;; Default Linux install directories
+                     ((member system-type '(gnu gnu/linux gnu/kfreebsd))
+                      (concat (or (getenv "XDG_DATA_HOME")
+                                  (concat (getenv "HOME") "/.local/share"))
+                              "/fonts/"))
+                     ;; Default MacOS install directory
+                     ((eq system-type 'darwin)
+                      (concat (getenv "HOME") "/Library/Fonts/"))))
+         (known-dest? (stringp font-dest))
+         (font-dest (or font-dest (read-directory-name "Font installation directory: " "~/"))))
+
+    (unless (file-directory-p font-dest) (mkdir font-dest t))
+
+    ;; Download `all-the-fonts'
+    (when (bound-and-true-p all-the-icons-font-names)
+      (let ((url-format "https://raw.githubusercontent.com/domtronn/all-the-icons.el/master/fonts/%s"))
+        (mapc (lambda (font)
+                (url-copy-file (format url-format font) (expand-file-name font font-dest) t))
+              all-the-icons-font-names)))
+
+    ;; Download `Symbola'
+    ;; See https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip
+    (let* ((url (concat centaur-homepage "/files/6135060/symbola.zip"))
+           (temp-file (make-temp-file "symbola-" nil ".zip"))
+           (temp-dir (concat (file-name-directory temp-file) "/symbola/"))
+           (unzip-script (cond ((executable-find "unzip")
+                                (format "mkdir -p %s && unzip -qq %s -d %s"
+                                        temp-dir temp-file temp-dir))
+                               ((executable-find "powershell")
+                                (format "powershell -noprofile -noninteractive \
+  -nologo -ex bypass Expand-Archive -path '%s' -dest '%s'" temp-file temp-dir))
+                               (t (user-error "Unable to extract '%s' to '%s'! \
+  Please check unzip, powershell or extract manually" temp-file temp-dir)))))
+      (url-copy-file url temp-file t)
+      (when (file-exists-p temp-file)
+        (shell-command-to-string unzip-script)
+        (let* ((font-name "Symbola.otf")
+               (temp-font (expand-file-name font-name temp-dir)))
+          (if (file-exists-p temp-font)
+              (copy-file temp-font (expand-file-name font-name font-dest) t)
+            (message "Failed to download `Symbola'!")))))
+
+    (when known-dest?
+      (message "Fonts downloaded, updating font cache... <fc-cache -f -v> ")
+      (shell-command-to-string (format "fc-cache -f -v")))
+
+    (message "Successfully %s `all-the-icons' and `Symbola' fonts to `%s'!"
+             (if known-dest? "installed" "downloaded")
+             font-dest)))
 
 (require 'display-line-numbers)
 (defcustom display-line-numbers-exempt-modes
@@ -142,38 +184,6 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
 
 ;; Buffer
-
-;; Source https://www.simplify.ba/articles/2016/01/25/display-buffer-alist/
-(defun sasa/display-buffer (buffer &optional alist)
-  "Select window for BUFFER (need to use word ALIST on the first line).
-Returns thirth visible window if there are three visible windows, nil otherwise.
-Minibuffer is ignored."
-  (let ((wnr (if (active-minibuffer-window) 3 2)))
-    (when (= (+ wnr 1) (length (window-list)))
-      (let ((window (nth wnr (window-list))))
-        (set-window-buffer window buffer)
-        window))))
-(defun sasa/call-help-temp-buffers ()
-  "Call the other `sasa/display-buffer' func with args."
-
-  (defvar sasa/help-temp-buffers '("^\\*Flycheck errors\\*$"
-                                   "^\\*Completions\\*$"
-                                   "^\\*Help\\*$"
-                                   ;; Other buffers names...
-                                   "^\\*Ido Completions\\*$"
-                                   "^\\*Colors\\*$"
-                                   "^\\*Async Shell Command\\*$"))
-  (while sasa/help-temp-buffers
-    (add-to-list 'display-buffer-alist
-                 `(,(car sasa/help-temp-buffers)
-                   (display-buffer-reuse-window
-                    sasa/display-buffer
-                    display-buffer-in-side-window)
-                   (reusable-frames     . visible)
-                   (side                . bottom)
-                   (window-height       . 0.2)))
-    (setq sasa/help-temp-buffers (cdr sasa/help-temp-buffers))))
-
 (defun revert-this-buffer ()
   "Revert the current buffer."
   (interactive)
@@ -220,21 +230,6 @@ on selected major modes only."
                   minibuffer-setup-hook))
 
     (add-hook hook (lambda () (setq show-trailing-whitespace nil)))))
-
-(defun set-default-indentation ()
-  "Configures the default indentation (4 spaces)."
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 4)
-  (setq indent-line-function 'insert-tab)
-  (global-set-key (kbd "RET") 'newline-and-indent))
-
-(defun beginning-of-line++ ()
-  "Go to first character on a line."
-  (interactive)
-  (if (bolp)
-	  (back-to-indentation)
-	(beginning-of-line)))
-(global-set-key (kbd "C-a") 'beginning-of-line++)
 
 
 ;; Config
@@ -316,18 +311,11 @@ on selected major modes only."
            (split-string-and-unquote path ":")
            exec-path))))
 
-(defun get-user-email()
-  "Get the user email adress."
-  (setq user-email user-mail-address))
-
 
 
 (witch-sys?)
-(various-emacs-config)
-(set-default-indentation)
 (enable-ido-mode)
 (read-path-variable-from-zshrc)
-(sasa/call-help-temp-buffers)
 (do-not-show-trailing-whitespace)
 
 
