@@ -107,6 +107,19 @@
     (setq use-short-answers t)
   (fset 'yes-or-no-p 'y-or-n-p))
 
+(setq indent-line-function 'insert-tab)
+(setq-default indent-tabs-mode nil ; Permanently indent with spaces, never with TABs
+              tab-width        4)
+
+(setq password-cache-expiry      nil
+      load-prefer-newer          t
+      system-time-locale         "C")
+
+
+(setq line-breaker page-delimiter)
+
+(global-hl-line-mode)
+
 (setq inhibit-compacting-font-caches  t ; Don’t compact font caches during GC.
       delete-by-moving-to-trash       t ; Deleting files go to OS's trash folder
       delete-old-versions             t ; Delete excess backup files silently
@@ -140,6 +153,7 @@
 
 ;; Global keybindings
 (bind-keys ("C-c K" . revert-this-buffer))
+
 
 (provide 'basic)
 ;;; basic.el ends here
