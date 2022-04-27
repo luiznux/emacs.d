@@ -27,10 +27,21 @@
   (yas-global-mode 1)
   (use-package yasnippet-snippets))
 
-(use-package origami
-  :hook (prog-mode . origami-mode)
-  :init (setq origami-show-fold-header t)
-  :config (face-spec-reset-face 'origami-fold-header-face))
+(use-package hideshow
+  :ensure nil
+  :hook (prog-mode . hs-minor-mode)
+  :diminish hs-minor-mode)
+
+(use-package yafolding
+  :hook ((prog-mode-hook . (lambda () (yafolding-show-all) (delete-trailing-whitespace)))
+         (prog-mode . yafolding-mode))
+  :init
+  (defvar yafolding-mode-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "<C-S-return>") #'yafolding-hide-parent-element)
+      (define-key map (kbd "<C-M-return>") #'yafolding-toggle-all)
+      (define-key map (kbd "<C-return>") #'yafolding-toggle-element)
+      map)))
 
 ;; Automatic parenthesis pairing
 (use-package elec-pair

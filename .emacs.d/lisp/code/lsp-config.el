@@ -471,10 +471,6 @@
 
       (setq lsp-treemacs-theme "centaur-colors"))))
 
-(use-package lsp-origami
-  :init
-  (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable))
-
 ;; Java support
 (when emacs/>=25.2p
   (use-package lsp-java
