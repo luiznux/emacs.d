@@ -10,12 +10,14 @@
       calendar-latitude        23.33
       calendar-longitude       46.38)
 
-;; Set custom variables, for more info see `custom-config'
-(setq luiznux-enviroment-type  'nil
+;; Set custom variables
+(setq user-full-name           "Luiz Tagliaferro"
+      user-mail-address        "luiz@luiznux.com"
+      luiznux-enviroment-type  'nil
       luiznux-server           t)
 
 ;; Set default font
-(cl-loop for font in '("Sauce Code Pro Nerd Font Medium" "Source Code Pro"
+(cl-loop for font in '("SauceCodePro Nerd Font " "Source Code Pro"
                        "DejaVu Sans Mono" "Noto Sans")
          when (font-installed-p font)
          return (set-face-attribute 'default nil
