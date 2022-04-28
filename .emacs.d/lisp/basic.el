@@ -97,10 +97,10 @@
          ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace))
   :init
   (setq column-number-mode t
-        line-number-mode t
-        ;; kill-whole-line t               ; Kill line including '\n'
+        line-number-mode   t
+        ;; kill-whole-line t            ; Kill line including '\n'
         line-move-visual nil
-        track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
+        track-eol   t                   ; Keep cursor at end of lines. Require line-move-visual is nil.
         set-mark-command-repeat-pop t)  ; Repeating C-SPC after popping mark pops it again
 
   ;; Visualize TAB, (HARD) SPACE, NEWLINE
@@ -139,9 +139,9 @@ Also, delete any process that is exited or signaled."
 	               (process-query-on-exit-flag p))
 	           (let* ((icon
                        (or (all-the-icons-octicon "zap"
-                                                    :height 1.0 :v-adjust -0.05
-                                                    :face 'all-the-icons-lblue)
-                        ""))
+                                                  :height 1.0 :v-adjust -0.05
+                                                  :face 'all-the-icons-lblue)
+                           ""))
                       (buf (process-buffer p))
 		              (type (process-type p))
 		              (pid  (if (process-id p) (format "%d" (process-id p)) "--"))
