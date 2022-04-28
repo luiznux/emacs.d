@@ -212,6 +212,7 @@ The original function deletes trailing whitespace of the current line."
           (narrow-to-region (+ end 2) (point-max))
           (delete-trailing-whitespace)
           (widen))))))
+
 (defun smart-delete-trailing-whitespace ()
   "Invoke `delete-trailing-whitespace-except-current-line'
 on selected major modes only."
@@ -228,7 +229,6 @@ on selected major modes only."
                   compilation-mode-hook
                   minibuffer-inactive-mode-hook
                   minibuffer-setup-hook))
-
     (add-hook hook (lambda () (setq show-trailing-whitespace nil)))))
 
 
