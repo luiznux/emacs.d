@@ -41,15 +41,15 @@
           treemacs-missing-project-action        'remove
           treemacs-sorting                       'alphabetic-asc
           treemacs-follow-after-init             t
-          treemacs-width                         29
-          treemacs-text-scale                    -1
+          treemacs-width                         30
+          ;;treemacs-text-scale                    -1
           treemacs-deferred-git-apply-delay      0.5
           treemacs-display-in-side-window        t
           treemacs-is-never-other-window         nil
           treemacs-no-png-images                 nil
           treemacs-no-delete-other-windows       t
           treemacs-read-string-input             'from-child-frame
-          treemacs-recenter-after-file-follow    t
+          treemacs-recenter-after-file-follow    'always
           treemacs-recenter-after-project-jump   'always
           treemacs-recenter-after-project-expand 'on-distance
           treemacs-show-hidden-files             t
