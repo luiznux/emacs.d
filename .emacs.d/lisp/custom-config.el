@@ -41,6 +41,13 @@
                  (const :tag "Personal Enviroment" personal)
                  (const :tag "None" nil)))
 
+(defcustom lsp-format-on-save-ignore-modes
+  '(c-mode c++-mode python-mode markdown-mode)
+  "The modes that don't auto format and organize imports while saving the buffers.
+`prog-mode' means ignoring all derived modes."
+  :group 'luiznux
+  :type '(repeat (symbol :tag "Major-Mode")))
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)
