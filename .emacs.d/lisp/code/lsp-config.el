@@ -68,16 +68,18 @@
     :hook ((prog-mode . (lambda ()
                           (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode)
                             (lsp-deferred))))
-
-           ((go-mode . lsp-deferred) (web-mode . lsp))
+           (markdown-mode . lsp-deferred)
 
            ((clojure-mode . lsp) (clojurec-mode . lsp) (clojurescript-mode . lsp))
 
            (lsp-mode . (lambda ()
                          ;; Integrate `which-key'
                          (lsp-enable-which-key-integration)
-                         (add-hook 'before-save-hook #'lsp-format-buffer t t)
-                         (add-hook 'before-save-hook #'lsp-organize-imports t t))))
+
+                         ;; Format and organize imports
+                         (unless (apply #'derived-mode-p lsp-format-on-save-ignore-modes)
+                           (add-hook 'before-save-hook #'lsp-format-buffer t t)
+                           (add-hook 'before-save-hook #'lsp-organize-imports t t)))))
 
     :bind (:map lsp-mode-map
            ("C-c C-d" . lsp-describe-thing-at-point)
@@ -97,8 +99,8 @@
     (setq lsp-keymap-prefix                  "C-c l"
           lsp-eldoc-enable-hover             t
           lsp-lens-enable                    t
-          lsp-keep-workspace-alive           nil
-          lsp-modeline-code-actions-enable   t)
+          lsp-modeline-code-actions-enable   t
+          lsp-keep-workspace-alive           nil)
 
     ;; For `lsp-clients'
     (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
@@ -128,8 +130,7 @@
       (advice-add #'lsp-bash-check-sh-shell :override #'my-lsp-bash-check-sh-shell)
 
       (defun my-lsp-icons-all-the-icons-material-icon (icon-name face fallback &optional feature)
-        (if (and centaur-icon
-                 (display-graphic-p)
+        (if (and (display-graphic-p)
                  (functionp 'all-the-icons-material)
                  (lsp-icons--enabled-for-feature feature))
             (all-the-icons-material icon-name
