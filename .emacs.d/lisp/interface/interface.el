@@ -133,6 +133,17 @@
 (use-package posframe
   :hook (after-load-theme . posframe-delete-all)
   :init
+  (defface posframe-border
+    `((t (:background ,(face-foreground 'shadow nil t))))
+    "Face used by the posframe border."
+    :group 'posframe)
+
+  (add-hook
+   'after-load-theme-hook
+   (lambda ()
+     (custom-set-faces
+      `(posframe-border ((t (:background ,(face-foreground 'shadow nil t))))))))
+
   (with-eval-after-load 'persp-mode
     (add-hook 'persp-load-buffer-functions
               (lambda (&rest _)
@@ -152,6 +163,8 @@
                2)))))
 
 (use-package which-key
+  :diminish
+  :bind ("C-h M-m" . which-key-show-major-mode)
   :hook (after-init . which-key-mode)
   :init
   (setq which-key-max-description-length 30
@@ -275,7 +288,7 @@
 (if (fboundp 'display-line-numbers-mode)
     (use-package display-line-numbers
       :ensure nil
-      :hook ((prog-mode yaml-mode) . display-line-numbers-mode)
+      :hook ((prog-mode yaml-mode conf-mode) . display-line-numbers-mode)
       :init (setq display-line-numbers-width-start t))
   (use-package linum-off
     :demand t
