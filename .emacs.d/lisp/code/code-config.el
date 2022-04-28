@@ -29,19 +29,59 @@
 
 (use-package hideshow
   :ensure nil
+  :diminish hs-minor-mode
   :hook (prog-mode . hs-minor-mode)
-  :diminish hs-minor-mode)
+  :config
+  ;; More functions
+  ;; @see https://karthinks.com/software/simple-folding-with-hideshow/
+  (defun hs-cycle (&optional level)
+    (interactive "p")
+    (let (message-log-max
+          (inhibit-message t))
+      (if (= level 1)
+          (pcase last-command
+            ('hs-cycle
+             (hs-hide-level 1)
+             (setq this-command 'hs-cycle-children))
+            ('hs-cycle-children
+             (save-excursion (hs-show-block))
+             (setq this-command 'hs-cycle-subtree))
+            ('hs-cycle-subtree
+             (hs-hide-block))
+            (_
+             (if (not (hs-already-hidden-p))
+                 (hs-hide-block)
+               (hs-hide-level 1)
+               (setq this-command 'hs-cycle-children))))
+        (hs-hide-level level)
+        (setq this-command 'hs-hide-level))))
 
-(use-package yafolding
-  :hook ((prog-mode-hook . (lambda () (yafolding-show-all) (delete-trailing-whitespace)))
-         (prog-mode . yafolding-mode))
-  :init
-  (defvar yafolding-mode-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "<C-S-return>") #'yafolding-hide-parent-element)
-      (define-key map (kbd "<C-M-return>") #'yafolding-toggle-all)
-      (define-key map (kbd "<C-return>") #'yafolding-toggle-element)
-      map)))
+  (defun hs-toggle-all ()
+    "Toggle hide/show all."
+    (interactive)
+    (pcase last-command
+      ('hs-toggle-all
+       (save-excursion (hs-show-all))
+       (setq this-command 'hs-global-show))
+      (_ (hs-hide-all))))
+
+  ;; Display line counts
+  (defun hs-display-code-line-counts (ov)
+    "Display line counts when hiding codes."
+    (when (eq 'code (overlay-get ov 'hs))
+      (overlay-put ov 'display
+                   (concat
+                    " "
+                    (propertize
+                     (if (char-displayable-p ?⏷) "⏷" "...")
+                     'face 'shadow)
+                    (propertize
+                     (format " (%d lines)"
+                             (count-lines (overlay-start ov)
+                                          (overlay-end ov)))
+                     'face '(:inherit shadow :height 0.8))
+                    " "))))
+  (setq hs-set-up-overlay #'hs-display-code-line-counts))
 
 ;; Automatic parenthesis pairing
 (use-package elec-pair
@@ -56,12 +96,27 @@
 
   ;;; https://github.com/Malabarba/aggressive-indent-mode
 (use-package aggressive-indent
-  :init
-  (global-aggressive-indent-mode 0)
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+  :diminish
+  :hook((after-init . global-aggressive-indent-mode)
+        ;; HACK: Disable in big files due to the performance issues
+        ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
+        (find-file . (lambda ()
+                       (if (> (buffer-size) (* 3000 80))
+                           (aggressive-indent-mode -1)))))
+  :config
+  ;; Disable in some modes
+  (dolist (mode '(gitconfig-mode minibuffer-mode asm-mode web-mode html-mode css-mode go-mode scala-mode))
+    (push mode aggressive-indent-excluded-modes))
+
   ;; Disable in some commands
-  (add-to-list 'aggressive-indent-protected-commands #'delete-trailing-whitespace t))
+  (add-to-list 'aggressive-indent-protected-commands #'delete-trailing-whitespace t)
+
+  ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
+  (add-to-list 'aggressive-indent-dont-indent-if
+               '(and (derived-mode-p 'c-mode 'c++-mode 'csharp-mode
+                                     'java-mode 'go-mode 'swift-mode)
+                     (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
+                                         (thing-at-point 'line))))))
 
 ;; Show number of matches in mode-line while searching
 (use-package anzu
