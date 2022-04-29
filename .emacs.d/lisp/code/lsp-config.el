@@ -171,7 +171,7 @@
           lsp-ui-doc-show-with-mouse         t
           lsp-ui-doc-delay                   0.9
           lsp-ui-doc-position                'at-point
-          lsp-ui-doc-border                  (face-foreground 'font-lock-comment-face nil t)
+          lsp-ui-doc-border                  (face-foreground 'posframe-border nil t)
           lsp-ui-imenu-colors                `(,(face-foreground 'font-lock-keyword-face)
                                                ,(face-foreground 'font-lock-string-face)
                                                ,(face-foreground 'font-lock-constant-face)
@@ -209,8 +209,7 @@
     ;; Reset `lsp-ui-doc-background' after loading theme
     (add-hook 'after-load-theme-hook
               (lambda ()
-                (setq lsp-ui-doc-border (face-foreground 'font-lock-comment-face nil t))
-                (set-face-background 'lsp-ui-doc-background (face-background 'tooltip nil t)))))
+                (setq lsp-ui-doc-border (face-background 'posframe-border nil t))) t))
 
   (use-package lsp-ivy
     :after lsp-mode
@@ -478,7 +477,7 @@
         (setq lsp-treemacs-theme "centaur-colors"))))
 
   ;; Java support
-  (when emacs/>=25.2p
+  (when emacs/>=26p
     (use-package lsp-java
       :hook (java-mode . (lambda () (require 'lsp-java)))))
 
