@@ -284,12 +284,6 @@
       (when (executable-find "python3")
         (setq dap-python-executable "python3"))))
 
-  (use-package lsp-python-ms
-    :init (setq lsp-python-ms-auto-install-server t)
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-python-ms)
-                           (lsp)))) ; or lsp-deferred
-
   ;; `lsp-mode' and `treemacs' integration
   (when emacs/>=25.2p
     (use-package lsp-treemacs
@@ -475,6 +469,20 @@
              :extensions (java-project))))
 
         (setq lsp-treemacs-theme "centaur-colors"))))
+
+  ;; Python: pyright
+  (use-package lsp-pyright
+    :preface
+    ;; Use yapf to format
+    (defun lsp-pyright-format-buffer ()
+      (interactive)
+      (when (and (executable-find "yapf") buffer-file-name)
+        (call-process "yapf" nil nil nil "-i" buffer-file-name)))
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-pyright)
+                           (add-hook 'after-save-hook #'lsp-pyright-format-buffer t t)))
+    :init (when (executable-find "python3")
+            (setq lsp-pyright-python-executable-cmd "python3")))
 
   ;; Java support
   (when emacs/>=26p
