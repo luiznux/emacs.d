@@ -16,6 +16,7 @@
 ;;; Code:
 
 (use-package centaur-tabs
+  :after evil
   :defines evil-normal-state-map
 
   :commands (centaur-tabs-group-by-projectile-project
