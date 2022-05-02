@@ -16,6 +16,8 @@
 ;;; Code:
 
 (require 'constants)
+(require 'custom-config)
+
 
 (when emacs/>=25.2p
   ;; A tree layout file explorer
@@ -71,7 +73,8 @@
     (add-hook 'treemacs-mode-hook (lambda() (treemacs-toggle-fixed-width)))
 
     (use-package treemacs-evil
-      :after evil)
+      :demand t
+      :after  treemacs evil)
 
     (use-package treemacs-projectile
       :after projectile
