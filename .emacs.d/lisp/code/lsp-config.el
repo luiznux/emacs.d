@@ -23,6 +23,7 @@
 
 (when emacs/>=26p
   (use-package lsp-mode
+    :diminish
 
     :defines (lsp-clients-python-library-directories
               lsp-rust-server
@@ -105,16 +106,16 @@
     ;; For `lsp-clients'
     (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
 
+    (setq lsp-bash-highlight-parsing-errors t
+          lsp-bash-explainshell-endpoint    t
+          lsp-bash-glob-pattern             t)
+
     :config
     (dolist (m '(clojure-mode
                  clojurec-mode
                  clojurescript-mode
                  clojurex-mode))
       (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-
-    (setq lsp-bash-highlight-parsing-errors t
-          lsp-bash-explainshell-endpoint    t
-          lsp-bash-glob-pattern             t)
 
     (with-no-warnings
       ;; Disable `lsp-mode' in `git-timemachine-mode'
@@ -128,6 +129,17 @@
         (and (eq major-mode 'sh-mode)
              (memq sh-shell '(sh bash zsh))))
       (advice-add #'lsp-bash-check-sh-shell :override #'my-lsp-bash-check-sh-shell)
+
+      ;; Only display icons in GUI
+      (defun my-lsp-icons-get-symbol-kind (fn &rest args)
+        (when (display-graphic-p)
+          (apply fn args)))
+      (advice-add #'lsp-icons-get-by-symbol-kind :around #'my-lsp-icons-get-symbol-kind)
+
+      (defun my-lsp-icons-get-by-file-ext (fn &rest args)
+        (when (display-graphic-p)
+          (apply fn args)))
+      (advice-add #'lsp-icons-get-by-file-ext :around #'my-lsp-icons-get-by-file-ext)
 
       (defun my-lsp-icons-all-the-icons-material-icon (icon-name face fallback &optional feature)
         (if (and (display-graphic-p)
@@ -143,13 +155,7 @@
       "Update LSP server."
       (interactive)
       ;; Equals to `C-u M-x lsp-install-server'
-      (lsp-install-server t))
-
-    (defun lsp-go-install-save-hooks ()
-      "Install save hooks."
-      (add-hook 'before-save-hook #'lsp-format-buffer t t)
-      (add-hook 'before-save-hook #'lsp-organize-imports t t))
-    (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+      (lsp-install-server t)))
 
   (use-package lsp-ui
     :commands lsp-ui-doc-hide
@@ -484,11 +490,6 @@
     :init (when (executable-find "python3")
             (setq lsp-pyright-python-executable-cmd "python3")))
 
-  ;; Java support
-  (when emacs/>=26p
-    (use-package lsp-java
-      :hook (java-mode . (lambda () (require 'lsp-java)))))
-
   (use-package ccls
     :defines projectile-project-root-files-top-down-recurring
     :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
@@ -517,7 +518,13 @@
     :config
     (use-package modern-cpp-font-lock
       :diminish
-      :init (modern-c++-font-lock-global-mode t))))
+      :init (modern-c++-font-lock-global-mode t)))
+
+  ;; Java support
+  (when emacs/>=26p
+    (use-package lsp-java
+      :hook (java-mode . (lambda () (require 'lsp-java))))))
+
 
 (provide 'lsp-config)
 ;;; lsp-config.el ends here
