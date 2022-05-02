@@ -61,6 +61,14 @@
   (eq system-type 'gnu/linux)
   "Are we running on a Linux system?")
 
+(defconst sys/rootp
+  (string-equal "root" (getenv "USER"))
+  "Are you using ROOT user?")
+
+(defconst emacs/>=25p
+  (>= emacs-major-version 25)
+  "Emacs is 25 or above.")
+
 (defconst emacs/>=26p
   (>= emacs-major-version 26)
   "Emacs is 26 or above.")
