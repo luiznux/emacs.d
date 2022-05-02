@@ -17,8 +17,12 @@
 
 (require 'custom-config)
 (require 'functions)
+(require 'all-the-icons)
 
 (use-package dashboard
+  :diminish dashboard-mode
+  :functions (all-the-icons-faicon
+              all-the-icons-material)
   :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)))
   :init
@@ -47,8 +51,6 @@
                                            (lambda (&rest _) (centaur-tabs--create-new-tab))))))
 
   (add-hook 'dashboard-mode-hook  #'(lambda () (open-agenda-on-right-buffer)))
-
-  :config
   (dashboard-setup-startup-hook))
 
 
