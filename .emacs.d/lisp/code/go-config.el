@@ -18,9 +18,11 @@
 ;;; Code:
 
 (use-package go-mode
+  :init (setq godoc-at-point-function #'godoc-gogetdoc)
   :config
-  (autoload 'go-mode "go-mode" nil t)
-  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  ;; Env vars
+  (with-eval-after-load 'exec-path-from-shell
+    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
 
   ;; Misc
   (use-package go-dlv)
@@ -41,6 +43,12 @@
                                                           go-test
                                                           go-errcheck))
                        (flycheck-golangci-lint-setup))))
+
+  (use-package go-tag
+    :bind (:map go-mode-map
+           ("C-c t a" . go-tag-add)
+           ("C-c t r" . go-tag-remove))
+    :init (setq go-tag-args (list "-transform" "camelcase")))
 
   (use-package go-gen-test
     :bind (:map go-mode-map
