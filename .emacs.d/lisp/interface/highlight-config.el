@@ -17,6 +17,13 @@
 ;;
 ;;; Code:
 
+;; Highlight the current line
+(use-package hl-line
+  :ensure nil
+  :hook ((after-init . global-hl-line-mode)
+         (( eshell-mode shell-mode term-mode vterm-mode) .
+          (lambda () (setq-local global-hl-line-mode nil)))))
+
 (use-package paren
   :ensure nil
   :hook (after-init . show-paren-mode)
@@ -158,6 +165,32 @@ FACE defaults to inheriting from default and highlight."
     (when (derived-mode-p 'prog-mode 'yaml-mode)
       (symbol-overlay-mode 1)))
   (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay))
+
+(use-package rainbow-mode
+  :defines helpful-mode-map
+  :diminish
+  :bind (:map help-mode-map
+         ("w" . rainbow-mode)
+         :map helpful-mode-map
+         ("w" . rainbow-mode))
+  :hook ((html-mode  help-mode helpful-mode) . rainbow-mode)
+  :config
+  (with-no-warnings
+    ;; HACK: Use overlay instead of text properties to override `hl-line' faces.
+    ;; @see https://emacs.stackexchange.com/questions/36420
+    (defun my-rainbow-colorize-match (color &optional match)
+      (let* ((match (or match 0))
+             (ov (make-overlay (match-beginning match) (match-end match))))
+        (overlay-put ov 'ovrainbow t)
+        (overlay-put ov 'face `((:foreground ,(if (> 0.5 (rainbow-x-color-luminance color))
+                                                  "white" "black"))
+                                (:background ,color)))))
+    (advice-add #'rainbow-colorize-match :override #'my-rainbow-colorize-match)
+
+    (defun my-rainbow-clear-overlays ()
+      "Clear all rainbow overlays."
+      (remove-overlays (point-min) (point-max) 'ovrainbow t))
+    (advice-add #'rainbow-turn-off :after #'my-rainbow-clear-overlays)))
 
 (use-package diff-hl
   :custom-face
