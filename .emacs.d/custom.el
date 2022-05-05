@@ -16,13 +16,17 @@
       luiznux-enviroment-type  'nil
       luiznux-server           t)
 
+;;(setq doom-modeline-font-size value
+;;      centaur-tabs-font-size  value )
+
 ;; Set default font
 (cl-loop for font in '("SauceCodePro Nerd Font " "Source Code Pro"
                        "DejaVu Sans Mono" "Noto Sans")
          when (font-installed-p font)
          return (set-face-attribute 'default nil
                                     :font font
-                                    :height 90))
+                                    :height 90
+                                    :weight 'medium))
 
 ;; Sets ibuffer as default.
 (defalias 'list-buffers 'ibuffer)
