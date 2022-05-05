@@ -20,7 +20,7 @@
 ;;      centaur-tabs-font-size  value )
 
 ;; Set default font
-(cl-loop for font in '("SauceCodePro Nerd Font " "Source Code Pro"
+(cl-loop for font in '("Sauce Code Pro Nerd Font " "Source Code Pro"
                        "DejaVu Sans Mono" "Noto Sans")
          when (font-installed-p font)
          return (set-face-attribute 'default nil
