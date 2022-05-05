@@ -48,6 +48,20 @@
   :group 'luiznux
   :type '(repeat (symbol :tag "Major-Mode")))
 
+(defcustom centaur-tabs-font-size
+  (- (face-attribute 'default :height) 20)
+  "Font size choice for `centaur-tabs'.
+The default value in inherit from the `face-attribute' minus 20"
+  :group 'luiznux
+  :type 'int)
+
+(defcustom doom-modeline-font-size
+  (- (face-attribute 'default :height) 15)
+  "Font size choice for `doom-modeline'.
+The default value in inherit from the `face-attribute' minus 20"
+  :group 'luiznux
+  :type 'int)
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)
