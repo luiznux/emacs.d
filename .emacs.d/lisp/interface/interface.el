@@ -85,8 +85,8 @@
   ;; now I use this WORKAROUND:, mentioned in :
   ;; https://github.com/seagle0128/doom-modeline/issues/486
   ;; :pepe-sad:
-  (set-face-attribute 'mode-line nil :family (face-attribute 'default :font) :height 75)
-  (set-face-attribute 'mode-line-inactive nil :family (face-attribute 'default :font) :height 75))
+  (set-face-attribute 'mode-line nil :family (face-attribute 'default :font) :height doom-modeline-font-size)
+  (set-face-attribute 'mode-line-inactive nil :family (face-attribute 'default :font) :height doom-modeline-font-size))
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
@@ -116,9 +116,6 @@
   (add-hook 'evil-insert-state-entry-hook #'parrot-start-animation)
   (add-hook 'evil-visual-state-entry-hook #'parrot-start-animation)
   (add-hook 'evil-emacs-state-entry-hook  #'parrot-start-animation))
-
-(use-package rainbow-mode
-  :hook (emacs-lisp-mode . rainbow-mode))
 
 ;; Display ugly ^L page breaks as tidy horizontal lines
 (use-package page-break-lines
