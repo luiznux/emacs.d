@@ -15,6 +15,9 @@
 ;;
 ;;; Code:
 
+(require 'custom-config)
+
+
 (use-package centaur-tabs
   :after evil
   :defines evil-normal-state-map
@@ -59,7 +62,7 @@
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-enable-buffer-reordering)
-  (centaur-tabs-change-fonts (face-attribute 'default :font) 70)
+  (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
   (centaur-tabs-mode t))
 
 
