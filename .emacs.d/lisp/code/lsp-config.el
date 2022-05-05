@@ -167,21 +167,22 @@
            ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
            ([remap xref-find-references] . lsp-ui-peek-find-references))
     :hook (lsp-mode . lsp-ui-mode)
-    :init
-    (setq lsp-ui-doc-enable                  t
-          lsp-ui-doc-header                  t
-          lsp-ui-peek-enable                 t
-          lsp-ui-peek-show-directory         t
-          lsp-ui-sideline-show-code-actions  t
-          lsp-ui-sideline-ignore-duplicate   t
-          lsp-ui-doc-show-with-mouse         t
-          lsp-ui-doc-delay                   0.9
-          lsp-ui-doc-position                'at-point
-          lsp-ui-doc-border                  (face-foreground 'posframe-border nil t)
-          lsp-ui-imenu-colors                `(,(face-foreground 'font-lock-keyword-face)
-                                               ,(face-foreground 'font-lock-string-face)
-                                               ,(face-foreground 'font-lock-constant-face)
-                                               ,(face-foreground 'font-lock-variable-name-face)))
+    :init (setq lsp-ui-doc-enable                  t
+                lsp-ui-doc-header                  t
+                lsp-ui-peek-enable                 t
+                lsp-ui-peek-show-directory         t
+                lsp-ui-sideline-show-code-actions  t
+                lsp-ui-sideline-ignore-duplicate   t
+                lsp-ui-doc-show-with-mouse         t
+                lsp-ui-doc-delay                   0.9
+                lsp-ui-doc-position                'at-point
+                lsp-ui-imenu-colors                `(,(face-foreground 'font-lock-keyword-face)
+                                                     ,(face-foreground 'font-lock-string-face)
+                                                     ,(face-foreground 'font-lock-constant-face)
+                                                     ,(face-foreground 'font-lock-variable-name-face)))
+    (when (facep 'posframe-border)
+      (setq lsp-ui-doc-border (face-background 'posframe-border nil t)))
+
     :config
     (with-no-warnings
       ;; Handle docs
