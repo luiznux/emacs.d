@@ -30,20 +30,54 @@
   (google-translate-default-target-language "ja"))
 
 (use-package olivetti
-  :config
-  (setq-default olivetti-body-width 100))
+  :diminish
+  :bind ("<f7>" . olivetti-mode)
+  :init (setq olivetti-body-width 0.62))
 
 ;; emacs stuffs
+(use-package copyit)                    ; copy path, url, etc.
+(use-package focus)                     ; Focus on the current region
+(use-package memory-usage)
+(use-package bug-hunter)
+(use-package logview)
+(use-package daemons)                 ; system services/daemons
+(use-package tldr)
+
+;; Process
+(use-package proced
+  :ensure nil
+  :init
+  (setq-default proced-format 'verbose)
+  (setq proced-auto-update-flag t
+        proced-auto-update-interval 3))
+
 (use-package esup
   :config
   ;; Work around a bug where esup tries to step into the byte-compiled
   ;; version of `cl-lib', and fails horribly.
   (setq esup-depth 0)
   :pin melpa)
-(use-package memory-usage)
-(use-package bug-hunter)
-(use-package logview
-  :defer t)
+
+(use-package list-environment
+  :hook (list-environment-mode . (lambda ()
+                                   (setq tabulated-list-format
+                                         (vconcat `(("" , 2))
+                                                  tabulated-list-format))
+                                   (tabulated-list-init-header)))
+  :init
+  (with-no-warnings
+    (defun my-list-environment-entries ()
+      "Generate environment variable entries list for tabulated-list."
+      (mapcar (lambda (env)
+                (let* ((kv (split-string env "="))
+                       (key (car kv))
+                       (val (mapconcat #'identity (cdr kv) "=")))
+                  (list key (vector
+                             (all-the-icons-octicon "key" :height 0.8 :v-adjust -0.05)
+                             `(,key face font-lock-keyword-face)
+                             `(,val face font-lock-string-face)))))
+              process-environment))
+    (advice-add #'list-environment-entries :override #'my-list-environment-entries)))
 
 ;; games and useless things
 (use-package hackernews
