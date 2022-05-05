@@ -103,9 +103,9 @@
 (require 'dart-config)
 (require 'web-config)
 (require 'docker-config)
-(require 'terminal-config)
-
-(require 'pdf-config)
 (require 'other-modes)
+(require 'terminal-config)
+(require 'pdf-config)
+
 
 ;;; init.el ends here
