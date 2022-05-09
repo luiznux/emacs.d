@@ -172,6 +172,11 @@
   :ensure nil
   :hook (after-init . global-auto-revert-mode))
 
+;; Code styles
+(use-package editorconfig
+  :diminish
+  :hook (after-init . editorconfig-mode))
+
 (use-package quickrun
   :bind
   (("<f5>" . quickrun)
@@ -192,6 +197,7 @@
 (when (functionp 'module-load)
   (use-package tree-sitter
     :ensure tree-sitter-langs
+    :diminish
     :hook ((after-init . global-tree-sitter-mode)
            (tree-sitter-after-on . tree-sitter-hl-mode))))
 
@@ -254,6 +260,8 @@
 (use-package ag)
 (use-package format-all)
 (use-package sudo-edit)
+(use-package csv-mode)
+(use-package cmake-mode)
 
 
 (provide 'code-config)
