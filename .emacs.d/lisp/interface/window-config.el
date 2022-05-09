@@ -218,7 +218,7 @@
             "^\\*elfeed-entry\\*$"
             "^\\*macro expansion\\**"
 
-            "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*" "\\*Agenda Commands\\*"
+            "\\*Agenda Commands\\*" "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
             "\\*Org Dashboard\\*" "\\*Org links\\*" "\\*Org Note\\*"
 
             "\\*cider-repl .*\\*"
