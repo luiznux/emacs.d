@@ -92,13 +92,9 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
 
-(use-package htmlize
-  :defer t)
+(use-package htmlize)
+(use-package markdown-mode)
 
-(use-package markdown-mode
-  :defer t)
-
-(use-package csv-mode)
 
 (provide 'web-config)
 ;;; web-config.el ends here
