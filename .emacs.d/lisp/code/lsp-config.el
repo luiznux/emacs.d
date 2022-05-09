@@ -21,7 +21,14 @@
 (require 'custom-config)
 (require 'functions)
 
+
 (when emacs/>=26p
+
+  ;; Performace tuning
+  ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance/
+  (setq read-process-output-max (* 1024 1024)) ;; 1MB
+  (setenv "LSP_USE_PLISTS" "true")
+
   (use-package lsp-mode
     :diminish
 
@@ -90,21 +97,18 @@
     :custom
     ;; what to use when checking on-save. "check" is default, I prefer clippy
     (lsp-rust-analyzer-cargo-watch-command "clippy")
-    (lsp-eldoc-render-all nil)
-    (lsp-idle-delay 0.5)
     (lsp-rust-analyzer-server-display-inlay-hints t)
 
     :init
-    ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance
-    (setq read-process-output-max (* 1024 1024)) ;; 1MB
     (setq lsp-keymap-prefix                  "C-c l"
           lsp-eldoc-enable-hover             t
+          lsp-eldoc-render-all               nil
           lsp-lens-enable                    t
           lsp-modeline-code-actions-enable   t
-          lsp-keep-workspace-alive           nil)
+          lsp-keep-workspace-alive           nil
 
-    ;; For `lsp-clients'
-    (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
+          ;; For `lsp-clients'
+          lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
 
     (setq lsp-bash-highlight-parsing-errors t
           lsp-bash-explainshell-endpoint    t
@@ -166,22 +170,32 @@
            ("M-RET" . lsp-ui-sideline-apply-code-actions)
            ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
            ([remap xref-find-references] . lsp-ui-peek-find-references))
+
     :hook (lsp-mode . lsp-ui-mode)
-    :init (setq lsp-ui-doc-enable                  t
-                lsp-ui-doc-header                  t
-                lsp-ui-peek-enable                 t
-                lsp-ui-peek-show-directory         t
-                lsp-ui-sideline-show-code-actions  t
-                lsp-ui-sideline-ignore-duplicate   t
-                lsp-ui-doc-show-with-mouse         t
-                lsp-ui-doc-delay                   0.9
-                lsp-ui-doc-position                'at-point
-                lsp-ui-imenu-colors                `(,(face-foreground 'font-lock-keyword-face)
-                                                     ,(face-foreground 'font-lock-string-face)
-                                                     ,(face-foreground 'font-lock-constant-face)
-                                                     ,(face-foreground 'font-lock-variable-name-face)))
-    (when (facep 'posframe-border)
-      (setq lsp-ui-doc-border (face-background 'posframe-border nil t)))
+
+    :init
+    (setq lsp-ui-doc-enable                  t
+          lsp-ui-doc-header                  t
+          lsp-ui-peek-enable                 t
+          lsp-ui-peek-show-directory         t
+          lsp-ui-sideline-show-code-actions  t
+          lsp-ui-sideline-ignore-duplicate   t
+          lsp-ui-doc-show-with-mouse         t
+          lsp-ui-doc-delay                   0.9
+          lsp-ui-doc-position                'at-point
+          lsp-ui-imenu-colors                `(,(face-foreground 'font-lock-keyword-face)
+                                               ,(face-foreground 'font-lock-string-face)
+                                               ,(face-foreground 'font-lock-constant-face)
+                                               ,(face-foreground 'font-lock-variable-name-face)))
+    ;; Set correct color to borders
+    (defun my-lsp-ui-doc-set-border ()
+      "Set the border color of lsp doc."
+      (setq lsp-ui-doc-border
+            (if (facep 'posframe-border)
+                (face-background 'posframe-border nil t)
+              (face-foreground 'shadow nil t))))
+    (my-lsp-ui-doc-set-border)
+    (add-hook 'after-load-theme-hook #'my-lsp-ui-doc-set-border t)
 
     :config
     (with-no-warnings
@@ -211,12 +225,8 @@
       (advice-add #'lsp-ui-doc--handle-hr-lines :override #'my-lsp-ui-doc--handle-hr-lines))
 
     ;; `C-g'to close doc
-    (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide)
+    (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))
 
-    ;; Reset `lsp-ui-doc-background' after loading theme
-    (add-hook 'after-load-theme-hook
-              (lambda ()
-                (setq lsp-ui-doc-border (face-background 'posframe-border nil t))) t))
 
   (use-package lsp-ivy
     :after lsp-mode
