@@ -110,10 +110,6 @@
           ;; For `lsp-clients'
           lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
 
-    (setq lsp-bash-highlight-parsing-errors t
-          lsp-bash-explainshell-endpoint    t
-          lsp-bash-glob-pattern             t)
-
     :config
     (dolist (m '(clojure-mode
                  clojurec-mode
