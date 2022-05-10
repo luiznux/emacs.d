@@ -19,6 +19,7 @@
 
 (use-package evil
   :demand t
+  :diminish
   :commands evil-set-initial-state
   :init
   (setq evil-want-integration t
@@ -48,6 +49,7 @@
 
   (use-package evil-org
     :demand t
+    :diminish
     :functions evil-org-agenda-set-keys
     :after evil org
     :config
@@ -57,32 +59,44 @@
     (with-no-warnings
       (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))))
 
-  (use-package evil-multiedit
-    :config
-    (with-no-warnings
-      (evil-multiedit-default-keybinds)))
-
   (use-package evil-goggles
+    :demand t
+    :commands evil-goggles-use-diff-faces
     :init
-    (custom-set-faces
-     '(evil-goggles-delete-face ((t (:inherit 'shadow))))
-     '(evil-goggles-paste-face ((t (:inherit 'lazy-highlight))))
-     '(evil-goggles-yank-face ((t (:inherit 'isearch-fail)))))
+    (setq evil-goggles-pulse nil)
+    :config
+    (evil-goggles-mode)
+    (evil-goggles-use-diff-faces))
 
-    (setq evil-goggles-mode t)
-    )
+  (use-package evil-multiedit
+    :demand t
+    :commands evil-multiedit-default-keybinds
+    :config
+    (evil-multiedit-default-keybinds))
+
+  (use-package evil-snipe
+    :demand t
+    :diminish
+    :hook (evil-snipe-disabled-modes . (lambda ()
+                                         'Info-mode 'treemacs-mode 'dired-mode))
+    :init
+    (setq evil-snipe-repeat-scope  'visible
+          evil-snipe-scope         'line
+          evil-snipe-smart-case    t
+          evil-snipe-char-fold     t)
+    (evil-snipe-mode))
 
   (use-package evil-surround
     :config
     (global-evil-surround-mode 1))
 
-  (use-package evil-leader
-    :config
-    (global-evil-leader-mode))
-
   (use-package evil-matchit
     :config
-    (global-evil-matchit-mode 1)))
+    (global-evil-matchit-mode 1))
+
+  (use-package evil-leader
+    :config
+    (global-evil-leader-mode)))
 
 
 (provide 'evil-config)
