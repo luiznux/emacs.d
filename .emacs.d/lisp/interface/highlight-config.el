@@ -167,13 +167,8 @@ FACE defaults to inheriting from default and highlight."
   (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay))
 
 (use-package rainbow-mode
-  :defines helpful-mode-map
   :diminish
-  :bind (:map help-mode-map
-         ("w" . rainbow-mode)
-         :map helpful-mode-map
-         ("w" . rainbow-mode))
-  :hook ((html-mode  help-mode helpful-mode) . rainbow-mode)
+  :hook ((html-mode emacs-lisp-mode) . rainbow-mode)
   :config
   (with-no-warnings
     ;; HACK: Use overlay instead of text properties to override `hl-line' faces.
