@@ -19,10 +19,9 @@
 
 (require 'constants)
 
-(when emacs/>=26p
-  (use-package rustic
-    :init
-    (setq rustic-lsp-client 'lsp-mode)))
+(use-package rustic
+  :init
+  (setq rustic-lsp-client 'lsp-mode))
 
 (use-package rust-playground)
 

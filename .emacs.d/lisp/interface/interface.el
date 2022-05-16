@@ -123,9 +123,8 @@
   :hook (after-init . global-page-break-lines-mode))
 
 ;; A minor-mode menu for mode-line
-(when emacs/>=25.2p
-  (use-package minions
-    :hook (doom-modeline-mode . minions-mode)))
+(use-package minions
+  :hook (doom-modeline-mode . minions-mode))
 
 (use-package posframe
   :hook (after-load-theme . posframe-delete-all)
@@ -302,10 +301,12 @@
 
 ;; Suppress GUI features
 (setq use-dialog-box                      nil
+      initial-scratch-message             nil
       use-file-dialog                     t
       inhibit-startup-screen              t
       inhibit-startup-message             t
-      inhibit-startup-echo-area-message   t)
+      inhibit-default-init                t
+      inhibit-startup-echo-area-message   user-login-name)
 
 ;; Display dividers between windows
 (setq window-divider-default-bottom-width  0
@@ -341,10 +342,9 @@
       pixel-scroll-precision-interpolation-factor 9)
 
 ;; Smooth scrolling over images
-(when emacs/>=26p
-  (use-package iscroll
-    :diminish
-    :hook (image-mode . iscroll-mode)))
+(use-package iscroll
+  :diminish
+  :hook (image-mode . iscroll-mode))
 
 ;; Use fixed pitch where it's sensible
 (use-package mixed-pitch
