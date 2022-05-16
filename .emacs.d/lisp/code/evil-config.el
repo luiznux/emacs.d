@@ -70,21 +70,20 @@
 
   (use-package evil-multiedit
     :demand t
-    :commands evil-multiedit-default-keybinds
     :config
-    (evil-multiedit-default-keybinds))
+    (define-key evil-visual-state-map "R" 'evil-multiedit-match-all))
 
-  (use-package evil-snipe
-    :demand t
-    :diminish
-    :hook (evil-snipe-disabled-modes . (lambda ()
-                                         'Info-mode 'treemacs-mode 'dired-mode))
-    :init
-    (setq evil-snipe-repeat-scope  'visible
-          evil-snipe-scope         'line
-          evil-snipe-smart-case    t
-          evil-snipe-char-fold     t)
-    (evil-snipe-mode))
+;;  (use-package evil-snipe
+;;    :demand t
+;;    :diminish
+;;    :hook (evil-snipe-disabled-modes . (lambda ()
+;;                                         'Info-mode 'treemacs-mode 'dired-mode))
+;;    :init
+;;    (setq evil-snipe-repeat-scope  'visible
+;;          evil-snipe-scope         'line
+;;          evil-snipe-smart-case    t
+;;          evil-snipe-char-fold     t)
+;;    (evil-snipe-mode))
 
   (use-package evil-surround
     :config
