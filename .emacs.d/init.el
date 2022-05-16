@@ -72,6 +72,7 @@
 (require 'highlight-config)
 (require 'evil-config)
 (require 'company-config)
+(require 'bookmark-config)
 (require 'ivy-config)
 
 ;; Visual
@@ -105,7 +106,7 @@
 (require 'docker-config)
 (require 'other-modes)
 (require 'terminal-config)
-(require 'pdf-config)
+(require 'reader-config)
 
 
 ;;; init.el ends here
