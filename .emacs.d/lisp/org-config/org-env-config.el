@@ -74,17 +74,17 @@
                                         )
                                        )
 
-         org-capture-templates       '(("w"
-                                        "Work"
-                                        entry
-                                        (file "~/org/work/work.org")
-                                        "* TODO %^{Title} %^g\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
-                                        :empty-lines-before 2
+         org-capture-templates       '(("w"               ; key
+                                        "    Create Work task"  ; description
+                                        entry               ; type
+                                        (file "~/org/work/work.org") ; target
+                                        "* TODO %^{Title} %^g\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?" ; template
+                                        :empty-lines-before 2 ; properties
                                         :empty-lines-after  2
                                         :jump-to-captured   t)
 
                                        ("a"
-                                        "Agenda"
+                                        "    Add an event on the agenda calendar"
                                         entry
                                         (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
                                         "** %^{Is it a todo?|TODO|MEETING|WARNING} %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
@@ -92,12 +92,12 @@
                                         :empty-lines-after  2
                                         :jump-to-captured   t)
 
-                                       ("c"         ; key
-                                        "Captures"  ; description
-                                        entry       ; type
-                                        (file "~/org/agenda/capture.org") ; target
-                                        "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"  ; template
-                                        :empty-lines-before 2 ; properties
+                                       ("c"
+                                        "    Caputere a new code task"
+                                        entry
+                                        (file "~/org/agenda/capture.org")
+                                        "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
+                                        :empty-lines-before 2
                                         :empty-lines-after  2
                                         :created            t))
          )
@@ -154,7 +154,7 @@
                                        )
 
          org-capture-templates       '(("a"
-                                        "Agenda"
+                                        "    Add an event on the agenda calendar"
                                         entry
                                         (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
                                         "** %^{Is it a todo?|TODO|MEETING|WARNING} %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
@@ -162,18 +162,18 @@
                                         :empty-lines-after  2
                                         :jump-to-captured   t)
 
-                                       ("c"         ; key
-                                        "Captures"  ; description
-                                        entry       ; type
-                                        (file "~/org/agenda/capture.org") ; target
-                                        "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"  ; template
-                                        :empty-lines-before 2 ; properties
+                                       ("c"
+                                        "    Caputere a new code task"
+                                        entry
+                                        (file "~/org/agenda/capture.org")
+                                        "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
+                                        :empty-lines-before 2
                                         :empty-lines-after  2
                                         :created            t)
 
 
                                        ("t"
-                                        "Tasks"
+                                        "    Create a new general task"
                                         entry
                                         (file "~/org/personal/tasks.org")
                                         "* TODO %^{Title}\n#+description: %^{Description 🖋 }\n%?"
@@ -210,23 +210,26 @@
                                          )
                                         )
 
-         org-capture-templates        '(("c"         ; key
-                                         "Captures"  ; description
-                                         entry       ; type
-                                         (file "~/org/agenda/capture.org") ; target
-                                         "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"  ; template
-                                         :empty-lines-before 2 ; properties
-                                         :empty-lines-after  2
-                                         :created            t)
-
+         org-capture-templates        '(
                                         ("a"
-                                         "Agenda"
+                                         "    Add an event on the agenda calendar"
                                          entry
                                          (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
                                          "** %^{Is it a todo?|TODO|MEETING|WARNING} %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
                                          :empty-lines-before 2
                                          :empty-lines-after  2
-                                         :jump-to-captured   t))
+                                         :jump-to-captured   t)
+
+                                        ("c"
+                                         "    Caputere a new code task"
+                                         entry
+                                         (file "~/org/agenda/capture.org")
+                                         "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
+                                         :empty-lines-before 2
+                                         :empty-lines-after  2
+                                         :created            t)
+
+                                        )
          )
    )
   )
