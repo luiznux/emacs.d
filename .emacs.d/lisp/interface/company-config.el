@@ -18,6 +18,7 @@
 ;;; Code:
 
 (use-package company
+  :diminish
   :defines (company-dabbrev-ignore-case company-dabbrev-downcase)
 
   :commands company-cancel
@@ -155,7 +156,8 @@
     :init
     (setq company-box-icons-alist        'company-box-icons-all-the-icons
           company-box-backends-colors    nil
-          company-box-doc-delay          0.1)
+          company-box-doc-delay          0.1
+          company-box-scrollbar          'right)
     :config
     (setq company-box-backends-colors         nil
           company-box-show-single-candidate   t)
@@ -196,7 +198,9 @@
           (company-box--maybe-move-number (or company-box--last-start 1))))
       (advice-add #'company-box--display :override #'my-company-box--display)
 
-      (setq company-box-doc-frame-parameters '((internal-border-width . 1)
+      (setq company-box-doc-frame-parameters '((vertical-scroll-bars . nil)
+                                               (horizontal-scroll-bars . nil)
+                                               (internal-border-width . 1)
                                                (left-fringe . 8)
                                                (right-fringe . 8)))
 
