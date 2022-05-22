@@ -25,9 +25,6 @@
 (defvar line-breaker)
 (defvar user-email)
 
-(unless (fboundp 'caadr)
-  (defalias 'caadr #'cl-caadr))
-
 
 ;; Emacs config
 
