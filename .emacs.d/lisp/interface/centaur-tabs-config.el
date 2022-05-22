@@ -38,7 +38,8 @@
          (minibuffer-mode . centaur-tabs-local-mode)
          (org-capture-mode . centaur-tabs-local-mode)
          (which-key-mode . centaur-tabs-mode)
-         (helpful-mode . centaur-tabs-local-mode))
+         (helpful-mode . centaur-tabs-local-mode)
+         (grep-mode . centaur-tabs-local-mode))
 
   :bind (("C-<prior>" . centaur-tabs-backward)
          ("C-<next>" . centaur-tabs-forward)
