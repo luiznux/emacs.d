@@ -479,19 +479,28 @@
 
       (setq lsp-treemacs-theme "centaur-colors"))))
 
-;; Python: pyright
+;;;; Python: pyright with yapf format
+;;(use-package lsp-pyright
+;;  :preface
+;;  ;; Use yapf to format
+;;  (defun lsp-pyright-format-buffer ()
+;;    (interactive)
+;;    (when (and (executable-find "yapf") buffer-file-name)
+;;      (call-process "yapf" nil nil nil "-i" buffer-file-name)))
+;;  :hook (python-mode . (lambda ()
+;;                         (require 'lsp-pyright)
+;;                         (add-hook 'after-save-hook #'lsp-pyright-format-buffer t t)))
+;;  :init (when (executable-find "python3")
+;;          (setq lsp-pyright-python-executable-cmd "python3")))
+
+;; Python: pyright with black format
 (use-package lsp-pyright
-  :preface
-  ;; Use yapf to format
-  (defun lsp-pyright-format-buffer ()
-    (interactive)
-    (when (and (executable-find "yapf") buffer-file-name)
-      (call-process "yapf" nil nil nil "-i" buffer-file-name)))
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (add-hook 'after-save-hook #'lsp-pyright-format-buffer t t)))
   :init (when (executable-find "python3")
-          (setq lsp-pyright-python-executable-cmd "python3")))
+          (setq lsp-pyright-python-executable-cmd "python3"))
+  :config
+  (use-package python-black
+    :after python
+    :hook (python-mode . python-black-on-save-mode)))
 
 (use-package ccls
   :defines projectile-project-root-files-top-down-recurring
