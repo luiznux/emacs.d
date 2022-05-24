@@ -17,6 +17,8 @@
 ;;
 ;;; Code:
 
+(require 'functions)
+
 (use-package company
   :diminish
   :defines (company-dabbrev-ignore-case company-dabbrev-downcase)
@@ -111,6 +113,12 @@
 
     ;; `yasnippet' integration
     (with-eval-after-load 'yasnippet
+      (defun my-company-yasnippet ()
+        "Hide the current completeions and show snippets."
+        (interactive)
+        (company-cancel)
+        (call-interactively 'company-yasnippet))
+
       (defun company-backend-with-yas (backend)
         "Add `yasnippet' to company backend."
         (if (and (listp backend) (member 'company-yasnippet backend))
@@ -128,10 +136,10 @@
               (remove 'company-backends (remq 'company-capf company-backends))))
       (advice-add #'lsp-completion--enable :after #'my-lsp-fix-company-capf)
 
-      (defun my-company-yasnippet-disable-inline (fun command &optional arg &rest _ignore)
+      (defun my-company-yasnippet-disable-inline (fn cmd &optional arg &rest _ignore)
         "Enable yasnippet but disable it inline."
-        (if (eq command 'prefix)
-            (when-let ((prefix (funcall fun 'prefix)))
+        (if (eq cmd 'prefix)
+            (when-let ((prefix (funcall fn 'prefix)))
               (unless (memq (char-before (- (point) (length prefix)))
                             '(?. ?< ?> ?\( ?\) ?\[ ?{ ?} ?\" ?' ?`))
                 prefix))
@@ -143,14 +151,16 @@
                      (len (length arg)))
                 (put-text-property 0 len 'yas-annotation snip arg)
                 (put-text-property 0 len 'yas-annotation-patch t arg)))
-            (funcall fun command arg))))
+            (funcall fn cmd arg))))
       (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline)))
 
   ;; Better sorting and filtering
   (use-package company-prescient
     :init (company-prescient-mode 1))
 
+  ;; Icons and quickhelp
   (use-package company-box
+    :diminish
     :defines company-box-icons-all-the-icons
     :hook (company-mode . company-box-mode)
     :init
@@ -325,36 +335,36 @@
           (set-frame-position frame (max x 0) (max y 0))
           (set-frame-size frame text-width text-height t)))
       (advice-add #'company-box-doc--set-frame-position :override #'my-company-box-doc--set-frame-position)
-
-      (setq company-box-icons-all-the-icons
-            `((Unknown . ,(all-the-icons-material "find_in_page" :height 1.0 :v-adjust -0.2))
-              (Text . ,(all-the-icons-faicon "text-width" :height 1.0 :v-adjust -0.02))
-              (Method . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
-              (Function . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
-              (Constructor . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
-              (Field . ,(all-the-icons-octicon "tag" :height 1.1 :v-adjust 0 :face 'all-the-icons-lblue))
-              (Variable . ,(all-the-icons-octicon "tag" :height 1.1 :v-adjust 0 :face 'all-the-icons-lblue))
-              (Class . ,(all-the-icons-material "settings_input_component" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
-              (Interface . ,(all-the-icons-material "share" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
-              (Module . ,(all-the-icons-material "view_module" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
-              (Property . ,(all-the-icons-faicon "wrench" :height 1.0 :v-adjust -0.02))
-              (Unit . ,(all-the-icons-material "settings_system_daydream" :height 1.0 :v-adjust -0.2))
-              (Value . ,(all-the-icons-material "format_align_right" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
-              (Enum . ,(all-the-icons-material "storage" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
-              (Keyword . ,(all-the-icons-material "filter_center_focus" :height 1.0 :v-adjust -0.2))
-              (Snippet . ,(all-the-icons-material "format_align_center" :height 1.0 :v-adjust -0.2))
-              (Color . ,(all-the-icons-material "palette" :height 1.0 :v-adjust -0.2))
-              (File . ,(all-the-icons-faicon "file-o" :height 1.0 :v-adjust -0.02))
-              (Reference . ,(all-the-icons-material "collections_bookmark" :height 1.0 :v-adjust -0.2))
-              (Folder . ,(all-the-icons-faicon "folder-open" :height 1.0 :v-adjust -0.02))
-              (EnumMember . ,(all-the-icons-material "format_align_right" :height 1.0 :v-adjust -0.2))
-              (Constant . ,(all-the-icons-faicon "square-o" :height 1.0 :v-adjust -0.1))
-              (Struct . ,(all-the-icons-material "settings_input_component" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
-              (Event . ,(all-the-icons-octicon "zap" :height 1.0 :v-adjust 0 :face 'all-the-icons-orange))
-              (Operator . ,(all-the-icons-material "control_point" :height 1.0 :v-adjust -0.2))
-              (TypeParameter . ,(all-the-icons-faicon "arrows" :height 1.0 :v-adjust -0.02))
-              (Template . ,(all-the-icons-material "format_align_left" :height 1.0 :v-adjust -0.2)))
-            company-box-icons-alist 'company-box-icons-all-the-icons)))
+      (when (icon-displayable-p)
+        (setq company-box-icons-all-the-icons
+              `((Unknown . ,(all-the-icons-material "find_in_page" :height 1.0 :v-adjust -0.2))
+                (Text . ,(all-the-icons-faicon "text-width" :height 1.0 :v-adjust -0.02))
+                (Method . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
+                (Function . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
+                (Constructor . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
+                (Field . ,(all-the-icons-octicon "tag" :height 1.1 :v-adjust 0 :face 'all-the-icons-lblue))
+                (Variable . ,(all-the-icons-octicon "tag" :height 1.1 :v-adjust 0 :face 'all-the-icons-lblue))
+                (Class . ,(all-the-icons-material "settings_input_component" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
+                (Interface . ,(all-the-icons-material "share" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                (Module . ,(all-the-icons-material "view_module" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                (Property . ,(all-the-icons-faicon "wrench" :height 1.0 :v-adjust -0.02))
+                (Unit . ,(all-the-icons-material "settings_system_daydream" :height 1.0 :v-adjust -0.2))
+                (Value . ,(all-the-icons-material "format_align_right" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                (Enum . ,(all-the-icons-material "storage" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
+                (Keyword . ,(all-the-icons-material "filter_center_focus" :height 1.0 :v-adjust -0.2))
+                (Snippet . ,(all-the-icons-material "format_align_center" :height 1.0 :v-adjust -0.2))
+                (Color . ,(all-the-icons-material "palette" :height 1.0 :v-adjust -0.2))
+                (File . ,(all-the-icons-faicon "file-o" :height 1.0 :v-adjust -0.02))
+                (Reference . ,(all-the-icons-material "collections_bookmark" :height 1.0 :v-adjust -0.2))
+                (Folder . ,(all-the-icons-faicon "folder-open" :height 1.0 :v-adjust -0.02))
+                (EnumMember . ,(all-the-icons-material "format_align_right" :height 1.0 :v-adjust -0.2))
+                (Constant . ,(all-the-icons-faicon "square-o" :height 1.0 :v-adjust -0.1))
+                (Struct . ,(all-the-icons-material "settings_input_component" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
+                (Event . ,(all-the-icons-octicon "zap" :height 1.0 :v-adjust 0 :face 'all-the-icons-orange))
+                (Operator . ,(all-the-icons-material "control_point" :height 1.0 :v-adjust -0.2))
+                (TypeParameter . ,(all-the-icons-faicon "arrows" :height 1.0 :v-adjust -0.02))
+                (Template . ,(all-the-icons-material "format_align_left" :height 1.0 :v-adjust -0.2)))
+              company-box-icons-alist 'company-box-icons-all-the-icons))))
 
   ;; Show quick tooltip
   (use-package company-quickhelp
