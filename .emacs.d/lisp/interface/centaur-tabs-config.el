@@ -28,18 +28,14 @@
              centaur-tabs-change-fonts
              centaur-tabs-enable-buffer-reordering)
 
-  :hook ((dashboard-mode . centaur-tabs-local-mode)
-         (term-mode . centaur-tabs-local-mode)
-         (vterm-mode . centaur-tabs-local-mode)
-         (calendar-mode . centaur-tabs-local-mode)
-         (org-agenda-mode . centaur-tabs-local-mode)
-         (magit-mode . centaur-tabs-local-mode)
-         (git-commit-mode . centaur-tabs-local-mode)
-         (minibuffer-mode . centaur-tabs-local-mode)
-         (org-capture-mode . centaur-tabs-local-mode)
-         (which-key-mode . centaur-tabs-mode)
-         (helpful-mode . centaur-tabs-local-mode)
-         (grep-mode . centaur-tabs-local-mode))
+  :hook ((dashboard-mode
+          calendar-mode
+          helpful-mode
+          grep-mode
+          vterm-mode term-mode
+          magit-mode git-commit-mode
+          minibuffer-mode which-key-mode
+          org-agenda-mode org-capture-mode) . centaur-tabs-local-mode)
 
   :bind (("C-<prior>" . centaur-tabs-backward)
          ("C-<next>" . centaur-tabs-forward)
