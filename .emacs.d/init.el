@@ -104,6 +104,7 @@
 (require 'dart-config)
 (require 'web-config)
 (require 'docker-config)
+(require 'player-config)
 (require 'other-modes)
 (require 'terminal-config)
 (require 'reader-config)
