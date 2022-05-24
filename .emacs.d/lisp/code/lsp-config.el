@@ -309,7 +309,7 @@
       (push 'lsp-treemacs-java-deps-mode aw-ignored-buffers)))
 
   (with-no-warnings
-    (when (require 'all-the-icons nil t)
+    (when (icon-displayable-p)
       (treemacs-create-theme "centaur-colors"
         :extends "doom-colors"
         :config
@@ -501,6 +501,7 @@
   (use-package python-black
     :after python
     :hook (python-mode . python-black-on-save-mode)))
+
 
 (use-package ccls
   :defines projectile-project-root-files-top-down-recurring
