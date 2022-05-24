@@ -308,6 +308,11 @@ on selected major modes only."
            (split-string-and-unquote path ":")
            exec-path))))
 
+(defun icon-displayable-p ()
+  "Return non-nil if icons are displayable."
+  (and (or (display-graphic-p) (daemonp))
+       (featurep 'all-the-icons)))
+
 
 
 (witch-sys?)
