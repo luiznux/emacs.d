@@ -126,19 +126,20 @@
 (use-package minions
   :hook (doom-modeline-mode . minions-mode))
 
+;; Child frame
 (use-package posframe
-  :hook (after-load-theme . posframe-delete-all)
+  :hook ((after-load-theme . posframe-delete-all)
+         ((after-load-theme server-after-make-frame) . my-set-posframe-faces))
   :init
   (defface posframe-border
     `((t (:background ,(face-foreground 'shadow nil t))))
-    "Face used by the posframe border."
+    "Face used by the `posframe' border."
     :group 'posframe)
 
-  (add-hook
-   'after-load-theme-hook
-   (lambda ()
-     (custom-set-faces
-      `(posframe-border ((t (:background ,(face-foreground 'shadow nil t))))))))
+  (defun my-set-posframe-faces ()
+    "Set `posframe' faces."
+    (custom-set-faces
+     `(posframe-border ((t (:background ,(face-foreground 'shadow nil t)))))))
 
   (with-eval-after-load 'persp-mode
     (add-hook 'persp-load-buffer-functions
@@ -198,7 +199,7 @@
 ;; Add icons for emacs
 (use-package all-the-icons
   :functions font-installed-p
-  :init (unless (font-installed-p "all-the-icons")
+  :init (unless (or (font-installed-p "all-the-icons") (daemonp))
           (emacs-install-fonts t))
   :config
   (with-no-warnings
