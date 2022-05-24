@@ -108,7 +108,7 @@
   (add-hook 'lsp-mode-hook#'aggressive-indent-mode)
   :config
   ;; Disable in some modes
-  (dolist (mode '(gitconfig-mode asm-mode web-mode html-mode css-mode go-mode scala-mode))
+  (dolist (mode '(gitconfig-mode python-mode asm-mode web-mode html-mode css-mode go-mode scala-mode))
     (push mode aggressive-indent-excluded-modes))
 
   ;; Disable in some commands
