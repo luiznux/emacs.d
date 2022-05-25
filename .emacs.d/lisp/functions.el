@@ -311,7 +311,8 @@ on selected major modes only."
 (defun icon-displayable-p ()
   "Return non-nil if icons are displayable."
   (and (or (display-graphic-p) (daemonp))
-       (featurep 'all-the-icons)))
+       (or (featurep 'all-the-icons)
+           (require 'all-the-icons nil t))))
 
 
 
