@@ -63,7 +63,7 @@
   :mode ("\\.ts[x]\\'" . typescript-mode))
 
 (use-package web-mode
-  :mode "\\.\\(phtml\\|php|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\|vue\\)$"
+  :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\|vue\\)$"
   :config
   (setq web-mode-enable-current-column-highlight  t
         web-mode-markup-indent-offset             4
