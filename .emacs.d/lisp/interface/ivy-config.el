@@ -22,6 +22,7 @@
 (require 'functions)
 
 (use-package counsel
+  :diminish ivy-mode counsel-mode
   :commands (ivy-immediate-done
              ivy-alt-done
              ivy-set-occur
@@ -31,6 +32,13 @@
   (defun config-ivy-with-empty-ivy-extra-directories (f &rest args)
     (let ((ivy-extra-directories nil))
       (apply f args)))
+
+  :custom-face
+  (ivy-current-match ((t (:inherit ivy-current-match))))
+  (ivy-minibuffer-match-face-1 ((t (:foreground "dimgray" :distant-foreground nil :background nil))))
+  (ivy-minibuffer-match-face-2 ((t (:distant-foreground nil :background nil))))
+  (ivy-minibuffer-match-face-3 ((t (:distant-foreground nil :background nil))))
+  (ivy-minibuffer-match-face-4 ((t (:distant-foreground nil :background nil))))
 
   :bind (("M-x"   . 'counsel-M-x)
          ("C-s"   . swiper-isearch)
@@ -70,11 +78,11 @@
           ("C-c c p" . counsel-pt)
           ("C-c c r" . counsel-rg)
           ("C-c c s" . counsel-ag)
+          ("C-c c z" . counsel-fzf)
           ("C-c c t" . counsel-load-theme)
           ("C-c c u" . counsel-unicode-char)
           ("C-c c w" . counsel-colors-web)
-          ("C-c c v" . counsel-set-variable)
-          ("C-c c z" . counsel-fzf))
+          ("C-c c v" . counsel-set-variable))
 
          ;; Evil mapping for ivy-minibuffer
          :map ivy-minibuffer-map
@@ -408,43 +416,6 @@
   ;; Enhance M-x
   (use-package amx
     :init (setq amx-history-length 20))
-
-  (use-package prescient
-    :commands prescient-persist-mode
-    :init (prescient-persist-mode 1))
-
-  (use-package ivy-prescient
-    :commands ivy-prescient-re-builder
-    :custom-face
-    (ivy-minibuffer-match-face-1 ((t (:foreground ,(face-foreground 'font-lock-doc-face nil t)))))
-    :init
-    (defun ivy-prescient-non-fuzzy (str)
-      "Generate an Ivy-formatted non-fuzzy regexp list for the given STR.
-This is for use in `ivy-re-builders-alist'."
-      (let ((prescient-filter-method '(literal regexp)))
-        (ivy-prescient-re-builder str)))
-
-    (setq ivy-prescient-retain-classic-highlighting t
-          ivy-re-builders-alist
-          '((counsel-ag . ivy-prescient-non-fuzzy)
-            (counsel-rg . ivy-prescient-non-fuzzy)
-            (counsel-pt . ivy-prescient-non-fuzzy)
-            (counsel-grep . ivy-prescient-non-fuzzy)
-            (counsel-fzf . ivy-prescient-non-fuzzy)
-            (counsel-imenu . ivy-prescient-non-fuzzy)
-            (counsel-yank-pop . ivy-prescient-non-fuzzy)
-            (swiper . ivy-prescient-non-fuzzy)
-            (swiper-isearch . ivy-prescient-non-fuzzy)
-            (swiper-all . ivy-prescient-non-fuzzy)
-            (lsp-ivy-workspace-symbol . ivy-prescient-non-fuzzy)
-            (lsp-ivy-global-workspace-symbol . ivy-prescient-non-fuzzy)
-            (insert-char . ivy-prescient-non-fuzzy)
-            (counsel-unicode-char . ivy-prescient-non-fuzzy)
-            (t . ivy-prescient-re-builder))
-          ivy-prescient-sort-commands
-          '(counsel-M-x execute-extended-command execute-extended-command-for-buffer))
-
-    (ivy-prescient-mode 1))
 
   ;; Ivy integration for Projectile
   (use-package counsel-projectile
