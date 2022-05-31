@@ -256,6 +256,13 @@
   (with-no-warnings
     after-init-hook . (undohist-initialize)))
 
+;; TODO: Testing
+;; cucumber support
+(use-package feature-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode)))
+(use-package ecukes)
+
 
 (use-package ag)
 (use-package format-all)
