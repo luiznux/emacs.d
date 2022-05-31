@@ -103,6 +103,7 @@
         lsp-eldoc-render-all               nil
         lsp-lens-enable                    t
         lsp-modeline-code-actions-enable   t
+        lsp-modeline-diagnostics-enable    t
         lsp-keep-workspace-alive           nil
 
         ;; For `lsp-clients'
