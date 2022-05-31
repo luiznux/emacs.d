@@ -113,6 +113,21 @@
         ivy-on-del-error-function      #'ignore
         ivy-initial-inputs-alist       nil)
 
+  ;; Set use `ivy--regex-fuzzy' for some counsel modes, otherwise use
+  ;; `ivy--regex-plus'
+  (setq ivy-re-builders-alist
+        '((counsel-M-x . ivy--regex-fuzzy)
+          (counsel-find-file . ivy--regex-fuzzy)
+          (t . ivy--regex-plus)))
+
+  ;; Set minibuffer height for different commands
+  (setq ivy-height-alist '((counsel-evil-registers . 5)
+                           (counsel-yank-pop . 8)
+                           (counsel-git-log . 4)
+                           (swiper . 13)
+                           (counsel-projectile-ag . 13)
+                           (counsel-projectile-rg . 13)))
+
   (setq swiper-action-recenter t)
 
   (setq counsel-find-file-at-point     t
@@ -416,6 +431,11 @@
   ;; Enhance M-x
   (use-package amx
     :init (setq amx-history-length 20))
+
+  ;; Avy integration
+  (use-package ivy-avy
+    :bind (:map ivy-minibuffer-map
+           ("C-'" . ivy-avy)))
 
   ;; Ivy integration for Projectile
   (use-package counsel-projectile
