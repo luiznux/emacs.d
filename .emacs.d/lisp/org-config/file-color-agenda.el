@@ -18,8 +18,8 @@
 
 ;; Helper definitions
 (setq ll/org/agenda-todo-words
-      '("work  " "coll 🎓 " "project  " "agenda  " "habit 🍩 " "bday  " "cap  " "task  " "conta 💸 "
-        "Work Stuffs  " "College" "My Projects  " "My Tasks  " "➔" "╰→"))
+      '("work  " "studie  " "project  " "agenda  " "habit 🍩 " "bday  " "cap  " "task  " "conta 💸 "
+        "Work Stuffs  " "Studies  " "My Projects  " "My Tasks  " "➔" "╰→"))
 
 (defun find-in-line (needle &optional beginning count)
   "Find the position of the start of NEEDLE in the current line.
@@ -38,8 +38,8 @@ from the left."
 (defun ll/org/agenda/find-todo-word-end ()
   "Find TODO keyword on the end."
 
-  (reduce (lambda (a b) (or a b))
-          (mapcar #'find-in-line ll/org/agenda-todo-words)))
+  (cl-reduce (lambda (a b) (or a b))
+             (mapcar #'find-in-line ll/org/agenda-todo-words)))
 
 
 (defun ll/org/agenda/color-headers-with (tag col col2)
@@ -60,7 +60,7 @@ from the left."
   "Color all headings with :pers: colors."
 
   (ll/org/agenda/color-headers-with "work  " "#2d2d2d" "#FA74B2")
-  (ll/org/agenda/color-headers-with "coll 🎓 " "#2d2d2d" "#c792ea")
+  (ll/org/agenda/color-headers-with "studie  " "#2d2d2d" "#57C7FF")
   (ll/org/agenda/color-headers-with "project  " "#2d2d2d" "#839ce4")
   (ll/org/agenda/color-headers-with "agenda  " "#2d2d2d" "#da8548")
   (ll/org/agenda/color-headers-with "habit 🍩 " "#c8b6ff" "#655bc2")
@@ -69,7 +69,7 @@ from the left."
   (ll/org/agenda/color-headers-with "task  " "#2d2d2d" "#EBCB8B")
   (ll/org/agenda/color-headers-with "conta 💸" "#242D35" "#ae3d46")
   (ll/org/agenda/color-headers-with "Work Stuffs  " "#2d2d2d" "#6d8dad")
-  (ll/org/agenda/color-headers-with "College " "#2d2d2d" "#c792ea")
+  (ll/org/agenda/color-headers-with "Studies  " "#2d2d2d" "#57C7FF")
   (ll/org/agenda/color-headers-with "My Projects  " "#2d2d2d" "#839ce4")
   (ll/org/agenda/color-headers-with "My Tasks  " "#2d2d2d" "#EBCB8B")
   (ll/org/agenda/color-headers-with "➔" "#b58900" (face-attribute 'default :background))

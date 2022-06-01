@@ -114,8 +114,8 @@
                                            (org-agenda-span                     '2)))
 
                                          (tags-todo
-                                          "college"
-                                          ((org-agenda-overriding-header        "College ")
+                                          "studie"
+                                          ((org-agenda-overriding-header        "Studies  ")
                                            (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                            (org-agenda-sorting-strategy         '(category-keep))
                                            (org-tags-match-list-sublevels       t)

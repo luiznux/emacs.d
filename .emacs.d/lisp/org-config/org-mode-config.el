@@ -79,17 +79,17 @@
         org-blank-before-new-entry         '((heading . t) (plain-list-item . auto))
 
         ;; Set `org-agenda' custom tags
-        org-tag-alist                      '(("work" . ?w)
-                                             ("project" . ?p)
-                                             ("agenda" . ?a)
+        org-tag-alist                      '(("agenda" . ?a)
                                              ("bday" . ?b)
-                                             ("task" . ?t)
+                                             ("capture" . ?c)
                                              ("contas" . ?b)
-                                             ("college" . ?c)
-                                             ("capture" . ?s)
-                                             ("week-days" . ?f)
                                              ("daily" .?d)
-                                             ("ignore" .?i))
+                                             ("ignore" .?i)
+                                             ("studie" . ?s)
+                                             ("task" . ?t)
+                                             ("project" . ?p)
+                                             ("week-days" . ?f)
+                                             ("work" . ?w))
 
         ;; Set `org' priority custom faces
         org-priority-faces                 '((?A . (:foreground "#f32020"))
