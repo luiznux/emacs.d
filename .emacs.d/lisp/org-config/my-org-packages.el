@@ -126,7 +126,7 @@
           org-wild-notifier-notification-title   "Agenda 📅"))
 
   (use-package org-gcal
-    :if  (file-exists-p "~/org/org-api.el")
+    :if (file-exists-p "~/org/org-api.el")
     :defines luiznux-client-id luiznux-client-secret
     :config
     (load "~/org/org-api.el") ;; file with the keys
