@@ -28,7 +28,7 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/")
-             '("elpa" . "https://elpa.gnu.org/packages/"))
+             '("elpa"  . "https://elpa.gnu.org/packages/"))
 
 
 ;; HACK: DO NOT save package-selected-packages to `custom-file'.
