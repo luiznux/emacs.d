@@ -40,10 +40,8 @@
   (use-package evil-collection
     :demand t
     :after evil
-    :defines evil-collection-company-use-tng
     :init
-    (setq evil-collection-setup-minibuffer nil
-          evil-collection-company-use-tng  nil)
+    (setq evil-collection-setup-minibuffer nil)
     :config
     (evil-collection-init))
 
@@ -73,17 +71,17 @@
     :config
     (define-key evil-visual-state-map "R" 'evil-multiedit-match-all))
 
-;;  (use-package evil-snipe
-;;    :demand t
-;;    :diminish
-;;    :hook (evil-snipe-disabled-modes . (lambda ()
-;;                                         'Info-mode 'treemacs-mode 'dired-mode))
-;;    :init
-;;    (setq evil-snipe-repeat-scope  'visible
-;;          evil-snipe-scope         'line
-;;          evil-snipe-smart-case    t
-;;          evil-snipe-char-fold     t)
-;;    (evil-snipe-mode))
+  ;;  (use-package evil-snipe
+  ;;    :demand t
+  ;;    :diminish
+  ;;    :hook (evil-snipe-disabled-modes . (lambda ()
+  ;;                                         'Info-mode 'treemacs-mode 'dired-mode))
+  ;;    :init
+  ;;    (setq evil-snipe-repeat-scope  'visible
+  ;;          evil-snipe-scope         'line
+  ;;          evil-snipe-smart-case    t
+  ;;          evil-snipe-char-fold     t)
+  ;;    (evil-snipe-mode))
 
   (use-package evil-surround
     :config
