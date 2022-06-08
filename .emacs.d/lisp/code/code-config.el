@@ -263,11 +263,12 @@
   (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode)))
 (use-package ecukes)
 
+(when emacs/>=27p
+  (use-package csv-mode))
 
 (use-package ag)
 (use-package format-all)
 (use-package sudo-edit)
-(use-package csv-mode)
 (use-package cmake-mode)
 
 
