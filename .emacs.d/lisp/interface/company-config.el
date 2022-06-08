@@ -371,26 +371,6 @@
                 (Template . ,(all-the-icons-material "format_align_left" :height 1.0 :v-adjust -0.2)))
               company-box-icons-alist 'company-box-icons-all-the-icons))))
 
-  ;; Show quick tooltip
-  (use-package company-quickhelp
-    :defines company-quickhelp-delay
-    :bind (:map company-active-map
-           ("M-h" . company-quickhelp-manual-begin))
-    :hook (global-company-mode . company-quickhelp-mode)
-    :custom (company-quickhelp-delay 0.5))
-
-  ;; Display documentation for completion candidates in terminal
-  (use-package company-quickhelp-terminal
-    :defines company-quickhelp-delay
-    :bind (:map company-active-map
-           ([remap company-show-doc-buffer] . company-quickhelp-manual-begin))
-    :hook ((global-company-mode . company-quickhelp-mode)
-           (company-quickhelp-mode  . company-quickhelp-terminal-mode))
-    :init (setq company-quickhelp-delay 0.3))
-
-  (use-package company-posframe
-    :hook (company-mode . company-posframe-mode))
-
   (use-package company-emojify
     :after emojify
     :init
