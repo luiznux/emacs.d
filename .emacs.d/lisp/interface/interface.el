@@ -6,7 +6,7 @@
 ;;
 ;;; Commentary:
 ;;
-;; Visual beauties for you code more happier :)
+;; Visual beauties for coding more happier :)
 ;;
 ;;  ██████╗ ██╗   ██╗██╗
 ;; ██╔════╝ ██║   ██║██║
