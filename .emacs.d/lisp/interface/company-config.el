@@ -370,6 +370,7 @@
               company-box-icons-alist 'company-box-icons-all-the-icons))))
 
   (use-package company-emojify
+    :diminish
     :after emojify
     :init
     (setq company-emojify-emoji-styles '(github)
