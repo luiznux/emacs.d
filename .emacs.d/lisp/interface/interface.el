@@ -22,11 +22,6 @@
 (require 'functions)
 (require 'my-custom-emojis)
 
-(setq menu-bar-mode        nil
-      tool-bar-mode        nil
-      scroll-bar-mode      nil
-      blink-cursor-mode    nil)
-
 ;; Optimization
 (setq idle-update-delay 1.0)
 
@@ -36,6 +31,11 @@
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize   t
       frame-resize-pixelwise         t)
+
+(setq menu-bar-mode        nil
+      tool-bar-mode        nil
+      scroll-bar-mode      nil
+      blink-cursor-mode    nil)
 
 (use-package solaire-mode
   :hook (after-load-theme . solaire-global-mode))
