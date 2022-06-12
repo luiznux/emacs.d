@@ -294,7 +294,7 @@ on selected major modes only."
     (byte-recompile-directory package-user-dir 0 t)))
 
 (defun enable-ido-mode ()
-  "Enables 'ido-mode'."
+  "Enables `ido-mode'."
   (setq-default ido-enable-flex-matching t)
   (setq-default ido-everyehere t)
   (ido-mode 1))
