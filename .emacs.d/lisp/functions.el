@@ -78,22 +78,22 @@
 
     ;; Download `Symbola'
     ;; See https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip
-    (let* ((url (concat centaur-homepage "/files/6135060/symbola.zip"))
+    (let* ((url "https://fontlibrary.org/assets/downloads/symbola/cf81aeb303c13ce765877d31571dc5c7/symbola.zip")
            (temp-file (make-temp-file "symbola-" nil ".zip"))
-           (temp-dir (concat (file-name-directory temp-file) "/symbola/"))
+           (dir (concat (file-name-directory temp-file) "/symbola/"))
            (unzip-script (cond ((executable-find "unzip")
                                 (format "mkdir -p %s && unzip -qq %s -d %s"
-                                        temp-dir temp-file temp-dir))
+                                        dir temp-file dir))
                                ((executable-find "powershell")
                                 (format "powershell -noprofile -noninteractive \
-  -nologo -ex bypass Expand-Archive -path '%s' -dest '%s'" temp-file temp-dir))
+  -nologo -ex bypass Expand-Archive -path '%s' -dest '%s'" temp-file dir))
                                (t (user-error "Unable to extract '%s' to '%s'! \
-  Please check unzip, powershell or extract manually" temp-file temp-dir)))))
+  Please check unzip, powershell or extract manually" temp-file dir)))))
       (url-copy-file url temp-file t)
       (when (file-exists-p temp-file)
         (shell-command-to-string unzip-script)
         (let* ((font-name "Symbola.otf")
-               (temp-font (expand-file-name font-name temp-dir)))
+               (temp-font (expand-file-name font-name dir)))
           (if (file-exists-p temp-font)
               (copy-file temp-font (expand-file-name font-name font-dest) t)
             (message "Failed to download `Symbola'!")))))
