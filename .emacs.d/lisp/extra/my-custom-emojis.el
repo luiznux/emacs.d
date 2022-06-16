@@ -268,6 +268,14 @@
                                  ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/jango.png")
                                  ("style" . "github")))
 
+    (":gas-cylinder:"      .    (("name" . "Gas Cylunder")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/gas-cylinder.png")
+                                 ("style" . "github")))
+
+    (":my-phone:"          .    (("name" . "Mobile Phone custom")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/mobile-phone-custom.png")
+                                 ("style" . "github")))
+
     (":paypal:"            .    (("name" . "Paypal")
                                  ("image" . "~/.emacs.d/emojis/luiznux/others-emojis/paypal.png")
                                  ("style" . "github")))
