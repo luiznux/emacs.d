@@ -46,6 +46,10 @@
 
     (exec-path-from-shell-initialize)))
 
+;; Compatibility
+(use-package compat
+  :demand t)
+
 ;; Start server
 (require 'server)
 (use-package server

@@ -264,7 +264,7 @@
       ((sym &as &SymbolInformation :kind :location (&Location :uri))
        project-root)
       "Convert the match returned by `lsp-mode` into a candidate string."
-      (let* ((sanitized-kind (if (< kind (length lsp-ivy-symbol-kind-icons)) kind 0))
+      (let* ((sanitized-kind (if (length> lsp-ivy-symbol-kind-icons kind) kind 0))
              (type (elt lsp-ivy-symbol-kind-icons sanitized-kind))
              (typestr (if lsp-ivy-show-symbol-kind (format "%s " type) ""))
              (pathstr (if lsp-ivy-show-symbol-filename
