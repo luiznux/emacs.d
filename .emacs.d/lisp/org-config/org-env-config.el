@@ -114,7 +114,7 @@
                                            (org-agenda-span                     '2)))
 
                                          (tags-todo
-                                          "studie"
+                                          "+CATEGORY=\"studie \""
                                           ((org-agenda-overriding-header        "Studies  ")
                                            (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                            (org-agenda-sorting-strategy         '(category-keep))
