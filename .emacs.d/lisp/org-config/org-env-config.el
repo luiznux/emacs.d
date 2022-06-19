@@ -33,6 +33,9 @@
 (defconst luiznux-general-agenda
   (concat org-directory "/agenda/"))
 
+(defconst luiznux-birthday-agenda
+  (concat luiznux-general-agenda "birthdays.org"))
+
 
 (pcase luiznux-enviroment-type
 
@@ -43,7 +46,6 @@
                                         ((agenda
                                           ""
                                           ((org-agenda-overriding-header        "My Agenda 📅")
-                                           (org-agenda-remove-tags              t)
                                            (org-agenda-span                     '2)))
 
                                          (tags-todo
@@ -51,7 +53,6 @@
                                           ((org-agenda-overriding-header        "Work Stuffs  ")
                                            (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                            (org-agenda-sorting-strategy         '(category-keep))
-                                           (org-agenda-remove-tags              t)
                                            (org-tags-match-list-sublevels       t)
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
@@ -65,12 +66,22 @@
                                           ((org-agenda-overriding-header        "My Tasks  ")
                                            (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                            (org-agenda-sorting-strategy         '(category-keep))
-                                           (org-agenda-remove-tags              t)
                                            (org-tags-match-list-sublevels       t)
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
                                            (org-agenda-skip-deadline-if-done    t)
                                            (org-agenda-todo-ignore-scheduled    'all))))
+                                        )
+
+                                       ("b" "Birthdays Agenda"
+                                        ((agenda
+                                          ""
+                                          ((org-agenda-overriding-header        "Birthdays  ")
+                                           (org-agenda-files                    (list luiznux-birthday-agenda))
+                                           (org-agenda-show-all-dates           nil)
+                                           (org-agenda-span                     '182) ;; half of a year
+                                           (org-agenda-prefix-format            '((agenda . "")))
+                                           (org-agenda-sorting-strategy         '(category-keep)))))
                                         )
                                        )
 
@@ -110,7 +121,6 @@
                                         ((agenda
                                           ""
                                           ((org-agenda-overriding-header        "My Agenda 📅")
-                                           (org-agenda-remove-tags              t)
                                            (org-agenda-span                     '2)))
 
                                          (tags-todo
@@ -119,7 +129,6 @@
                                            (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                            (org-agenda-sorting-strategy         '(category-keep))
                                            (org-tags-match-list-sublevels       t)
-                                           (org-agenda-remove-tags              t)
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
                                            (org-agenda-skip-deadline-if-done    t)
@@ -130,7 +139,6 @@
                                           ((org-agenda-overriding-header        "My Projects  ")
                                            (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                            (org-agenda-sorting-strategy         '(category-keep))
-                                           (org-agenda-remove-tags              t)
                                            (org-tags-match-list-sublevels       t)
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
@@ -144,12 +152,22 @@
                                           ((org-agenda-overriding-header        "My Tasks  ")
                                            (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                            (org-agenda-sorting-strategy         '(category-keep))
-                                           (org-agenda-remove-tags              t)
                                            (org-tags-match-list-sublevels       t)
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
                                            (org-agenda-skip-deadline-if-done    t)
                                            (org-agenda-todo-ignore-scheduled    'all))))
+                                        )
+
+                                       ("b" "Birthdays Agenda"
+                                        ((agenda
+                                          ""
+                                          ((org-agenda-overriding-header        "Birthdays  ")
+                                           (org-agenda-files                    (list luiznux-birthday-agenda))
+                                           (org-agenda-show-all-dates           nil)
+                                           (org-agenda-span                     '182) ;; half of a year
+                                           (org-agenda-prefix-format            '((agenda . "")))
+                                           (org-agenda-sorting-strategy         '(category-keep)))))
                                         )
                                        )
 
@@ -170,7 +188,6 @@
                                         :empty-lines-before 2
                                         :empty-lines-after  2
                                         :created            t)
-
 
                                        ("t"
                                         "          Create a new general task"
@@ -201,17 +218,26 @@
                                            ((org-agenda-overriding-header        "My Tasks  ")
                                             (org-agenda-prefix-format            "%e %(my-agenda-prefix)")
                                             (org-agenda-sorting-strategy         '(category-keep))
-                                            (org-agenda-remove-tags              t)
                                             (org-tags-match-list-sublevels       t)
                                             (org-enforce-todo-dependencies       t)
                                             (org-agenda-skip-scheduled-if-done   t)
                                             (org-agenda-skip-deadline-if-done    t)
                                             (org-agenda-todo-ignore-scheduled    'all))))
                                          )
+
+                                        ("b" "Birthdays Agenda"
+                                         ((agenda
+                                           ""
+                                           ((org-agenda-overriding-header        "Birthdays  ")
+                                            (org-agenda-files                    (list luiznux-birthday-agenda))
+                                            (org-agenda-show-all-dates           nil)
+                                            (org-agenda-span                     '182) ;; half of a year
+                                            (org-agenda-prefix-format            '((agenda . "")))
+                                            (org-agenda-sorting-strategy         '(category-keep)))))
+                                         )
                                         )
 
-         org-capture-templates        '(
-                                        ("a"
+         org-capture-templates        '(("a"
                                          "          Add an event on the agenda calendar"
                                          entry
                                          (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
@@ -227,9 +253,7 @@
                                          "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
                                          :empty-lines-before 2
                                          :empty-lines-after  2
-                                         :created            t)
-
-                                        )
+                                         :created            t))
          )
    )
   )
