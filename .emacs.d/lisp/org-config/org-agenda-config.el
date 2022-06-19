@@ -67,7 +67,7 @@
         calendar-week-start-day                            1
         org-agenda-current-time-string                     " ᐊ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ NOW "
         org-agenda-time-grid                               '((daily today require-timed)
-                                                             (800 1000 1200 1400 1600 1800 2000)
+                                                             (800 1000 1200 1400 1600 1800 2000 2200)
                                                              " ...... " "----------------")
 
         org-agenda-format-date                             (lambda (date) (concat  (make-string (window-width) 9472)
