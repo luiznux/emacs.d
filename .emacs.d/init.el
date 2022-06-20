@@ -77,6 +77,7 @@
 (require 'window-config)
 (require 'ibuffer-config)
 (require 'highlight-config)
+(require 'persp-config)
 (require 'evil-config)
 (require 'company-config)
 (require 'bookmark-config)
