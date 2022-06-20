@@ -57,13 +57,8 @@
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :init
-  ;; Prevent flash of unstyled modeline at startup
-  (unless after-init-time
-    (setq-default mode-line-format nil))
-
   (setq doom-modeline-icon                        t
-        doom-modeline-bar-width                   1
-        doom-modeline-height                      1
+        doom-modeline-height                      20
         doom-modeline-major-mode-icon             t
         doom-modeline-buffer-state-icon           t
         doom-modeline-major-mode-color-icon       t
@@ -74,11 +69,13 @@
         doom-modeline-persp-name                  t
         doom-modeline-persp-icon                  t
         doom-modeline-minor-modes                 t
-        doom-modeline-enable-word-count           nil
         doom-modeline-buffer-encoding             nil
         doom-modeline-buffer-file-name-style      'auto
-        doom-modeline-project-detection           'auto
-        doom-modeline-window-width-limit          0.25)
+        doom-modeline-project-detection           'auto)
+
+  ;; Prevent flash of unstyled modeline at startup
+  (unless after-init-time
+    (setq-default mode-line-format nil))
 
   :config
   ;; thanks to this stupid commit:
