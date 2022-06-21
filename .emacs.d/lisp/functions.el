@@ -1,4 +1,4 @@
-;;; functions.el --- Custom functions file -*- lexical-binding: t  t no-byte-compile: t-*-
+;;; functions.el --- Define functions.	-*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -166,13 +166,14 @@ This issue has been addressed in 28."
 (defun copy-file-name ()
   "Copy the current buffer file name to the clipboard."
   (interactive)
-  (if-let ((filename (if (equal major-mode 'dired-mode)
-                         default-directory
-                       (buffer-file-name))))
-      (progn
-        (kill-new filename)
-        (message "Copied '%s'" filename))
-    (warn "Current buffer is not attached to a file!")))
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (if filename
+        (progn
+          (kill-new filename)
+          (message "Copied '%s'" filename))
+      (warn "Current buffer is not attached to a file!"))))
 
 (defun put-current-path-to-clipboard ()
   "Put the current path to clipboard."
@@ -240,61 +241,6 @@ on selected major modes only."
 
 ;; Config
 
-(defun witch-sys? ()
-  "Defime hooks for some sys."
-  (with-no-warnings
-    (cond
-     (sys/win32p
-      ;; make PC keyboard's Win key or other to type Super or Hyper
-      ;; (setq w32-pass-lwindow-to-system nil)
-      (setq w32-lwindow-modifier 'super     ; Left Windows key
-            w32-apps-modifier 'hyper)       ; Menu/App key
-      (w32-register-hot-key [s-t])
-      (encode-mode))
-
-     ;; Compatible with Emacs Mac port
-     (sys/mac-port-p
-      ;; Keybonds
-      (global-set-key [(hyper a)] 'mark-whole-buffer)
-      (global-set-key [(hyper v)] 'yank)
-      (global-set-key [(hyper c)] 'kill-ring-save)
-      (global-set-key [(hyper s)] 'save-buffer)
-      (global-set-key [(hyper l)] 'goto-line)
-      (global-set-key [(hyper w)]
-                      (lambda () (interactive) (delete-window)))
-      (global-set-key [(hyper z)] 'undo)
-
-      ;; mac switch meta key
-      (defun mac-switch-meta nil
-        "switch meta between Option and Command"
-        (interactive)
-        (if (eq mac-option-modifier nil)
-            (progn
-	          (setq mac-option-modifier 'meta)
-	          (setq mac-command-modifier 'hyper)
-	          )
-          (progn
-            (setq mac-option-modifier nil)
-            (setq mac-command-modifier 'meta))))
-
-      ;; alert style for macos
-      (setq alert-default-style 'osx-notifier)
-
-      (defun mac-toggle-max-window ()
-        "This function toggles the frame-parameter fullscreen,
-     so that I can maximise Emacs from within rather than relying
-     on the external MacOS controls. "
-        (interactive)
-        (set-frame-parameter
-         nil
-         'fullscreen
-         (if (frame-parameter nil 'fullscreen)
-             nil
-           'fullboth))))
-
-     (sys/gnu-linux
-      (setq alert-default-style 'libnotify)))))
-
 (defun recompile-elpa ()
   "Recompile packages in elpa directory.  Useful if you switch Emacs versions."
   (interactive)
@@ -325,7 +271,6 @@ on selected major modes only."
 
 
 
-(witch-sys?)
 (enable-ido-mode)
 (read-path-variable-from-zshrc)
 (do-not-show-trailing-whitespace)
