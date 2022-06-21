@@ -22,15 +22,74 @@
 (require 'custom-config)
 (require 'functions)
 
+;; Define hooks for some sys.
 (with-no-warnings
-  ;; Garbage Collector Magic Hack
-  (use-package gcmh
-    :diminish
-    :init
-    (setq gcmh-idle-delay 'auto
-          gcmh-auto-idle-delay-factor 10
-          gcmh-high-cons-threshold #x1000000) ; 16MB
-    (gcmh-mode 1)))
+  (cond
+   ;; Compatible with Emacs Mac port
+   (sys/mac-port-p
+    ;; Keybonds
+    (global-set-key [(hyper a)] 'mark-whole-buffer)
+    (global-set-key [(hyper v)] 'yank)
+    (global-set-key [(hyper c)] 'kill-ring-save)
+    (global-set-key [(hyper s)] 'save-buffer)
+    (global-set-key [(hyper l)] 'goto-line)
+    (global-set-key [(hyper w)]
+                    (lambda () (interactive) (delete-window)))
+    (global-set-key [(hyper z)] 'undo)
+
+    ;; mac switch meta key
+    (defun mac-switch-meta nil
+      "switch meta between Option and Command"
+      (interactive)
+      (if (eq mac-option-modifier nil)
+          (progn
+	        (setq mac-option-modifier 'meta)
+	        (setq mac-command-modifier 'hyper)
+	        )
+        (progn
+          (setq mac-option-modifier nil)
+          (setq mac-command-modifier 'meta))))
+
+    ;; alert style for macos
+    (setq alert-default-style 'osx-notifier)
+
+    (defun mac-toggle-max-window ()
+      "This function toggles the frame-parameter fullscreen,
+     so that I can maximise Emacs from within rather than relying
+     on the external MacOS controls. "
+      (interactive)
+      (set-frame-parameter
+       nil
+       'fullscreen
+       (if (frame-parameter nil 'fullscreen)
+           nil
+         'fullboth))))
+
+   (sys/gnu-linux
+    (setq alert-default-style 'libnotify))))
+
+;; Optimization
+(unless sys/macp
+  (setq command-line-ns-option-alist nil))
+(unless sys/linuxp
+  (setq command-line-x-option-alist nil))
+
+;; Increase how much is read from processes in a single chunk (default is 4kb)
+(setq read-process-output-max #x10000)  ; 64kb
+
+;; Garbage Collector Magic Hack
+(use-package gcmh
+  :diminish
+  :init
+  (setq gcmh-idle-delay 'auto
+        gcmh-auto-idle-delay-factor 10
+        gcmh-high-cons-threshold #x1000000) ; 16MB
+  (gcmh-mode 1))
+
+;; Encoding
+;; UTF-8 as the default coding system
+(when (fboundp 'set-charset-priority)
+  (set-charset-priority 'unicode))
 
 ;; Environment
 (when (or sys/mac-x-p sys/linux-x-p (daemonp))
@@ -59,9 +118,6 @@
   (if (or (server-running-p) (daemonp))
       (message "Server/Daemon already running!")
     (add-hook 'after-init-hook 'server-start)))
-
-;; Increase how much is read from processes in a single chunk (default is 4kb)
-(setq read-process-output-max #x10000)  ; 64kb
 
 ;; History
 (use-package saveplace
@@ -120,7 +176,9 @@
     (add-hook 'process-menu-mode-hook
               (lambda ()
                 (setq tabulated-list-format
-                      (vconcat `(("" , 2)) tabulated-list-format))))
+                      (vconcat `(("" 0)
+                                 ("" , 2))
+                               tabulated-list-format))))
 
     (defun my-list-processes--prettify ()
       "Prettify process list."
@@ -144,8 +202,8 @@
                       (thread (list (aref val 5) 'face 'font-lock-doc-face))
                       (cmd (list (aref val (if emacs/>=27p 6 5)) 'face 'completions-annotations)))
             (push (list p (if emacs/>=27p
-                              (vector icon name pid status buf-label tty thread cmd)
-                            (vector icon name pid status buf-label tty cmd)))
+                              (vector " " icon name pid status buf-label tty thread cmd)
+                            (vector " " icon name pid status buf-label tty cmd)))
 		          tabulated-list-entries)))))
     (advice-add #'list-processes--refresh :after #'my-list-processes--prettify)))
 
@@ -154,8 +212,8 @@
 
 ;; Fullscreen
 (when (display-graphic-p)
-  (bind-keys ("C-<f11>" . toggle-frame-fullscreen)
-             ("S-s-<return>" . toggle-frame-fullscreen)
+  (add-hook 'window-setup-hook #'fix-fullscreen-cocoa)
+  (bind-keys ("C-<f11>"      . toggle-frame-fullscreen)
              ("M-S-<return>" . toggle-frame-fullscreen)))
 
 ;; Misc
@@ -209,7 +267,8 @@
 
 
 ;; Global keybindings
-(bind-keys ("C-c K" . revert-this-buffer))
+(bind-keys ("C-c K" . revert-this-buffer)
+           ("C-c C-l" . reload-init-file))
 
 
 (provide 'basic)
