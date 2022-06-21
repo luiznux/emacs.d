@@ -121,6 +121,7 @@ Nil to use font supports ligatures."
     (":STYLE:" . "")
     (":LOG:" . "")
     (":ID:" . "")
+    (":LINK:" . "")
 
     ("SCHEDULED:" . "")
     ("DEADLINE:" . ?❗)

@@ -107,7 +107,7 @@
                                         "          Caputere a new code task"
                                         entry
                                         (file "~/org/agenda/capture.org")
-                                        "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
+                                        "* TODO %^{Title} \nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n:LINK:  %A\n%?"
                                         :empty-lines-before 2
                                         :empty-lines-after  2
                                         :created            t))
@@ -184,7 +184,7 @@
                                         "          Caputere a new code task"
                                         entry
                                         (file "~/org/agenda/capture.org")
-                                        "* TODO %^{Title} \nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
+                                        "* TODO %^{Title} \nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n:LINK:  %A\n%?"
                                         :empty-lines-before 2
                                         :empty-lines-after  2
                                         :created            t)
@@ -250,7 +250,7 @@
                                          "          Caputere a new code task"
                                          entry
                                          (file "~/org/agenda/capture.org")
-                                         "* TODO %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n%?"
+                                         "* TODO %^{Title} \nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n:LINK:  %A\n%?"
                                          :empty-lines-before 2
                                          :empty-lines-after  2
                                          :created            t))
