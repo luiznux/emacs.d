@@ -83,10 +83,9 @@
   ;; now I use this WORKAROUND:, mentioned in :
   ;; https://github.com/seagle0128/doom-modeline/issues/486
   ;; :pepe-sad:
-  (when emacs/>=29p
-    (set-face-attribute 'mode-line-active nil :family (face-attribute 'default :font) :height doom-modeline-font-size))
-
-  (set-face-attribute 'mode-line nil :family (face-attribute 'default :font) :height doom-modeline-font-size)
+  (if (facep 'mode-line-active) ;; for 29+
+      (set-face-attribute 'mode-line-active nil :family (face-attribute 'default :font) :height doom-modeline-font-size)
+    (set-face-attribute 'mode-line nil :family (face-attribute 'default :font) :height doom-modeline-font-size))
   (set-face-attribute 'mode-line-inactive nil :family (face-attribute 'default :font) :height doom-modeline-font-size))
 
 (use-package hide-mode-line
