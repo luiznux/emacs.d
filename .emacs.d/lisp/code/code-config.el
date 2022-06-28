@@ -179,9 +179,9 @@
 
 (use-package quickrun
   :bind
-  (("<f5>" . quickrun)
-   ("M-<f5>" . quickrun-shell)
-   ("C-c e" . quickrun)
+  (("<f5>"    . quickrun)
+   ("M-<f5>"  . quickrun-shell)
+   ("C-c e"   . quickrun)
    ("C-c C-e" . quickrun-shell)))
 
 ;; Prettify Symbols

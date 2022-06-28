@@ -20,7 +20,7 @@
 ;; JS
 (use-package js2-mode
   :defines flycheck-javascript-eslint-executable
-  :mode (("\\.js\\'" . js2-mode)
+  :mode (("\\.js\\'"  . js2-mode)
          ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter (("node" . js2-mode)
                 ("node" . js2-jsx-mode))
@@ -48,10 +48,10 @@
 
 (use-package skewer-mode
   :diminish
-  :hook (((js-mode js2-mode). skewer-mode)
-         (css-mode . skewer-css-mode)
-         (web-mode . skewer-html-mode)
-         (html-mode . skewer-html-mode))
+  :hook (((js-mode js2-mode) . skewer-mode)
+         (css-mode           . skewer-css-mode)
+         (web-mode           . skewer-html-mode)
+         (html-mode          . skewer-html-mode))
   :init
   ;; diminish
   (with-eval-after-load 'skewer-css

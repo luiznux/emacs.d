@@ -162,9 +162,9 @@
   (lsp-ui-sideline-code-action ((t (:inherit warning))))
   :bind (("C-c u" . lsp-ui-imenu)
          :map lsp-ui-mode-map
-         ("M-RET" . lsp-ui-sideline-apply-code-actions)
+         ("M-RET"                       . lsp-ui-sideline-apply-code-actions)
          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references] . lsp-ui-peek-find-references))
+         ([remap xref-find-references]  . lsp-ui-peek-find-references))
 
   :hook (lsp-mode . lsp-ui-mode)
 
@@ -281,15 +281,16 @@
   :diminish
   :bind (:map lsp-mode-map
          ("<f5>" . dap-debug))
-  :hook ((after-init . dap-auto-configure-mode)
-         (python-mode . (lambda () (require 'dap-python)))
-         (ruby-mode . (lambda () (require 'dap-ruby)))
-         (go-mode . (lambda () (require 'dap-go)))
-         (java-mode . (lambda () (require 'dap-java)))
-         ((c-mode c++-mode objc-mode swift-mode) . (lambda () (require 'dap-lldb)))
-         (php-mode . (lambda () (require 'dap-php)))
-         (elixir-mode . (lambda () (require 'dap-elixir)))
-         ((js-mode js2-mode) . (lambda () (require 'dap-chrome))))
+  :hook ((after-init             . dap-auto-configure-mode)
+         (python-mode            . (lambda () (require 'dap-python)))
+         (ruby-mode              . (lambda () (require 'dap-ruby)))
+         (go-mode                . (lambda () (require 'dap-go)))
+         (java-mode              . (lambda () (require 'dap-java)))
+         ((c-mode c++-mode)      . (lambda () (require 'dap-lldb)))
+         ((objc-mode swift-mode) . (lambda () (require 'dap-lldb)))
+         (php-mode               . (lambda () (require 'dap-php)))
+         (elixir-mode            . (lambda () (require 'dap-elixir)))
+         ((js-mode js2-mode)     . (lambda () (require 'dap-chrome))))
   :init
   (setq dap-auto-configure-features '(sessions locals breakpoints expressions controls))
   (when (executable-find "python3")

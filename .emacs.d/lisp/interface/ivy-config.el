@@ -50,13 +50,13 @@
          ("C-c v ." . ivy-switch-view)
 
          :map counsel-mode-map
-         (([remap swiper] . counsel-grep-or-swiper)
-          ([remap swiper-backward] . counsel-grep-or-swiper-backward)
-          ([remap dired] . counsel-dired)
-          ([remap set-variable] . counsel-set-variable)
-          ([remap insert-char] . counsel-unicode-char)
+         (([remap swiper]             . counsel-grep-or-swiper)
+          ([remap swiper-backward]    . counsel-grep-or-swiper-backward)
+          ([remap dired]              . counsel-dired)
+          ([remap set-variable]       . counsel-set-variable)
+          ([remap insert-char]        . counsel-unicode-char)
           ([remap recentf-open-files] . counsel-recentf)
-          ([remap org-capture] . counsel-org-capture)
+          ([remap org-capture]        . counsel-org-capture)
 
           ("C-x j"   . counsel-mark-ring)
           ("C-x C-f" . counsel-find-file)
@@ -122,11 +122,11 @@
 
   ;; Set minibuffer height for different commands
   (setq ivy-height-alist '((counsel-evil-registers . 5)
-                           (counsel-yank-pop . 8)
-                           (counsel-git-log . 4)
-                           (swiper . 13)
-                           (counsel-projectile-ag . 13)
-                           (counsel-projectile-rg . 13)))
+                           (counsel-yank-pop       . 8)
+                           (counsel-git-log        . 4)
+                           (swiper                 . 13)
+                           (counsel-projectile-ag  . 13)
+                           (counsel-projectile-rg  . 13)))
 
   (setq swiper-action-recenter t)
 

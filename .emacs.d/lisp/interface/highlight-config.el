@@ -74,16 +74,16 @@
   :diminish
   :functions (turn-off-symbol-overlay turn-on-symbol-overlay)
   :custom-face (symbol-overlay-default-face ((t (:inherit (region bold)))))
-  :bind (("M-i" . symbol-overlay-put)
-         ("M-n" . symbol-overlay-jump-next)
-         ("M-p" . symbol-overlay-jump-prev)
-         ("M-N" . symbol-overlay-switch-forward)
-         ("M-P" . symbol-overlay-switch-backward)
-         ("M-C" . symbol-overlay-remove-all)
+  :bind (("M-i"  . symbol-overlay-put)
+         ("M-n"  . symbol-overlay-jump-next)
+         ("M-p"  . symbol-overlay-jump-prev)
+         ("M-N"  . symbol-overlay-switch-forward)
+         ("M-P"  . symbol-overlay-switch-backward)
+         ("M-C"  . symbol-overlay-remove-all)
          ([M-f3] . symbol-overlay-remove-all))
   :hook (((prog-mode yaml-mode) . symbol-overlay-mode)
-         (iedit-mode . turn-off-symbol-overlay)
-         (iedit-mode-end . turn-on-symbol-overlay))
+         (iedit-mode            . turn-off-symbol-overlay)
+         (iedit-mode-end        . turn-on-symbol-overlay))
   :init (setq symbol-overlay-idle-time 0.1)
   (with-eval-after-load 'all-the-icons
     (setq symbol-overlay-faces
@@ -194,7 +194,7 @@
   :custom-face
   (hl-todo ((t (:inherit default :height 0.9 :width condensed :weight bold :underline nil :inverse-video t))))
   :bind (:map hl-todo-mode-map
-         ([C-f3] . hl-todo-occur)
+         ([C-f3]    . hl-todo-occur)
          ("C-c t p" . hl-todo-previous)
          ("C-c t n" . hl-todo-next)
          ("C-c t o" . hl-todo-occur)

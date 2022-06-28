@@ -139,29 +139,29 @@
     (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
   ;; varlist for `org-babel' languages
-  (defvar load-language-list '((emacs-lisp . t)
-                               (clojure . t)
-                               (lisp . t)
-                               (eshell . t)
-                               (shell . t)
-                               (sql . t)
-                               (C . t)
-                               (java . t)
-                               (python . t)
-                               (sed . t)
-                               (latex . t)
-                               (js . t)
-                               (css . t)
-                               (verb . t)))
+  (defvar load-language-alist '((emacs-lisp . t)
+                                (clojure    . t)
+                                (lisp       . t)
+                                (eshell     . t)
+                                (shell      . t)
+                                (sql        . t)
+                                (C          . t)
+                                (java       . t)
+                                (python     . t)
+                                (sed        . t)
+                                (latex      . t)
+                                (js         . t)
+                                (css        . t)
+                                (verb       . t)))
 
   (use-package ob-go
-    :init (cl-pushnew '(go . t) load-language-list))
+    :init (cl-pushnew '(go . t) load-language-alist))
 
   (use-package ob-http
-    :init(cl-pushnew '(http . t) load-language-list))
+    :init(cl-pushnew '(http . t) load-language-alist))
 
   (org-babel-do-load-languages 'org-babel-load-languages
-                               load-language-list)
+                               load-language-alist)
 
   (defun org-src--construct-edit-buffer-name (org-buffer-name lang)
     "Construct the buffer name for a source editing buffer."

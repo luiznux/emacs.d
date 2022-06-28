@@ -274,7 +274,7 @@
 
 
 ;; Global keybindings
-(bind-keys ("C-c K" . revert-this-buffer)
+(bind-keys ("C-c K"   . revert-this-buffer)
            ("C-c C-l" . reload-init-file))
 
 
