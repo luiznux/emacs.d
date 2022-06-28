@@ -98,8 +98,8 @@ Nil to use font supports ligatures."
     ("#+AUTHOR:" . ?👤)
     ("#+author:" . ?👤)
 
-    ("#+DESCRIPTION:" . ?🖋)
-    ("#+description:" . ?🖋)
+    ("#+DESCRIPTION:" . "")
+    ("#+description:" . "")
 
     ("#+EMAIL:" . ?📧)
     ("#+email:" . ?📧)
