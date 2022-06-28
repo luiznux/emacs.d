@@ -27,7 +27,13 @@
            return (set-face-attribute 'default nil
                                       :font font
                                       :height 90
-                                      :weight 'medium)))
+                                      :weight 'medium))
+
+  ;; Specify font for all unicode characters
+  (cl-loop for font in '("Symbola" "Symbol")
+           when (font-installed-p font)
+           return (set-fontset-font t 'unicode font nil 'prepend)))
+
 (setup-fonts)
 (add-hook 'server-after-make-frame-hook #'setup-fonts)
 
