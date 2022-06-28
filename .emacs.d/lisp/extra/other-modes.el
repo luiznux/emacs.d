@@ -37,6 +37,7 @@
 ;; emacs stuffs
 (use-package copyit)                    ; copy path, url, etc.
 (use-package focus)                     ; Focus on the current region
+(use-package keycast-mode)
 (use-package memory-usage)
 (use-package bug-hunter)
 (use-package logview)
