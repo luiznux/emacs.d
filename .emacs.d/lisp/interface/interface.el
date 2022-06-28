@@ -59,7 +59,6 @@
   :init
   (setq doom-modeline-icon                        t
         doom-modeline-height                      20
-        doom-modeline-window-width-limit          90
         doom-modeline-major-mode-icon             t
         doom-modeline-buffer-state-icon           t
         doom-modeline-major-mode-color-icon       t
@@ -195,7 +194,14 @@
   (setq emojify-company-tooltips-p   t
         emojify-display-style        'image
         emojify-composed-text-p      nil
-        emojify-user-emojis          my-custom-emojis))
+        emojify-user-emojis          my-custom-emojis)
+  :config
+  ;; Others emojis fonts
+  (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji")
+           when (font-installed-p font)
+           return (if (>= emacs-major-version 28)
+                      (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
+                    (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))))
 
 ;; Add icons for emacs
 (use-package all-the-icons
