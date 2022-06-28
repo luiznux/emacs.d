@@ -19,7 +19,7 @@
 
 (use-package evil
   :demand t
-  :diminish
+  :diminish undo-tree-mode
   :commands evil-set-initial-state
   :init
   (setq evil-want-integration t
@@ -82,6 +82,11 @@
   ;;          evil-snipe-smart-case    t
   ;;          evil-snipe-char-fold     t)
   ;;    (evil-snipe-mode))
+
+  (use-package evil-commentary
+    :after evil
+    :diminish
+    :config (evil-commentary-mode +1))
 
   (use-package evil-surround
     :config
