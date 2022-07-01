@@ -51,6 +51,7 @@
       :custom-face
       (forge-topic-label ((t (:inherit variable-pitch :height 0.9 :width condensed :weight regular :underline nil))))
       :init
+      (setq forge-add-default-bindings nil)
       (setq forge-topic-list-columns
             '(("#" 5 forge-topic-list-sort-by-number (:right-align t) number nil)
               ("Title" 60 t nil title  nil)
@@ -100,6 +101,9 @@
                                    "Improve `git-timemachine' buffers."
                                    ;; Display different colors in mode-line
                                    (face-remap-add-relative 'mode-line 'custom-state)
+                                   (if (facep 'mode-line-active)
+                                       (face-remap-add-relative 'mode-line-active 'custom-state)
+                                     (face-remap-add-relative 'mode-line 'custom-state))
 
                                    ;; Highlight symbols in elisp
                                    (and (derived-mode-p 'emacs-lisp-mode)
