@@ -126,6 +126,7 @@ Nil to use font supports ligatures."
 
     ("SCHEDULED:" . "")
     ("DEADLINE:"  . ?❗)
+    ("CLOSED:"    . ?✅)
 
     ("#+BEGIN_SRC" . "")
     ("#+begin_src" . "")
