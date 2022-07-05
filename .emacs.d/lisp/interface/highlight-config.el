@@ -137,7 +137,7 @@
 
   :hook ((after-init . global-diff-hl-mode)
          (dired-mode . diff-hl-dired-mode)
-         ((after-load-theme server-after-make-frame) . my-set-diff-hl-faces))
+         ((after-init after-load-theme server-after-make-frame) . my-set-diff-hl-faces))
 
   :init (setq diff-hl-draw-borders nil)
 
@@ -151,7 +151,7 @@
   (defun my-set-diff-hl-faces ()
     "Set `diff-hl' faces."
     (custom-set-faces
-     `(diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil))))
+     `(diff-hl-change ((t (:foreground ,(face-foreground 'custom-changed) :background nil))))
      '(diff-hl-insert ((t (:inherit diff-added :background nil))))
      '(diff-hl-delete ((t (:inherit diff-removed :background nil))))))
 
@@ -213,8 +213,6 @@
          ("M-o h" . highlight-symbol)
          ("M-p" . highlight-symbol-prev)
          ("M-n" . highlight-symbol-next)))
-
-
 
 
 (provide 'highlight-config)
