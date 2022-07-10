@@ -47,19 +47,48 @@
   (defun restart-mpd ()
     (interactive)
     (call-process "pkill" nil nil nil "mpd")
-    (call-process "mpd"))
-
-  :config
-  (with-no-warnings
-    (defun add-mpc-status-to-mode-line ()
-      "Display current song in mode line."
-      (add-to-list 'global-mode-string '("" mpc-current-song)))
-    (advice-add #'mpc :after #'add-mpc-status-to-mode-line)))
+    (call-process "mpd")))
 
 ;; Simple client for mpd
 (use-package simple-mpc
   :if (executable-find "mpc")
-  :bind ("M-<f9>" . simple-mpc))
+  :commands simple-mpc-call-mpc-strings
+  :functions (simple-mpc-current simple-mpc-start-timer)
+  :bind ("M-<f9>" . simple-mpc)
+  :init
+  (setq simple-mpc-playlist-format "[[%artist% - ]%title%]|[%file%]")
+
+  ;; Display current song in mode-line
+  (defvar simple-mpc-current nil)
+  (add-to-list 'global-mode-string '("" (:eval simple-mpc-current)))
+
+  (defun simple-mpc-current ()
+    "Get current song information."
+    (setq simple-mpc-current
+          (when-let* ((strs (simple-mpc-call-mpc-strings nil))
+                      (title (nth 0 strs))
+                      (info (nth 1 strs))
+                      (info-strs (split-string info))
+                      (state (nth 0 info-strs))
+                      (time (nth 2 info-strs)))
+            (propertize (format "%s%s [%s] "
+                                (pcase state
+                                  ("[playing]" " ")
+                                  ("[paused]" " ")
+                                  (_ ""))
+                                title time)
+                        'face 'font-lock-comment-face)))
+    (force-mode-line-update))
+
+  (defvar simple-mpc--timer nil)
+  (defun simple-mpc-start-timer ()
+    "Start simple-mpc timer to refresh current song."
+    (setq simple-mpc--timer (run-with-timer 0 1 #'simple-mpc-current)))
+  (defun simple-mpc-stop-timer ()
+    "Stop simple-mpc timer."
+    (when (timerp simple-mpc--timer)
+      (cancel-timer simple-mpc--timer)))
+  (simple-mpc-start-timer))
 
 (provide 'player-config)
 ;;; player-config.el ends here
