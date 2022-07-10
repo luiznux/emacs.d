@@ -35,7 +35,10 @@
 
   ;; dependency for evil-undo-system
   (use-package undo-tree
-    :hook (after-init . global-undo-tree-mode))
+    :hook (after-init . global-undo-tree-mode)
+    :init
+    ;; Prevent undo tree files from polluting your git repo
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 
   (use-package evil-collection
     :demand t
