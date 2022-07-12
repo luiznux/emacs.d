@@ -125,6 +125,9 @@
     (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING" "MEETING")
           org-wild-notifier-notification-title   "Agenda 📅"))
 
+  (use-package org-edna
+    :hook (org-mode . org-edna-mode))
+
   (use-package org-gcal
     :if (file-exists-p "~/org/org-api.el")
     :defines luiznux-client-id luiznux-client-secret
