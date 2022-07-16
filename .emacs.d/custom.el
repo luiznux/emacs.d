@@ -35,6 +35,7 @@
            return (set-fontset-font t 'unicode font nil 'prepend)))
 
 (setup-fonts)
+(add-hook 'window-setup-hook #'setup-fonts)
 (add-hook 'server-after-make-frame-hook #'setup-fonts)
 
 ;; Sets ibuffer as default.
