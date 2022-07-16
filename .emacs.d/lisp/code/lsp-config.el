@@ -29,20 +29,11 @@
 
 (use-package lsp-mode
   :diminish
-
-  :defines (lsp-clients-python-library-directories
-            lsp-rust-server
-            lsp-bash-highlight-parsing-errors
-            lsp-bash-explainshell-endpoint
-            lsp-bash-glob-pattern)
-
-  :commands (lsp
-             lsp-deferred
-             lsp-enable-which-key-integration
+  :defines lsp-clients-python-library-directories
+  :commands (lsp-enable-which-key-integration
              lsp-format-buffer
              lsp-organize-imports
-             lsp-install-server
-             lsp-go-install-save-hooks)
+             lsp-install-server)
 
   :custom-face
   (lsp-headerline-breadcrumb-path-error-face
