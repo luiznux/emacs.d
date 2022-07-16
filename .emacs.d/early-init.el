@@ -11,7 +11,7 @@
 ;;
 ;;; Code:
 
-;; Define elpa packages dir
+;; Define elpa packages dir with emacs version
 (setq package-user-dir (locate-user-emacs-file
                         (concat
                          (file-name-as-directory "elpa")
