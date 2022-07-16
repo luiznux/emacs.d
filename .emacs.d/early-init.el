@@ -11,6 +11,12 @@
 ;;
 ;;; Code:
 
+;; Define elpa packages dir
+(setq package-user-dir (locate-user-emacs-file
+                        (concat
+                         (file-name-as-directory "elpa")
+                         emacs-version)))
+
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold  most-positive-fixnum)
 
