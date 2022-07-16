@@ -61,7 +61,7 @@
   :init
   (setq doom-modeline-icon                        t
         doom-modeline-height                      20
-        doom-modeline-window-width-limit          120
+        doom-modeline-window-width-limit          100
         doom-modeline-major-mode-icon             t
         doom-modeline-buffer-state-icon           t
         doom-modeline-major-mode-color-icon       t
