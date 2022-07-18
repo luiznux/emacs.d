@@ -30,6 +30,7 @@
 
   :hook ((dashboard-mode
           calendar-mode
+          process-menu-mode
           helpful-mode
           grep-mode
           vterm-mode term-mode
