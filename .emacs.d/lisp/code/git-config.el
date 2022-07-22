@@ -21,11 +21,6 @@
   :defer t
   :init (setq magit-diff-refine-hunk t)
   :config
-  (when (fboundp 'transient-append-suffix)
-    ;; Add switch: --tags
-    (transient-append-suffix 'magit-fetch
-      "-p" '("-t" "Fetch all tags" ("-t" "--tags"))))
-
   ;; Exterminate Magit buffers
   (with-no-warnings
     (defun my-magit-kill-buffers (&rest _)
