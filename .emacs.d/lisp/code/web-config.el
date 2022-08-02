@@ -93,7 +93,6 @@
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
 
 (use-package htmlize)
-(use-package markdown-mode)
 
 
 (provide 'web-config)

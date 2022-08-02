@@ -17,10 +17,8 @@
 ;;
 ;;; Code:
 
-(use-package terraform-mode)
-(use-package vimrc-mode)
-(use-package google-this)
 
+(use-package google-this)
 (use-package google-translate
   :bind
   ("M-o t" . google-translate-at-point)

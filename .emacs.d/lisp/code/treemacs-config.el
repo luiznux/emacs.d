@@ -28,6 +28,8 @@
              treemacs-filewatch-mode
              treemacs-fringe-indicator-mode
              treemacs-git-mode)
+  :custom-face
+  (cfrs-border-color ((t (:background ,(face-foreground 'font-lock-comment-face nil t)))))
   :bind (([f8]        . treemacs)
          ("M-0"       . treemacs-select-window)
          ("C-x t 1"   . treemacs-delete-other-windows)
@@ -87,7 +89,13 @@
             git-commit-post-finish
             magit-post-stage
             magit-post-unstage)
-           . treemacs-magit--schedule-update)))
+           . treemacs-magit--schedule-update))
+
+  (use-package treemacs-persp
+    :after persp-mode
+    :demand t
+    :functions treemacs-set-scope-type
+    :config (treemacs-set-scope-type 'Perspectives)))
 
 
 (provide 'treemacs-config)

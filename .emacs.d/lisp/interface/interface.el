@@ -39,6 +39,15 @@
       scroll-bar-mode      nil
       blink-cursor-mode    nil)
 
+(when (and sys/mac-ns-p sys/mac-x-p)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (add-hook 'after-load-theme-hook
+            (lambda ()
+              (let ((bg (frame-parameter nil 'background-mode)))
+                (set-frame-parameter nil 'ns-appearance bg)
+                (setcdr (assq 'ns-appearance default-frame-alist) bg)))))
+
 (use-package solaire-mode
   :hook (after-load-theme . solaire-global-mode))
 
@@ -290,6 +299,8 @@
       inhibit-startup-message             t
       inhibit-default-init                t
       inhibit-startup-echo-area-message   user-login-name)
+(unless (daemonp)
+  (advice-add #'display-startup-echo-area-message :override #'ignore))
 
 ;; Display dividers between windows
 (setq window-divider-default-bottom-width  0

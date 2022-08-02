@@ -146,6 +146,18 @@
     (add-to-list 'drag-stuff-except-modes 'org-mode)
     (drag-stuff-define-keys)))
 
+;; A comprehensive visual interface to diff & patch
+(use-package ediff
+  :ensure nil
+  :hook(;; show org ediffs unfolded
+        (ediff-prepare-buffer . outline-show-all)
+        ;; restore window layout when done
+        (ediff-quit . winner-undo))
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-horizontally
+        ediff-merge-split-window-function 'split-window-horizontally))
+
 ;; Smartly select region, rectangle, multi cursors
 (use-package smart-region
   :hook (after-init . smart-region-on))
@@ -162,7 +174,11 @@
   ;; Avoid restoring `iedit-mode'
   (with-eval-after-load 'desktop
     (add-to-list 'desktop-minor-mode-table
-                 '(iedit-mode nil))))
+    '(iedit-mode nil))))
+
+;; Increase selected region by semantic units
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
 
 (use-package rainbow-delimiters
   :hook
@@ -171,6 +187,26 @@
 (use-package autorevert
   :ensure nil
   :hook (after-init . global-auto-revert-mode))
+
+;; Pass a URL to a WWW browser
+(use-package browse-url
+  :ensure nil
+  :defines dired-mode-map
+  :bind (("C-c C-z ." . browse-url-at-point)
+         ("C-c C-z b" . browse-url-of-buffer)
+         ("C-c C-z r" . browse-url-of-region)
+         ("C-c C-z u" . browse-url)
+         ("C-c C-z e" . browse-url-emacs)
+         ("C-c C-z v" . browse-url-of-file))
+  :init
+  (with-eval-after-load 'dired
+    (bind-key "C-c C-z f" #'browse-url-of-file dired-mode-map)))
+
+;; Click to browse URL or to send to e-mail address
+(use-package goto-addr
+  :ensure nil
+  :hook ((text-mode . goto-address-mode)
+         (prog-mode . goto-address-prog-mode)))
 
 ;; Code styles
 (use-package editorconfig
@@ -249,10 +285,25 @@
         minimap-hide-scroll-bar nil
         minimap-display-semantic-overlays t))
 
+;; Windows-scroll commands
+(use-package pager
+  :bind (([remap scroll-up-command] . pager-page-down)
+         ([remap scroll-down-command] . pager-page-up)
+         ([next]   . pager-page-down)
+         ([prior]  . pager-page-up)
+         ([M-up]   . pager-row-up)
+         ([M-kp-8] . pager-row-up)
+         ([M-down] . pager-row-down)
+         ([M-kp-2] . pager-row-down)))
+
 (use-package undohist
   :hook
   (with-no-warnings
     after-init-hook . (undohist-initialize)))
+
+;; Preview when `goto-line'
+(use-package goto-line-preview
+  :bind ([remap goto-line] . goto-line-preview))
 
 ;; TODO: Testing
 ;; cucumber support
@@ -261,13 +312,30 @@
   (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode)))
 (use-package ecukes)
 
+(use-package nxml-mode
+  :ensure nil
+  :mode (("\\.xaml$" . xml-mode)))
+
+;; New `conf-toml-mode' in Emacs 26
+(unless (fboundp 'conf-toml-mode)
+  (use-package toml-mode))
+
+;; Open files as another user
+(unless sys/win32p
+  (use-package sudo-edit))
+
 (when emacs/>=27p
   (use-package csv-mode))
 
 (use-package ag)
-(use-package format-all)
-(use-package sudo-edit)
+(use-package terraform-mode)
+(use-package vimrc-mode)
+(use-package mermaid-mode)
+(use-package plantuml-mode)
+(use-package cask-mode)
 (use-package cmake-mode)
+(use-package format-all)
+(use-package rmsbolt)                   ; A compiler output viewer
 
 
 (provide 'code-config)
