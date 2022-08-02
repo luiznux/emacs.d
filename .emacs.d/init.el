@@ -77,6 +77,7 @@
 (require 'window-config)
 (require 'ibuffer-config)
 (require 'highlight-config)
+(require 'kill-ring-config)
 (require 'persp-config)
 (require 'evil-config)
 (require 'company-config)
@@ -115,6 +116,7 @@
 (require 'player-config)
 (require 'other-modes)
 (require 'terminal-config)
+(require 'markdown-config)
 (require 'reader-config)
 
 
