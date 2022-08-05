@@ -58,6 +58,7 @@
        '(textobjects insert navigation additional shift todo heading)))))
 
 (use-package evil-goggles
+  :demand t
   :init
   (setq evil-goggles-pulse nil)
   :config
@@ -70,14 +71,16 @@
          ("R" . 'evil-multiedit-match-all)))
 
 (use-package evil-commentary
+  :demand t
   :config
-  (global-evil-surround-mode 1))
+  (evil-commentary-mode 1))
 
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))
 
 (use-package evil-matchit
+  :demand t
   :config
   (global-evil-matchit-mode 1))
 
