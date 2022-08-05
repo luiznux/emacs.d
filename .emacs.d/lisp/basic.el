@@ -232,6 +232,7 @@
 (setq-default major-mode        'text-mode
               fill-column       80
               tab-width         4
+              line-spacing      0.2
               indent-tabs-mode  nil) ; Permanently indent with spaces, never with TABs
 
 (setq password-cache-expiry     nil
@@ -246,6 +247,8 @@
       delete-by-moving-to-trash       t ; Deleting files go to OS's trash folder
       delete-old-versions             t ; Delete excess backup files silently
       delete-selection-mode           t
+      auth-source-save-behavior       nil
+      standard-indent                 4
       tab-always-indent               'complete
       uniquify-buffer-name-style      'post-forward-angle-brackets ; Show path if names are same
 

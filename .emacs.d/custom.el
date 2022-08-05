@@ -46,15 +46,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(alert-fade-time 10)
- '(auth-source-save-behavior nil)
- '(blink-cursor-mode nil)
- '(evil-undo-system 'undo-tree)
- '(fci-rule-color "#dedede")
- '(global-auto-revert-mode t)
- '(line-spacing 0.2)
- '(standard-indent 4)
- '(warning-suppress-log-types '((comp) (comp))))
+ )
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
