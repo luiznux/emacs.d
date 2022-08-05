@@ -19,16 +19,14 @@
 
 (use-package evil
   :demand t
-  :diminish undo-tree-mode
-  :commands evil-set-initial-state
+  :commands 'evil-scroll-up
+  :bind (:map evil-normal-state-map
+         ("M-." . nil)
+         ("C-u" . 'evil-scroll-up))
   :init
   (setq evil-want-integration t
-        evil-want-keybinding nil
-        evil-undo-system 'undo-tree)
-
-  (with-eval-after-load 'evil
-    (define-key evil-normal-state-map (kbd "M-.") nil)
-    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up))
+        evil-want-keybinding  nil
+        evil-undo-system      'undo-tree)
 
   :config
   (evil-mode 1)
@@ -50,58 +48,42 @@
 
   (use-package evil-org
     :demand t
-    :diminish
-    :functions evil-org-agenda-set-keys
     :after evil org
+    :hook ('org-mode-hook . (lambda () (evil-org-mode)))
     :config
-    (add-hook 'org-mode-hook (lambda () (evil-org-mode)))
-    (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys)
     (with-no-warnings
-      (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))))
+      (require 'evil-org-agenda)
+      (evil-org-agenda-set-keys)
+      (evil-org-set-key-theme
+       '(textobjects insert navigation additional shift todo heading)))))
 
-  (use-package evil-goggles
-    :demand t
-    :commands evil-goggles-use-diff-faces
-    :init
-    (setq evil-goggles-pulse nil)
-    :config
+(use-package evil-goggles
+  :init
+  (setq evil-goggles-pulse nil)
+  :config
+  (with-no-warnings
     (evil-goggles-mode)
-    (evil-goggles-use-diff-faces))
+    (evil-goggles-use-diff-faces)))
 
-  (use-package evil-multiedit
-    :demand t
-    :config
-    (define-key evil-visual-state-map "R" 'evil-multiedit-match-all))
+(use-package evil-multiedit
+  :bind (:map evil-visual-state-map
+         ("R" . 'evil-multiedit-match-all)))
 
-  ;;  (use-package evil-snipe
-  ;;    :demand t
-  ;;    :diminish
-  ;;    :hook (evil-snipe-disabled-modes . (lambda ()
-  ;;                                         'Info-mode 'treemacs-mode 'dired-mode))
-  ;;    :init
-  ;;    (setq evil-snipe-repeat-scope  'visible
-  ;;          evil-snipe-scope         'line
-  ;;          evil-snipe-smart-case    t
-  ;;          evil-snipe-char-fold     t)
-  ;;    (evil-snipe-mode))
+(use-package evil-commentary
+  :config
+  (global-evil-surround-mode 1))
 
-  (use-package evil-commentary
-    :after evil
-    :diminish
-    :config (evil-commentary-mode +1))
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
 
-  (use-package evil-surround
-    :config
-    (global-evil-surround-mode 1))
+(use-package evil-matchit
+  :config
+  (global-evil-matchit-mode 1))
 
-  (use-package evil-matchit
-    :config
-    (global-evil-matchit-mode 1))
-
-  (use-package evil-leader
-    :config
-    (global-evil-leader-mode)))
+(use-package evil-leader
+  :config
+  (global-evil-leader-mode))
 
 
 (provide 'evil-config)
