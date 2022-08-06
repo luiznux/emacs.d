@@ -204,9 +204,11 @@
               hl-todo-highlight-punctuation ":")
   :config
   (dolist (keyword '("BUG" "DEFECT" "ISSUE"))
-    (cl-pushnew `(,keyword . ,(face-foreground 'error)) hl-todo-keyword-faces))
-  (dolist (keyword '("WORKAROUND" "HACK" "TRICK"))
-    (cl-pushnew `(,keyword . ,(face-foreground 'warning)) hl-todo-keyword-faces)))
+    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#e45649")))
+  (dolist (keyword '("TRICK" "WORKAROUND"))
+    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#d0bf8f")))
+  (dolist (keyword '("DEBUG" "STUB"))
+    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#7cb8bb"))))
 
 (use-package highlight-symbol
   :bind (:map prog-mode-map
