@@ -229,6 +229,31 @@
   (setq-default prettify-symbols-alist custom-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
+;; Search tool
+(use-package grep
+  :ensure nil
+  :commands grep-apply-setting
+  :config
+  (cond
+   ((executable-find "ugrep")
+    (grep-apply-setting
+     'grep-command "ugrep --color=auto -0In -e ")
+    (grep-apply-setting
+     'grep-template "ugrep --color=auto -0In -e <R> <D>")
+    (grep-apply-setting
+     'grep-find-command '("ugrep --color=auto -0Inr -e ''" . 30))
+    (grep-apply-setting
+     'grep-find-template "ugrep <C> -0Inr -e <R> <D>"))
+   ((executable-find "rg")
+    (grep-apply-setting
+     'grep-command "rg --color=auto --null -nH --no-heading -e ")
+    (grep-apply-setting
+     'grep-template "rg --color=auto --null --no-heading -g '!*/' -e <R> <D>")
+    (grep-apply-setting
+     'grep-find-command '("rg --color=auto --null -nH --no-heading -e ''" . 38))
+    (grep-apply-setting
+     'grep-find-template "rg --color=auto --null -nH --no-heading -e <R> <D>"))))
+
 ;; Only support with dynamic module
 (when (functionp 'module-load)
   (use-package tree-sitter
@@ -240,10 +265,18 @@
 ;; Cross-referencing commands
 (use-package xref
   :ensure nil
-  :init
-  (when (executable-find "rg")
-    (setq xref-search-program 'ripgrep))
+  :config
   (with-no-warnings
+    ;; Use faster search tool
+    (when emacs/>=28p
+      (add-to-list 'xref-search-program-alist
+                   '(ugrep . "xargs -0 ugrep <C> --null -ns -e <R>"))
+      (cond
+       ((executable-find "ugrep")
+        (setq xref-search-program 'ugrep))
+       ((executable-find "rg")
+        (setq xref-search-program 'ripgrep))))
+
     ;; Select from xref candidates with Ivy
     (if emacs/>=28p
         (setq xref-show-definitions-function #'xref-show-definitions-completing-read
