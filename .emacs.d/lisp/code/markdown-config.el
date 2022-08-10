@@ -15,6 +15,10 @@
 ;;
 ;;; Code:
 
+(require 'constants)
+(require 'functions)
+
+
 (use-package markdown-mode
   :mode (("README\\.md\\'" . gfm-mode))
   :init
@@ -39,7 +43,6 @@ body {
   padding: 0 10px;
 }
 </style>
-
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css'>
 <script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script>
 <script>
@@ -52,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-
 <script src='https://unpkg.com/mermaid@8.4.8/dist/mermaid.min.js'></script>
 <script>
 mermaid.initialize({
@@ -66,16 +68,16 @@ mermaid.initialize({
   ;; `multimarkdown' is necessary for `highlight.js' and `mermaid.js'
   (when (executable-find "multimarkdown")
     (setq markdown-command "multimarkdown"))
-
-  ;; Use `which-key' instead
-  (with-no-warnings
-    (advice-add #'markdown--command-map-prompt :override #'ignore)
-    (advice-add #'markdown--style-map-prompt   :override #'ignore))
   :config
+  ;; Support `mermaid'
   (add-to-list 'markdown-code-lang-modes '("mermaid" . mermaid-mode))
 
-  ;; Preview with built-in webkit
   (with-no-warnings
+    ;; Use `which-key' instead
+    (advice-add #'markdown--command-map-prompt :override #'ignore)
+    (advice-add #'markdown--style-map-prompt   :override #'ignore)
+
+    ;; Preview with built-in webkit
     (defun my-markdown-export-and-preview (fn)
       "Preview with `xwidget' if applicable, otherwise with the default browser."
       (if (featurep 'xwidget-internal)
@@ -102,7 +104,6 @@ mermaid.initialize({
   (use-package markdown-toc
     :bind (:map markdown-mode-command-map
            ("r" . markdown-toc-generate-or-refresh-toc))))
-
 
 (provide 'markdown-config)
 ;;; markdown-config.el ends here
