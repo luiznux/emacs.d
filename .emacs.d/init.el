@@ -34,7 +34,6 @@
 
 ;; avoid anoing message
 (setq byte-compile-warnings '(cl-functions))
-(setq warning-suppress-types '((comp)))
 
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
