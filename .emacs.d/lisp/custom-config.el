@@ -22,9 +22,7 @@
   :group 'convenience
   :link '(url-link :tag "Homepage" "https://github.com/luiznux/emacs.d"))
 
-(defcustom luiznux-logo (expand-file-name
-                         (if (display-graphic-p) "logo.png")
-                         user-emacs-directory)
+(defcustom luiznux-logo (expand-file-name "logo.png" user-emacs-directory)
   "Set My Custom logo,  nil means official logo."
   :group 'luiznux
   :type 'string)

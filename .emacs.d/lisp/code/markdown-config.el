@@ -105,5 +105,6 @@ mermaid.initialize({
     :bind (:map markdown-mode-command-map
            ("r" . markdown-toc-generate-or-refresh-toc))))
 
+
 (provide 'markdown-config)
 ;;; markdown-config.el ends here
