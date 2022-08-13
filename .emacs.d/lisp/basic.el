@@ -239,7 +239,8 @@
       load-prefer-newer         t
       system-time-locale        "C")
 
-(setq line-breaker page-delimiter)
+(with-no-warnings
+  (setq line-breaker page-delimiter))
 
 (global-hl-line-mode 1)
 
