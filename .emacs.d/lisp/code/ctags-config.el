@@ -56,13 +56,8 @@ Fallback to `xref-find-definitions'."
 
     (defun lsp-citre-capf-function ()
       "A capf backend that tries lsp first, then Citre."
-      (let ((lsp-result (pcase centaur-lsp
-                          ('lsp-mode
-                           (and (fboundp #'lsp-completion-at-point)
-                                (lsp-completion-at-point)))
-                          ('eglot
-                           (and (fboundp #'eglot-completion-at-point)
-                                (eglot-completion-at-point))))))
+      (let ((lsp-result (and (fboundp #'lsp-completion-at-point)
+                             (lsp-completion-at-point))))
         (if (and lsp-result
                  (try-completion
                   (buffer-substring (nth 0 lsp-result)
