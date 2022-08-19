@@ -20,7 +20,8 @@
 
 (use-package centaur-tabs
   :after evil
-  :defines evil-normal-state-map
+  :defines (evil-normal-state-map
+            centaur-tabs-excluded-prefixes)
 
   :commands (centaur-tabs-group-by-projectile-project
              centaur-tabs-get-group-name
@@ -61,7 +62,11 @@
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-enable-buffer-reordering)
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
-  (centaur-tabs-mode t))
+  (centaur-tabs-mode t)
+
+  :config
+  (add-to-list 'centaur-tabs-excluded-prefixes "*flycheck-posframe-buffer*")
+  (add-to-list 'centaur-tabs-excluded-prefixes "*Shell Command Output*"))
 
 
 (provide 'centaur-tabs-config)
