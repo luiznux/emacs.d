@@ -96,6 +96,8 @@
         lsp-modeline-code-actions-enable   t
         lsp-modeline-diagnostics-enable    t
         lsp-keep-workspace-alive           nil
+        lsp-semantic-tokens-enable         t
+        lsp-progress-spinner-type          'horizontal-breathing
 
         ;; For `lsp-clients'
         lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
