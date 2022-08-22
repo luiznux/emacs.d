@@ -285,6 +285,10 @@
     (dolist (icon mode-icon-alist)
       (add-to-list 'all-the-icons-mode-icon-alist icon))))
 
+;; Make mail look pretty
+(use-package all-the-icons-gnus
+  :config (all-the-icons-gnus-setup))
+
 ;; Show line numbers
 (use-package display-line-numbers
   :ensure nil

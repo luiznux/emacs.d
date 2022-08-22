@@ -258,6 +258,24 @@
       sentence-end "\\([。！？]\\|……\\|[.?!][]\"')}]*\\($\\|[ \t]\\)\\)[ \t\n]*"
       sentence-end-double-space nil)
 
+;; eye-candy for Gnus
+;; https://groups.google.com/g/gnu.emacs.gnus/c/pnOnQ1bnFB8
+(with-no-warnings
+  (setq gnus-sum-thread-tree-vertical        "│"
+        gnus-sum-thread-tree-leaf-with-other "├─► "
+        gnus-sum-thread-tree-single-leaf     "╰─► "
+        gnus-summary-line-format
+        (concat
+         "%0{%U%R%z%}"
+         "%3{│%}" "%1{%d%}" "%3{│%}"
+         "  "
+         "%4{%-20,20f%}"
+         "  "
+         "%3{│%}"
+         " "
+         "%1{%B%}"
+         "%s\n")))
+
 ;;; Backup Files
 ;; Don’t clutter project directories with backup files, e.g.
 ;; Emacs.org\~ Watch this great explanation about Emacs temporary
