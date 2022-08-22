@@ -338,11 +338,12 @@
 (use-package goto-line-preview
   :bind ([remap goto-line] . goto-line-preview))
 
-;; TODO: Testing
 ;; cucumber support
+;; read https://github.com/michaelklishin/cucumber.el
 (use-package feature-mode
   :init
   (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode)))
+
 (use-package ecukes)
 
 (use-package nxml-mode
