@@ -60,6 +60,12 @@ The default value in inherit from the `face-attribute' minus 20"
   :group 'luiznux
   :type 'int)
 
+(defcustom fancy-modeline t
+  "Enable fancy stuffs in mode line or not.
+Like `nyan-mode' and `parrot-mode'"
+  :group 'luiznux
+  :type 'boolean)
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)

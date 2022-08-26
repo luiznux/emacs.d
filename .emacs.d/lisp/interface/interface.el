@@ -112,22 +112,23 @@
            ido-mode
            lsp-treemacs-error-list-mode) . hide-mode-line-mode)))
 
-(use-package nyan-mode
-  :custom
-  (nyan-cat-face-number 1)
-  (nyan-animate-nyancat t)
-  :hook
-  (doom-modeline-mode . nyan-mode))
+(when fancy-modeline
+  (use-package nyan-mode
+    :custom
+    (nyan-cat-face-number 1)
+    (nyan-animate-nyancat t)
+    :hook
+    (doom-modeline-mode . nyan-mode))
 
-(use-package parrot
-  :commands (parrot-set-parrot-type parrot-start-animation)
-  :custom-face (parrot-set-parrot-type 'emacs)
-  :hook (after-init . parrot-mode)
-  :init
-  (setq parrot-num-rotations 6)
-  (add-hook 'evil-insert-state-entry-hook #'parrot-start-animation)
-  (add-hook 'evil-visual-state-entry-hook #'parrot-start-animation)
-  (add-hook 'evil-emacs-state-entry-hook  #'parrot-start-animation))
+  (use-package parrot
+    :commands (parrot-set-parrot-type parrot-start-animation)
+    :custom-face (parrot-set-parrot-type 'emacs)
+    :hook (after-init . parrot-mode)
+    :init
+    (setq parrot-num-rotations 6)
+    (add-hook 'evil-insert-state-entry-hook #'parrot-start-animation)
+    (add-hook 'evil-visual-state-entry-hook #'parrot-start-animation)
+    (add-hook 'evil-emacs-state-entry-hook  #'parrot-start-animation)))
 
 ;; Display ugly ^L page breaks as tidy horizontal lines
 (use-package page-break-lines
