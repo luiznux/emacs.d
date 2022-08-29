@@ -16,8 +16,9 @@
       luiznux-enviroment-type  'nil
       luiznux-server           t)
 
-;;(setq doom-modeline-font-size value
-;;      centaur-tabs-font-size  value )
+;;(setq doom-modeline-font-size value)
+;;(setq centaur-tabs-font-size  value)
+;;(setq fancy-modeline          nil)
 
 (defun setup-fonts ()
   "Set default fonts."
