@@ -138,8 +138,7 @@
   ;; Use the faster search tools
   (cond
    ((executable-find "ugrep")
-    (setq counsel-grep-base-command "ugrep --color=never -n -e '%s' '%s'")
-    (setq counsel-rg-base-command '("ugrep" "--color=never" "--ignore-files" "-rnEI" "%s")))
+    (setq counsel-grep-base-command "ugrep --color=never -n -e '%s' '%s'"))
    ((executable-find "rg")
     (setq counsel-grep-base-command "rg -S --no-heading --line-number --color never '%s' '%s'")))
 
@@ -187,7 +186,7 @@
 
     ;; Pre-fill search keywords
     ;; @see https://www.reddit.com/r/emacs/comments/b7g1px/withemacs_execute_commands_like_marty_mcfly/
-    (defvar my-ivy-fly-commands
+    (defconst my-ivy-fly-commands
       '(query-replace-regexp
         flush-lines keep-lines ivy-read
         swiper swiper-backward swiper-all
@@ -196,7 +195,7 @@
         counsel-grep-or-swiper counsel-grep-or-swiper-backward
         counsel-grep counsel-ack counsel-ag counsel-rg counsel-pt))
 
-    (defvar my-ivy-fly-back-commands
+    (defconst my-ivy-fly-back-commands
       '(self-insert-command
         ivy-forward-char ivy-delete-char delete-forward-char kill-word kill-sexp
         end-of-line mwim-end-of-line mwim-end-of-code-or-line mwim-end-of-line-or-code
