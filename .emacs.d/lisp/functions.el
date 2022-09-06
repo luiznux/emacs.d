@@ -241,12 +241,18 @@ on selected major modes only."
 
 ;; Config
 
-(defun recompile-elpa ()
-  "Recompile packages in elpa directory.  Useful if you switch Emacs versions."
+(defun byte-compile-elpa ()
+  "Compile packages in elpa directory.  Useful if you switch Emacs versions."
   (interactive)
   (if (fboundp 'async-byte-recompile-directory)
       (async-byte-recompile-directory package-user-dir)
     (byte-recompile-directory package-user-dir 0 t)))
+
+(defun native-compile-elpa ()
+  "Native-compile packages in elpa directory."
+  (interactive)
+  (if (fboundp 'native-compile-async)
+      (native-compile-async package-user-dir t)))
 
 (defun enable-ido-mode ()
   "Enables `ido-mode'."
@@ -257,11 +263,11 @@ on selected major modes only."
 (defun read-path-variable-from-zshrc ()
   "Read the path variable from zshrc."
   (let ((path (shell-command-to-string ". ~/.zshrc; echo -n $PATH")))
-    (setenv "PATH" path)
-    (setq exec-path
-          (append
-           (split-string-and-unquote path ":")
-           exec-path))))
+  (setenv "PATH" path)
+  (setq exec-path
+        (append
+         (split-string-and-unquote path ":")
+         exec-path))))
 
 (defun icon-displayable-p ()
   "Return non-nil if icons are displayable."
