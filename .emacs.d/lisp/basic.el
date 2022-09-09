@@ -86,11 +86,6 @@
         gcmh-auto-idle-delay-factor 10
         gcmh-high-cons-threshold #x1000000)) ; 16MB
 
-;; Encoding
-;; UTF-8 as the default coding system
-(when (fboundp 'set-charset-priority)
-  (set-charset-priority 'unicode))
-
 ;; Environment
 (when (or sys/mac-x-p sys/linux-x-p (daemonp))
   (use-package exec-path-from-shell
@@ -234,6 +229,9 @@
               tab-width         4
               line-spacing      0.2
               indent-tabs-mode  nil) ; Permanently indent with spaces, never with TABs
+
+;; Set UTF-8 as the default coding system
+(set-language-environment "UTF-8")
 
 (setq password-cache-expiry     nil
       load-prefer-newer         t
