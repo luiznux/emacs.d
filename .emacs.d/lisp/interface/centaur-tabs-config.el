@@ -66,7 +66,8 @@
 
   :config
   (add-to-list 'centaur-tabs-excluded-prefixes "*flycheck-posframe-buffer*")
-  (add-to-list 'centaur-tabs-excluded-prefixes "*Shell Command Output*"))
+  (add-to-list 'centaur-tabs-excluded-prefixes "*Shell Command Output*")
+  (add-to-list 'centaur-tabs-excluded-prefixes "*Directory*"))
 
 
 (provide 'centaur-tabs-config)
