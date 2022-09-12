@@ -254,6 +254,12 @@ on selected major modes only."
   (if (fboundp 'native-compile-async)
       (native-compile-async package-user-dir t)))
 
+(defun too-long-file-p ()
+  "Check whether the file is too long."
+  (if (fboundp 'buffer-line-statistics)
+      (> (car (buffer-line-statistics)) 3000)
+    (> (buffer-size) 100000)))
+
 (defun enable-ido-mode ()
   "Enables `ido-mode'."
   (setq-default ido-enable-flex-matching t)
