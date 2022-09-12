@@ -162,6 +162,9 @@
 (use-package smart-region
   :hook (after-init . smart-region-on))
 
+;; Visual `align-regexp'
+(use-package ialign)
+
 ;; Edit multiple regions in the same way simultaneously
 (use-package iedit
   :defines desktop-minor-mode-table
@@ -174,7 +177,7 @@
   ;; Avoid restoring `iedit-mode'
   (with-eval-after-load 'desktop
     (add-to-list 'desktop-minor-mode-table
-    '(iedit-mode nil))))
+                 '(iedit-mode nil))))
 
 ;; Increase selected region by semantic units
 (use-package expand-region
