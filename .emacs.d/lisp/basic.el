@@ -231,7 +231,7 @@
               indent-tabs-mode  nil) ; Permanently indent with spaces, never with TABs
 
 ;; Set UTF-8 as the default coding system
-(prefer-coding-system 'utf-8)
+(set-language-environment "UTF-8")
 
 (setq password-cache-expiry     nil
       load-prefer-newer         t
