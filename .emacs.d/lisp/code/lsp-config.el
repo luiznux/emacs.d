@@ -29,7 +29,7 @@
 
 (use-package lsp-mode
   :diminish
-  :defines lsp-clients-python-library-directories
+  :defines (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)
   :commands (lsp-enable-which-key-integration
              lsp-format-buffer
              lsp-organize-imports
@@ -98,6 +98,9 @@
         lsp-keep-workspace-alive           nil
         lsp-semantic-tokens-enable         t
         lsp-progress-spinner-type          'progress-bar-filled
+
+        ;; For diagnostics
+        lsp-diagnostics-disabled-modes '(markdown-mode gfm-mode)
 
         ;; For `lsp-clients'
         lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
