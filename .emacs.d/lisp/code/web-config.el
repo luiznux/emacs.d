@@ -46,6 +46,12 @@
     :hook (js2-mode . js2-refactor-mode)
     :config (js2r-add-keybindings-with-prefix "C-c C-m")))
 
+;; Format HTML, CSS and JavaScript/JSON
+;; Install: npm -g install prettier
+(use-package prettier
+  :diminish
+  :hook (after-init . global-prettier-mode))
+
 (use-package skewer-mode
   :diminish
   :hook (((js-mode js2-mode) . skewer-mode)
