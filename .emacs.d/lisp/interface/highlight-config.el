@@ -79,7 +79,6 @@
 (use-package symbol-overlay
   :diminish
   :functions (turn-off-symbol-overlay turn-on-symbol-overlay)
-  :custom-face (symbol-overlay-default-face ((t (:inherit (region bold)))))
   :bind (("M-i"  . symbol-overlay-put)
          ("M-n"  . symbol-overlay-jump-next)
          ("M-p"  . symbol-overlay-jump-prev)
