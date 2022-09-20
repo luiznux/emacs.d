@@ -230,6 +230,9 @@
               line-spacing      0.2
               indent-tabs-mode  nil) ; Permanently indent with spaces, never with TABs
 
+;; Disable auto indent on text-mode
+(when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
+
 ;; Set UTF-8 as the default coding system
 (set-language-environment "UTF-8")
 
