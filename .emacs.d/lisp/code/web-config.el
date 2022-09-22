@@ -50,7 +50,7 @@
 ;; Install: npm -g install prettier
 (use-package prettier
   :diminish
-  :hook (after-init . global-prettier-mode))
+  :hook  ((js-mode js2-mode css-mode sgml-mode web-mode) . prettier-mode))
 
 (use-package skewer-mode
   :diminish
