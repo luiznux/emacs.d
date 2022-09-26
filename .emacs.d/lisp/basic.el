@@ -234,8 +234,9 @@
 (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
 
 ;; Set UTF-8 as the default coding system
-(prefer-coding-system 'utf-8)
 (set-language-environment "utf-8")
+(when (fboundp 'set-charset-priority)
+  (set-charset-priority 'unicode))
 
 (setq password-cache-expiry     nil
       load-prefer-newer         t
