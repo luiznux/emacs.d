@@ -337,8 +337,7 @@
       :bind (([remap next] . good-scroll-up-full-screen)
              ([remap prior] . good-scroll-down-full-screen)))))
 (with-no-warnings
-  (setq pixel-scroll-precision-large-scroll-height  40.0
-        pixel-scroll-precision-interpolation-factor 9))
+  (setq pixel-scroll-precision-large-scroll-height  40.0))
 
 ;; Smooth scrolling over images
 (use-package iscroll
