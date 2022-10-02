@@ -41,14 +41,14 @@
       (setq insert-directory-program "gls")))
 
   (when (or (and sys/macp (executable-find "gls"))
-            (and (not sys/macp) (executable-find "ls")))
+            (and sys/linuxp (executable-find "ls")))
     ;; Using `insert-directory-program'
     (setq ls-lisp-use-insert-directory-program t)
 
     ;; Show directory first
-    (setq dired-listing-switches "-alh --group-directories-first")
+    (setq dired-listing-switches "-alh --group-directories-first"))
 
-    (use-package dired-quick-sort))
+  (use-package dired-quick-sort)
 
   ;; Show git info in dired
   (use-package dired-git-info
