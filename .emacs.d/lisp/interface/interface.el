@@ -103,14 +103,12 @@
 (use-package hide-mode-line
   :hook (((completion-list-mode
            completion-in-region-mode
+           eshell-mode shell-mode
+           term-mode vterm-mode
            pdf-annot-list-mode
            flycheck-error-list-mode
-           eshell-mode
-           shell-mode
-           term-mode
-           vterm-mode
-           ido-mode
            lsp-treemacs-error-list-mode) . hide-mode-line-mode)))
+
 
 (when fancy-modeline
   (use-package nyan-mode
