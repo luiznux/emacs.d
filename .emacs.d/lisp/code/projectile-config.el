@@ -36,7 +36,12 @@
 
   ;; Support Perforce project
   (let ((val (or (getenv "P4CONFIG") ".p4config")))
-    (add-to-list 'projectile-project-root-files-bottom-up val)))
+    (add-to-list 'projectile-project-root-files-bottom-up val))
+
+  ;; Registry my org-files as project
+  (with-no-warnings
+    (projectile-register-project-type 'org '("config.org")
+                                      :project-file "config.org")))
 
 
 (provide 'projectile-config)
