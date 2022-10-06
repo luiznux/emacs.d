@@ -184,10 +184,6 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-(use-package rainbow-delimiters
-  :hook
-  (prog-mode . rainbow-delimiters-mode))
-
 (use-package autorevert
   :ensure nil
   :hook (after-init . global-auto-revert-mode))
