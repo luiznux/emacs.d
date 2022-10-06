@@ -27,6 +27,7 @@
          (( eshell-mode shell-mode term-mode vterm-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
+;; Highlight matching parens
 (use-package paren
   :ensure nil
   :hook (after-init . show-paren-mode)
@@ -35,6 +36,46 @@
         show-paren-when-point-in-periphery t
         show-paren-highlight-openparen     t
         show-paren-style                   'paren))
+
+;; Highlight symbols
+(use-package symbol-overlay
+  :diminish
+  :functions (turn-off-symbol-overlay turn-on-symbol-overlay)
+  :custom-face
+  (symbol-overlay-default-face ((t (:background ,(doom-color 'region)))))
+  (symbol-overlay-face-1 ((t (:background ,(doom-blend 'blue 'bg 0.5)    :foreground ,(doom-color 'fg)))))
+  (symbol-overlay-face-2 ((t (:background ,(doom-blend 'violet 'bg 0.5)  :foreground ,(doom-color 'fg)))))
+  (symbol-overlay-face-3 ((t (:background ,(doom-blend 'yellow 'bg 0.5)  :foreground ,(doom-color 'fg)))))
+  (symbol-overlay-face-4 ((t (:background ,(doom-blend 'orange 'bg 0.5)  :foreground ,(doom-color 'fg)))))
+  (symbol-overlay-face-5 ((t (:background ,(doom-blend 'red 'bg 0.5)     :foreground ,(doom-color 'fg)))))
+  (symbol-overlay-face-6 ((t (:background ,(doom-blend 'magenta 'bg 0.5) :foreground ,(doom-color 'fg)))))
+  (symbol-overlay-face-7 ((t (:background ,(doom-blend 'green 'bg 0.5)   :foreground ,(doom-color 'fg)))))
+  (symbol-overlay-face-8 ((t (:background ,(doom-blend 'cyan 'bg 0.5)    :foreground ,(doom-color 'fg)))))
+  :bind (("M-i"  . symbol-overlay-put)
+         ("M-n"  . symbol-overlay-jump-next)
+         ("M-p"  . symbol-overlay-jump-prev)
+         ("M-N"  . symbol-overlay-switch-forward)
+         ("M-P"  . symbol-overlay-switch-backward)
+         ("M-C"  . symbol-overlay-remove-all)
+         ([M-f3] . symbol-overlay-remove-all))
+  :hook (((prog-mode yaml-mode) . symbol-overlay-mode)
+         (iedit-mode            . turn-off-symbol-overlay)
+         (iedit-mode-end        . turn-on-symbol-overlay))
+  :init (setq symbol-overlay-idle-time 0.1)
+  :config
+  ;; Disable symbol highlighting while selecting
+  (defun turn-off-symbol-overlay (&rest _)
+    "Turn off symbol highlighting."
+    (interactive)
+    (symbol-overlay-mode -1))
+  (advice-add #'set-mark :after #'turn-off-symbol-overlay)
+
+  (defun turn-on-symbol-overlay (&rest _)
+    "Turn on symbol highlighting."
+    (interactive)
+    (when (derived-mode-p 'prog-mode 'yaml-mode)
+      (symbol-overlay-mode 1)))
+  (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay))
 
 ;; Highlight indentions
 (use-package highlight-indent-guides
@@ -76,45 +117,7 @@
                 (remove-text-properties next pos '(display nil face nil) str))))))
       (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation))))
 
-(use-package symbol-overlay
-  :diminish
-  :functions (turn-off-symbol-overlay turn-on-symbol-overlay)
-  :bind (("M-i"  . symbol-overlay-put)
-         ("M-n"  . symbol-overlay-jump-next)
-         ("M-p"  . symbol-overlay-jump-prev)
-         ("M-N"  . symbol-overlay-switch-forward)
-         ("M-P"  . symbol-overlay-switch-backward)
-         ("M-C"  . symbol-overlay-remove-all)
-         ([M-f3] . symbol-overlay-remove-all))
-  :hook (((prog-mode yaml-mode) . symbol-overlay-mode)
-         (iedit-mode            . turn-off-symbol-overlay)
-         (iedit-mode-end        . turn-on-symbol-overlay))
-  :init (setq symbol-overlay-idle-time 0.1)
-  (with-eval-after-load 'all-the-icons
-    (setq symbol-overlay-faces
-          '((:inherit (all-the-icons-blue bold) :inverse-video t)
-            (:inherit (all-the-icons-pink bold) :inverse-video t)
-            (:inherit (all-the-icons-yellow bold) :inverse-video t)
-            (:inherit (all-the-icons-purple bold) :inverse-video t)
-            (:inherit (all-the-icons-red bold) :inverse-video t)
-            (:inherit (all-the-icons-orange bold) :inverse-video t)
-            (:inherit (all-the-icons-green bold) :inverse-video t)
-            (:inherit (all-the-icons-cyan bold) :inverse-video t))))
-  :config
-  ;; Disable symbol highlighting while selecting
-  (defun turn-off-symbol-overlay (&rest _)
-    "Turn off symbol highlighting."
-    (interactive)
-    (symbol-overlay-mode -1))
-  (advice-add #'set-mark :after #'turn-off-symbol-overlay)
-
-  (defun turn-on-symbol-overlay (&rest _)
-    "Turn on symbol highlighting."
-    (interactive)
-    (when (derived-mode-p 'prog-mode 'yaml-mode)
-      (symbol-overlay-mode 1)))
-  (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay))
-
+;; Colorize color names in buffers
 (use-package rainbow-mode
   :diminish
   :hook ((html-mode emacs-lisp-mode) . rainbow-mode)
@@ -136,17 +139,40 @@
       (remove-overlays (point-min) (point-max) 'ovrainbow t))
     (advice-add #'rainbow-turn-off :after #'my-rainbow-clear-overlays)))
 
+;; Highlight brackets according to their depth
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;; Highlight TODO and similar keywords in comments and strings
+(use-package hl-todo
+  :custom-face
+  (hl-todo ((t (:inherit default :height 0.9 :width condensed :weight bold :underline nil :inverse-video t))))
+  :bind (:map hl-todo-mode-map
+         ([C-f3]    . hl-todo-occur)
+         ("C-c t p" . hl-todo-previous)
+         ("C-c t n" . hl-todo-next)
+         ("C-c t o" . hl-todo-occur)
+         ("C-c t i" . hl-todo-insert))
+  :hook (after-init . global-hl-todo-mode)
+  :init (setq hl-todo-require-punctuation t
+              hl-todo-highlight-punctuation ":")
+  :config
+  (dolist (keyword '("BUG" "DEFECT" "ISSUE"))
+    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#e45649")))
+  (dolist (keyword '("TRICK" "WORKAROUND"))
+    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#d0bf8f")))
+  (dolist (keyword '("DEBUG" "STUB"))
+    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#7cb8bb"))))
+
+;; Highlight uncommitted changes using VC
 (use-package diff-hl
   :bind (:map diff-hl-command-map
          ("SPC" . diff-hl-mark-hunk))
-
   :hook ((after-init . global-diff-hl-mode)
          (after-init . global-diff-hl-show-hunk-mouse-mode)
          (dired-mode . diff-hl-dired-mode)
          ((after-init after-load-theme server-after-make-frame) . my-set-diff-hl-faces))
-
   :init (setq diff-hl-draw-borders nil)
-
   :config
   ;; Highlight on-the-fly
   (diff-hl-flydiff-mode 1)
@@ -195,33 +221,7 @@
         (pulse-momentary-highlight-region beg end face))
       (advice-add #'vhl/.make-hl :override #'my-vhl-pulse))))
 
-;; Highlight TODO and similar keywords in comments and strings
-(use-package hl-todo
-  :custom-face
-  (hl-todo ((t (:inherit default :height 0.9 :width condensed :weight bold :underline nil :inverse-video t))))
-  :bind (:map hl-todo-mode-map
-         ([C-f3]    . hl-todo-occur)
-         ("C-c t p" . hl-todo-previous)
-         ("C-c t n" . hl-todo-next)
-         ("C-c t o" . hl-todo-occur)
-         ("C-c t i" . hl-todo-insert))
-  :hook (after-init . global-hl-todo-mode)
-  :init (setq hl-todo-require-punctuation t
-              hl-todo-highlight-punctuation ":")
-  :config
-  (dolist (keyword '("BUG" "DEFECT" "ISSUE"))
-    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#e45649")))
-  (dolist (keyword '("TRICK" "WORKAROUND"))
-    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#d0bf8f")))
-  (dolist (keyword '("DEBUG" "STUB"))
-    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#7cb8bb"))))
-
-(use-package highlight-symbol
-  :bind (:map prog-mode-map
-         ("M-o h" . highlight-symbol)
-         ("M-p" . highlight-symbol-prev)
-         ("M-n" . highlight-symbol-next)))
-
+;; Pulse current line
 (use-package pulse
   :ensure nil
   :custom-face
@@ -264,6 +264,12 @@
                    pop-global-mark
                    goto-last-change))
       (advice-add cmd :after #'my-recenter-and-pulse))))
+
+(use-package highlight-symbol
+  :bind (:map prog-mode-map
+         ("M-o h" . highlight-symbol)
+         ("M-p" . highlight-symbol-prev)
+         ("M-n" . highlight-symbol-next)))
 
 
 (provide 'highlight-config)
