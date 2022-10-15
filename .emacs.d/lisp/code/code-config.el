@@ -140,7 +140,7 @@
 ;; Drag stuff (lines, words, region, etc...) around
 (use-package drag-stuff
   :diminish
-  :commands drag-stuff-define-keys
+  :autoload drag-stuff-define-keys
   :hook (after-init . drag-stuff-global-mode)
   :config
   (with-no-warnings
@@ -232,7 +232,7 @@
 ;; Search tool
 (use-package grep
   :ensure nil
-  :commands grep-apply-setting
+  :autoload grep-apply-setting
   :config
   (cond
    ((executable-find "ugrep")

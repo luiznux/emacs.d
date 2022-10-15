@@ -18,6 +18,7 @@
 ;;; Code:
 
 (use-package go-mode
+  :autoload godoc-gogetdoc
   :init (setq godoc-at-point-function #'godoc-gogetdoc)
   :config
   ;; Env vars
@@ -65,8 +66,8 @@
 
 ;; Local Golang playground for short snippets
 (use-package go-playground
-:diminish
-:commands (go-playground-mode))
+  :diminish
+  :commands go-playground-mode)
 
 
 (provide 'go-config)
