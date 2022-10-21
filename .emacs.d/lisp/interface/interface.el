@@ -119,7 +119,9 @@
     (doom-modeline-mode . nyan-mode))
 
   (use-package parrot
-    :commands (parrot-set-parrot-type parrot-start-animation)
+    :defines (parrot-set-parrot-type
+              parrot-start-animation
+              parrot-num-rotations)
     :custom-face (parrot-set-parrot-type 'emacs)
     :hook (after-init . parrot-mode)
     :init
@@ -314,8 +316,8 @@
 ;; Mouse & Smooth Scroll
 ;; Scroll one line at a time (less "jumpy" than defaults)
 (when (display-graphic-p)
-  (setq mouse-wheel-scroll-amount              '(1 ((shift) . 1))
-        mouse-wheel-scroll-amount-horizontal   1
+  (setq mouse-wheel-scroll-amount              '(1 ((shift) . hscroll))
+        mouse-wheel-scroll-amount-horizontal   2
         mouse-wheel-progressive-speed          nil))
 
 (setq scroll-step                          1 ;; keyboard scroll one line at a time
