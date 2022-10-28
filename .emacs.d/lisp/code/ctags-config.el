@@ -57,6 +57,9 @@ Fallback to `xref-go-back'."
                  (call-interactively #'xref-go-back)
                (call-interactively #'xref-pop-marker-stack)))))
   :config
+  (with-eval-after-load 'cc-mode (require 'citre-lang-c))
+  (with-eval-after-load 'dired (require 'citre-lang-fileref))
+
   (with-no-warnings
     ;; Use Citre xref backend as a fallback
     (define-advice xref--create-fetcher (:around (fn &rest args) fallback)
