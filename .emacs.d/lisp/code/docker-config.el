@@ -17,6 +17,8 @@
 ;;
 ;;; Code:
 
+(require 'constants)
+
 (use-package docker
   :bind ("C-c d" . docker)
   :init
@@ -24,7 +26,10 @@
     (setq docker-image-run-arguments '("-i" "-t" "--rm")
           docker-container-shell-file-name "/bin/bash")))
 
-(use-package docker-tramp)
+;;`tramp-container' is builtin since 29
+(unless emacs/>=29p
+  (use-package docker-tramp))
+
 (use-package dockerfile-mode)
 
 
