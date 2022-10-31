@@ -304,20 +304,6 @@
               (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
                 (ggtags-mode 1)))))
 
-(use-package minimap
-  :custom
-  (minimap-major-modes '(prog-mode))
-  :custom-face
-  '(minimap-font-face ((t (:height 32 :family "DejaVu Sans Mono"))))
-  '(minimap-active-region-background ((t (:extend t :background "#232526"))))
-  '(minimap-current-line-face ((t (:background "#344256"))))
-  :init
-  (setq minimap-window-location 'right
-        minimap-update-delay 0.5
-        minimap-highlight-line  t
-        minimap-hide-scroll-bar nil
-        minimap-display-semantic-overlays t))
-
 ;; Windows-scroll commands
 (use-package pager
   :bind (([remap scroll-up-command] . pager-page-down)
