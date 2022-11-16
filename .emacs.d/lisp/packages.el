@@ -30,6 +30,10 @@
              '("melpa" . "https://melpa.org/packages/")
              '("elpa"  . "https://elpa.gnu.org/packages/"))
 
+;; melpa stable for some packages
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+
 
 ;; HACK: DO NOT save package-selected-packages to `custom-file'.
 ;; https://github.com/jwiegley/use-package/issues/383#issuecomment-247801751
