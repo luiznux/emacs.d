@@ -369,6 +369,7 @@
               company-box-icons-alist 'company-box-icons-all-the-icons))))
 
   (use-package company-emojify
+    :pin melpa-stable
     :diminish
     :after emojify
     :init
