@@ -30,11 +30,8 @@
 (use-package lsp-mode
   :diminish
   :defines (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)
-  :autoload (lsp-enable-which-key-integration
-             lsp-format-buffer
-             lsp-organize-imports
-             lsp-install-server)
-
+  :autoload lsp-enable-which-key-integration
+  :commands (lsp-format-buffer lsp-organize-imports)
   :custom-face
   (lsp-headerline-breadcrumb-path-error-face
    ((t :underline (:style wave :color ,(face-foreground 'error))
@@ -184,7 +181,7 @@
     (setq lsp-ui-doc-border
           (if (facep 'posframe-border)
               (face-background 'posframe-border nil t)
-            (face-foreground 'shadow nil t))))
+            (face-background 'region nil t))))
   (my-lsp-ui-doc-set-border)
   (add-hook 'after-load-theme-hook #'my-lsp-ui-doc-set-border t)
 
