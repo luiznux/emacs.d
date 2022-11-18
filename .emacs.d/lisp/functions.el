@@ -298,7 +298,7 @@ on selected major modes only."
       (write-region nil nil custom-file)
       (message "Saved %s (%s) to %s" variable value custom-file))))
 
-;; Packaage repository (ELPA)
+;; Package repository (ELPA)
 (defun set-package-archives (archives &optional refresh async no-save)
   "Set the package ARCHIVES (ELPA).
 
