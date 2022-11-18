@@ -25,16 +25,6 @@
 ;; Load `custom-file'
 (and (file-readable-p custom-file) (load custom-file))
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/")
-             '("elpa"  . "https://elpa.gnu.org/packages/"))
-
-;; melpa stable for some packages
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-
-
 ;; HACK: DO NOT save package-selected-packages to `custom-file'.
 ;; https://github.com/jwiegley/use-package/issues/383#issuecomment-247801751
 (defun my-package--save-selected-packages (&optional value)
@@ -44,6 +34,9 @@
   (unless after-init-time
     (add-hook 'after-init-hook #'my-package--save-selected-packages)))
 (advice-add 'package--save-selected-packages :override #'my-package--save-selected-packages)
+
+;; Set ELPA packages
+(set-package-archives luiznux-package-archives nil nil t)
 
 ;; Initialize packages
 (unless (bound-and-true-p package--initialized) ; To avoid warnings in 27

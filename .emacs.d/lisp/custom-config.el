@@ -39,6 +39,34 @@
                  (const :tag "Personal Enviroment" personal)
                  (const :tag "None" nil)))
 
+;; Emacs Lisp Package Archive (ELPA)
+(defcustom luiznux-package-archives-alist
+  '((melpa    . (("gnu"           . "http://elpa.gnu.org/packages/")
+                 ("nongnu"        . "http://elpa.nongnu.org/nongnu/")
+                 ("melpa"         . "http://melpa.org/packages/")
+                 ("melpa-stable"  . "http://stable.melpa.org/packages/"))))
+  "A list of the package archives."
+  :group 'luiznux
+  :type '(alist :key-type (symbol :tag "Archive group name")
+                :value-type (alist :key-type (string :tag "Archive name")
+                                   :value-type (string :tag "URL or directory name"))))
+
+(defcustom luiznux-package-archives 'melpa
+  "Set package archives from which to fetch."
+  :group 'luiznux
+  :set (lambda (symbol value)
+         (set symbol value)
+         (setq package-archives
+               (or (alist-get value luiznux-package-archives-alist)
+                   (error "Unknown package archives: `%s'" value))))
+  :type `(choice ,@(mapcar
+                    (lambda (item)
+                      (let ((name (car item)))
+                        (list 'const
+                              :tag (capitalize (symbol-name name))
+                              name)))
+                    luiznux-package-archives-alist)))
+
 (defcustom lsp-format-on-save-ignore-modes
   '(c-mode c++-mode python-mode markdown-mode)
   "The modes that don't auto format and organize imports while saving the buffers.
