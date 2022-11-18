@@ -84,8 +84,8 @@
 (require 'ivy-config)
 
 ;; Visual
-(require 'centaur-tabs-config)
 (require 'dashboard-config)
+(require 'centaur-tabs-config)
 (require 'treemacs-config)
 (require 'dired-config)
 
