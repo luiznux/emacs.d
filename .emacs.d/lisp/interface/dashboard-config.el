@@ -74,8 +74,8 @@
         (insert-image spec)
         (insert "\n\n")
         (when title
-          (dashboard-insert-center title)
-          (insert (format "%s\n\n" (propertize title 'face 'dashboard-banner-logo-title)))))))
+          (dashboard-insert-center
+           (format "%s\n\n" (propertize title 'face 'dashboard-banner-logo-title)))))))
   (advice-add #'dashboard-insert-image-banner :override #'my-dashboard-insert-image-banner)
 
   (defun restore-previous-session ()
