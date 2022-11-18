@@ -34,6 +34,9 @@
 (setq frame-inhibit-implied-resize   t
       frame-resize-pixelwise         t)
 
+;; Logo
+(setq fancy-splash-image luiznux-logo)
+
 (setq menu-bar-mode        nil
       tool-bar-mode        nil
       scroll-bar-mode      nil
