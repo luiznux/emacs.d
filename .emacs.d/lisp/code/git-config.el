@@ -203,7 +203,7 @@
   (blamer-min-offset 50)
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"
-                   :background  nil
+                   :background unspecified
                    :height      80
                    :italic      t)))
   :init

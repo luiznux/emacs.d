@@ -35,10 +35,10 @@
 
   :custom-face
   (ivy-current-match ((t (:inherit ivy-current-match))))
-  (ivy-minibuffer-match-face-1 ((t (:foreground "dimgray" :distant-foreground nil :background nil))))
-  (ivy-minibuffer-match-face-2 ((t (:distant-foreground nil :background nil))))
-  (ivy-minibuffer-match-face-3 ((t (:distant-foreground nil :background nil))))
-  (ivy-minibuffer-match-face-4 ((t (:distant-foreground nil :background nil))))
+  (ivy-minibuffer-match-face-1 ((t (:foreground "dimgray" :distant-foreground unspecified :background unspecified))))
+  (ivy-minibuffer-match-face-2 ((t (:distant-foreground unspecified :background unspecified))))
+  (ivy-minibuffer-match-face-3 ((t (:distant-foreground unspecified :background unspecified))))
+  (ivy-minibuffer-match-face-4 ((t (:distant-foreground unspecified :background unspecified))))
 
   :bind (("M-x"   . 'counsel-M-x)
          ("C-s"   . swiper-isearch)

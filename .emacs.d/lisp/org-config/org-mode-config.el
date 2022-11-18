@@ -25,7 +25,7 @@
   :defines org-babel-clojure-backend
 
   :custom-face
-  (org-ellipsis ((t (:foreground nil))))
+  (org-ellipsis ((t (:foreground unspecified))))
   (org-done ((t (:strike-through t))))
   (org-headline-done ((((class color) (min-colors 16) (background dark))
                        (:strike-through t))))
