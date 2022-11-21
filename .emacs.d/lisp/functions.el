@@ -25,25 +25,8 @@
 (defvar line-breaker)
 (defvar user-email)
 
-
-;; Emacs config
-
-(defun open-agenda-on-right-buffer ()
-  "Open agenda in the right buffer."
-  (interactive)
-  (org-agenda t "x")
-  (other-window (goto-char (point-min))))
-
-;; define function to shutdown emacs server instance
-(defun server-shutdown ()
-  "Save buffers, Quit, and Shutdown (kill) server."
-  (interactive)
-  (save-some-buffers)
-  (kill-emacs))
-
-(defun get-user-email()
-  "Get the user email adress."
-  (setq user-email user-mail-address))
+(declare-function flycheck-buffer 'flycheck)
+(declare-function flymake-start 'flymake)
 
 
 ;; Font
@@ -221,7 +204,7 @@ The original function deletes trailing whitespace of the current line."
           (widen))))))
 
 (defun smart-delete-trailing-whitespace ()
-  "Invoke `delete-trailing-whitespace-except-current-line'
+  "Invoke `delete-trailing-whitespace-except-current-line';
 on selected major modes only."
   (unless (member major-mode '(diff-mode))
     (delete-trailing-whitespace-except-current-line)))
@@ -239,7 +222,13 @@ on selected major modes only."
     (add-hook hook (lambda () (setq show-trailing-whitespace nil)))))
 
 
-;; Config
+;; Misc
+
+(defun create-scratch-buffer ()
+  "Create a scratch buffer."
+  (interactive)
+  (switch-to-buffer (get-buffer-create "*scratch*"))
+  (lisp-interaction-mode))
 
 (defun byte-compile-elpa ()
   "Compile packages in elpa directory.  Useful if you switch Emacs versions."
@@ -254,11 +243,34 @@ on selected major modes only."
   (if (fboundp 'native-compile-async)
       (native-compile-async package-user-dir t)))
 
+(defun icon-displayable-p ()
+  "Return non-nil if icons are displayable."
+  (and (or (display-graphic-p) (daemonp))
+       (or (featurep 'all-the-icons)
+           (require 'all-the-icons nil t))))
+
 (defun too-long-file-p ()
   "Check whether the file is too long."
   (if (fboundp 'buffer-line-statistics)
       (> (car (buffer-line-statistics)) 3000)
     (> (buffer-size) 100000)))
+
+(defun open-agenda-on-right-buffer ()
+  "Open agenda in the right buffer."
+  (interactive)
+  (org-agenda t "x")
+  (other-window (goto-char (point-min))))
+
+;; define function to shutdown emacs server instance
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server."
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs))
+
+(defun get-user-email()
+  "Get the user email adress."
+  (setq user-email user-mail-address))
 
 (defun enable-ido-mode ()
   "Enables `ido-mode'."
@@ -274,12 +286,6 @@ on selected major modes only."
         (append
          (split-string-and-unquote path ":")
          exec-path))))
-
-(defun icon-displayable-p ()
-  "Return non-nil if icons are displayable."
-  (and (or (display-graphic-p) (daemonp))
-       (or (featurep 'all-the-icons)
-           (require 'all-the-icons nil t))))
 
 (defun custom-set-variable (variable value &optional no-save)
   "Set the VARIABLE to VALUE, and return VALUE.
