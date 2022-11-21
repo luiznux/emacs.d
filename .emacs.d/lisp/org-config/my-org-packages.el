@@ -49,9 +49,6 @@
     :config
     (org-pretty-tags-global-mode))
 
-  (use-package org-special-block-extras
-    :hook (org-mode . org-special-block-extras-mode))
-
   (use-package org-appear
     :hook (org-mode . org-appear-mode))
 
