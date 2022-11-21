@@ -14,6 +14,7 @@
 (setq user-full-name           "Luiz Tagliaferro"
       user-mail-address        "luiz@luiznux.com"
       luiznux-enviroment-type  'nil
+      luiznux-package-archives 'melpa
       luiznux-server           t)
 
 ;;(setq doom-modeline-font-size value)
