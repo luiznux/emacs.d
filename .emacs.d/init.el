@@ -52,10 +52,10 @@
             (redisplay)))
 
 ;; Load path
-;; Optimize: Force "lisp"" and "elpa" at the head to reduce the startup time.
+;; Optimize: Force "lisp" at the head to reduce the startup time.
 (defun update-load-path (&rest _)
   "Update `load-path'."
-  (dolist (dir '("elpa" "lisp"))
+  (dolist (dir '("lisp"))
     (push (expand-file-name dir user-emacs-directory) load-path)))
 
 (defun add-subdirs-to-load-path (&rest _)
