@@ -24,6 +24,7 @@
   :functions (all-the-icons-faicon
               all-the-icons-material)
   :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
+  :bind ("<f2>" . open-dashboard)
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)))
   :init
   (setq dashboard-startup-banner       (or luiznux-logo 'logo)
