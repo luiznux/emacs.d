@@ -27,8 +27,6 @@
 
   :bind (("M-/"   . company-complete)
          ("C-M-i" . company-complete)
-         :map company-mode-map
-         ("<backtab>" . company-yasnippet)
          :map company-active-map
          ("<backtab>" . my-company-yasnippet))
 
