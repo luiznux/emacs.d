@@ -64,79 +64,79 @@
 
   :config
   (with-no-warnings
-  ;; WORKAROUND: fix differnct background color of the banner image.
-  ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/203
-  (defun my-dashboard-insert-image-banner (banner)
-    "Display an image BANNER."
-    (when (file-exists-p banner)
-      (let* ((title dashboard-banner-logo-title)
-             (spec (create-image banner))
-             (size (image-size spec))
-             (width (car size))
-             (left-margin (max 0 (floor (- dashboard-banner-length width) 2))))
-        (goto-char (point-min))
-        (insert "\n")
-        (insert (make-string left-margin ?\ ))
-        (insert-image spec)
-        (insert "\n\n")
-        (when title
-          (dashboard-insert-center
-           (format "%s\n\n" (propertize title 'face 'dashboard-banner-logo-title)))))))
-  (advice-add #'dashboard-insert-image-banner :override #'my-dashboard-insert-image-banner)
+    ;; WORKAROUND: fix differnct background color of the banner image.
+    ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/203
+    (defun my-dashboard-insert-image-banner (banner)
+      "Display an image BANNER."
+      (when (file-exists-p banner)
+        (let* ((title dashboard-banner-logo-title)
+               (spec (create-image banner))
+               (size (image-size spec))
+               (width (car size))
+               (left-margin (max 0 (floor (- dashboard-banner-length width) 2))))
+          (goto-char (point-min))
+          (insert "\n")
+          (insert (make-string left-margin ?\ ))
+          (insert-image spec)
+          (insert "\n\n")
+          (when title
+            (dashboard-insert-center
+             (format "%s\n\n" (propertize title 'face 'dashboard-banner-logo-title)))))))
+    (advice-add #'dashboard-insert-image-banner :override #'my-dashboard-insert-image-banner)
 
-  (defun restore-previous-session ()
-    "Restore the previous session."
-    (interactive)
-    (when (bound-and-true-p persp-mode)
-      (restore-session persp-auto-save-fname)))
+    (defun restore-previous-session ()
+      "Restore the previous session."
+      (interactive)
+      (when (bound-and-true-p persp-mode)
+        (restore-session persp-auto-save-fname)))
 
-  (defun restore-session (fname)
-    "Restore the specified session."
-    (interactive (list (read-file-name "Load perspectives from a file: "
-                                       persp-save-dir)))
-    (when (bound-and-true-p persp-mode)
-      (message "Restoring session...")
-      (quit-window t)
-      (condition-case-unless-debug err
-          (persp-load-state-from-file fname)
-        (error "Error: Unable to restore session -- %s" err))
-      (message "Restoring session...done")))
+    (defun restore-session (fname)
+      "Restore the specified session."
+      (interactive (list (read-file-name "Load perspectives from a file: "
+                                         persp-save-dir)))
+      (when (bound-and-true-p persp-mode)
+        (message "Restoring session...")
+        (quit-window t)
+        (condition-case-unless-debug err
+            (persp-load-state-from-file fname)
+          (error "Error: Unable to restore session -- %s" err))
+        (message "Restoring session...done")))
 
-  (defun dashboard-goto-recent-files ()
-    "Go to recent files."
-    (interactive)
-    (let ((func (local-key-binding "r")))
-      (and func (funcall func))))
+    (defun dashboard-goto-recent-files ()
+      "Go to recent files."
+      (interactive)
+      (let ((func (local-key-binding "r")))
+        (and func (funcall func))))
 
-  (defvar dashboard-recover-layout-p nil
-    "Wether recovers the layout.")
+    (defvar dashboard-recover-layout-p nil
+      "Wether recovers the layout.")
 
-  (defun open-dashboard ()
-    "Open the *dashboard* buffer and jump to the first widget."
-    (interactive)
-    ;; Check if need to recover layout
-    (if (length> (window-list-1)
-                 ;; exclude `treemacs' window
-                 (if (and (fboundp 'treemacs-current-visibility)
-                          (eq (treemacs-current-visibility) 'visible))
-                     2
-                   1))
-        (setq dashboard-recover-layout-p t))
+    (defun open-dashboard ()
+      "Open the *dashboard* buffer and jump to the first widget."
+      (interactive)
+      ;; Check if need to recover layout
+      (if (length> (window-list-1)
+                   ;; exclude `treemacs' window
+                   (if (and (fboundp 'treemacs-current-visibility)
+                            (eq (treemacs-current-visibility) 'visible))
+                       2
+                     1))
+          (setq dashboard-recover-layout-p t))
 
-    ;; Display dashboard in maximized window
-    (delete-other-windows)
+      ;; Display dashboard in maximized window
+      (delete-other-windows)
 
-    ;; Refresh dashboard buffer
-    (dashboard-refresh-buffer)
+      ;; Refresh dashboard buffer
+      (dashboard-refresh-buffer)
 
-    ;; Jump to the first section
-    (dashboard-goto-recent-files))
+      ;; Jump to the first section
+      (dashboard-goto-recent-files))
 
-  (defun open-agenda-on-right-buffer ()
-    "Open agenda in the right buffer."
-    (interactive)
-    (org-agenda t "x")
-    (other-window (goto-char (point-min))))))
+    (defun open-agenda-on-right-buffer ()
+      "Open agenda in the right buffer."
+      (interactive)
+      (org-agenda t "x")
+      (other-window (goto-char (point-min))))))
 
 
 (provide 'dashboard-config)
