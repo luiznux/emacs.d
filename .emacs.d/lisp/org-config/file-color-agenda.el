@@ -26,10 +26,8 @@
 If BEGINNING is non-nil, find the beginning of NEEDLE in the
 current line.  If COUNT is non-nil, find the COUNT'th occurrence
 from the left."
-
   (save-excursion
     (beginning-of-line)
-
     (let ((found (re-search-forward needle (point-at-eol) t count)))
       (if beginning
           (match-beginning 0)
@@ -37,7 +35,6 @@ from the left."
 
 (defun ll/org/agenda/find-todo-word-end ()
   "Find TODO keyword on the end."
-
   (cl-reduce (lambda (a b) (or a b))
              (mapcar #'find-in-line ll/org/agenda-todo-words)))
 
@@ -56,9 +53,23 @@ from the left."
                            tags-beginning
                            `(face (:foreground ,col :background ,col2 :weight bold))))))
 
+(defun ll/org/agenda/color-foreground-headers-with (tag col)
+  "Color agenda lines matching TAG with color COL(foreground).
+Also set unspecified background."
+  (interactive)
+  (goto-char (point-min))
+  (while (re-search-forward tag nil t)
+                                        ;(Unless (find-in-line "\\[#[A-Z]\\]")
+    (let ((todo-end (or (ll/org/agenda/find-todo-word-end)
+                        (point-at-bol)))
+          (tags-beginning (or (find-in-line tag t)
+                              (point-at-eol))))
+      (add-text-properties todo-end
+                           tags-beginning
+                           `(face (:foreground ,col :background unspecified :weight bold))))))
+
 (defun ll/org/colorize-headings ()
   "Color all headings with :pers: colors."
-
   (ll/org/agenda/color-headers-with "work  " "#2d2d2d" "#FA74B2")
   (ll/org/agenda/color-headers-with "studie  " "#2d2d2d" "#57C7FF")
   (ll/org/agenda/color-headers-with "project  " "#2d2d2d" "#839ce4")
@@ -73,8 +84,8 @@ from the left."
   (ll/org/agenda/color-headers-with "My Projects  " "#2d2d2d" "#839ce4")
   (ll/org/agenda/color-headers-with "Birthdays  " "#2d2d2d" "#89ddff")
   (ll/org/agenda/color-headers-with "My Tasks  " "#2d2d2d" "#EBCB8B")
-  (ll/org/agenda/color-headers-with "➔" "#b58900" (face-attribute 'default :background))
-  (ll/org/agenda/color-headers-with "╰→" "#a9a1e1" (face-attribute 'default :background)))
+  (ll/org/agenda/color-foreground-headers-with "➔" "#b58900")
+  (ll/org/agenda/color-foreground-headers-with "╰→" "#a9a1e1"))
 
 
 (add-hook 'org-agenda-finalize-hook #'ll/org/colorize-headings)
