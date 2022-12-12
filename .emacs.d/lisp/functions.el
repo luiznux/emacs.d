@@ -29,6 +29,15 @@
 (declare-function flymake-start 'flymake)
 
 
+;; UI
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using `load-theme'.")
+(defun run-after-load-theme-hook (&rest _)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+(advice-add #'load-theme :after #'run-after-load-theme-hook)
+
+
 ;; Font
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
@@ -254,12 +263,6 @@ on selected major modes only."
   (if (fboundp 'buffer-line-statistics)
       (> (car (buffer-line-statistics)) 3000)
     (> (buffer-size) 100000)))
-
-(defun open-agenda-on-right-buffer ()
-  "Open agenda in the right buffer."
-  (interactive)
-  (org-agenda t "x")
-  (other-window (goto-char (point-min))))
 
 ;; define function to shutdown emacs server instance
 (defun server-shutdown ()
