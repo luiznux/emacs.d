@@ -17,6 +17,44 @@
 ;;
 ;;; Code:
 
+;; eww
+(use-package eww
+  :ensure nil
+  :init
+  ;; Install: npm install -g readability-cli
+  (when (executable-find "readable")
+    (setq eww-retrieve-command '("readable"))))
+
+;; Webkit browser
+(use-package xwidget
+  :ensure nil
+  :if (featurep 'xwidget-internal)
+  :bind (("C-c C-z w" . xwidget-webkit-browse-url)
+         :map xwidget-webkit-mode-map
+         ("h"         . xwidget-hydra/body))
+  :init
+  ;; Link navigation
+  (use-package xwwp-follow-link-ivy
+    :after ivy
+    :bind (("C-c C-z x" . xwwp)
+           :map xwidget-webkit-mode-map
+           ("v"         . xwwp-follow-link))
+    :init (setq xwwp-follow-link-completion-system 'ivy)))
+
+;; CSS mode
+(use-package css-mode
+  :ensure nil
+  :init (setq css-indent-offset 2))
+
+;; SCSS mode
+(use-package scss-mode
+  :init
+  ;; Disable complilation on save
+  (setq scss-compile-at-save nil))
+
+;; JSON mode
+(use-package json-mode)
+
 ;; JS
 (use-package js2-mode
   :defines flycheck-javascript-eslint-executable
@@ -85,7 +123,6 @@
 
 (use-package impatient-mode
   :config
-
   (defun impatien-start ()
     "Start http and impatient mode"
     (interactive)
@@ -96,9 +133,25 @@
     (interactive)
     (browse-url  "http://localhost:8080/imp/")))
 
+;; REST
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode)
+  :config
+  (use-package restclient-test
+    :diminish
+    :hook (restclient-mode . restclient-test-mode))
+  (with-eval-after-load 'company
+    (use-package company-restclient
+      :defines company-backends
+      :init (add-to-list 'company-backends 'company-restclient))))
+
 (use-package yaml-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+
+;; Adds node_modules/.bin directory to `exec_path'
+(use-package add-node-modules-path
+  :hook ((web-mode js-mode js2-mode) . add-node-modules-path))
 
 (use-package htmlize)
 
