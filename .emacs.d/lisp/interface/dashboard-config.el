@@ -59,8 +59,8 @@
                                            "" "New Tab"
                                            (lambda (&rest _) (centaur-tabs--create-new-tab))))))
 
-  (dashboard-setup-startup-hook)
   (add-hook 'dashboard-mode-hook  #'(lambda () (open-agenda-on-right-buffer)))
+  (dashboard-setup-startup-hook)
 
   :config
   (with-no-warnings
@@ -131,6 +131,13 @@
 
       ;; Jump to the first section
       (dashboard-goto-recent-files))
+
+    (defun quit-dashboard ()
+      "Quit dashboard window."
+      (interactive)
+      (quit-window t)
+      (and dashboard-recover-layout-p
+           (setq dashboard-recover-layout-p nil)))
 
     (defun open-agenda-on-right-buffer ()
       "Open agenda in the right buffer."
