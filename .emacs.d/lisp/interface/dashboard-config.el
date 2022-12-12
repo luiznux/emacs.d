@@ -24,7 +24,11 @@
   :functions (all-the-icons-faicon
               all-the-icons-material)
   :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
-  :bind ("<f2>" . open-dashboard)
+  :bind (("<f2>" . open-dashboard)
+         :map dashboard-mode-map
+         ("R" . restore-previous-session)
+         ("L" . restore-session)
+         ("q" . quit-dashboard))
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)))
   :init
   (setq dashboard-startup-banner       (or luiznux-logo 'logo)
@@ -55,10 +59,11 @@
                                            "" "New Tab"
                                            (lambda (&rest _) (centaur-tabs--create-new-tab))))))
 
-  (add-hook 'dashboard-mode-hook  #'(lambda () (open-agenda-on-right-buffer)))
   (dashboard-setup-startup-hook)
+  (add-hook 'dashboard-mode-hook  #'(lambda () (open-agenda-on-right-buffer)))
 
   :config
+  (with-no-warnings
   ;; WORKAROUND: fix differnct background color of the banner image.
   ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/203
   (defun my-dashboard-insert-image-banner (banner)
@@ -125,7 +130,13 @@
     (dashboard-refresh-buffer)
 
     ;; Jump to the first section
-    (dashboard-goto-recent-files)))
+    (dashboard-goto-recent-files))
+
+  (defun open-agenda-on-right-buffer ()
+    "Open agenda in the right buffer."
+    (interactive)
+    (org-agenda t "x")
+    (other-window (goto-char (point-min))))))
 
 
 (provide 'dashboard-config)
