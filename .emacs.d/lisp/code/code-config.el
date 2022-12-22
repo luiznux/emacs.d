@@ -17,9 +17,9 @@
 ;;
 ;;; Code:
 
+(require 'custom-config)
 (require 'constants)
 (require 'functions)
-(require 'custom-config)
 
 
 (use-package yasnippet
