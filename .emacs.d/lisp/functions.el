@@ -258,6 +258,12 @@ on selected major modes only."
        (or (featurep 'all-the-icons)
            (require 'all-the-icons nil t))))
 
+(defun emacs-treesit-available-p ()
+  "Check whether tree-sitter is available.
+Native tree-sitter is introduced since 29."
+  (and (fboundp 'treesit-available-p)
+       (treesit-available-p)))
+
 (defun too-long-file-p ()
   "Check whether the file is too long."
   (if (fboundp 'buffer-line-statistics)
