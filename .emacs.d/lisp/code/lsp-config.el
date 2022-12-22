@@ -464,7 +464,6 @@
     :after python
     :hook (python-mode . python-black-on-save-mode)))
 
-
 (use-package ccls
   :defines projectile-project-root-files-top-down-recurring
   :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
@@ -482,18 +481,6 @@
                          (lsp--send-execute-command (symbol-name command) arguments))))
         (xref--show-xrefs xrefs nil)))
     (advice-add #'lsp-execute-command :override #'my-lsp-execute-command)))
-
-;; C/C++ Mode
-(use-package cc-mode
-  :ensure nil
-  :bind (:map c-mode-base-map
-         ("C-c c" . compile))
-  :hook (c-mode-common . (lambda () (c-set-style "stroustrup")))
-  :init (setq-default c-basic-offset 4)
-  :config
-  (use-package modern-cpp-font-lock
-    :diminish
-    :init (modern-c++-font-lock-global-mode t)))
 
 ;; Java support
 (use-package lsp-java
