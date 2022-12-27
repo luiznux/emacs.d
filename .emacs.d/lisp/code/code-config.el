@@ -336,10 +336,6 @@
   :ensure nil
   :mode (("\\.xaml$" . xml-mode)))
 
-;; New `conf-toml-mode' in Emacs 26
-(unless (fboundp 'conf-toml-mode)
-  (use-package toml-mode))
-
 ;; Open files as another user
 (unless sys/win32p
   (use-package sudo-edit))

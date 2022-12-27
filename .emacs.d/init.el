@@ -104,8 +104,8 @@
 (require 'ctags-config)
 
 (require 'code-config)
-(require 'c-config)
 (require 'elisp-config)
+(require 'c-config)
 (require 'clojure-config)
 (require 'python-config)
 (require 'go-config)
