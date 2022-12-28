@@ -108,6 +108,7 @@
            completion-in-region-mode
            eshell-mode shell-mode
            term-mode vterm-mode
+           lsp-ui-imenu-mode
            pdf-annot-list-mode
            flycheck-error-list-mode
            lsp-treemacs-error-list-mode) . hide-mode-line-mode)))

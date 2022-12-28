@@ -137,6 +137,7 @@
         lsp-ui-sideline-ignore-duplicate   t
         lsp-ui-doc-show-with-mouse         t
         lsp-ui-doc-delay                   0.9
+        lsp-ui-imenu-auto-refresh          'after-save
         lsp-ui-doc-position                'at-point
         lsp-ui-imenu-colors                `(,(face-foreground 'font-lock-keyword-face)
                                              ,(face-foreground 'font-lock-string-face)
