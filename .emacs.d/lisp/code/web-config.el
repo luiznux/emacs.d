@@ -41,30 +41,45 @@
            ("v"         . xwwp-follow-link))
     :init (setq xwwp-follow-link-completion-system 'ivy)))
 
-;; CSS mode
+;; CSS
 (use-package css-mode
   :ensure nil
   :init (setq css-indent-offset 2))
 
-;; SCSS mode
+;; SCSS
 (use-package scss-mode
   :init
   ;; Disable complilation on save
   (setq scss-compile-at-save nil))
 
-;; JSON mode
-(use-package json-mode)
+;; LESS
+(unless (fboundp 'less-css-mode)
+  (use-package less-css-mode))
 
-;; JS
+;; JSON
+(unless (fboundp 'js-json-mode)
+  (use-package json-mode))
+
+;; JavaScript
+(use-package js-mode
+  :ensure nil
+  :defines (js-indent-level flycheck-javascript-eslint-executable)
+  :config
+  (setq js-indent-level 2)
+
+  (with-eval-after-load 'flycheck
+    ;; https://github.com/mantoni/eslint_d.js
+    ;; Install: npm -i -g eslint_d
+    (when (executable-find "eslint_d")
+      (setq flycheck-javascript-eslint-executable "eslint_d"))))
+
 (use-package js2-mode
-  :defines flycheck-javascript-eslint-executable
-  :mode (("\\.js\\'"  . js2-mode)
+  :mode (("\\.js\\'" . js2-mode)
          ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter (("node" . js2-mode)
                 ("node" . js2-jsx-mode))
   :hook ((js2-mode . js2-imenu-extras-mode)
          (js2-mode . js2-highlight-unused-variables-mode))
-  :init (setq js-indent-level 2)
   :config
   ;; Use default keybindings for lsp
   (unbind-key "M-." js2-mode-map)
@@ -73,16 +88,12 @@
     (when (or (executable-find "eslint_d")
               (executable-find "eslint")
               (executable-find "jshint"))
-      (setq js2-mode-show-strict-warnings nil))
-    (when (executable-find "eslint_d")
-      ;; https://github.com/mantoni/eslint_d.js
-      ;; npm -i -g eslint_d
-      (setq flycheck-javascript-eslint-executable "eslint_d")))
+      (setq js2-mode-show-strict-warnings nil))))
 
-  (use-package js2-refactor
-    :diminish
-    :hook (js2-mode . js2-refactor-mode)
-    :config (js2r-add-keybindings-with-prefix "C-c C-m")))
+(use-package js2-refactor
+  :diminish
+  :hook (js2-mode . js2-refactor-mode)
+  :config (js2r-add-keybindings-with-prefix "C-c C-m"))
 
 ;; Format HTML, CSS and JavaScript/JSON
 ;; Install: npm -g install prettier
