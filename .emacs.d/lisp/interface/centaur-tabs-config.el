@@ -65,11 +65,10 @@
   (centaur-tabs-mode t)
 
   :config
-  (add-to-list 'centaur-tabs-excluded-prefixes "*flycheck-posframe-buffer*" t)
-  (add-to-list 'centaur-tabs-excluded-prefixes "*Shell Command Output*" t)
-  (add-to-list 'centaur-tabs-excluded-prefixes "*Org Agenda*" t)
-  (add-to-list 'centaur-tabs-excluded-prefixes "*dashboard*" t)
-  (add-to-list 'centaur-tabs-excluded-prefixes "*Directory*" t))
+  (defvar excluded-prefixes-append-list '("*flycheck-posframe-buffer*" "*Shell Command Output*"
+                                          "*Org Agenda*" "*dashboard*" "*Directory*" "*vterm*"))
+  (cl-loop for prefix in excluded-prefixes-append-list
+           do (add-to-list 'centaur-tabs-excluded-prefixes prefix t)))
 
 
 (provide 'centaur-tabs-config)
