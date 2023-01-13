@@ -35,7 +35,7 @@
   :hook ((prog-mode . (lambda ()
                         (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode)
                           (lsp-deferred))))
-         ((markdown-mode yaml-mode) . lsp-deferred)
+         ((markdown-mode yaml-mode yaml-ts-mode) . lsp-deferred)
 
          ((clojure-mode . lsp) (clojurec-mode . lsp) (clojurescript-mode . lsp))
 
@@ -91,9 +91,10 @@
 
     ;; Enable `lsp-mode' in sh/bash/zsh
     (defun my-lsp-bash-check-sh-shell (&rest _)
-      (and (eq major-mode 'sh-mode)
+      (and (memq major-mode '(sh-mode bash-ts-mode))
            (memq sh-shell '(sh bash zsh))))
     (advice-add #'lsp-bash-check-sh-shell :override #'my-lsp-bash-check-sh-shell)
+    (add-to-list 'lsp-language-id-configuration '(bash-ts-mode . "shellscript"))
 
     ;; Only display icons in GUI
     (defun my-lsp-icons-get-symbol-kind (fn &rest args)
@@ -242,16 +243,16 @@
   :diminish
   :bind (:map lsp-mode-map
          ("<f5>" . dap-debug))
-  :hook ((after-init             . dap-auto-configure-mode)
-         (python-mode            . (lambda () (require 'dap-python)))
-         (ruby-mode              . (lambda () (require 'dap-ruby)))
-         (go-mode                . (lambda () (require 'dap-go)))
-         (java-mode              . (lambda () (require 'dap-java)))
-         ((c-mode c++-mode)      . (lambda () (require 'dap-lldb)))
-         ((objc-mode swift-mode) . (lambda () (require 'dap-lldb)))
-         (php-mode               . (lambda () (require 'dap-php)))
-         (elixir-mode            . (lambda () (require 'dap-elixir)))
-         ((js-mode js2-mode)     . (lambda () (require 'dap-chrome))))
+  :hook ((after-init  . dap-auto-configure-mode)
+         ((python-mode python-ts-mode)            . (lambda () (require 'dap-python)))
+         ((ruby-mode ruby-ts-mode)                . (lambda () (require 'dap-ruby)))
+         ((go-mode go-ts-mode)                    . (lambda () (require 'dap-go)))
+         ((java-mode java-ts-mode jdee-mode)      . (lambda () (require 'dap-java)))
+         ((c-mode c-ts-mode c++-mode c++-ts-mode) . (lambda () (require 'dap-lldb)))
+         ((objc-mode swift-mode)                  . (lambda () (require 'dap-lldb)))
+         (php-mode                                . (lambda () (require 'dap-php)))
+         (elixir-mode                             . (lambda () (require 'dap-elixir)))
+         ((js-mode js2-mode js-ts-mode)           . (lambda () (require 'dap-chrome))))
   :init
   (setq dap-auto-configure-features '(sessions locals breakpoints expressions controls))
   (when (executable-find "python3")
@@ -442,20 +443,6 @@
 
       (setq lsp-treemacs-theme "centaur-colors"))))
 
-;;;; Python: pyright with yapf format
-;;(use-package lsp-pyright
-;;  :preface
-;;  ;; Use yapf to format
-;;  (defun lsp-pyright-format-buffer ()
-;;    (interactive)
-;;    (when (and (executable-find "yapf") buffer-file-name)
-;;      (call-process "yapf" nil nil nil "-i" buffer-file-name)))
-;;  :hook (python-mode . (lambda ()
-;;                         (require 'lsp-pyright)
-;;                         (add-hook 'after-save-hook #'lsp-pyright-format-buffer t t)))
-;;  :init (when (executable-find "python3")
-;;          (setq lsp-pyright-python-executable-cmd "python3")))
-
 ;; Python: pyright with black format
 (use-package lsp-pyright
   :init (when (executable-find "python3")
@@ -463,7 +450,7 @@
   :config
   (use-package python-black
     :after python
-    :hook (python-mode . python-black-on-save-mode)))
+    :hook ((python-mode python-ts-mode) . python-black-on-save-mode)))
 
 (use-package ccls
   :defines projectile-project-root-files-top-down-recurring
@@ -485,7 +472,7 @@
 
 ;; Java support
 (use-package lsp-java
-  :hook (java-mode . (lambda () (require 'lsp-java))))
+  :hook ((java-mode java-ts-mode jdee-mode) . (lambda () (require 'lsp-java))))
 
 
 (provide 'lsp-config)
