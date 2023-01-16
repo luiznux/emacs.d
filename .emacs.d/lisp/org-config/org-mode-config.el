@@ -19,7 +19,6 @@
 
 (require 'constants)
 (require 'functions)
-(require 'my-org-packages)
 
 (use-package org
   :ensure nil
