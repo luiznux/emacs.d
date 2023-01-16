@@ -303,6 +303,10 @@
 (bind-keys ("C-c K"   . revert-this-buffer)
            ("C-c C-l" . reload-init-file))
 
+;; Sqlite
+(when emacs/>=29p
+  (use-package emacsql-sqlite-builtin))
+
 
 (provide 'basic)
 ;;; basic.el ends here
