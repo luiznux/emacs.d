@@ -19,9 +19,7 @@
 
 
 (use-package centaur-tabs
-  :after evil
-  :defines (evil-normal-state-map
-            centaur-tabs-excluded-prefixes)
+  :defines (evil-normal-state-map centaur-tabs-excluded-prefixes)
 
   :commands (centaur-tabs-group-by-projectile-project
              centaur-tabs-get-group-name
@@ -50,13 +48,13 @@
   (setq centaur-tabs-style                    "chamfer"
         centaur-tabs-height                   32
         centaur-tabs-set-bar                  'under
-        x-underline-at-descent-line           t
-        centaur-tabs-set-modified-marker      t
         centaur-tabs-set-icons                t
         centaur-tabs-show-new-tab-button      t
+        centaur-tabs-set-modified-marker      t
         centaur-tabs-show-navigation-buttons  nil
         centaur-tabs-show-count               nil
-        centaur-tabs-adjust-buffer-order      t)
+        centaur-tabs-adjust-buffer-order      t
+        x-underline-at-descent-line           t)
 
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
