@@ -33,7 +33,7 @@
   :autoload lsp-enable-which-key-integration
   :commands (lsp-format-buffer lsp-organize-imports)
   :hook ((prog-mode . (lambda ()
-                        (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode)
+                        (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode 'snippet-mode)
                           (lsp-deferred))))
          ((markdown-mode yaml-mode yaml-ts-mode) . lsp-deferred)
 
