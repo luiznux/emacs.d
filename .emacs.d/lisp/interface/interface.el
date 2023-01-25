@@ -84,7 +84,7 @@
         doom-modeline-persp-name                  t
         doom-modeline-persp-icon                  t
         doom-modeline-minor-modes                 t
-        doom-modeline-buffer-encoding             nil
+        doom-modeline-buffer-encoding             t
         doom-modeline-buffer-file-name-style      'auto
         doom-modeline-project-detection           'auto)
 
