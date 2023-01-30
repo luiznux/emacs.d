@@ -89,10 +89,6 @@
         doom-modeline-buffer-file-name-style      'auto
         doom-modeline-project-detection           'auto)
 
-  ;; Prevent flash of unstyled modeline at startup
-  (unless after-init-time
-    (setq-default mode-line-format nil))
-
   :config
   ;; thanks to this stupid commit:
   ;; https://git.savannah.gnu.org/cgit/emacs.git/commit/?id=3f843b25dc96867043feebb1d928bde4a7a777a3
