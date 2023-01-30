@@ -324,6 +324,9 @@
 (use-package goto-line-preview
   :bind ([remap goto-line] . goto-line-preview))
 
+(use-package so-long
+  :hook (after-init . global-so-long-mode))
+
 ;; cucumber support
 ;; read https://github.com/michaelklishin/cucumber.el
 (use-package feature-mode
