@@ -301,6 +301,11 @@
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 
+(use-package time
+  :ensure nil
+  :init (setq display-time-24hr-format t
+              display-time-day-and-date t))
+
 ;; Display dividers between windows
 (setq window-divider-default-bottom-width  0
       window-divider-default-right-width   4
