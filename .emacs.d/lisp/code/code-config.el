@@ -340,8 +340,7 @@
   :mode (("\\.xaml$" . xml-mode)))
 
 ;; Open files as another user
-(unless sys/win32p
-  (use-package sudo-edit))
+(use-package sudo-edit)
 
 (when emacs/>=27p
   (use-package csv-mode))

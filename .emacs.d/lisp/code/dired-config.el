@@ -94,7 +94,6 @@
     :config
     (let ((cmd (cond (sys/mac-x-p "open")
                      (sys/linux-x-p "xdg-open")
-                     (sys/win32p "start")
                      (t ""))))
       (setq dired-guess-shell-alist-user
             `(("\\.pdf\\'" ,cmd)

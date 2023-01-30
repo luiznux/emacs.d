@@ -142,7 +142,6 @@
   (defun shell-pop--shell (&optional arg)
     "Run shell and return the buffer."
     (cond ((fboundp 'vterm) (vterm arg))
-          (sys/win32p (eshell arg))
           (t (shell))))
 
   (defun shell-pop--hide-frame ()

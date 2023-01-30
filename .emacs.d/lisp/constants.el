@@ -21,10 +21,6 @@
 ;;
 ;;; Code:
 
-(defconst sys/win32p
-  (eq system-type 'windows-nt)
-  "Are we running on a WinTel system?")
-
 (defconst sys/macp
   (eq system-type 'darwin)
   "Are we running on a Mac system?")
