@@ -1,4 +1,4 @@
-;;; basic.el --- Basic emasc config file  -*- lexical-binding: t -*-
+;;; base.el --- Better default configurations.  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -6,14 +6,14 @@
 ;;
 ;;; Commentary:
 ;;
-;; basics Emacs config.
+;; Better defaults.
 ;;
-;;  ██████╗  █████╗ ███████╗██╗ ██████╗
-;;  ██╔══██╗██╔══██╗██╔════╝██║██╔════╝
-;;  ██████╔╝███████║███████╗██║██║
-;;  ██╔══██╗██╔══██║╚════██║██║██║
-;;  ██████╔╝██║  ██║███████║██║╚██████╗
-;;  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝ ╚═════╝
+;;  ██████╗  █████╗ ███████╗███████╗
+;;  ██╔══██╗██╔══██╗██╔════╝██╔════╝
+;;  ██████╔╝███████║███████╗█████╗
+;;  ██╔══██╗██╔══██║╚════██║██╔══╝
+;;  ██████╔╝██║  ██║███████║███████╗
+;;  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 ;;
 ;;; Code:
 
@@ -306,5 +306,5 @@
     :defines emacsql-sqlite-c-compilers
     :init (setq emacsql-sqlite-c-compilers nil)))
 
-(provide 'basic)
-;;; basic.el ends here
+(provide 'base)
+;;; base.el ends here

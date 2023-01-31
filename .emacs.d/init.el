@@ -61,7 +61,7 @@
                             inhibit-message nil)
               (redraw-frame)))
 
-  (define-advice startup--load-user-iFnit-file (:after (&rest _) undo-inhibit-vars)
+  (define-advice startup--load-user-init-file (:after (&rest _) undo-inhibit-vars)
     (when init-file-had-error
       (setq-default inhibit-redisplay nil
                     inhibit-message nil)
@@ -89,7 +89,7 @@
 (require 'packages)
 
 ;; Core packages
-(require 'basic)
+(require 'base)
 (require 'interface)
 (require 'window-config)
 (require 'ibuffer-config)
