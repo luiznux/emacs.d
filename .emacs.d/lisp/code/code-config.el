@@ -254,13 +254,10 @@
     (grep-apply-setting
      'grep-find-template "rg --color=auto --null -nH --no-heading -e <R> <D>"))))
 
-;; Only support with dynamic module
-(when (functionp 'module-load)
-  (use-package tree-sitter
-    :ensure tree-sitter-langs
-    :diminish
-    :hook ((after-init . global-tree-sitter-mode)
-           (tree-sitter-after-on . tree-sitter-hl-mode))))
+;; Tree-sitter support
+(when (emacs-treesit-available-p)
+  (use-package treesit-auto
+    :hook (after-init . global-treesit-auto-mode)))
 
 ;; Cross-referencing commands
 (use-package xref
