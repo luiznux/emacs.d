@@ -47,5 +47,7 @@
 (when (featurep 'ns)
   (push '(ns-transparent-titlebar . t) default-frame-alist))
 
+(setq frame-title-format "Emacs - loading...")
+
 
 ;;; early-init.el ends here
