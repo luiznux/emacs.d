@@ -25,11 +25,14 @@
 (defvar line-breaker)
 (defvar user-email)
 
+(declare-function async-inject-variables 'async)
 (declare-function flycheck-buffer 'flycheck)
 (declare-function flymake-start 'flymake)
+(declare-function xwidget-webkit-current-session 'xwidget)
 
 
 ;; UI
+
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using `load-theme'.")
 (defun run-after-load-theme-hook (&rest _)
@@ -39,6 +42,7 @@
 
 
 ;; Font
+
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
@@ -183,6 +187,7 @@ This issue has been addressed in 28."
 
 
 ;; Buffer
+
 (defun revert-this-buffer ()
   "Revert the current buffer."
   (interactive)
