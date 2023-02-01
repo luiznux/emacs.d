@@ -98,6 +98,13 @@
                       (page-break-lines-mode 1))))))
             t))
 
+;; Auto update packages
+(use-package auto-package-update
+  :init
+  (setq auto-package-update-delete-old-versions t
+        auto-package-update-hide-results        t)
+  (defalias 'upgrade-packages #'auto-package-update-now))
+
 
 (provide 'packages)
 ;;; packages.el ends here

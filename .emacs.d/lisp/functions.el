@@ -25,14 +25,11 @@
 (defvar line-breaker)
 (defvar user-email)
 
-(declare-function async-inject-variables 'async)
 (declare-function flycheck-buffer 'flycheck)
 (declare-function flymake-start 'flymake)
-(declare-function xwidget-webkit-current-session 'xwidget)
 
 
 ;; UI
-
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using `load-theme'.")
 (defun run-after-load-theme-hook (&rest _)
@@ -42,7 +39,6 @@
 
 
 ;; Font
-
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
@@ -187,7 +183,6 @@ This issue has been addressed in 28."
 
 
 ;; Buffer
-
 (defun revert-this-buffer ()
   "Revert the current buffer."
   (interactive)
@@ -234,56 +229,6 @@ on selected major modes only."
                   minibuffer-inactive-mode-hook
                   minibuffer-setup-hook))
     (add-hook hook (lambda () (setq show-trailing-whitespace nil)))))
-
-
-;; Update
-
-(defun emacs--update-package ()
-  "Update all packages with `paradox' and `package'."
-  (cond
-   ((fboundp 'paradox-upgrade-packages)
-    (paradox-upgrade-packages))
-   ((fboundp 'package-update-all)
-    (package-update-all))))
-
-(defun emacs--display-update-report ()
-  "Display buffer with paradox report."
-  (let ((buf (get-buffer "*Paradox Report*")))
-    (when (buffer-live-p buf)
-      (pop-to-buffer buf))))
-
-(defvar emacs--updating-packages nil)
-(defun emacs-update-packages (&optional force sync)
-  "Refresh package contents and update all packages.
-
-If FORCE is non-nil, the updating process will be restarted by force.
-If SYNC is non-nil, the updating process is synchronous."
-  (interactive)
-
-  (if (process-live-p emacs--updating-packages)
-      (when force
-        (kill-process emacs--updating-packages)
-        (setq emacs--updating-packages nil))
-    (setq emacs--updating-packages nil))
-
-  (message "Updating packages...")
-  (unless emacs--updating-packages
-    (if (and (not sync)
-             (require 'async nil t))
-        (setq emacs--updating-packages
-              (async-start
-               `(lambda ()
-                  ,(async-inject-variables "\\`\\(load-path\\)\\'")
-                  (require 'packages)
-                  (emacs--update-package))
-               (lambda (_)
-                 (setq emacs--updating-packages nil)
-                 (emacs--display-update-report)
-                 (message "Updating packages...done"))))
-      (emacs--update-package)
-      (emacs--display-update-report)
-      (message "Updating packages...done"))))
-(defalias 'update-packages #'emacs-update-packages)
 
 
 ;; Misc
