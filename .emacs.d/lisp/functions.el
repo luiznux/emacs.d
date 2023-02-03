@@ -25,9 +25,6 @@
 (defvar line-breaker)
 (defvar user-email)
 
-(declare-function async-inject-variables 'async)
-(declare-function flycheck-buffer 'flycheck)
-(declare-function flymake-start 'flymake)
 (declare-function xwidget-webkit-current-session 'xwidget)
 
 
@@ -234,6 +231,17 @@ on selected major modes only."
                   minibuffer-inactive-mode-hook
                   minibuffer-setup-hook))
     (add-hook hook (lambda () (setq show-trailing-whitespace nil)))))
+
+
+;; Update
+
+(defun update-packages ()
+  "Refresh package contents and update all packages."
+  (interactive)
+  (message "Updating packages...")
+  (package-update-all)
+  (message "Updating packages...done"))
+(defalias 'emacs-update-packages #'update-packages)
 
 
 ;; Misc
