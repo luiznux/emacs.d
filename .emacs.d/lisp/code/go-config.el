@@ -19,6 +19,8 @@
 
 (use-package go-mode
   :autoload godoc-gogetdoc
+  :bind (:map go-mode-map
+         ("<f1>" . godoc))
   :init (setq godoc-at-point-function #'godoc-gogetdoc)
   :config
   ;; Env vars
