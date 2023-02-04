@@ -23,55 +23,45 @@
   :bind (:map evil-normal-state-map
          ("M-." . nil)
          ("C-u" . 'evil-scroll-up))
+  :hook (after-init . evil-mode)
   :init
   (setq evil-want-integration t
         evil-want-keybinding  nil
-        evil-undo-system      'undo-tree)
+        evil-undo-system      'undo-tree))
 
-  :config
-  (evil-mode 1)
+(use-package evil-collection
+  :after evil
+  :hook(after-init . evil-collection-init)
+  :custom (setq evil-collection-setup-minibuffer nil))
 
-  ;; dependency for evil-undo-system
-  (use-package undo-tree
-    :hook (after-init . global-undo-tree-mode)
-    :init
-    ;; Prevent undo tree files from polluting your git repo
-    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
-
-  (use-package evil-collection
-    :demand t
-    :after evil
-    :init
-    (setq evil-collection-setup-minibuffer nil)
-    :config
-    (evil-collection-init))
-
-  (use-package evil-org
-    :demand t
-    :after evil org
-    :hook ('org-mode-hook . (lambda () (evil-org-mode)))
-    :config
-    (with-no-warnings
-      (require 'evil-org-agenda)
-      (evil-org-agenda-set-keys)
-      (evil-org-set-key-theme
-       '(textobjects insert navigation additional shift todo heading)))))
-
-(use-package evil-goggles
-  :demand t
+;; dependency for evil-undo-system
+(use-package undo-tree
+  :hook (after-init . global-undo-tree-mode)
   :init
-  (setq evil-goggles-pulse nil)
+  ;; Prevent undo tree files from polluting your git repo
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+
+(use-package evil-org
+  :after evil org
+  :hook (org-mode . (lambda () (evil-org-mode)))
   :config
   (with-no-warnings
-    (evil-goggles-mode)
-    (evil-goggles-use-diff-faces)))
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys)
+    (evil-org-set-key-theme
+     '(textobjects insert navigation additional shift todo heading))))
+
+(use-package evil-goggles
+  :hook (after-init . evil-goggles-mode)
+  :custom (evil-goggles-use-diff-faces)
+  :init
+  (setq evil-goggles-pulse nil))
 
 (use-package evil-multiedit
   :bind (:map evil-visual-state-map
          ("R" . 'evil-multiedit-match-all)))
 
 (use-package evil-commentary
-  :demand t
   :config
   (evil-commentary-mode 1))
 
@@ -80,7 +70,6 @@
   (global-evil-surround-mode 1))
 
 (use-package evil-matchit
-  :demand t
   :config
   (global-evil-matchit-mode 1))
 
