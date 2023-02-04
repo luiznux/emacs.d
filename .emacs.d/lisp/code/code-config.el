@@ -23,9 +23,8 @@
 
 
 (use-package yasnippet
-  :hook (after-init-hook . yas-global-mode)
+  :hook (after-init . yas-global-mode)
   :config
-  (yas-global-mode 1)
   (use-package yasnippet-snippets))
 
 (use-package hideshow
@@ -257,7 +256,8 @@
 ;; Tree-sitter support
 (when (emacs-treesit-available-p)
   (use-package treesit-auto
-    :hook (after-init . global-treesit-auto-mode)))
+    :hook (after-init . global-treesit-auto-mode)
+    :init (setq treesit-auto-install 'prompt)))
 
 ;; Cross-referencing commands
 (use-package xref
