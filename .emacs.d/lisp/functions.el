@@ -21,6 +21,7 @@
 
 (require 'constants)
 (require 'custom-config)
+(require 'org)
 
 (defvar line-breaker)
 (defvar user-email)
@@ -244,6 +245,62 @@ on selected major modes only."
 (defalias 'emacs-update-packages #'update-packages)
 
 
+;; Org
+
+;; Refile settings
+;; Exclude DONE state tasks from refile targets
+(defun bh/verify-refile-target ()
+  "Exclude todo keywords with a done state from refile targets."
+  (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+
+(defun luiznux/org-paste-clipboard-image ()
+  "Paste a clipboard image."
+  (interactive)
+  (if (executable-find "pngpaste")
+      (let ((image-file (concat temporary-file-directory
+                                (make-temp-name "org-image-paste-")
+                                ".png")))
+        (call-process-shell-command (concat "pngpaste " image-file))
+        (insert (concat  "#+CAPTION: " (read-string "Caption: ") "\n"))
+        (insert (format "[[file:%s]]" image-file))
+        (org-display-inline-images))
+    (message "Requires pngpaste in PATH")))
+
+(defun unpackaged/org-fix-blank-lines (&optional prefix)
+  "Ensure that blank lines exist between headings.
+and between headings and their contents.
+With PREFIX, operate on whole buffer. Ensures that blank lines
+exist after each headings's drawers."
+  (interactive "P")
+  (org-map-entries (lambda ()
+                     (org-with-wide-buffer
+                      ;; `org-map-entries' narrows the buffer, which prevents us from seeing
+                      ;; newlines before the current heading, so we do this part widened.
+                      (while (not (looking-back "\n\n" nil))
+                        ;; Insert blank lines before heading.
+                        (insert "\n")))
+                     (let ((end (org-entry-end-position)))
+                       ;; Insert blank lines before entry content
+                       (forward-line)
+                       (while (and (org-at-planning-p)
+                                   (< (point) (point-max)))
+                         ;; Skip planning lines
+                         (forward-line))
+                       (while (re-search-forward org-drawer-regexp end t)
+                         ;; Skip drawers. You might think that `org-at-drawer-p' would suffice, but
+                         ;; for some reason it doesn't work correctly when operating on hidden text.
+                         ;; This works, taken from `org-agenda-get-some-entry-text'.
+                         (re-search-forward "^[ \t]*:END:.*\n?" end t)
+                         (goto-char (match-end 0)))
+                       (unless (or (= (point) (point-max))
+                                   (org-at-heading-p)
+                                   (looking-at-p "\n"))
+                         (insert "\n"))))
+                   t (if prefix
+                         nil
+                       'tree)))
+
+
 ;; Misc
 
 (defun create-scratch-buffer ()
@@ -303,11 +360,11 @@ Native tree-sitter is introduced since 29."
 (defun read-path-variable-from-zshrc ()
   "Read the path variable from zshrc."
   (let ((path (shell-command-to-string ". ~/.zshrc; echo -n $PATH")))
-  (setenv "PATH" path)
-  (setq exec-path
-        (append
-         (split-string-and-unquote path ":")
-         exec-path))))
+    (setenv "PATH" path)
+    (setq exec-path
+          (append
+           (split-string-and-unquote path ":")
+           exec-path))))
 
 (defun custom-set-variable (variable value &optional no-save)
   "Set the VARIABLE to VALUE, and return VALUE.

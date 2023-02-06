@@ -33,7 +33,8 @@
          ("C-c L" . 'org-store-link))
 
   :hook
-  (((org-babel-after-execute org-mode) . org-redisplay-inline-images) ; display image
+  ((org-babel-after-execute  . org-redisplay-inline-images) ; display image after execute.
+   (org-capture-after-finalize . org-agenda-maybe-redo) ; redo agenda after capturing.
    (org-mode . (lambda ()
                  "Beautify org symbols."
                  (setq prettify-symbols-alist custom-prettify-org-symbols-alist)
@@ -53,6 +54,7 @@
         org-startup-indented               t
         org-use-fast-todo-selection        t
         org-enforce-todo-dependencies      t
+        org-fontify-done-headline          t ; Strike through headlines for done tasks in Org
         org-use-property-inheritance       t ; I like to inhert properties from their parents
         org-cycle-separator-lines          2
         org-ellipsis                       "⤵"
@@ -66,7 +68,6 @@
         org-log-repeat                     nil
         org-log-into-drawer                "LOG"
         org-agenda-show-log                t
-
 
         ;; on links `RET' follows the link
         org-return-follows-link            t
@@ -95,12 +96,10 @@
                                              (?B . (:foreground "#dd8844"))
                                              (?C . (:foreground "#6CCB6E")))
 
-
         ;; Add and customize org TODO keywords
         org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "|" "DONE(d!)")
                                                    (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
                                                    (sequence "MEETING(m!)" "|" "DONE(d!)")))
-
 
         org-todo-keyword-faces             '(("TODO"         . (:foreground "#6CCB6E" :weight bold))
                                              ("WARNING"      . (:foreground "#f32020" :weight bold))
@@ -124,15 +123,13 @@
 
         ;; `org-refile' config. Targets include this file and any file
         ;; contributing to the agenda - up to 9 levels deep
-        org-refile-targets                       `((nil . (:maxlevel . 9)))
+        org-refile-targets                      `((nil . (:maxlevel . 9)))
         org-refile-target-verify-function       'bh/verify-refile-target
         org-refile-allow-creating-parent-nodes  'confirm
         org-refile-use-outline-path             'file
         org-outline-path-complete-in-steps      nil)
 
-  ;; Strike through headlines for done tasks in Org
-  (setq org-fontify-done-headline t)
-
+  :config
   (use-package verb
     :config
     (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
@@ -161,80 +158,19 @@
   (use-package ob-http
     :init(cl-pushnew '(http . t) load-language-alist))
 
-  (org-babel-do-load-languages 'org-babel-load-languages
-                               load-language-alist)
-
-  (defun org-src--construct-edit-buffer-name (org-buffer-name lang)
-    "Construct the buffer name for a source editing buffer."
-    (concat org-buffer-name " (org src)"))
-
-  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+  (org-babel-do-load-languages
+   'org-babel-load-languages load-language-alist)
 
   ;; easy templates special blocks in latex export
   (add-to-list 'org-structure-template-alist '("f" . "figure"))
 
-  ;; Redo agenda after capturing.
-  (add-hook 'org-capture-after-finalize-hook 'org-agenda-maybe-redo)
-
-  :config
   (with-eval-after-load 'counsel
     (bind-key [remap org-set-tags-command] #'counsel-org-tag org-mode-map))
 
   ;; Load modules
-  (setq org-modules '(org-habit org-id))
-
-;;;###autoload
-  (defun unpackaged/org-fix-blank-lines (&optional prefix)
-    "Ensure that blank lines exist between headings and between headings and their contents.
-With prefix, operate on whole buffer. Ensures that blank lines
-exist after each headings's drawers."
-    (interactive "P")
-    (org-map-entries (lambda ()
-                       (org-with-wide-buffer
-                        ;; `org-map-entries' narrows the buffer, which prevents us from seeing
-                        ;; newlines before the current heading, so we do this part widened.
-                        (while (not (looking-back "\n\n" nil))
-                          ;; Insert blank lines before heading.
-                          (insert "\n")))
-                       (let ((end (org-entry-end-position)))
-                         ;; Insert blank lines before entry content
-                         (forward-line)
-                         (while (and (org-at-planning-p)
-                                     (< (point) (point-max)))
-                           ;; Skip planning lines
-                           (forward-line))
-                         (while (re-search-forward org-drawer-regexp end t)
-                           ;; Skip drawers. You might think that `org-at-drawer-p' would suffice, but
-                           ;; for some reason it doesn't work correctly when operating on hidden text.
-                           ;; This works, taken from `org-agenda-get-some-entry-text'.
-                           (re-search-forward "^[ \t]*:END:.*\n?" end t)
-                           (goto-char (match-end 0)))
-                         (unless (or (= (point) (point-max))
-                                     (org-at-heading-p)
-                                     (looking-at-p "\n"))
-                           (insert "\n"))))
-                     t (if prefix
-                           nil
-                         'tree)))
-
-  ;; Refile settings
-  ;; Exclude DONE state tasks from refile targets
-  (defun bh/verify-refile-target ()
-    "Exclude todo keywords with a done state from refile targets"
-    (not (member (nth 2 (org-heading-components)) org-done-keywords)))
-
-  (defun luiznux/org-paste-clipboard-image ()
-    "Paste a clipboard image."
-    (interactive)
-    (if (executable-find "pngpaste")
-        (let ((image-file (concat temporary-file-directory
-                                  (make-temp-name "org-image-paste-")
-                                  ".png")))
-          (call-process-shell-command (concat "pngpaste " image-file))
-          (insert (concat  "#+CAPTION: " (read-string "Caption: ") "\n"))
-          (insert (format "[[file:%s]]" image-file))
-          (org-display-inline-images))
-      (message "Requires pngpaste in PATH")))
+  (with-eval-after-load 'org
+    (add-to-list 'org-modules 'org-habit t)
+    (add-to-list 'org-modules 'org-id t))
 
   (use-package org-habit
     :ensure nil
@@ -247,8 +183,9 @@ exist after each headings's drawers."
           org-habit-show-all-today            nil
           org-habit-following-days            5))
 
-;;;
+;;;
 ;;; Org Packages
+;;;
 
   (use-package org-bullets
     :config
@@ -347,7 +284,9 @@ exist after each headings's drawers."
 
   (use-package org-fancy-priorities
     :defines org-fancy-priorities-list
-    :hook (org-mode . org-fancy-priorities-mode) (org-ql-search . org-fancy-priorities-mode) (org-agenda-mode . org-fancy-priorities-mode)
+    :hook ((org-mode . org-fancy-priorities-mode)
+           (org-ql-search . org-fancy-priorities-mode)
+           (org-agenda-mode . org-fancy-priorities-mode))
     :config
     (setq org-fancy-priorities-list '((?A . "🅰")
                                       (?B . "🅱")
