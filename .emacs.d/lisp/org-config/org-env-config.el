@@ -57,8 +57,7 @@
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
                                            (org-agenda-skip-deadline-if-done    t)
-                                           (org-agenda-todo-ignore-scheduled   'all))))
-                                        )
+                                           (org-agenda-todo-ignore-scheduled   'all)))))
 
                                        ("t" "My General Todos"
                                         ((tags-todo
@@ -70,8 +69,7 @@
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
                                            (org-agenda-skip-deadline-if-done    t)
-                                           (org-agenda-todo-ignore-scheduled    'all))))
-                                        )
+                                           (org-agenda-todo-ignore-scheduled    'all)))))
 
                                        ("b" "Birthdays Agenda"
                                         ((agenda
@@ -81,9 +79,7 @@
                                            (org-agenda-show-all-dates           nil)
                                            (org-agenda-span                     '182) ;; half of a year
                                            (org-agenda-prefix-format            '((agenda . "")))
-                                           (org-agenda-sorting-strategy         '(category-keep)))))
-                                        )
-                                       )
+                                           (org-agenda-sorting-strategy         '(category-keep)))))))
 
          org-capture-templates       '(("w"               ; key
                                         "          Create Work task"  ; description
@@ -110,9 +106,7 @@
                                         "* TODO %^{Title} \nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n:LINK:  %A\n%?"
                                         :empty-lines-before 2
                                         :empty-lines-after  2
-                                        :created            t))
-         )
-   )
+                                        :created            t))))
 
   ;; Personal type of enviroment
   ('personal
@@ -143,8 +137,7 @@
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
                                            (org-agenda-skip-deadline-if-done    t)
-                                           (org-agenda-todo-ignore-scheduled    'all))))
-                                        )
+                                           (org-agenda-todo-ignore-scheduled    'all)))))
 
                                        ("t" "My General Todos"
                                         ((tags-todo
@@ -156,8 +149,7 @@
                                            (org-enforce-todo-dependencies       t)
                                            (org-agenda-skip-scheduled-if-done   t)
                                            (org-agenda-skip-deadline-if-done    t)
-                                           (org-agenda-todo-ignore-scheduled    'all))))
-                                        )
+                                           (org-agenda-todo-ignore-scheduled    'all)))))
 
                                        ("b" "Birthdays Agenda"
                                         ((agenda
@@ -167,9 +159,7 @@
                                            (org-agenda-show-all-dates           nil)
                                            (org-agenda-span                     '182) ;; half of a year
                                            (org-agenda-prefix-format            '((agenda . "")))
-                                           (org-agenda-sorting-strategy         '(category-keep)))))
-                                        )
-                                       )
+                                           (org-agenda-sorting-strategy         '(category-keep)))))))
 
          org-capture-templates       '(("a"
                                         "          Add an event on the agenda calendar"
@@ -197,9 +187,7 @@
                                         :empty-lines-before 2
                                         :empty-lines-after  2
                                         :jump-to-captured   t
-                                        :created            t))
-         )
-   )
+                                        :created            t))))
 
   ;; Nil is the default value
   ('nil
@@ -209,8 +197,7 @@
                                            ""
                                            ((org-agenda-overriding-header        "My Agenda 📅")
                                             (org-agenda-remove-tags              t)
-                                            (org-agenda-span                     '2))))
-                                         )
+                                            (org-agenda-span                     '2)))))
 
                                         ("t" "My General Todos"
                                          ((tags-todo
@@ -222,8 +209,7 @@
                                             (org-enforce-todo-dependencies       t)
                                             (org-agenda-skip-scheduled-if-done   t)
                                             (org-agenda-skip-deadline-if-done    t)
-                                            (org-agenda-todo-ignore-scheduled    'all))))
-                                         )
+                                            (org-agenda-todo-ignore-scheduled    'all)))))
 
                                         ("b" "Birthdays Agenda"
                                          ((agenda
@@ -233,9 +219,7 @@
                                             (org-agenda-show-all-dates           nil)
                                             (org-agenda-span                     '182) ;; half of a year
                                             (org-agenda-prefix-format            '((agenda . "")))
-                                            (org-agenda-sorting-strategy         '(category-keep)))))
-                                         )
-                                        )
+                                            (org-agenda-sorting-strategy         '(category-keep)))))))
 
          org-capture-templates        '(("a"
                                          "          Add an event on the agenda calendar"
@@ -253,10 +237,7 @@
                                          "* TODO %^{Title} \nSCHEDULED: %^t\n#+description: %^{Description 🖋 }\n:LINK:  %A\n%?"
                                          :empty-lines-before 2
                                          :empty-lines-after  2
-                                         :created            t))
-         )
-   )
-  )
+                                         :created            t)))))
 
 
 (provide 'org-env-config)
