@@ -130,6 +130,21 @@
         org-outline-path-complete-in-steps      nil)
 
   :config
+  (when (featurep 'xwidget-internal)
+    (push '("\\.\\(x?html?\\|pdf\\)\\'"
+            .
+            (lambda (file _link)
+              (custom-webkit-browse-url (concat "file://" file) t)))
+          org-file-apps))
+
+  ;; Add md/gfm backends
+  (add-to-list 'org-export-backends 'md)
+  (use-package ox-gfm
+    :init (add-to-list 'org-export-backends 'gfm))
+
+  (with-eval-after-load 'counsel
+    (bind-key [remap org-set-tags-command] #'counsel-org-tag org-mode-map))
+
   (use-package verb
     :config
     (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
@@ -163,9 +178,6 @@
 
   ;; easy templates special blocks in latex export
   (add-to-list 'org-structure-template-alist '("f" . "figure"))
-
-  (with-eval-after-load 'counsel
-    (bind-key [remap org-set-tags-command] #'counsel-org-tag org-mode-map))
 
   ;; Load modules
   (with-eval-after-load 'org
@@ -203,6 +215,11 @@
     ;; Preview
     (use-package org-preview-html
       :diminish))
+
+  ;; Rich text clipboard
+  (use-package org-rich-yank
+    :bind (:map org-mode-map
+           ("C-M-y" . org-rich-yank)))
 
   ;; Table of contents
   (use-package toc-org
