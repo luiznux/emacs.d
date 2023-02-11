@@ -474,6 +474,14 @@
 (use-package lsp-java
   :hook ((java-mode java-ts-mode jdee-mode) . (lambda () (require 'lsp-java))))
 
+;; Sql fomater
+(use-package sqlformat
+  :hook (sql-mode . sqlformat-on-save-mode)
+  :init
+  (when (executable-find "pgformatter")
+    (setq sqlformat-command 'pgformatter)
+    (setq sqlformat-args '("-s2" "-g"))))
+
 ;; Enable LSP in org babel
 ;; https://github.com/emacs-lsp/lsp-mode/issues/377
 (cl-defmacro lsp-org-babel-enable (lang)
