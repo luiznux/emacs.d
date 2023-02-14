@@ -81,6 +81,10 @@
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-smug.png")
                                  ("style" . "github")))
 
+    (":pepe-sunglasses:"   .    (("name" . "Sunglasses Pepe")
+                                 ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-sunglasses.png")
+                                 ("style" . "github")))
+
     (":pepe-sweat"         .    (("name" . "Sweat Pepe")
                                  ("image" . "~/.emacs.d/emojis/luiznux/pepe-emojis/pepe-sweat.png")
                                  ("style" . "github")))
