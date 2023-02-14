@@ -60,8 +60,8 @@
 
   :config
   (defvar excluded-prefixes-append-list
-    '("*flycheck-posframe-buffer*" "*Shell Command Output*"
-      "*Org Agenda*" " *" "*dashboard*" "*Directory*" "*vterm*"))
+    '("*flycheck-posframe-buffer*" "*Shell Command Output*" "*Org Note*"
+      "*Org Agenda*" "*Calendar*" " *" "*dashboard*" "*Directory*" "*vterm*"))
   (cl-loop for prefix in excluded-prefixes-append-list
            do (add-to-list 'centaur-tabs-excluded-prefixes prefix t)))
 
