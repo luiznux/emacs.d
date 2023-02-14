@@ -79,17 +79,18 @@
         org-blank-before-new-entry         '((heading . t) (plain-list-item . auto))
 
         ;; Set `org-agenda' custom tags
-        org-tag-alist                      '(("agenda" . ?a)
-                                             ("bday" . ?b)
-                                             ("capture" . ?c)
-                                             ("contas" . ?b)
-                                             ("daily" .?d)
-                                             ("ignore" .?i)
-                                             ("studie" . ?s)
-                                             ("task" . ?t)
-                                             ("project" . ?p)
-                                             ("week-days" . ?f)
-                                             ("work" . ?w))
+        org-tag-alist                      '(("agenda"    .  ?a)
+                                             ("bday"      .  ?b)
+                                             ("capture"   .  ?c)
+                                             ("contas"    .  ?b)
+                                             ("daily"     .  ?d)
+                                             ("ignore"    .  ?i)
+                                             ("studie"    .  ?s)
+                                             ("task"      .  ?t)
+                                             ("project"   .  ?p)
+                                             ("holiday"   .  ?h)
+                                             ("week-days" .  ?f)
+                                             ("work"      .  ?w))
 
         ;; Set `org' priority custom faces
         org-priority-faces                 '((?A . (:foreground "#f32020"))
@@ -328,20 +329,20 @@
           org-gcal-client-secret luiznux-client-secret
           org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
 
-  (use-package brazilian-holidays
-    :hook ((calendar-mode . brazilian-holidays-mode)
-           (org-agenda-mode . brazilian-holidays-mode))
-    :config
-    (setq org-agenda-include-diary                           t
-          diary-file                                         "~/org/diary"
-          calendar-mark-diary-entries-flag                   t
-          calendar-view-diary-initially-flag                 t
-          calendar-mark-diary-entries-flag                   t
-          brazilian-sp-holidays                              t)
+  ;;(use-package brazilian-holidays
+  ;;  :hook ((calendar-mode . brazilian-holidays-mode)
+  ;;         (org-agenda-mode . brazilian-holidays-mode))
+  ;;  :config
+  ;;  (setq org-agenda-include-diary                           t
+  ;;        diary-file                                         "~/org/diary"
+  ;;        calendar-mark-diary-entries-flag                   t
+  ;;        calendar-view-diary-initially-flag                 t
+  ;;        calendar-mark-diary-entries-flag                   t
+  ;;        brazilian-sp-holidays                              t)
 
-    ;;Calendar Hooks
-    (add-hook 'diary-display-hook 'fancy-diary-display)
-    (add-hook 'list-diary-entries-hook 'sort-diary-entries t))
+  ;;  ;;Calendar Hooks
+  ;;  (add-hook 'diary-display-hook 'fancy-diary-display)
+  ;;  (add-hook 'list-diary-entries-hook 'sort-diary-entries t))
 
   (use-package org-roam
     :diminish
