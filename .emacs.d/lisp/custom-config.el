@@ -150,6 +150,7 @@ Nil to use font supports ligatures."
     (":WILD_NOTIFIER_NOTIFY_BEFORE:" . "")
 
     (":PROPERTIES:"    . "")
+    (":END:"           . "🔚")
     (":STYLE:"         . "")
     (":LOG:"           . "")
     (":ID:"            . "")
