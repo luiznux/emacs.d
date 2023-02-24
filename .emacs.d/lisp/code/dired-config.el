@@ -48,7 +48,10 @@
     ;; Show directory first
     (setq dired-listing-switches "-alh --group-directories-first"))
 
-  (use-package dired-quick-sort)
+  ;; Quick sort dired buffers via hydra
+  (use-package dired-quick-sort
+    :bind (:map dired-mode-map
+           ("S" . hydra-dired-quick-sort/body)))
 
   ;; Show git info in dired
   (use-package dired-git-info

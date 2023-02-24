@@ -126,6 +126,7 @@
                               (user-error "Cannot revert the timemachine buffer"))))))
 
 ;; Pop up last commit information of current line
+;; Pop up last commit information of current line
 (use-package git-messenger
   :bind (:map vc-prefix-map
          ("p" . git-messenger:popup-message)
@@ -135,6 +136,14 @@
               git-messenger:use-magit-popup t)
   :config
   (with-no-warnings
+    (with-eval-after-load 'hydra
+      (defhydra git-messenger-hydra (:color blue)
+        ("s" git-messenger:popup-show "show")
+        ("c" git-messenger:copy-commit-id "copy hash")
+        ("m" git-messenger:copy-message "copy message")
+        ("," (catch 'git-messenger-loop (git-messenger:show-parent)) "go parent")
+        ("q" git-messenger:popup-close "quit")))
+
     (defun my-git-messenger:format-detail (vcs commit-id author message)
       (if (eq vcs 'git)
           (let ((date (git-messenger:commit-date commit-id))
@@ -153,9 +162,10 @@
         (git-messenger:format-detail vcs commit-id author message)))
 
     (defun my-git-messenger:popup-message ()
-      "Popup message with `posframe', `pos-tip', `lv' or `message', and dispatch actions with."
+      "Popup message with `posframe', `pos-tip', `lv' or `message', and dispatch actions with `hydra'."
       (interactive)
-      (let* ((vcs (git-messenger:find-vcs))
+      (let* ((hydra-hint-display-type 'message)
+             (vcs (git-messenger:find-vcs))
              (file (buffer-file-name (buffer-base-buffer)))
              (line (line-number-at-pos))
              (commit-info (git-messenger:commit-info-at-line vcs file line))
@@ -174,6 +184,7 @@
               git-messenger:last-message msg
               git-messenger:last-commit-id commit-id)
         (run-hook-with-args 'git-messenger:before-popup-hook popuped-message)
+        (git-messenger-hydra/body)
         (cond ((and (fboundp 'posframe-workable-p) (posframe-workable-p))
                (let ((buffer-name "*git-messenger*"))
                  (posframe-show buffer-name
@@ -219,6 +230,49 @@
         blamer-author-formatter         "✎ %s"
         blamer-commit-formatter         "● %s"
         blamer-prettify-time-p          t))
+
+;; Resolve diff3 conflicts
+(use-package smerge-mode
+  :ensure nil
+  :diminish
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Smerge" 'octicon "diff")
+    :color pink :quit-key ("q" "C-g"))
+   ("Move"
+    (("n" smerge-next "next")
+     ("p" smerge-prev "previous"))
+    "Keep"
+    (("b" smerge-keep-base "base")
+     ("u" smerge-keep-upper "upper")
+     ("l" smerge-keep-lower "lower")
+     ("a" smerge-keep-all "all")
+     ("RET" smerge-keep-current "current")
+     ("C-m" smerge-keep-current "current"))
+    "Diff"
+    (("<" smerge-diff-base-upper "upper/base")
+     ("=" smerge-diff-upper-lower "upper/lower")
+     (">" smerge-diff-base-lower "upper/lower")
+     ("R" smerge-refine "refine")
+     ("E" smerge-ediff "ediff"))
+    "Other"
+    (("C" smerge-combine-with-next "combine")
+     ("r" smerge-resolve "resolve")
+     ("k" smerge-kill-current "kill")
+     ("ZZ" (lambda ()
+             (interactive)
+             (save-buffer)
+             (bury-buffer))
+      "Save and bury buffer" :exit t))))
+  :bind (:map smerge-mode-map
+         ("C-c m" . smerge-mode-hydra/body))
+  :hook ((find-file . (lambda ()
+                        (save-excursion
+                          (goto-char (point-min))
+                          (when (re-search-forward "^<<<<<<< " nil t)
+                            (smerge-mode 1)))))
+         (magit-diff-visit-file . (lambda ()
+                                    (when smerge-mode
+                                      (smerge-mode-hydra/body))))))
 
 ;; Open github/gitlab/bitbucket page
 (use-package browse-at-remote

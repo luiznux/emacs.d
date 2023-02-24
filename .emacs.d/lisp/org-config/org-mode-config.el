@@ -28,6 +28,43 @@
   (org-done ((t (:strike-through t))))
   (org-headline-done ((((class color) (min-colors 16) (background dark))
                        (:strike-through t))))
+  :pretty-hydra
+  ;; See `org-structure-template-alist'
+  ((:title (pretty-hydra-title "Org Template" 'fileicon "org" :face 'all-the-icons-green :height 1.1 :v-adjust 0.0)
+    :color blue :quit-key ("q" "C-g"))
+   ("Basic"
+    (("a" (hot-expand "<a") "ascii")
+     ("c" (hot-expand "<c") "center")
+     ("C" (hot-expand "<C") "comment")
+     ("e" (hot-expand "<e") "example")
+     ("E" (hot-expand "<E") "export")
+     ("h" (hot-expand "<h") "html")
+     ("l" (hot-expand "<l") "latex")
+     ("n" (hot-expand "<n") "note")
+     ("o" (hot-expand "<q") "quote")
+     ("v" (hot-expand "<v") "verse"))
+    "Head"
+    (("i" (hot-expand "<i") "index")
+     ("A" (hot-expand "<A") "ASCII")
+     ("I" (hot-expand "<I") "INCLUDE")
+     ("H" (hot-expand "<H") "HTML")
+     ("L" (hot-expand "<L") "LaTeX"))
+    "Source"
+    (("s" (hot-expand "<s") "src")
+     ("m" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
+     ("y" (hot-expand "<s" "python :results output") "python")
+     ("p" (hot-expand "<s" "perl") "perl")
+     ("w" (hot-expand "<s" "powershell") "powershell")
+     ("r" (hot-expand "<s" "ruby") "ruby")
+     ("S" (hot-expand "<s" "sh") "sh")
+     ("g" (hot-expand "<s" "go :imports '\(\"fmt\"\)") "golang"))
+    "Misc"
+    (("u" (hot-expand "<s" "plantuml :file CHANGE.png") "plantuml")
+     ("Y" (hot-expand "<s" "ipython :session :exports both :results raw drawer\n$0") "ipython")
+     ("P" (progn
+            (insert "#+HEADERS: :results output :exports both :shebang \"#!/usr/bin/env perl\"\n")
+            (hot-expand "<s" "perl")) "Perl tangled")
+     ("<" self-insert-command "ins"))))
 
   :bind (("C-c c RET" . 'org-capture)
          ("C-c L" . 'org-store-link))

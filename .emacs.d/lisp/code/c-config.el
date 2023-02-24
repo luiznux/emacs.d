@@ -31,5 +31,13 @@
   :when (emacs-treesit-available-p)
   :init (setq c-ts-mode-indent-offset 4))
 
+(use-package ggtags
+  :init
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+                (ggtags-mode 1)))))
+
+
 (provide 'c-config)
 ;;; c-config.el ends here

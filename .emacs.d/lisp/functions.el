@@ -133,6 +133,20 @@ This issue has been addressed in 28."
   (load user-init-file))
 (global-set-key (kbd "C-c C-l") #'reload-init-file)
 
+;; Browse the homepage
+(defun browse-homepage ()
+  "Browse the Github page of Centaur Emacs."
+  (interactive)
+  (browse-url luiznux-homepage))
+
+;; Open custom file
+(defun open-custom-file()
+  "Open or create `custom-file'."
+  (interactive)
+  (unless (file-exists-p custom-file)
+    (user-error "The custom file doesn't exist"))
+  (find-file custom-file))
+
 (defun rename-this-file (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
   (interactive "sNew name: ")

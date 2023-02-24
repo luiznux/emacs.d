@@ -24,11 +24,40 @@
   :functions (all-the-icons-faicon
               all-the-icons-material)
   :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Dashboard" 'material "dashboard" :height 1.2 :v-adjust -0.2)
+    :color pink :quit-key ("q" "C-g"))
+   ("Navigator"
+    (("U" update-packages "update" :exit t)
+     ("H" browse-homepage "homepage" :exit t)
+     ("R" restore-previous-session "recover session" :exit t)
+     ("L" restore-session "list sessions" :exit t)
+     ("S" open-custom-file "settings" :exit t))
+    "Section"
+    (("}" dashboard-next-section "next")
+     ("{" dashboard-previous-section "previous")
+     ("r" dashboard-goto-recent-files "recent files")
+     ("m" dashboard-goto-bookmarks "bookmarks")
+     ("p" dashboard-goto-projects "projects"))
+    "Item"
+    (("RET" widget-button-press "open" :exit t)
+     ("<tab>" widget-forward "next")
+     ("C-i" widget-forward "next")
+     ("<backtab>" widget-backward "previous")
+     ("C-n" next-line "next line")
+     ("C-p" previous-line "previous  line"))
+    "Misc"
+    (("<f2>" open-dashboard "open" :exit t)
+     ("g" dashboard-refresh-buffer "refresh" :exit t)
+     ("Q" quit-dashboard "quit" :exit t))))
   :bind (("<f2>" . open-dashboard)
          :map dashboard-mode-map
          ("R" . restore-previous-session)
          ("L" . restore-session)
-         ("q" . quit-dashboard))
+         ("S" . open-custom-file)
+         ("U" . update-packages)
+         ("q" . quit-dashboard)
+         ("?" . dashboard-hydra/body))
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)))
   :init
   (setq dashboard-startup-banner       (or luiznux-logo 'logo)

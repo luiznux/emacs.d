@@ -21,6 +21,10 @@
 ;;
 ;;; Code:
 
+(defconst luiznux-homepage
+  "https://github.com/luiznux/emacs.d"
+  "The Github page of my Emacs config.")
+
 (defconst sys/macp
   (eq system-type 'darwin)
   "Are we running on a Mac system?")

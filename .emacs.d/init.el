@@ -69,7 +69,9 @@
 
 ;; Core packages
 (require 'base)
+(require 'hydra-config)
 (require 'interface)
+(require 'edit-config)
 (require 'window-config)
 (require 'ibuffer-config)
 (require 'highlight-config)
@@ -100,7 +102,7 @@
 (require 'lsp-config)
 (require 'ctags-config)
 
-(require 'code-config)
+(require 'prog-config)
 (require 'elisp-config)
 (require 'c-config)
 (require 'clojure-config)
