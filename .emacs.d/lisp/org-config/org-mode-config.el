@@ -67,10 +67,17 @@
      ("<" self-insert-command "ins"))))
 
   :bind (("C-c c RET" . 'org-capture)
-         ("C-c L" . 'org-store-link))
+         ("C-c L" . 'org-store-link)
+         :map org-mode-map
+         ("C-c c <" . (lambda ()
+                  "Insert org template."
+                  (interactive)
+                  (if (or (region-active-p) (looking-back "^\s*" 1))
+                      (org-hydra/body)
+                    (self-insert-command 1)))))
 
   :hook
-  ((org-babel-after-execute  . org-redisplay-inline-images) ; display image after execute.
+  (((org-babel-after-execute org-mode)  . org-redisplay-inline-images) ; display image after execute.
    (org-capture-after-finalize . org-agenda-maybe-redo) ; redo agenda after capturing.
    (org-mode . (lambda ()
                  "Beautify org symbols."
@@ -168,6 +175,29 @@
         org-outline-path-complete-in-steps      nil)
 
   :config
+  ;; For hydra
+  (defun hot-expand (str &optional mod)
+    "Expand org template.
+
+STR is a structure template string recognised by org like <s. MOD is a
+string with additional parameters to add the begin line of the
+structure element. HEADER string includes more parameters that are
+prepended to the element after the #+HEADER: tag."
+    (let (text)
+      (when (region-active-p)
+        (setq text (buffer-substring (region-beginning) (region-end)))
+        (delete-region (region-beginning) (region-end)))
+      (insert str)
+      (if (fboundp 'org-try-structure-completion)
+          (org-try-structure-completion) ; < org 9
+        (progn
+          ;; New template expansion since org 9
+          (require 'org-tempo nil t)
+          (org-tempo-complete-tag)))
+      (when mod (insert mod) (forward-line))
+      (when text (insert text))))
+
+  ;; Use embedded webkit browser if possible
   (when (featurep 'xwidget-internal)
     (push '("\\.\\(x?html?\\|pdf\\)\\'"
             .
@@ -238,21 +268,27 @@
 ;;;
 
   (use-package org-bullets
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    :hook (org-mode . (lambda () (org-bullets-mode 1))))
 
   (use-package org-download
-    :hook ('dired-mode-hook 'org-download-enable))
+    :hook (dired-mode . org-download-enable))
 
   (use-package org-cliplink
     :bind("C-x p i" . org-cliplink))
 
   (when emacs/>=27p
+    ;; Auto-toggle Org LaTeX fragments
     (use-package org-fragtog
-      :config (add-hook 'org-mode-hook 'org-fragtog-mode))
+      :diminish
+      :hook (org-mode . org-fragtog-mode))
+
     ;; Preview
     (use-package org-preview-html
-      :diminish))
+      :diminish
+      :bind (:map org-mode-map
+             ("C-c C-h" . org-preview-html-mode))
+      :init (when (featurep 'xwidget-internal)
+              (setq org-preview-html-viewer 'xwidget))))
 
   ;; Rich text clipboard
   (use-package org-rich-yank
@@ -410,7 +446,10 @@
     :init
     (setq org-roam-node-display-template  (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
           org-roam-dailies-directory      "journal/"
-          org-roam-v2-ack                 t)
+          org-roam-v2-ack                 t
+          org-roam-graph-viewer           (if (featurep 'xwidget-internal)
+                                              #'xwidget-webkit-browse-url
+                                            #'browse-url))
     (add-hook 'before-save-hook 'time-stamp)
     :config
     ;; Bind this to C-c n I
@@ -421,9 +460,7 @@
                                                       '(:immediate-finish t)))))
         (apply #'org-roam-node-insert args)))
 
-    (require 'org-roam-dailies)  ;; Ensure the keymap is available
-    (require 'org-roam-protocol) ;; If using org-roam-protocol
-    (org-roam-db-autosync-mode))
+    (org-roam-db-autosync-enable))
 
   (when emacs/>=27p
     (use-package org-roam-ui
