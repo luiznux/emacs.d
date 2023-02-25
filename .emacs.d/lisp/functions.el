@@ -246,6 +246,7 @@ on selected major modes only."
                   minibuffer-inactive-mode-hook
                   minibuffer-setup-hook))
     (add-hook hook (lambda () (setq show-trailing-whitespace nil)))))
+(add-hook 'after-init-hook #'do-not-show-trailing-whitespace)
 
 
 ;; Update
@@ -370,9 +371,11 @@ Native tree-sitter is introduced since 29."
   (setq-default ido-enable-flex-matching t)
   (setq-default ido-everyehere t)
   (ido-mode 1))
+(add-hook 'after-init-hook #'enable-ido-mode)
 
 (defun read-path-variable-from-zshrc ()
   "Read the path variable from zshrc."
+  (interactive)
   (let ((path (shell-command-to-string ". ~/.zshrc; echo -n $PATH")))
     (setenv "PATH" path)
     (setq exec-path
@@ -440,10 +443,6 @@ NEW-SESSION specifies whether to create a new xwidget-webkit session."
         (switch-to-buffer buf)))))
 
 
-
-(enable-ido-mode)
-(read-path-variable-from-zshrc)
-(do-not-show-trailing-whitespace)
 
 
 (provide 'functions)
