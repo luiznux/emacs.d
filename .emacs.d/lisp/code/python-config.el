@@ -40,9 +40,6 @@
   ;; Live Coding in Python
   (use-package live-py-mode))
 
-(use-package pyvenv
-  :config
-  (pyvenv-mode 1))
 
 (provide 'python-config)
 ;;; python-config.el ends here
