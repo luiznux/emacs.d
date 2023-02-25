@@ -152,19 +152,17 @@
           counsel-find-file-occur-cmd
           "gls -a | grep -i -E '%s' | tr '\\n' '\\0' | xargs -0 gls -d --group-directories-first"))
 
-  ;; ignore files
+  (ivy-set-occur 'ivy-switch-buffer 'ivy-switch-buffer-occur)
+
+  :config
+  ;; ignore Dotfiles and Lockfiles files
   (setq counsel-find-file-ignore-regexp
         "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
-
-  (add-hook 'minibuffer-setup-hook
-            (lambda () (setq-local show-trailing-whitespace nil)))
-  (ivy-set-occur 'ivy-switch-buffer 'ivy-switch-buffer-occur)
 
   ;; Do not show extra directories when finding files.
   (setq ivy-extra-directories '("."))
   (advice-add #'counsel-find-file :around #'config-ivy-with-empty-ivy-extra-directories)
 
-  :config
   ;; Use C-j for immediate termination with the current value, and RET
   ;; for continuing completion for that directory. This is the ido
   ;; behaviour.
