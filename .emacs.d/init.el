@@ -72,15 +72,15 @@
 (require 'hydra-config)
 (require 'interface)
 (require 'edit-config)
+(require 'ivy-config)
+(require 'company-config)
 (require 'window-config)
 (require 'ibuffer-config)
 (require 'highlight-config)
 (require 'kill-ring-config)
 (require 'persp-config)
 (require 'evil-config)
-(require 'company-config)
 (require 'bookmark-config)
-(require 'ivy-config)
 
 ;; Visual
 (require 'dashboard-config)
