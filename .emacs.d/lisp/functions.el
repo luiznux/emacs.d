@@ -371,7 +371,7 @@ Native tree-sitter is introduced since 29."
   (setq-default ido-enable-flex-matching t)
   (setq-default ido-everyehere t)
   (ido-mode 1))
-(add-hook 'after-init-hook #'enable-ido-mode)
+;;(add-hook 'after-init-hook #'enable-ido-mode)
 
 (defun read-path-variable-from-zshrc ()
   "Read the path variable from zshrc."

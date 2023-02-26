@@ -40,8 +40,7 @@
   (ivy-minibuffer-match-face-3 ((t (:distant-foreground unspecified :background unspecified))))
   (ivy-minibuffer-match-face-4 ((t (:distant-foreground unspecified :background unspecified))))
 
-  :bind (("M-x"   . 'counsel-M-x)
-         ("C-s"   . swiper-isearch)
+  :bind (("C-s"   . swiper-isearch)
          ("C-S-s" . swiper-all)
 
          ("C-c C-r" . ivy-resume)
@@ -50,53 +49,87 @@
          ("C-c v ." . ivy-switch-view)
 
          :map counsel-mode-map
-         (([remap swiper]             . counsel-grep-or-swiper)
-          ([remap swiper-backward]    . counsel-grep-or-swiper-backward)
-          ([remap dired]              . counsel-dired)
-          ([remap set-variable]       . counsel-set-variable)
-          ([remap insert-char]        . counsel-unicode-char)
-          ([remap recentf-open-files] . counsel-recentf)
-          ([remap org-capture]        . counsel-org-capture)
+         ([remap swiper]             . counsel-grep-or-swiper)
+         ([remap swiper-backward]    . counsel-grep-or-swiper-backward)
+         ([remap dired]              . counsel-dired)
+         ([remap set-variable]       . counsel-set-variable)
+         ([remap insert-char]        . counsel-unicode-char)
+         ([remap recentf-open-files] . counsel-recentf)
+         ([remap org-capture]        . counsel-org-capture)
 
-          ("C-x j"   . counsel-mark-ring)
-          ("C-x C-f" . counsel-find-file)
+         ("C-x j" . counsel-mark-ring)
+         ("C-h F" . counsel-faces)
 
-          ("C-x b" . ivy-switch-buffer)
-          ("C-c U" . counsel-unicode-char)
-          ("C-c i" . counsel-imenu)
-          ("C-x f" . counsel-find-file)
-          ("C-c y" . counsel-yank-pop)
-          ("C-c r" . counsel-recentf)
-          ("C-c v" . counsel-switch-buffer-other-window)
-          ("C-c h" . counsel-command-history)
-          ("C-c O" . counsel-find-file-extern)
+         ("C-c B" . counsel-bookmarked-directory)
+         ("C-c O" . counsel-find-file-extern)
+         ("C-c P" . counsel-package)
+         ("C-c R" . counsel-list-processes)
+         ("C-c U" . counsel-unicode-char)
 
-          ("C-c c B" . counsel-bookmarked-directory)
-          ("C-c c e" . counsel-colors-emacs)
-          ("C-c c m" . counsel-minibuffer-history)
+         ("C-c f" . counsel-projectile-rg)
+         ("C-c g" . counsel-git)
+         ("C-c h" . counsel-command-history)
+         ("C-c i" . counsel-imenu)
+         ("C-c j" . counsel-git-grep)
+         ("C-c l" . counsel-git-log)
+         ("C-c o" . counsel-outline)
+         ("C-c r" . counsel-recentf)
+         ("C-c v" . counsel-switch-buffer-other-window)
+         ("C-c y" . counsel-yank-pop)
+         ("C-c z" . counsel-fzf)
 
-          ("C-c c p" . counsel-pt)
-          ("C-c c r" . counsel-rg)
-          ("C-c c s" . counsel-ag)
-          ("C-c c z" . counsel-fzf)
-          ("C-c c t" . counsel-load-theme)
-          ("C-c c u" . counsel-unicode-char)
-          ("C-c c w" . counsel-colors-web)
-          ("C-c c v" . counsel-set-variable))
+         ("C-c c B" . counsel-bookmarked-directory)
+         ("C-c c F" . counsel-faces)
+         ("C-c c L" . counsel-load-library)
+         ("C-c c K" . counsel-ace-link)
+         ("C-c c O" . counsel-find-file-extern)
+         ("C-c c P" . counsel-package)
+         ("C-c c R" . counsel-list-processes)
+
+         ("C-c c a" . counsel-apropos)
+         ("C-c c e" . counsel-colors-emacs)
+         ("C-c c f" . counsel-find-library)
+         ("C-c c g" . counsel-grep)
+         ("C-c c h" . counsel-command-history)
+         ("C-c c i" . counsel-git)
+         ("C-c c j" . counsel-git-grep)
+         ("C-c c l" . counsel-git-log)
+         ("C-c c m" . counsel-minibuffer-history)
+         ("C-c c o" . counsel-outline)
+
+         ("C-c c p" . counsel-pt)
+         ("C-c c r" . counsel-rg)
+         ("C-c c s" . counsel-ag)
+         ("C-c c z" . counsel-fzf)
+         ("C-c c t" . counsel-load-theme)
+         ("C-c c u" . counsel-unicode-char)
+         ("C-c c w" . counsel-colors-web)
+         ("C-c c v" . counsel-set-variable)
 
          ;; Evil mapping for ivy-minibuffer
          :map ivy-minibuffer-map
-         (("M-j" . 'ivy-next-line)
-          ("M-k" . 'ivy-previous-line)
-          ("M-d" . ivy-scroll-up-command)
-          ("M-u" . ivy-scroll-down-command)
-          ("M-<" . ivy-beginning-of-buffer)
-          ("M->" . ivy-end-of-buffer)
-          ("C-w" . ivy-yank-word))
+         ("M-j" . 'ivy-next-line)
+         ("M-k" . 'ivy-previous-line)
+         ("M-d" . ivy-scroll-up-command)
+         ("M-u" . ivy-scroll-down-command)
+         ("M-<" . ivy-beginning-of-buffer)
+         ("M->" . ivy-end-of-buffer)
+         ("C-w" . ivy-yank-word)
+         ;; Use C-j for immediate termination with the current value, and RET
+         ;; for continuing completion for that directory. This is the ido
+         ;; behaviour.
+         ("C-j" . ivy-immediate-done)
+         ("RET" . ivy-alt-done)
+
+         :map counsel-find-file-map
+         ("C-h" . counsel-up-directory)
 
          :map swiper-map
          ("M-s" . swiper-isearch-toggle)
-         ("M-%" . swiper-query-replace))
+         ("M-%" . swiper-query-replace)
+
+         :map isearch-mode-map
+         ("M-s" . swiper-isearch-toggle))
 
   :hook ((after-init . ivy-mode)
          (ivy-mode . counsel-mode))
@@ -152,8 +185,6 @@
           counsel-find-file-occur-cmd
           "gls -a | grep -i -E '%s' | tr '\\n' '\\0' | xargs -0 gls -d --group-directories-first"))
 
-  (ivy-set-occur 'ivy-switch-buffer 'ivy-switch-buffer-occur)
-
   :config
   ;; ignore Dotfiles and Lockfiles files
   (setq counsel-find-file-ignore-regexp
@@ -162,12 +193,6 @@
   ;; Do not show extra directories when finding files.
   (setq ivy-extra-directories '("."))
   (advice-add #'counsel-find-file :around #'config-ivy-with-empty-ivy-extra-directories)
-
-  ;; Use C-j for immediate termination with the current value, and RET
-  ;; for continuing completion for that directory. This is the ido
-  ;; behaviour.
-  (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-immediate-done)
-  (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
 
   (with-no-warnings
     ;; persist views
@@ -450,57 +475,57 @@
   ;; Tramp ivy interface
   (use-package counsel-tramp
     :bind (:map counsel-mode-map
-           ("C-c c T" . counsel-tramp)))
+           ("C-c c T" . counsel-tramp))))
 
-  ;; Use Ivy to open recent directories
-  (use-package ivy-dired-history
-    :demand t
-    :after dired
-    :defines (savehist-additional-variables desktop-globals-to-save)
-    :bind (:map dired-mode-map
-           ("," . dired))
-    :init
-    (with-eval-after-load 'savehist
-      (add-to-list 'savehist-additional-variables 'ivy-dired-history-variable))
-    (with-eval-after-load 'desktop
-      (add-to-list 'desktop-globals-to-save 'ivy-dired-history-variable)))
+;; Use Ivy to open recent directories
+(use-package ivy-dired-history
+  :demand t
+  :after dired
+  :defines (savehist-additional-variables desktop-globals-to-save)
+  :bind (:map dired-mode-map
+         ("," . dired))
+  :init
+  (with-eval-after-load 'savehist
+    (add-to-list 'savehist-additional-variables 'ivy-dired-history-variable))
+  (with-eval-after-load 'desktop
+    (add-to-list 'desktop-globals-to-save 'ivy-dired-history-variable)))
 
-  ;; `projectile' integration
-  (use-package counsel-projectile
-    :hook (counsel-mode . counsel-projectile-mode)
-    :init
-    (setq counsel-projectile-grep-initial-input '(ivy-thing-at-point))
-    (when (executable-find "ugrep")
-      (setq counsel-projectile-grep-base-command "ugrep --color=never -rnEI %s")))
+;; `projectile' integration
+(use-package counsel-projectile
+  :hook (counsel-mode . counsel-projectile-mode)
+  :init
+  (setq counsel-projectile-grep-initial-input '(ivy-thing-at-point))
+  (when (executable-find "ugrep")
+    (setq counsel-projectile-grep-base-command "ugrep --color=never -rnEI %s")))
 
-  ;; Better experience with icons
-  ;; Enable it before`ivy-rich-mode' for better performance
-  (use-package all-the-icons-ivy-rich
-    :hook (ivy-mode . all-the-icons-ivy-rich-mode)
-    :config
-    (plist-put all-the-icons-ivy-rich-display-transformers-list
-               'load-theme
-               '(:columns
-                 ((all-the-icons-ivy-rich-theme-icon)
-                  (ivy-rich-candidate))
-                 :delimiter "\t"))
-    (all-the-icons-ivy-rich-reload))
+;; Better experience with icons
+;; Enable it before`ivy-rich-mode' for better performance
+(use-package all-the-icons-ivy-rich
+  :hook (ivy-mode . all-the-icons-ivy-rich-mode)
+  :config
+  (plist-put all-the-icons-ivy-rich-display-transformers-list
+             'load-theme
+             '(:columns
+               ((all-the-icons-ivy-rich-theme-icon)
+                (ivy-rich-candidate))
+               :delimiter "\t"))
+  (all-the-icons-ivy-rich-reload))
 
-  ;; More friendly display transformer for Ivy
-  (use-package ivy-rich
-    :hook ((counsel-projectile-mode . ivy-rich-mode) ; MUST after `counsel-projectile'
-           (ivy-rich-mode . ivy-rich-project-root-cache-mode)
-           (ivy-rich-mode . (lambda ()
-                              "Use abbreviate in `ivy-rich-mode'."
-                              (setq ivy-virtual-abbreviate
-                                    (or (and ivy-rich-mode 'abbreviate) 'name)))))
-    :init
-    ;; For better performance
-    (setq ivy-rich-parse-remote-buffer nil))
+;; More friendly display transformer for Ivy
+(use-package ivy-rich
+  :hook ((counsel-projectile-mode . ivy-rich-mode) ; MUST after `counsel-projectile'
+         (ivy-rich-mode . ivy-rich-project-root-cache-mode)
+         (ivy-rich-mode . (lambda ()
+                            "Use abbreviate in `ivy-rich-mode'."
+                            (setq ivy-virtual-abbreviate
+                                  (or (and ivy-rich-mode 'abbreviate) 'name)))))
+  :init
+  ;; For better performance
+  (setq ivy-rich-parse-remote-buffer nil))
 
-  ;; flx is used as the fuzzy-matching indexer backend for ivy.
-  (use-package flx
-    :after ivy))
+;; flx is used as the fuzzy-matching indexer backend for ivy.
+(use-package flx
+  :after ivy)
 
 
 (provide 'ivy-config)
