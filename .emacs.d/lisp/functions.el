@@ -355,6 +355,20 @@ Native tree-sitter is introduced since 29."
       (> (car (buffer-line-statistics)) 3000)
     (> (buffer-size) 100000)))
 
+(define-minor-mode emacs-read-mode
+  "Minor Mode for better reading experience."
+  :init-value nil
+  :group luiznux
+  (if emacs-read-mode
+      (progn
+        (and (fboundp 'olivetti-mode) (olivetti-mode 1))
+        (and (fboundp 'mixed-pitch-mode) (mixed-pitch-mode 1))
+        (text-scale-set +2))
+    (progn
+      (and (fboundp 'olivetti-mode) (olivetti-mode -1))
+      (and (fboundp 'mixed-pitch-mode) (mixed-pitch-mode -1))
+      (text-scale-set 0))))
+
 ;; define function to shutdown emacs server instance
 (defun server-shutdown ()
   "Save buffers, Quit, and Shutdown (kill) server."
