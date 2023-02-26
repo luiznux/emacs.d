@@ -87,6 +87,7 @@
 (require 'centaur-tabs-config)
 (require 'treemacs-config)
 (require 'dired-config)
+(require 'terminal-config)
 
 ;; Org and Agenda config
 (require 'org-env-config)
@@ -94,6 +95,11 @@
 (require 'org-auto-update-state)
 (require 'org-agenda-config)
 (require 'file-color-agenda)
+
+(require 'markdown-config)
+(require 'docker-config)
+(require 'reader-config)
+(require 'other-modes)
 
 ;; Programming
 (require 'git-config)
@@ -105,18 +111,11 @@
 (require 'prog-config)
 (require 'elisp-config)
 (require 'c-config)
-(require 'clojure-config)
-(require 'python-config)
 (require 'go-config)
 (require 'rust-config)
+(require 'python-config)
 (require 'dart-config)
 (require 'web-config)
-(require 'docker-config)
-(require 'player-config)
-(require 'other-modes)
-(require 'terminal-config)
-(require 'markdown-config)
-(require 'reader-config)
-
+(require 'clojure-config)
 
 ;;; init.el ends here
