@@ -126,7 +126,6 @@
                               (user-error "Cannot revert the timemachine buffer"))))))
 
 ;; Pop up last commit information of current line
-;; Pop up last commit information of current line
 (use-package git-messenger
   :bind (:map vc-prefix-map
          ("p" . git-messenger:popup-message)
