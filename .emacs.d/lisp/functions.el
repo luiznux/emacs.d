@@ -147,6 +147,20 @@ This issue has been addressed in 28."
     (user-error "The custom file doesn't exist"))
   (find-file custom-file))
 
+(defun open-folder-in-system-file-manager()
+  "Open the current folder into OS file manager.
+Create a process that jump into System's default file manager
+related with the current buffer file."
+  (interactive)
+  (let ((name "os file manager")
+        (process-connection-type nil)
+        (command (if (not sys/linuxp) "open" "xdg-open"))
+        (dir (url-file-directory buffer-file-name)))
+
+    (if (eq dir "")
+        (error "Buffer '%s' is not a file!" (buffer-name))
+      (start-process name nil command dir))))
+
 (defun rename-this-file (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
   (interactive "sNew name: ")
@@ -213,7 +227,7 @@ This issue has been addressed in 28."
 ;; Remove useless whitespace before saving a file
 (defun delete-trailing-whitespace-except-current-line ()
   "An alternative to `delete-trailing-whitespace'.
-The original function deletes trailing whitespace of the current line."
+  The original function deletes trailing whitespace of the current line."
   (interactive)
   (let ((begin (line-beginning-position))
         (end (line-end-position)))
@@ -231,7 +245,7 @@ The original function deletes trailing whitespace of the current line."
 
 (defun smart-delete-trailing-whitespace ()
   "Invoke `delete-trailing-whitespace-except-current-line';
-on selected major modes only."
+  on selected major modes only."
   (unless (member major-mode '(diff-mode))
     (delete-trailing-whitespace-except-current-line)))
 (add-hook 'before-save-hook #'smart-delete-trailing-whitespace)
@@ -283,9 +297,9 @@ on selected major modes only."
 
 (defun unpackaged/org-fix-blank-lines (&optional prefix)
   "Ensure that blank lines exist between headings.
-and between headings and their contents.
-With PREFIX, operate on whole buffer. Ensures that blank lines
-exist after each headings's drawers."
+  and between headings and their contents.
+  With PREFIX, operate on whole buffer. Ensures that blank lines
+  exist after each headings's drawers."
   (interactive "P")
   (org-map-entries (lambda ()
                      (org-with-wide-buffer
@@ -345,7 +359,7 @@ exist after each headings's drawers."
 
 (defun emacs-treesit-available-p ()
   "Check whether tree-sitter is available.
-Native tree-sitter is introduced since 29."
+  Native tree-sitter is introduced since 29."
   (and (fboundp 'treesit-available-p)
        (treesit-available-p)))
 
@@ -391,11 +405,11 @@ Native tree-sitter is introduced since 29."
   "Read the path variable from zshrc."
   (interactive)
   (let ((path (shell-command-to-string ". ~/.zshrc; echo -n $PATH")))
-    (setenv "PATH" path)
-    (setq exec-path
-          (append
-           (split-string-and-unquote path ":")
-           exec-path))))
+  (setenv "PATH" path)
+  (setq exec-path
+        (append
+         (split-string-and-unquote path ":")
+         exec-path))))
 
 (defun custom-set-variable (variable value &optional no-save)
   "Set the VARIABLE to VALUE, and return VALUE.
