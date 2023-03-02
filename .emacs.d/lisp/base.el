@@ -22,6 +22,9 @@
 (require 'custom-config)
 (require 'functions)
 
+;; Compatibility
+(use-package compat :demand t)
+
 ;; Define hooks for some sys.
 (with-no-warnings
   (cond
@@ -100,9 +103,6 @@
 
     (exec-path-from-shell-initialize)))
 
-;; Compatibility
-(use-package compat
-  :demand t)
 
 ;; Start server
 (require 'server)
@@ -302,9 +302,8 @@
 
 ;; Sqlite
 (when (fboundp 'sqlite-open)
-  (use-package emacsql-sqlite-builtin
-    :defines emacsql-sqlite-c-compilers
-    :init (setq emacsql-sqlite-c-compilers nil)))
+  (use-package emacsql-sqlite-builtin))
+
 
 (provide 'base)
 ;;; base.el ends here
