@@ -75,7 +75,9 @@
   :type '(repeat (symbol :tag "Major-Mode")))
 
 (defcustom centaur-tabs-font-size
-  (- (face-attribute 'default :height) 20)
+  (if (display-graphic-p)
+      (- (face-attribute 'default :height) 20)
+    30)
   "Font size choice for `centaur-tabs'.
 The default value in inherit from the `face-attribute' minus 20"
   :group 'luiznux
