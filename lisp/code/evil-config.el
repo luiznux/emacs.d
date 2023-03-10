@@ -31,7 +31,7 @@
 
 (use-package evil-collection
   :after evil
-  :hook(after-init . evil-collection-init)
+  :hook (after-init . evil-collection-init)
   :custom (setq evil-collection-setup-minibuffer nil))
 
 ;; dependency for evil-undo-system
@@ -42,14 +42,12 @@
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 
 (use-package evil-org
-  :after evil org
+  :after org
   :hook (org-mode . (lambda () (evil-org-mode)))
   :config
   (with-no-warnings
     (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys)
-    (evil-org-set-key-theme
-     '(textobjects insert navigation additional shift todo heading))))
+    (evil-org-agenda-set-keys)))
 
 (use-package evil-goggles
   :hook (after-init . evil-goggles-mode)
