@@ -18,11 +18,7 @@
 ;;
 ;;; Code:
 
-(require 'org)
-(require 'org-agenda)
-(require 'org-capture)
 (require 'custom-config)
-
 
 (defconst luiznux-personal-agenda
   (concat emacs-org-directory "/personal/"))

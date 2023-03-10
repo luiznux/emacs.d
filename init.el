@@ -90,11 +90,8 @@
 (require 'terminal-config)
 
 ;; Org and Agenda config
-(require 'org-env-config)
 (require 'org-mode-config)
-(require 'org-auto-update-state)
 (require 'org-agenda-config)
-(require 'file-color-agenda)
 
 (require 'markdown-config)
 (require 'docker-config)

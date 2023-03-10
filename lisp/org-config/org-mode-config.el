@@ -18,7 +18,12 @@
 ;;; Code:
 
 (require 'constants)
+(require 'custom-config)
 (require 'functions)
+(require 'org-auto-update-state)
+
+(require 'file-color-agenda)
+(require 'org-env-config)
 
 (use-package org
   :ensure nil
@@ -322,8 +327,6 @@ prepended to the element after the #+HEADER: tag."
 
   (use-package ftable)
   (use-package org-web-tools)
-  (use-package org-alert)
-  (use-package org-ql)
 
   (use-package org-treeusage
     :custom
@@ -388,9 +391,6 @@ prepended to the element after the #+HEADER: tag."
     (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING" "MEETING")
           org-wild-notifier-notification-title   "Agenda 📅"))
 
-  (use-package org-edna
-    :hook (org-mode . org-edna-mode))
-
   (use-package org-gcal
     :if (file-exists-p "~/org/org-api.el")
     :defines luiznux-client-id luiznux-client-secret
@@ -430,8 +430,9 @@ prepended to the element after the #+HEADER: tag."
            (("C-c n j" . org-roam-dailies-capture-today)
             ("C-c n I" . org-roam-node-insert-immediate)
             ("C-c n d" . org-roam-dailies-map)))
+
     :init
-    (setq org-roam-directory              (file-truename emacs-org-roam-directory)
+    (setq org-roam-directory (file-truename emacs-org-roam-directory)
           org-roam-node-display-template  (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
           org-roam-dailies-directory      "journal/"
           org-roam-v2-ack                 t
@@ -448,6 +449,9 @@ prepended to the element after the #+HEADER: tag."
                                                             "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+DATE: %u\n#+EMAIL: %(get-user-email)\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n\n\n")
                                         :unnarrowed t)))
     :config
+    (unless (file-exists-p emacs-org-roam-directory)
+      (make-directory emacs-org-roam-directory))
+
     ;; Bind this to C-c n I
     (defun org-roam-node-insert-immediate (arg &rest args)
       (interactive "P")
