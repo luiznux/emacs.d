@@ -541,7 +541,6 @@
     (set-char-table-parent composition-ligature-table composition-function-table)))
 
 (use-package font-utils)
-(use-package fontawesome)
 (use-package latex-preview-pane)
 (use-package math-preview)
 
