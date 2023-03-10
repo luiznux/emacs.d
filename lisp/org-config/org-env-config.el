@@ -25,13 +25,13 @@
 
 
 (defconst luiznux-personal-agenda
-  (concat org-directory "/personal/"))
+  (concat emacs-org-directory "/personal/"))
 
 (defconst luiznux-work-agenda
-  (concat org-directory "/work/work.org"))
+  (concat emacs-org-directory "/work/work.org"))
 
 (defconst luiznux-general-agenda
-  (concat org-directory "/agenda/"))
+  (concat emacs-org-directory "/agenda/"))
 
 (defconst luiznux-birthday-agenda
   (concat luiznux-general-agenda "birthdays.org"))

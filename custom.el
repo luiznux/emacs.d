@@ -19,7 +19,8 @@
 
 ;;(setq doom-modeline-font-size value)
 ;;(setq centaur-tabs-font-size  value)
-;;(setq fancy-modeline          nil)
+;;(setq open-agenda-with-dashboard t)
+;;(setq fancy-modeline t)
 
 (defun setup-fonts ()
   "Set default fonts."

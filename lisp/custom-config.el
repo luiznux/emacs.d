@@ -90,11 +90,26 @@ The default value in inherit from the `face-attribute' minus 20"
   :group 'luiznux
   :type 'int)
 
-(defcustom fancy-modeline t
+(defcustom fancy-modeline nil
   "Enable fancy stuffs in mode line or not.
 Like `nyan-mode' and `parrot-mode'"
   :group 'luiznux
   :type 'boolean)
+
+(defcustom open-agenda-with-dashboard nil
+  "Enable open `org-agenda' on right of `dashboard'."
+  :group 'luiznux
+  :type 'boolean)
+
+(defcustom emacs-org-directory (expand-file-name "~/org")
+  "Set org directory."
+  :group 'luiznux
+  :type 'string)
+
+(defcustom emacs-org-roam-directory (expand-file-name "~/org/roam")
+  "Set org roam directory."
+  :group 'luiznux
+  :type 'string)
 
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist

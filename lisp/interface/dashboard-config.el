@@ -58,7 +58,9 @@
          ("U" . update-packages)
          ("q" . quit-dashboard)
          ("?" . dashboard-hydra/body))
-  :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)))
+  :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)
+                            (when open-agenda-with-dashboard
+                              (open-agenda-on-right-buffer))))
   :init
   (setq dashboard-startup-banner       (or luiznux-logo 'logo)
         dashboard-show-shortcuts       nil
@@ -87,8 +89,6 @@
                                           (,(all-the-icons-faicon "plus" :height 1.2 :v-adjust -0.1)
                                            "" "New Tab"
                                            (lambda (&rest _) (centaur-tabs--create-new-tab))))))
-
-  (add-hook 'dashboard-mode-hook  #'(lambda () (open-agenda-on-right-buffer)))
   (dashboard-setup-startup-hook)
 
   :config

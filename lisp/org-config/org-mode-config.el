@@ -70,11 +70,11 @@
          ("C-c L" . 'org-store-link)
          :map org-mode-map
          ("C-c c <" . (lambda ()
-                  "Insert org template."
-                  (interactive)
-                  (if (or (region-active-p) (looking-back "^\s*" 1))
-                      (org-hydra/body)
-                    (self-insert-command 1)))))
+                        "Insert org template."
+                        (interactive)
+                        (if (or (region-active-p) (looking-back "^\s*" 1))
+                            (org-hydra/body)
+                          (self-insert-command 1)))))
 
   :hook
   (((org-babel-after-execute org-mode)  . org-redisplay-inline-images) ; display image after execute.
@@ -90,9 +90,9 @@
                         (make-variable-buffer-local 'show-paren-mode)
                         (setq show-paren-mode nil))))
 
-  :init
-  (setq org-directory                     "~/org"
-        org-catch-invisible-edits         'smart
+  :config
+  (setq org-directory                      emacs-org-directory
+        org-catch-invisible-edits          'smart
         org-pretty-entities                nil
         org-hide-emphasis-markers          t
         org-startup-indented               t
@@ -174,7 +174,6 @@
         org-refile-use-outline-path             'file
         org-outline-path-complete-in-steps      nil)
 
-  :config
   ;; For hydra
   (defun hot-expand (str &optional mod)
     "Expand org template.
@@ -419,19 +418,8 @@ prepended to the element after the #+HEADER: tag."
 
   (use-package org-roam
     :diminish
-    :custom
-    (org-roam-directory (file-truename "~/org/roam/"))
-
-    (org-roam-capture-templates
-     '(("d" "default" plain "%?"
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-        :unnarrowed t)
-
-       ("c" "custom-luiznux" plain ""
-        :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org"
-                            "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+DATE: %u\n#+EMAIL: %(get-user-email)\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n\n\n")
-        :unnarrowed t)))
-
+    :defines org-roam-graph-viewer
+    :hook (before-save . time-stamp)
     :bind ((("C-c n l" . org-roam-buffer-toggle)
             ("C-c n f" . org-roam-node-find)
             ("C-c n g" . org-roam-graph)
@@ -442,15 +430,23 @@ prepended to the element after the #+HEADER: tag."
            (("C-c n j" . org-roam-dailies-capture-today)
             ("C-c n I" . org-roam-node-insert-immediate)
             ("C-c n d" . org-roam-dailies-map)))
-
     :init
-    (setq org-roam-node-display-template  (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
+    (setq org-roam-directory              (file-truename emacs-org-roam-directory)
+          org-roam-node-display-template  (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
           org-roam-dailies-directory      "journal/"
           org-roam-v2-ack                 t
           org-roam-graph-viewer           (if (featurep 'xwidget-internal)
                                               #'xwidget-webkit-browse-url
                                             #'browse-url))
-    (add-hook 'before-save-hook 'time-stamp)
+
+    (setq org-roam-capture-templates '(("d" "default" plain "%?"
+                                        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+                                        :unnarrowed t)
+
+                                       ("c" "custom-luiznux" plain ""
+                                        :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org"
+                                                            "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+DATE: %u\n#+EMAIL: %(get-user-email)\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n\n\n")
+                                        :unnarrowed t)))
     :config
     ;; Bind this to C-c n I
     (defun org-roam-node-insert-immediate (arg &rest args)
