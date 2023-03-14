@@ -111,11 +111,6 @@
               (executable-find "jshint"))
       (setq js2-mode-show-strict-warnings nil))))
 
-(use-package js2-refactor
-  :diminish
-  :hook (js2-mode . js2-refactor-mode)
-  :config (js2r-add-keybindings-with-prefix "C-c C-m"))
-
 ;; Format HTML, CSS and JavaScript/JSON
 ;; Install: npm -g install prettier
 (when (executable-find "prettier")
@@ -124,12 +119,12 @@
     :hook ((js-mode js2-mode css-mode sgml-mode web-mode) . prettier-mode)
     :init (setq prettier-pre-warm 'none)))
 
+;; Live browser JavaScript, CSS, and HTML interaction
 (use-package skewer-mode
   :diminish
-  :hook (((js-mode js2-mode) . skewer-mode)
-         (css-mode           . skewer-css-mode)
-         (web-mode           . skewer-html-mode)
-         (html-mode          . skewer-html-mode))
+  :hook (((js-mode js2-mode)   . skewer-mode)
+         (css-mode             . skewer-css-mode)
+         ((html-mode web-mode) . skewer-html-mode))
   :init
   ;; diminish
   (with-eval-after-load 'skewer-css
@@ -140,30 +135,23 @@
 (use-package typescript-mode
   :mode ("\\.ts[x]\\'" . typescript-mode))
 
+;; Run Mocha or Jasmine tests
+(use-package mocha
+  :config (use-package mocha-snippets))
+
+;; Major mode for editing web templates
 (use-package web-mode
   :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\|vue\\)$"
   :config
-  (setq web-mode-enable-current-column-highlight  t
-        web-mode-markup-indent-offset             4
-        web-mode-css-indent-offset                2
-        web-mode-code-indent-offset               2
-        web-mode-enable-auto-pairing              t))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
 
-(use-package auto-rename-tag
-  :config
-  (add-hook 'html-mode-hook #'auto-rename-tag-mode))
+;; Adds node_modules/.bin directory to `exec_path'
+(use-package add-node-modules-path
+  :hook ((web-mode js-mode js2-mode) . add-node-modules-path))
 
-(use-package impatient-mode
-  :config
-  (defun impatien-start ()
-    "Start http and impatient mode"
-    (interactive)
-    (httpd-start) (impatient-mode))
-
-  (defun impatient-browse ()
-    "Jump to browser and show impatients buffer files"
-    (interactive)
-    (browse-url  "http://localhost:8080/imp/")))
+(use-package haml-mode)
 
 ;; REST
 (use-package restclient
@@ -172,20 +160,14 @@
   (use-package restclient-test
     :diminish
     :hook (restclient-mode . restclient-test-mode))
+
   (with-eval-after-load 'company
     (use-package company-restclient
       :defines company-backends
       :init (add-to-list 'company-backends 'company-restclient))))
 
-(use-package yaml-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
-
-;; Adds node_modules/.bin directory to `exec_path'
-(use-package add-node-modules-path
-  :hook ((web-mode js-mode js2-mode) . add-node-modules-path))
-
-(use-package htmlize)
+;; YAML mode
+(use-package yaml-mode)
 
 
 (provide 'web-config)
