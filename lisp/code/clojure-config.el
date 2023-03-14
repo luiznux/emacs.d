@@ -19,7 +19,7 @@
 
 (use-package cider
   :hook ((cider-repl-mode . cider-company-enable-fuzzy-completion)
-         (cider-mode      .  cider-company-enable-fuzzy-completion)
+         (cider-mode      . cider-company-enable-fuzzy-completion)
          (cider-test-report-mode . jcf-soft-wrap))
   :config
   (setq cider-repl-pop-to-buffer-on-connect      'nil ;;display-only
@@ -31,24 +31,23 @@
         cider-repl-buffer-size-limit             100000
         cider-repl-history-size                  1000))
 
-(use-package dizzee
-  :config
-  (dz-defservice jcf-lein-headless
-                 "lein"
-                 :cd "~/"
-                 :args ("repl" ":headless"))
+(when (executable-find "lein")
+  (use-package dizzee
+    :config
+    (dz-defservice jcf-lein-headless
+                   "lein"
+                   :cd "~/"
+                   :args ("repl" ":headless"))
 
-  (dz-defservice jcf-lein-datomic
-                 "lein"
-                 :args ("datomic")))
+    (dz-defservice jcf-lein-datomic
+                   "lein"
+                   :args ("datomic"))))
 
 (use-package clj-refactor
-  :config
-  (setq cljr-hotload-dependencies t))
+  :hook (clojure-mode . clj-refactor-mode))
 
 (use-package eros
-  :config
-  (eros-mode 1))
+  :hook (clojure-mode . eros-mode))
 
 (use-package clojure-snippets)
 (use-package inf-clojure)
