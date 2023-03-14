@@ -33,9 +33,10 @@
   :hook (after-init . show-paren-mode)
   :init
   (setq show-paren-when-point-inside-paren t
-        show-paren-when-point-in-periphery t
-        show-paren-highlight-openparen     t
-        show-paren-style                   'paren))
+        show-paren-when-point-in-periphery t)
+
+  (when emacs/>=29p
+    (setq show-paren-context-when-offscreen  'overlay)))
 
 ;; Highlight symbols
 (use-package symbol-overlay
@@ -86,7 +87,8 @@
                                      (highlight-indent-guides-mode 1))))
   :init (setq highlight-indent-guides-method 'character
               highlight-indent-guides-responsive 'top
-              highlight-indent-guides-suppress-auto-error t)
+              highlight-indent-guides-suppress-auto-error t
+              highlight-indent-guides-auto-character-face-perc 120)
   :config
   (with-no-warnings
     ;; Disable in `macrostep' expanding
