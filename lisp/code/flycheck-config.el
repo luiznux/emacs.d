@@ -108,7 +108,7 @@
 
 (use-package flyspell-correct
   :after flyspell
-  :bind ("C-c f" . flyspell-correct-at-point))
+  :bind ("C-," . flyspell-correct-at-point))
 
 (use-package flyspell-correct-popup
   :after flyspell-correct
