@@ -72,30 +72,29 @@
 (require 'hydra-config)
 (require 'interface)
 (require 'edit-config)
+(require 'evil-config)
 (require 'ivy-config)
 (require 'company-config)
-(require 'window-config)
-(require 'ibuffer-config)
+
+(require 'bookmark-config)
+(require 'dashboard-config)
+(require 'dired-config)
 (require 'highlight-config)
+(require 'ibuffer-config)
 (require 'kill-ring-config)
 (require 'persp-config)
-(require 'evil-config)
-(require 'bookmark-config)
-
-;; Visual
-(require 'dashboard-config)
-(require 'centaur-tabs-config)
+(require 'window-config)
 (require 'treemacs-config)
-(require 'dired-config)
+(require 'centaur-tabs-config)
 (require 'terminal-config)
+(require 'markdown-config)
 
 ;; Org and Agenda config
 (require 'org-mode-config)
 (require 'org-agenda-config)
 
-(require 'markdown-config)
-(require 'docker-config)
 (require 'reader-config)
+(require 'docker-config)
 (require 'other-modes)
 
 ;; Programming
@@ -107,12 +106,13 @@
 
 (require 'prog-config)
 (require 'elisp-config)
+(require 'clojure-config)
 (require 'c-config)
 (require 'go-config)
 (require 'rust-config)
 (require 'python-config)
 (require 'dart-config)
 (require 'web-config)
-(require 'clojure-config)
+
 
 ;;; init.el ends here
