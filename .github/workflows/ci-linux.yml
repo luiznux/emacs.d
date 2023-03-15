@@ -1,4 +1,4 @@
-name: CI
+name: CI Linux
 
 on:
     push:
@@ -35,10 +35,11 @@ jobs:
               run: |
                   export HOME="/home/runner/work/.emacs.d"; \
                   mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40; \
+                  mkdir -p $HOME/org/{agenda,work,personal,roam}; \
                   emacs -q --batch \
                   --eval "(message \"Testing...\")" \
                   --eval "(let ((early-init-file (locate-user-emacs-file \"early-init.el\"))
                                 (user-init-file (locate-user-emacs-file \"init.el\")))
                             (and (>= emacs-major-version 27) (load early-init-file))
-                            (load user-init-file))" \
+                            (run-with-timer 30 nil (lambda () (setq gc-cons-threshold  500000000))) (load user-init-file))" \
                   --eval "(message \"Testing...done\")"
