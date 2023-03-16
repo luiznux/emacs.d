@@ -33,7 +33,6 @@ jobs:
 
             - name: test
               run: |
-                  export HOME="~/work"; \
                   mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40; \
                   mkdir -p $HOME/org/{agenda,work,personal,roam}; \
                   emacs -q --batch \
@@ -70,7 +69,6 @@ jobs:
 
             - name: test
               run: |
-                  export HOME="~/work"; \
                   mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40; \
                   mkdir -p $HOME/org/{agenda,work,personal,roam}; \
                   emacs -q --batch \
