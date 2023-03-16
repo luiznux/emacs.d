@@ -41,5 +41,7 @@ jobs:
                   --eval "(let ((early-init-file (locate-user-emacs-file \"early-init.el\"))
                                 (user-init-file (locate-user-emacs-file \"init.el\")))
                             (and (>= emacs-major-version 27) (load early-init-file))
-                            (run-with-timer 30 nil (lambda () (setq gc-cons-threshold  100000000))) (load user-init-file))" \
+                            (run-with-timer 30 nil (lambda () (setq gc-cons-threshold  500000000))) \
+                            (setq debug-on-error t) \
+                            (load user-init-file))" \
                   --eval "(message \"Testing...done\")"
