@@ -9,7 +9,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    ci-linux:
+    linux:
         runs-on: ubuntu-latest
         continue-on-error: ${{ matrix.experimental }}
         strategy:
@@ -33,7 +33,7 @@ jobs:
 
             - name: test
               run: |
-                  export HOME="~/work/.emacs.d"; \
+                  export HOME="~/work"; \
                   mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40; \
                   mkdir -p $HOME/org/{agenda,work,personal,roam}; \
                   emacs -q --batch \
@@ -46,7 +46,7 @@ jobs:
                             (load user-init-file))" \
                   --eval "(message \"Testing...done\")"
 
-    ci-macos:
+    macos:
         runs-on: macos-latest
         continue-on-error: ${{ matrix.experimental }}
         strategy:
@@ -70,7 +70,7 @@ jobs:
 
             - name: test
               run: |
-                  export HOME="~/work/.emacs.d"; \
+                  export HOME="~/work"; \
                   mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40; \
                   mkdir -p $HOME/org/{agenda,work,personal,roam}; \
                   emacs -q --batch \
