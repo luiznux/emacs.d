@@ -1,4 +1,4 @@
-name: CI
+name: Ci
 
 on:
     push:
@@ -9,7 +9,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    linux:
+    Linux:
         runs-on: ubuntu-latest
         continue-on-error: ${{ matrix.experimental }}
         strategy:
@@ -46,7 +46,7 @@ jobs:
                             (load user-init-file))" \
                   --eval "(message \"Testing...done\")"
 
-    macos:
+    MacOs:
         runs-on: macos-latest
         continue-on-error: ${{ matrix.experimental }}
         strategy:
