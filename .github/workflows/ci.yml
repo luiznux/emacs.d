@@ -1,4 +1,4 @@
-name: CI MacOs
+name: CI
 
 on:
     push:
@@ -10,11 +10,12 @@ concurrency:
 
 jobs:
     test:
-        runs-on: macos-latest
+        runs-on: ${{ matrix.os }}
         continue-on-error: ${{ matrix.experimental }}
         strategy:
             fail-fast: false
             matrix:
+                os: [ubuntu-latest, macos-latest]
                 emacs-version: [27.2, 28.2]
                 experimental: [false]
                 include:
@@ -33,7 +34,7 @@ jobs:
 
             - name: test
               run: |
-                  export HOME="/Users/runner/work/.emacs.d"; \
+                  export HOME="~/work/.emacs.d"; \
                   mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40; \
                   mkdir -p $HOME/org/{agenda,work,personal,roam}; \
                   emacs -q --batch \
