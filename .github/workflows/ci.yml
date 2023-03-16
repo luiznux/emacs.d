@@ -9,7 +9,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    Linux:
+    linux:
         runs-on: ubuntu-latest
         continue-on-error: ${{ matrix.experimental }}
         strategy:
@@ -46,7 +46,7 @@ jobs:
                             (load user-init-file))" \
                   --eval "(message \"Testing...done\")"
 
-    MacOs:
+    macos:
         runs-on: macos-latest
         continue-on-error: ${{ matrix.experimental }}
         strategy:
