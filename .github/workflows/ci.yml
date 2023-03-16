@@ -33,6 +33,7 @@ jobs:
 
             - name: test
               run: |
+                  export HOME="/home/runner/work/.emacs.d"; \
                   mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40; \
                   mkdir -p $HOME/org/{agenda,work,personal,roam}; \
                   emacs -q --batch \
@@ -69,9 +70,9 @@ jobs:
 
             - name: test
               run: |
+                  export HOME="/Users/runner/work/.emacs.d"; \
                   mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40; \
                   mkdir -p $HOME/org/{agenda,work,personal,roam}; \
-                  cd ~/.emacs.d \
                   emacs -q --batch \
                   --eval "(message \"Testing...\")" \
                   --eval "(let ((early-init-file (locate-user-emacs-file \"early-init.el\"))
