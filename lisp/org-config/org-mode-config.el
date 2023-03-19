@@ -271,9 +271,6 @@ prepended to the element after the #+HEADER: tag."
 ;;; Org Packages
 ;;;
 
-  (use-package org-bullets
-    :hook (org-mode . (lambda () (org-bullets-mode 1))))
-
   (use-package org-download
     :hook (dired-mode . org-download-enable))
 
@@ -345,6 +342,7 @@ prepended to the element after the #+HEADER: tag."
             (variable . "revealjs-url=https://revealjs.com"))))
 
   (use-package org-superstar
+    :if (and (display-graphic-p) (char-displayable-p ?◉))
     :hook (org-mode . org-superstar-mode)
     :init
     (setq org-superstar-special-todo-items t)

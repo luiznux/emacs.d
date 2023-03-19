@@ -84,7 +84,9 @@ The default value in inherit from the `face-attribute' minus 20"
   :type 'int)
 
 (defcustom doom-modeline-font-size
-  (- (face-attribute 'default :height) 15)
+  (if (display-graphic-p)
+      (- (face-attribute 'default :height) 15)
+    20)
   "Font size choice for `doom-modeline'.
 The default value in inherit from the `face-attribute' minus 20"
   :group 'luiznux
@@ -98,6 +100,11 @@ Like `nyan-mode' and `parrot-mode'"
 
 (defcustom open-agenda-with-dashboard nil
   "Enable open `org-agenda' on right of `dashboard'."
+  :group 'luiznux
+  :type 'boolean)
+
+(defcustom emacs-icon (or (display-graphic-p) (daemonp))
+  "Display icons or not."
   :group 'luiznux
   :type 'boolean)
 

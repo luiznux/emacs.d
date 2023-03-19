@@ -32,7 +32,8 @@
      ("H" browse-homepage "homepage" :exit t)
      ("R" restore-previous-session "recover session" :exit t)
      ("L" restore-session "list sessions" :exit t)
-     ("S" open-custom-file "settings" :exit t))
+     ("S" open-custom-file "settings" :exit t)
+     ("N" centaur-tabs--create-new-tab "create new tab" :exit t))
     "Section"
     (("}" dashboard-next-section "next")
      ("{" dashboard-previous-section "previous")
@@ -52,42 +53,43 @@
      ("Q" quit-dashboard "quit" :exit t))))
   :bind (("<f2>" . open-dashboard)
          :map dashboard-mode-map
-         ("R" . restore-previous-session)
-         ("L" . restore-session)
-         ("S" . open-custom-file)
-         ("U" . update-packages)
-         ("q" . quit-dashboard)
-         ("?" . dashboard-hydra/body))
+         ("S-<f2>" . dashboard-hydra/body)
+         ("R"      . restore-previous-session)
+         ("L"      . restore-session)
+         ("S"      . open-custom-file)
+         ("U"      . update-packages)
+         ("N"      . centaur-tabs--create-new-tab)
+         ("q"      . quit-dashboard))
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)
                             (when open-agenda-with-dashboard
                               (open-agenda-on-right-buffer))))
   :init
   (setq dashboard-startup-banner       (or luiznux-logo 'logo)
         dashboard-show-shortcuts       nil
-        dashboard-set-heading-icons    t
-        dashboard-set-file-icons       t
+        dashboard-set-heading-icons    emacs-icon
+        dashboard-set-file-icons       emacs-icon
         dashboard-set-init-info        t
         dashboard-items                '((recents   . 10) (projects  . 5))
         dashboard-set-navigator        t
         dashboard-navigator-buttons    `(;;line1
-                                         ((,(all-the-icons-octicon "mark-github" :height 1.0 :v-adjust 0.0)
+                                         ((,(when (icon-displayable-p)
+                                              (all-the-icons-octicon "mark-github" :height 1.0 :v-adjust 0.0))
                                            "Github" "My Github"
                                            (lambda (&rest _) (browse-url "https://luiznux.com")))
 
-                                          (,(all-the-icons-octicon "tools" :height 1.0 :v-adjust -0.1)
+                                          (,(when (icon-displayable-p)
+                                              (all-the-icons-material "restore" :height 1.35 :v-adjust -0.24))
+                                           "Restore" "Restore previous session"
+                                           (lambda (&rest _) (restore-previous-session)))
+
+                                          (,(when (icon-displayable-p)
+                                              (all-the-icons-octicon "tools" :height 1.0 :v-adjust -0.1))
                                            "Config" "Open custom file"
                                            (lambda (&rest _) (find-file custom-file)))
 
-                                          (,(all-the-icons-material "restore" :height 1.35 :v-adjust -0.24)
-                                           "" "Restore previous session"
-                                           (lambda (&rest _) (restore-previous-session)))
-
-                                          (,(all-the-icons-faicon "refresh" :height 1.2 :v-adjust -0.1)
-                                           "" "Refresh Dashboard"
-                                           (lambda (&rest _) (dashboard-refresh-buffer)))
-
-                                          (,(all-the-icons-faicon "plus" :height 1.2 :v-adjust -0.1)
-                                           "" "New Tab"
+                                          (,(when (icon-displayable-p)
+                                              (all-the-icons-faicon "plus" :height 1.2 :v-adjust -0.1))
+                                           "New Tab" "New Tab"
                                            (lambda (&rest _) (centaur-tabs--create-new-tab))))))
   (dashboard-setup-startup-hook)
 

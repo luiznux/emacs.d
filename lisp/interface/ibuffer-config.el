@@ -16,6 +16,7 @@
 ;;; Code:
 
 (require 'constants)
+(require 'functions)
 
 
 (use-package ibuffer
@@ -26,7 +27,7 @@
   ;; Display icons for buffers
   (use-package all-the-icons-ibuffer
     :hook (ibuffer-mode . all-the-icons-ibuffer-mode)
-    :init (setq all-the-icons-ibuffer-icon t))
+    :init (setq all-the-icons-ibuffer-icon emacs-icon))
 
   (with-eval-after-load 'counsel
     (with-no-warnings
@@ -49,12 +50,14 @@
                         (ibuffer-do-sort-by-alphabetic)))))
   :config
   (setq ibuffer-projectile-prefix
-        (concat
-         (all-the-icons-octicon "file-directory"
-                                :face ibuffer-filter-group-name-face
-                                :v-adjust 0.0
-                                :height 1.0)
-         " ")))
+        (if (icon-displayable-p)
+            (concat
+             (all-the-icons-octicon "file-directory"
+                                    :face ibuffer-filter-group-name-face
+                                    :v-adjust 0.0
+                                    :height 1.0)
+             " ")
+          "Project: ")))
 
 
 (provide 'ibuffer-config)

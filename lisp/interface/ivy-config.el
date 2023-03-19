@@ -502,6 +502,7 @@
 ;; Enable it before`ivy-rich-mode' for better performance
 (use-package all-the-icons-ivy-rich
   :hook (ivy-mode . all-the-icons-ivy-rich-mode)
+  :init (setq all-the-icons-ivy-rich-icon emacs-icon)
   :config
   (plist-put all-the-icons-ivy-rich-display-transformers-list
              'load-theme

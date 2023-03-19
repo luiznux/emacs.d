@@ -41,13 +41,15 @@
                                      ((file-directory-p location)
                                       (propertize (format fmt "DIRED") 'face 'warning))
                                      (t (propertize (format fmt "FILE") 'face 'success)))))
-                 (icon       (cond
-                              ((file-remote-p location)
-                               (all-the-icons-octicon "radio-tower" :height 0.8 :v-adjust 0.0))
-                              ((file-directory-p location)
-                               (all-the-icons-icon-for-dir location :height 0.9 :v-adjust 0.01))
-                              ((not (string-empty-p file))
-                               (all-the-icons-icon-for-file file :height 0.9 :v-adjust 0.0)))))
+                 (icon       (if (icon-displayable-p)
+                                 (cond
+                                  ((file-remote-p location)
+                                   (all-the-icons-octicon "radio-tower" :height 0.8 :v-adjust 0.0))
+                                  ((file-directory-p location)
+                                   (all-the-icons-icon-for-dir location :height 0.9 :v-adjust 0.01))
+                                  ((not (string-empty-p file))
+                                   (all-the-icons-icon-for-file file :height 0.9 :v-adjust 0.0)))
+                               "")))
             (push (list
                    full-record
                    `[,(if (and annotation (not (string-equal annotation "")))
@@ -89,7 +91,7 @@ deletion, or > if it is flagged for displaying."
       (setq buffer-read-only t)
       (setq tabulated-list-format
             `[("" 1) ;; Space to add "*" for bookmark with annotation
-              ("" ,2 ) ;; Icons
+              ("" ,(if (icon-displayable-p) 2 0)) ;; Icons
               ("Bookmark" ,bookmark-bmenu-file-column bookmark-bmenu--name-predicate)
               ("Type" 9)
               ,@(if bookmark-bmenu-toggle-filenames

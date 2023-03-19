@@ -43,6 +43,7 @@
         treemacs-sorting                       'alphabetic-asc
         treemacs-follow-after-init             t
         treemacs-width                         30
+        treemacs-no-png-images                 (not emacs-icon)
         ;;treemacs-text-scale                    -1
         treemacs-recenter-after-project-expand 'on-distance)
 

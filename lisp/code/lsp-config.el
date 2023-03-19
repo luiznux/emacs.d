@@ -98,18 +98,15 @@
 
     ;; Only display icons in GUI
     (defun my-lsp-icons-get-symbol-kind (fn &rest args)
-      (when (display-graphic-p)
-        (apply fn args)))
+      (and (icon-displayable-p) (apply fn args)))
     (advice-add #'lsp-icons-get-by-symbol-kind :around #'my-lsp-icons-get-symbol-kind)
 
     (defun my-lsp-icons-get-by-file-ext (fn &rest args)
-      (when (display-graphic-p)
-        (apply fn args)))
+      (and (icon-displayable-p) (apply fn args)))
     (advice-add #'lsp-icons-get-by-file-ext :around #'my-lsp-icons-get-by-file-ext)
 
     (defun my-lsp-icons-all-the-icons-material-icon (icon-name face fallback &optional feature)
-      (if (and (display-graphic-p)
-               (functionp 'all-the-icons-material)
+      (if (and (icon-displayable-p)
                (lsp-icons--enabled-for-feature feature))
           (all-the-icons-material icon-name
                                   :face face)
@@ -245,49 +242,50 @@
          ("C-s-." . lsp-ivy-global-workspace-symbol))
   :config
   (with-no-warnings
-    (defconst lsp-ivy-symbol-kind-icons
-      `(,(all-the-icons-material "find_in_page" :height 0.9 :v-adjust -0.15) ; Unknown - 0
-        ,(all-the-icons-faicon "file-o" :height 0.9 :v-adjust -0.02) ; File - 1
-        ,(all-the-icons-material "view_module" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Module - 2
-        ,(all-the-icons-material "view_module" :height 0.95 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Namespace - 3
-        ,(all-the-icons-octicon "package" :height 0.9 :v-adjust -0.15) ; Package - 4
-        ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Class - 5
-        ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Method - 6
-        ,(all-the-icons-faicon "wrench" :height 0.8 :v-adjust -0.02) ; Property - 7
-        ,(all-the-icons-octicon "tag" :height 0.95 :v-adjust 0 :face 'all-the-icons-lblue) ; Field - 8
-        ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-lpurple) ; Constructor - 9
-        ,(all-the-icons-material "storage" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Enum - 10
-        ,(all-the-icons-material "share" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Interface - 11
-        ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Function - 12
-        ,(all-the-icons-octicon "tag" :height 0.95 :v-adjust 0 :face 'all-the-icons-lblue) ; Variable - 13
-        ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Constant - 14
-        ,(all-the-icons-faicon "text-width" :height 0.9 :v-adjust -0.02) ; String - 15
-        ,(all-the-icons-material "format_list_numbered" :height 0.95 :v-adjust -0.15) ; Number - 16
-        ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0 :face 'all-the-icons-lblue) ; Boolean - 17
-        ,(all-the-icons-material "view_array" :height 0.95 :v-adjust -0.15) ; Array - 18
-        ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0 :face 'all-the-icons-blue) ; Object - 19
-        ,(all-the-icons-faicon "key" :height 0.9 :v-adjust -0.02) ; Key - 20
-        ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0) ; Null - 21
-        ,(all-the-icons-material "format_align_right" :height 0.95 :v-adjust -0.15 :face 'all-the-icons-lblue) ; EnumMember - 22
-        ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Struct - 23
-        ,(all-the-icons-octicon "zap" :height 0.9 :v-adjust 0 :face 'all-the-icons-orange) ; Event - 24
-        ,(all-the-icons-material "control_point" :height 0.9 :v-adjust -0.15) ; Operator - 25
-        ,(all-the-icons-faicon "arrows" :height 0.9 :v-adjust -0.02) ; TypeParameter - 26
-        ))
+    (when (icon-displayable-p)
+      (defconst lsp-ivy-symbol-kind-icons
+        `(,(all-the-icons-material "find_in_page" :height 0.9 :v-adjust -0.15) ; Unknown - 0
+          ,(all-the-icons-faicon "file-o" :height 0.9 :v-adjust -0.02) ; File - 1
+          ,(all-the-icons-material "view_module" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Module - 2
+          ,(all-the-icons-material "view_module" :height 0.95 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Namespace - 3
+          ,(all-the-icons-octicon "package" :height 0.9 :v-adjust -0.15) ; Package - 4
+          ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Class - 5
+          ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Method - 6
+          ,(all-the-icons-faicon "wrench" :height 0.8 :v-adjust -0.02) ; Property - 7
+          ,(all-the-icons-octicon "tag" :height 0.95 :v-adjust 0 :face 'all-the-icons-lblue) ; Field - 8
+          ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-lpurple) ; Constructor - 9
+          ,(all-the-icons-material "storage" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Enum - 10
+          ,(all-the-icons-material "share" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Interface - 11
+          ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Function - 12
+          ,(all-the-icons-octicon "tag" :height 0.95 :v-adjust 0 :face 'all-the-icons-lblue) ; Variable - 13
+          ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Constant - 14
+          ,(all-the-icons-faicon "text-width" :height 0.9 :v-adjust -0.02) ; String - 15
+          ,(all-the-icons-material "format_list_numbered" :height 0.95 :v-adjust -0.15) ; Number - 16
+          ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0 :face 'all-the-icons-lblue) ; Boolean - 17
+          ,(all-the-icons-material "view_array" :height 0.95 :v-adjust -0.15) ; Array - 18
+          ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0 :face 'all-the-icons-blue) ; Object - 19
+          ,(all-the-icons-faicon "key" :height 0.9 :v-adjust -0.02) ; Key - 20
+          ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0) ; Null - 21
+          ,(all-the-icons-material "format_align_right" :height 0.95 :v-adjust -0.15 :face 'all-the-icons-lblue) ; EnumMember - 22
+          ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Struct - 23
+          ,(all-the-icons-octicon "zap" :height 0.9 :v-adjust 0 :face 'all-the-icons-orange) ; Event - 24
+          ,(all-the-icons-material "control_point" :height 0.9 :v-adjust -0.15) ; Operator - 25
+          ,(all-the-icons-faicon "arrows" :height 0.9 :v-adjust -0.02) ; TypeParameter - 26
+          ))
 
-    (lsp-defun my-lsp-ivy--format-symbol-match
-      ((sym &as &SymbolInformation :kind :location (&Location :uri))
-       project-root)
-      "Convert the match returned by `lsp-mode` into a candidate string."
-      (let* ((sanitized-kind (if (length> lsp-ivy-symbol-kind-icons kind) kind 0))
-             (type (elt lsp-ivy-symbol-kind-icons sanitized-kind))
-             (typestr (if lsp-ivy-show-symbol-kind (format "%s " type) ""))
-             (pathstr (if lsp-ivy-show-symbol-filename
-                          (propertize (format " · %s" (file-relative-name (lsp--uri-to-path uri) project-root))
-                                      'face font-lock-comment-face)
-                        "")))
-        (concat typestr (lsp-render-symbol-information sym ".") pathstr)))
-    (advice-add #'lsp-ivy--format-symbol-match :override #'my-lsp-ivy--format-symbol-match)))
+      (lsp-defun my-lsp-ivy--format-symbol-match
+        ((sym &as &SymbolInformation :kind :location (&Location :uri))
+         project-root)
+        "Convert the match returned by `lsp-mode` into a candidate string."
+        (let* ((sanitized-kind (if (length> lsp-ivy-symbol-kind-icons kind) kind 0))
+               (type (elt lsp-ivy-symbol-kind-icons sanitized-kind))
+               (typestr (if lsp-ivy-show-symbol-kind (format "%s " type) ""))
+               (pathstr (if lsp-ivy-show-symbol-filename
+                            (propertize (format " · %s" (file-relative-name (lsp--uri-to-path uri) project-root))
+                                        'face font-lock-comment-face)
+                          "")))
+          (concat typestr (lsp-render-symbol-information sym ".") pathstr)))
+      (advice-add #'lsp-ivy--format-symbol-match :override #'my-lsp-ivy--format-symbol-match))))
 
 
 ;; Debug

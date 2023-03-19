@@ -17,6 +17,7 @@
 ;;
 ;;; Code:
 
+(require 'custom-config)
 (require 'functions)
 
 (use-package company
@@ -165,7 +166,8 @@
            ([remap company-show-doc-buffer] . company-box-doc-manually))
     :hook (company-mode . company-box-mode)
     :init
-    (setq company-box-icons-alist        'company-box-icons-all-the-icons
+    (setq company-box-enable-icon        emacs-icon
+          company-box-icons-alist        'company-box-icons-all-the-icons
           company-box-backends-colors    nil
           company-box-doc-delay          0.1)
     :config
