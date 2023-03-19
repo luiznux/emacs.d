@@ -271,11 +271,60 @@ prepended to the element after the #+HEADER: tag."
 ;;; Org Packages
 ;;;
 
+  ;; Paste Url links to org mode
+  (use-package org-cliplink
+    :bind("C-x p i" . org-cliplink))
+
+  ;; Rich text clipboard
+  (use-package org-rich-yank
+    :bind (:map org-mode-map
+           ("C-M-y" . org-rich-yank)))
+
   (use-package org-download
     :hook (dired-mode . org-download-enable))
 
-  (use-package org-cliplink
-    :bind("C-x p i" . org-cliplink))
+  ;; Table of contents
+  (use-package toc-org
+    :hook (org-mode . toc-org-mode))
+
+  ;; Customize tables
+  (use-package org-make-toc)
+
+  ;; Format tables
+  (use-package ftable)
+
+  ;; Auto insert lists
+  (use-package org-autolist
+    :hook (org-mode . org-autolist-mode))
+
+  ;; Make org markers visible
+  (use-package org-appear
+    :hook (org-mode . org-appear-mode))
+
+  ;; Web page content to org mode
+  (use-package org-web-tools)
+
+  ;; See usage of each subtree
+  (use-package org-treeusage
+    :custom
+    ;; Below two settings recreate the above image
+    ((org-treescope-overlay-header nil)
+     (org-treeusage-overlay-usecolorbands nil)))
+
+  (when (display-graphic-p)
+    (use-package org-sticky-header
+      :hook (org-mode . org-sticky-header-mode))
+
+    ;; Render tables
+    (use-package valign
+      :hook (org-mode . valign-mode)
+      :init
+      (setq valign-fancy-bar      1
+            valign-max-table-size 5000))
+
+    (use-package org-pretty-tags
+      :config
+      (org-pretty-tags-global-mode)))
 
   (when emacs/>=27p
     ;; Auto-toggle Org LaTeX fragments
@@ -290,46 +339,6 @@ prepended to the element after the #+HEADER: tag."
              ("C-c C-h" . org-preview-html-mode))
       :init (when (featurep 'xwidget-internal)
               (setq org-preview-html-viewer 'xwidget))))
-
-  ;; Rich text clipboard
-  (use-package org-rich-yank
-    :bind (:map org-mode-map
-           ("C-M-y" . org-rich-yank)))
-
-  ;; Table of contents
-  (use-package toc-org
-    :hook (org-mode . toc-org-mode))
-
-  (use-package org-make-toc
-    :after org)
-
-  (use-package org-sticky-header
-    :hook (org-mode . org-sticky-header-mode))
-
-  (use-package org-autolist
-    :hook (org-mode . (lambda () (org-autolist-mode))))
-
-  (use-package org-pretty-tags
-    :config
-    (org-pretty-tags-global-mode))
-
-  (use-package org-appear
-    :hook (org-mode . org-appear-mode))
-
-  (use-package valign
-    :hook (org-mode . valign-mode)
-    :init
-    (setq valign-fancy-bar      1
-          valign-max-table-size 5000))
-
-  (use-package ftable)
-  (use-package org-web-tools)
-
-  (use-package org-treeusage
-    :custom
-    ;; Below two settings recreate the above image
-    ((org-treescope-overlay-header nil)
-     (org-treeusage-overlay-usecolorbands nil)))
 
   (use-package ox-pandoc
     :when (executable-find "pandoc")
@@ -398,21 +407,6 @@ prepended to the element after the #+HEADER: tag."
           org-gcal-client-id  luiznux-client-id
           org-gcal-client-secret luiznux-client-secret
           org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
-
-  ;;(use-package brazilian-holidays
-  ;;  :hook ((calendar-mode . brazilian-holidays-mode)
-  ;;         (org-agenda-mode . brazilian-holidays-mode))
-  ;;  :config
-  ;;  (setq org-agenda-include-diary                           t
-  ;;        diary-file                                         "~/org/diary"
-  ;;        calendar-mark-diary-entries-flag                   t
-  ;;        calendar-view-diary-initially-flag                 t
-  ;;        calendar-mark-diary-entries-flag                   t
-  ;;        brazilian-sp-holidays                              t)
-
-  ;;  ;;Calendar Hooks
-  ;;  (add-hook 'diary-display-hook 'fancy-diary-display)
-  ;;  (add-hook 'list-diary-entries-hook 'sort-diary-entries t))
 
   (use-package org-roam
     :diminish
