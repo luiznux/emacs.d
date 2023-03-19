@@ -48,7 +48,6 @@
 
         company-backends                    '((company-capf :with company-yasnippet)
                                               (company-dabbrev-code company-keywords company-files)
-                                              (company-emojify)
                                               company-dabbrev))
   :config
   (with-no-warnings
@@ -366,15 +365,7 @@
                 (Operator      . ,(all-the-icons-material "control_point" :height 1.0 :v-adjust -0.2))
                 (TypeParameter . ,(all-the-icons-faicon "arrows" :height 1.0 :v-adjust -0.02))
                 (Template      . ,(all-the-icons-material "format_align_left" :height 1.0 :v-adjust -0.2)))
-              company-box-icons-alist 'company-box-icons-all-the-icons))))
-
-  (use-package company-emojify
-    :pin melpa-stable
-    :diminish
-    :after emojify
-    :init
-    (setq company-emojify-emoji-styles '(github)
-          company-emojify-document     t)))
+              company-box-icons-alist 'company-box-icons-all-the-icons)))))
 
 
 (provide 'company-config)

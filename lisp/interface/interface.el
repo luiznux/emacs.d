@@ -346,7 +346,14 @@
              when (font-installed-p font)
              return (if (>= emacs-major-version 28)
                         (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
-                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))))
+                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
+
+    (use-package company-emojify
+      :diminish
+      :init
+      (setq company-emojify-emoji-styles '(github)
+            company-emojify-document     t))
+    (add-to-list 'company-backends 'company-emojify))
 
   ;; Add icons for emacs
   (use-package all-the-icons
