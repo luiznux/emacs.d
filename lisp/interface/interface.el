@@ -332,28 +332,27 @@
     :hook (after-init . global-emojify-mode)
     :bind ("C-c m" . 'emojify-insert-emoji)
     :init
-    (with-no-warnings
-      (when (featurep 'emojify)
-        (emojify-set-emoji-data)))
-
     (setq emojify-company-tooltips-p   t
           emojify-display-style        'image
           emojify-composed-text-p      nil
           emojify-user-emojis          my-custom-emojis)
-    :config
+
+    (with-no-warnings
+      (when (featurep 'emojify)
+        (emojify-set-emoji-data)))
+
     ;; Others emojis fonts
     (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji")
              when (font-installed-p font)
              return (if (>= emacs-major-version 28)
                         (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
                       (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
-
+    :config
     (use-package company-emojify
-      :diminish
       :init
-      (setq company-emojify-emoji-styles '(github)
-            company-emojify-document     t))
-    (add-to-list 'company-backends 'company-emojify))
+      (setq company-emojify-insert-unicode nil
+            company-emojify-emoji-styles   '(github))
+      (add-to-list 'company-backends 'company-emojify)))
 
   ;; Add icons for emacs
   (use-package all-the-icons
