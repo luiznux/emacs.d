@@ -44,7 +44,8 @@
                        (lsp-enable-which-key-integration)
 
                        ;; Format and organize imports
-                       (unless (apply #'derived-mode-p lsp-format-on-save-ignore-modes)
+                       (when (and lsp-format-on-save
+                                  (not (apply #'derived-mode-p lsp-format-on-save-ignore-modes)))
                          (add-hook 'before-save-hook #'lsp-format-buffer t t)
                          (add-hook 'before-save-hook #'lsp-organize-imports t t)))))
 

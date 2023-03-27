@@ -67,6 +67,11 @@
                               name)))
                     luiznux-package-archives-alist)))
 
+(defcustom lsp-format-on-save nil
+  "Auto format buffers on save."
+  :group 'luiznux
+  :type 'boolean)
+
 (defcustom lsp-format-on-save-ignore-modes
   '(c-mode c++-mode python-mode markdown-mode)
   "The modes that don't auto format and organize imports while saving the buffers.

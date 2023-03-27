@@ -17,10 +17,11 @@
       luiznux-package-archives 'melpa
       luiznux-server           t)
 
-;;(setq doom-modeline-font-size value)
-;;(setq centaur-tabs-font-size  value)
-;;(setq open-agenda-with-dashboard t)
-;;(setq fancy-modeline t)
+;;(setq doom-modeline-font-size value)     ; Set `doom-modeline' font size value
+;;(setq centaur-tabs-font-size  value)     ; Set `centaur-tabs' font size value
+;;(setq lsp-format-on-save t)      ; Auto format buffers on save
+;;(setq open-agenda-with-dashboard t)      ; Open custom `org-agenda' right of dashboard
+;;(setq fancy-modeline t)                  ; Enable fancy modeline(parrot and nyan mode)
 
 (defun setup-fonts ()
   "Set default fonts."
