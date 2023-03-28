@@ -59,11 +59,9 @@
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
 
   :config
-  (defvar excluded-prefixes-append-list
-    '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*"
-       "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*"))
-  (cl-loop for prefix in excluded-prefixes-append-list
-           do (add-to-list 'centaur-tabs-excluded-prefixes prefix t)))
+  (dolist (excluded-prefixes '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*"
+                                "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*"))
+    (cl-pushnew excluded-prefixes centaur-tabs-excluded-prefixes)))
 
 
 (provide 'centaur-tabs-config)
