@@ -271,7 +271,8 @@
 (use-package so-long
   :hook (after-init . global-so-long-mode))
 
-(use-package format-all)
+(use-package format-all
+:bind ("C-c F" . format-all-buffer))
 
 
 (provide 'edit-config)
