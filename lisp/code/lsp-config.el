@@ -187,7 +187,8 @@
         lsp-ui-peek-show-directory         t
         lsp-ui-sideline-show-code-actions  t
         lsp-ui-sideline-ignore-duplicate   t
-        lsp-ui-doc-show-with-mouse         t
+        lsp-ui-doc-show-with-mouse         (display-graphic-p)
+        lsp-ui-doc-show-with-cursor        (not (display-graphic-p))
         lsp-ui-doc-delay                   0.9
         lsp-ui-imenu-auto-refresh          'after-save
         lsp-ui-doc-position                'at-point
