@@ -89,33 +89,6 @@
   :init
   (setq  global-whitespace-cleanup-mode nil))
 
-;; https://github.com/Malabarba/aggressive-indent-mode
-(use-package aggressive-indent
-  :diminish
-  :hook(
-        ;; HACK: Disable in big files due to the performance issues
-        ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
-        (find-file . (lambda ()
-                       (when (too-long-file-p)
-                         (aggressive-indent-mode -1)))))
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  (add-hook 'lsp-mode-hook #'aggressive-indent-mode)
-  :config
-  ;; Disable in some modes
-  (dolist (mode '(gitconfig-mode python-mode rustic-mode asm-mode web-mode html-mode css-mode go-mode scala-mode))
-    (push mode aggressive-indent-excluded-modes))
-
-  ;; Disable in some commands
-  (add-to-list 'aggressive-indent-protected-commands #'delete-trailing-whitespace t)
-
-  ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
-  (add-to-list 'aggressive-indent-dont-indent-if
-               '(and (derived-mode-p 'c-mode 'c++-mode 'csharp-mode
-                                     'java-mode 'go-mode 'swift-mode)
-                     (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                                         (thing-at-point 'line))))))
-
 ;; Show number of matches in mode-line while searching
 (use-package anzu
   :bind
