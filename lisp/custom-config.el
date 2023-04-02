@@ -162,10 +162,11 @@ Nil to use font supports ligatures."
     ("#+DESCRIPTION:"  . "")
     ("#+description:"  . "")
 
-    ("#+EMAIL:"        . ?📧)
-    ("#+email:"        . ?📧)
-    ("#+CREATOR:"      . ?💁)
-    ("#+DATE:"         . ?📆)
+    ("#+EMAIL:"         . ?📧)
+    ("#+email:"         . ?📧)
+    ("#+CREATOR:"       . ?💁)
+    ("#+DATE:"          . ?📆)
+    ("#+LAST_MODIFIED:" . "")
 
     ("#+OPTIONS:"      . ?⛭)
     ("#+SETUPFILE:"    . ?⚒)

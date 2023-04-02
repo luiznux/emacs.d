@@ -84,6 +84,7 @@
   :hook
   (((org-babel-after-execute org-mode)  . org-redisplay-inline-images) ; display image after execute.
    (org-capture-after-finalize . org-agenda-maybe-redo) ; redo agenda after capturing.
+   (before-save . zp/org-set-last-modified) ; update `LAST_MODIFIED' property on save
    (org-mode . (lambda ()
                  "Beautify org symbols."
                  (setq prettify-symbols-alist custom-prettify-org-symbols-alist)
@@ -438,7 +439,7 @@ prepended to the element after the #+HEADER: tag."
 
                                        ("c" "custom-luiznux" plain ""
                                         :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org"
-                                                            "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+DATE: %u\n#+EMAIL: %(get-user-email)\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n\n\n")
+                                                            "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+DATE: %u\n#+LAST_MODIFIED: %u\n#+EMAIL: %(get-user-email)\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n\n\n")
                                         :unnarrowed t)))
     :config
     (unless (file-exists-p emacs-org-roam-directory)
