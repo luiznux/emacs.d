@@ -329,11 +329,10 @@
 
 (when emacs-icon
   (use-package emojify
-    :hook (org-mode . global-emojify-mode)
+    :hook (org-mode . emojify-mode)
     :bind ("C-c m" . 'emojify-insert-emoji)
     :init
     (setq emojify-company-tooltips-p   t
-          global-emojify-mode          nil
           emojify-composed-text-p      nil
           emojify-display-style        'image
           emojify-user-emojis          my-custom-emojis)
