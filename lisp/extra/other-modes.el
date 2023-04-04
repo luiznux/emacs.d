@@ -36,6 +36,7 @@
 (use-package focus)                     ; Focus on the current region
 (use-package keycast)
 (use-package memory-usage)
+(use-package disk-usage)
 (use-package bug-hunter)
 (use-package logview)
 (use-package daemons)                 ; system services/daemons

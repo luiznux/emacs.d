@@ -333,8 +333,9 @@
     :bind ("C-c m" . 'emojify-insert-emoji)
     :init
     (setq emojify-company-tooltips-p   t
-          emojify-display-style        'image
+          global-emojify-mode          nil
           emojify-composed-text-p      nil
+          emojify-display-style        'image
           emojify-user-emojis          my-custom-emojis)
 
     (with-no-warnings
