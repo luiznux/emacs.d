@@ -329,7 +329,8 @@
 
 (when emacs-icon
   (use-package emojify
-    :hook (org-mode . emojify-mode)
+    :hook ((org-agenda-mode . emojify-mode)
+           (org-mode        . emojify-mode))
     :bind ("C-c m" . 'emojify-insert-emoji)
     :init
     (setq emojify-company-tooltips-p   t
