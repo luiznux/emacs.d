@@ -459,12 +459,7 @@ prepended to the element after the #+HEADER: tag."
     (use-package org-roam-ui
       :bind ("C-c n u" . org-roam-ui-mode)
       :init (when (featurep 'xwidget-internal)
-              (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url))
-      :config
-      (setq org-roam-ui-sync-theme t
-            org-roam-ui-follow t
-            org-roam-ui-update-on-save t
-            org-roam-ui-open-on-start t))))
+              (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)))))
 
 
 (provide 'org-mode-config)
