@@ -81,7 +81,7 @@
 
 (defcustom centaur-tabs-font-size
   (if (display-graphic-p)
-      (- (face-attribute 'default :height) 20)
+      (- (face-attribute 'default :height) 15)
     30)
   "Font size choice for `centaur-tabs'.
 The default value in inherit from the `face-attribute' minus 20"
