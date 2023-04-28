@@ -28,6 +28,8 @@
 
   :bind (("M-/"   . company-complete)
          ("C-M-i" . company-complete)
+         :map company-mode-map
+         ("<backtab>" . company-yasnippet)
          :map company-active-map
          ("<backtab>" . my-company-yasnippet))
 
@@ -365,7 +367,14 @@
                 (Operator      . ,(all-the-icons-material "control_point" :height 1.0 :v-adjust -0.2))
                 (TypeParameter . ,(all-the-icons-faicon "arrows" :height 1.0 :v-adjust -0.02))
                 (Template      . ,(all-the-icons-material "format_align_left" :height 1.0 :v-adjust -0.2)))
-              company-box-icons-alist 'company-box-icons-all-the-icons)))))
+              company-box-icons-alist 'company-box-icons-all-the-icons))))
+
+  (use-package company-org-block
+    :custom
+    (company-org-block-edit-style 'auto) ;; 'auto, 'prompt, or 'inline
+    :hook ((org-mode . (lambda ()
+                         (setq-local company-backends '(company-org-block))
+                         (company-mode +1))))))
 
 
 (provide 'company-config)
