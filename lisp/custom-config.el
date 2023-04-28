@@ -175,6 +175,7 @@ Nil to use font supports ligatures."
     ("#+title:"        . ?📓)
     ("#+STARTUP:"      . "⏻")
     ("#+FILETAGS:"     . "")
+    ("#+filetags:"     . "")
     ("#+CATEGORY:"     . "")
 
     (":WILD_NOTIFIER_NOTIFY_BEFORE:" . "")
