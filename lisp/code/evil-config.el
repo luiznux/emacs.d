@@ -74,10 +74,6 @@
   :config
   (global-evil-matchit-mode 1))
 
-(use-package evil-leader
-  :config
-  (global-evil-leader-mode))
-
 
 (provide 'evil-config)
 ;;; evil-config.el ends here
