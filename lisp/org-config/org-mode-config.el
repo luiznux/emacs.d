@@ -444,7 +444,7 @@ prepended to the element after the #+HEADER: tag."
                                         :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org"
                                                             "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+EMAIL: %(get-user-email)\n#+DATE: %u\n#+LAST_MODIFIED: %u\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n")
                                         :unnarrowed t
-                                        :empty-lines-after)))
+                                        :empty-lines-after 1)))
     :config
     (unless (file-exists-p emacs-org-roam-directory)
       (make-directory emacs-org-roam-directory))
