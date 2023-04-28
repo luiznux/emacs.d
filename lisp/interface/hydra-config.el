@@ -59,8 +59,6 @@
          "line number"
          :toggle (or (bound-and-true-p display-line-numbers-mode)
                      (bound-and-true-p global-linum-mode)))
-        ("a" global-aggressive-indent-mode "aggressive indent" :toggle t)
-        ("d" global-hungry-delete-mode "hungry delete" :toggle t)
         ("e" electric-pair-mode "electric pair" :toggle t)
         ("c" flyspell-mode "spell check" :toggle t)
         ("s" prettify-symbols-mode "pretty symbol" :toggle t)
