@@ -123,6 +123,9 @@
         org-return-follows-link            t
         org-reverse-note-order             t
 
+        ;; create id for org links
+        org-id-link-to-org-use-id          'create-if-interactive
+
         ;; turn on speed keys for headlines
         org-use-speed-commands             t
 
@@ -439,8 +442,9 @@ prepended to the element after the #+HEADER: tag."
 
                                        ("c" "custom-luiznux" plain ""
                                         :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org"
-                                                            "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+DATE: %u\n#+LAST_MODIFIED: %u\n#+EMAIL: %(get-user-email)\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n\n\n")
-                                        :unnarrowed t)))
+                                                            "#+TITLE: ${title}\n#+AUTHOR: %(user-full-name)\n#+EMAIL: %(get-user-email)\n#+DATE: %u\n#+LAST_MODIFIED: %u\n#+DESCRIPTION: %^{description}\n#+STARTUP: inlineimages\n")
+                                        :unnarrowed t
+                                        :empty-lines-after)))
     :config
     (unless (file-exists-p emacs-org-roam-directory)
       (make-directory emacs-org-roam-directory))
