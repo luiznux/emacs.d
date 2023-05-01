@@ -269,7 +269,7 @@ on selected major modes only."
   "Refresh package contents and update all packages."
   (interactive)
   (message "Updating packages...")
-  (package-update-all)
+  (package-upgrade-all)
   (message "Updating packages...done"))
 (defalias 'emacs-update-packages #'update-packages)
 
