@@ -90,7 +90,7 @@ The default value in inherit from the `face-attribute' minus 20"
 
 (defcustom doom-modeline-font-size
   (if (display-graphic-p)
-      (- (face-attribute 'default :height) 15)
+      (- (face-attribute 'default :height) 13)
     20)
   "Font size choice for `doom-modeline'.
 The default value in inherit from the `face-attribute' minus 20"
