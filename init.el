@@ -111,7 +111,6 @@
 (require 'init-go)
 (require 'init-rust)
 (require 'init-python)
-(require 'init-dart)
 (require 'init-web)
 
 

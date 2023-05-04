@@ -126,6 +126,13 @@
 (when emacs/>=27p
   (use-package csv-mode))
 
+(use-package dart-mode
+  :defines (projectile-project-root-files-bottom-up)
+  :config
+  (with-eval-after-load 'projectile
+    (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
+    (add-to-list 'projectile-project-root-files-bottom-up "BUILD")))
+
 ;; cucumber support
 ;; read https://github.com/michaelklishin/cucumber.el
 (use-package feature-mode
