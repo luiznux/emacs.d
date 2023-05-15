@@ -34,7 +34,7 @@
   (with-eval-after-load 'wdired
     (bind-key "<C-return>" #'rect-hydra/body wdired-mode-map))
   :pretty-hydra
-  ((:title (pretty-hydra-title "Rectangle" 'material "border_all" :height 1.2 :v-adjust -0.225)
+  ((:title (pretty-hydra-title "Rectangle" 'mdicon "nf-md-border_all")
     :color amaranth :body-pre (rectangle-mark-mode) :post (deactivate-mark) :quit-key ("q" "C-g"))
    ("Move"
     (("h" backward-char "←")
@@ -186,7 +186,7 @@
   :ensure nil
   :diminish hs-minor-mode
   :pretty-hydra
-  ((:title (pretty-hydra-title "HideShow" 'octicon "fold" :height 1.1 :v-adjust -0.05)
+  ((:title (pretty-hydra-title "HideShow" 'octicon "nf-oct-fold")
     :color amaranth :quit-key ("q" "C-g"))
    ("Fold"
     (("t" hs-toggle-all "toggle all")
@@ -271,7 +271,7 @@
   :hook (after-init . global-so-long-mode))
 
 (use-package format-all
-:bind ("C-c F" . format-all-buffer))
+  :bind ("C-c F" . format-all-buffer))
 
 
 (provide 'init-edit)
