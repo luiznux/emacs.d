@@ -73,7 +73,6 @@
          ("C-c l" . counsel-git-log)
          ("C-c o" . counsel-outline)
          ("C-c r" . counsel-recentf)
-         ("C-c v" . counsel-switch-buffer-other-window)
          ("C-c y" . counsel-yank-pop)
          ("C-c z" . counsel-fzf)
 
@@ -140,8 +139,9 @@
         ivy-use-virtual-buffers        t ; Enable bookmarks and recentf
         ivy-fixed-height-minibuffer    t
         ivy-count-format               "(%d/%d) "
-        ivy-ignore-buffers             '("\\` " "\\`\\*tramp/" "\\`\\*xref" "\\`\\*helpful "
-                                         "\\`\\*.+-posframe-buffer\\*" "\\` ?\\*company-.+\\*")
+        ivy-ignore-buffers             '("\\` " "\\`\\*tramp/" "\\`\\*xref" "\\`\\*helpful .+\\*"
+                                         "\\`\\*.+-posframe-buffer\\*" "\\` ?\\*company-.+\\*"
+                                         "\\`flycheck_.+")
         ivy-on-del-error-function      #'ignore
         ivy-initial-inputs-alist       nil)
 
@@ -156,9 +156,8 @@
   (setq ivy-height-alist '((counsel-evil-registers . 5)
                            (counsel-yank-pop       . 8)
                            (counsel-git-log        . 4)
-                           (swiper                 . 13)
-                           (counsel-projectile-ag  . 13)
-                           (counsel-projectile-rg  . 13)))
+                           (swiper                 . 15)
+                           (counsel-projectile-rg  . 15)))
 
   (setq swiper-action-recenter t)
 
@@ -497,31 +496,29 @@
   (when (executable-find "ugrep")
     (setq counsel-projectile-grep-base-command "ugrep --color=never -rnEI %s")))
 
-;; Better experience with icons
-;; Enable it before`ivy-rich-mode' for better performance
-(use-package all-the-icons-ivy-rich
-  :hook (ivy-mode . all-the-icons-ivy-rich-mode)
-  :init (setq all-the-icons-ivy-rich-icon emacs-icon)
-  :config
-  (plist-put all-the-icons-ivy-rich-display-transformers-list
-             'load-theme
-             '(:columns
-               ((all-the-icons-ivy-rich-theme-icon)
-                (ivy-rich-candidate))
-               :delimiter "\t"))
-  (all-the-icons-ivy-rich-reload))
-
 ;; More friendly display transformer for Ivy
-(use-package ivy-rich
-  :hook ((counsel-projectile-mode . ivy-rich-mode) ; MUST after `counsel-projectile'
-         (ivy-rich-mode . ivy-rich-project-root-cache-mode)
-         (ivy-rich-mode . (lambda ()
-                            "Use abbreviate in `ivy-rich-mode'."
-                            (setq ivy-virtual-abbreviate
-                                  (or (and ivy-rich-mode 'abbreviate) 'name)))))
+;; Enable before`ivy-rich-mode' for better performance
+(use-package nerd-icons-ivy-rich
+  :hook ((ivy-mode                . nerd-icons-ivy-rich-mode)
+         (counsel-mode            . ivy-rich-mode)
+         (counsel-projectile-mode . ivy-rich-mode) ; MUST after `counsel-projectile'
+         (ivy-rich-mode           . ivy-rich-project-root-cache-mode)
+         (ivy-rich-mode           . (lambda ()
+                                      "Use abbreviate in `ivy-rich-mode'."
+                                      (setq ivy-virtual-abbreviate
+                                            (or (and ivy-rich-mode 'abbreviate) 'name)))))
   :init
   ;; For better performance
-  (setq ivy-rich-parse-remote-buffer nil))
+  (setq ivy-rich-parse-remote-buffer nil)
+  (setq nerd-icons-ivy-rich-icon emacs-icon)
+  :config
+  (plist-put nerd-icons-ivy-rich-display-transformers-list
+             'centaur-load-theme
+             '(:columns
+               ((nerd-icons-ivy-rich-theme-icon)
+                (ivy-rich-candidate))
+               :delimiter "\t"))
+  (nerd-icons-ivy-rich-reload))
 
 ;; flx is used as the fuzzy-matching indexer backend for ivy.
 (use-package flx

@@ -108,8 +108,13 @@ Like `nyan-mode' and `parrot-mode'"
   :group 'luiznux
   :type 'boolean)
 
-(defcustom emacs-icon (or (display-graphic-p) (daemonp))
+(defcustom emacs-icon t
   "Display icons or not."
+  :group 'luiznux
+  :type 'boolean)
+
+(defcustom emacs-emojify (or (display-graphic-p) (daemonp))
+  "Enable `emojify' or not."
   :group 'luiznux
   :type 'boolean)
 

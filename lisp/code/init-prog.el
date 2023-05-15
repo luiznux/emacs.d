@@ -95,7 +95,7 @@
 (use-package dumb-jump
   :commands xref-show-definitions-completing-read
   :pretty-hydra
-  ((:title (pretty-hydra-title "Dump Jump" 'faicon "anchor")
+  ((:title (pretty-hydra-title "Dump Jump" 'faicon "nf-fa-anchor")
     :color blue :quit-key ("q" "C-g"))
    ("Jump"
     (("j" dumb-jump-go "Go")
@@ -126,13 +126,6 @@
 (when emacs/>=27p
   (use-package csv-mode))
 
-(use-package dart-mode
-  :defines (projectile-project-root-files-bottom-up)
-  :config
-  (with-eval-after-load 'projectile
-    (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
-    (add-to-list 'projectile-project-root-files-bottom-up "BUILD")))
-
 ;; cucumber support
 ;; read https://github.com/michaelklishin/cucumber.el
 (use-package feature-mode
@@ -148,6 +141,7 @@
 (use-package ag)
 (use-package terraform-mode)
 (use-package vimrc-mode)
+(use-package dart-mode)
 (use-package mermaid-mode)
 (use-package plantuml-mode)
 (use-package cask-mode)

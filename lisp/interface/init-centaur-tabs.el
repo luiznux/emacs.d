@@ -43,6 +43,7 @@
           ("g T" . centaur-tabs-backward)))
   :init
   (setq centaur-tabs-style                    "chamfer"
+        centaur-tabs-icon-type                'nerd-icons
         centaur-tabs-height                   32
         centaur-tabs-set-bar                  'under
         centaur-tabs-set-icons                t
@@ -54,7 +55,7 @@
         x-underline-at-descent-line           t)
 
   (centaur-tabs-headline-match)
-  (centaur-tabs-group-by-projectile-project)
+;;(centaur-tabs-group-by-projectile-project)
   (centaur-tabs-enable-buffer-reordering)
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
 

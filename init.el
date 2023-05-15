@@ -99,8 +99,7 @@
 
 ;; Programming
 (require 'init-vcs)
-(require 'init-flycheck)
-(require 'init-projectile)
+(require 'init-flymake)
 (require 'init-lsp)
 (require 'init-ctags)
 
