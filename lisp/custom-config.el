@@ -81,19 +81,19 @@
 
 (defcustom centaur-tabs-font-size
   (if (display-graphic-p)
-      (- (face-attribute 'default :height) 15)
+      (- (face-attribute 'default :height) 27)
     30)
   "Font size choice for `centaur-tabs'.
-The default value in inherit from the `face-attribute' minus 20"
+The default value in inherit from the `face-attribute' minus 27"
   :group 'luiznux
   :type 'int)
 
 (defcustom doom-modeline-font-size
   (if (display-graphic-p)
-      (- (face-attribute 'default :height) 13)
+      (- (face-attribute 'default :height) 26)
     20)
   "Font size choice for `doom-modeline'.
-The default value in inherit from the `face-attribute' minus 20"
+The default value in inherit from the `face-attribute' minus 26"
   :group 'luiznux
   :type 'int)
 
