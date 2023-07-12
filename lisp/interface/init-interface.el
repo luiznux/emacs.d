@@ -212,7 +212,6 @@
         doom-modeline-buffer-modification-icon    t
         doom-modeline-modal-icon                  t
         doom-modeline-lsp                         t
-        doom-modeline-github                      t
         doom-modeline-persp-name                  t
         doom-modeline-persp-icon                  t
         doom-modeline-minor-modes                 t
