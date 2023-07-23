@@ -65,16 +65,16 @@
 
   ;; Enable customized theme
   ;; FIXME https://github.com/emacs-lsp/lsp-treemacs/issues/89
-        (when (featurep 'all-the-icons)
-          (with-eval-after-load 'lsp-treemacs
-            (doom-themes-treemacs-config))))
+  (when (featurep 'all-the-icons)
+    (with-eval-after-load 'lsp-treemacs
+      (doom-themes-treemacs-config))))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :bind (:map doom-modeline-mode-map
          ("C-<f6>" . doom-modeline-hydra/body))
   :pretty-hydra
- ((:title (pretty-hydra-title "Mode Line" 'sucicon "nf-custom-emacs" :face 'nerd-icons-purple)
+  ((:title (pretty-hydra-title "Mode Line" 'sucicon "nf-custom-emacs" :face 'nerd-icons-purple)
     :color amaranth :quit-key ("q" "C-g"))
    ("Icon"
     (("i" (setq doom-modeline-icon (not doom-modeline-icon))
@@ -405,7 +405,7 @@
 ;; Good pixel line scrolling
 (if (fboundp 'pixel-scroll-precision-mode)
     (pixel-scroll-precision-mode t)
-  (when (and emacs/>=27p (not sys/macp))
+  (unless sys/macp
     (use-package good-scroll
       :diminish
       :hook (after-init . good-scroll-mode)

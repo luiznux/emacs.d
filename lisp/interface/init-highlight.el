@@ -206,13 +206,12 @@
       (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))))
 
 ;; Pulse modified region
-(if emacs/>=27p
-    (use-package goggles
-      :diminish
-      :hook ((prog-mode text-mode) . goggles-mode))
-  (use-package volatile-highlights
-    :diminish
-    :hook (after-init . volatile-highlights-mode)))
+(use-package goggles
+  :diminish
+  :hook ((prog-mode text-mode) . goggles-mode))
+(use-package volatile-highlights
+  :diminish
+  :hook (after-init . volatile-highlights-mode))
 
 ;; Pulse current line
 (use-package pulse

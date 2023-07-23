@@ -87,8 +87,6 @@
       (use-package ivy-xref
         :after ivy
         :init
-        (when emacs/>=27p
-          (setq xref-show-definitions-function #'ivy-xref-show-defs))
         (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)))))
 
 ;; Jump to definition
@@ -123,8 +121,7 @@
   (("C-<f5>"  . quickrun)
    ("C-c C-e" . quickrun-shell)))
 
-(when emacs/>=27p
-  (use-package csv-mode))
+(use-package csv-mode)
 
 ;; cucumber support
 ;; read https://github.com/michaelklishin/cucumber.el
