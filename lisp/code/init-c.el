@@ -23,10 +23,9 @@
          ("<f12>" . compile))
   :init (setq-default c-basic-offset 4))
 
-(use-package c-ts-mode
-  :ensure nil
-  :when (emacs-treesit-available-p)
-  :init (setq c-ts-mode-indent-offset 4))
+(when (emacs-treesit-available-p)
+  (use-package c-ts-mode
+    :init (setq c-ts-mode-indent-offset 4)))
 
 
 (provide 'init-c)
