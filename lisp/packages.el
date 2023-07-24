@@ -54,8 +54,8 @@
 (eval-when-compile
   (require 'use-package))
 
-;; Don't display minor modes
-(use-package diminish)
+;; Don't display minor modes and required by `use-package'
+(use-package diminish :ensure t)
 
 ;; Update GPG keyring for GNU ELPA
 (use-package gnu-elpa-keyring-update)
