@@ -52,13 +52,14 @@
 ;; Optimize: Force "lisp" at the head to reduce the startup time.
 (defun update-load-path (&rest _)
   "Update `load-path'."
-  (dolist (dir '("lisp"))
+  (dolist (dir '("lisp" "site-lisp"))
     (push (expand-file-name dir user-emacs-directory) load-path)))
 
 (defun add-subdirs-to-load-path (&rest _)
   "Add subdirectories to `load-path'."
-  (let ((default-directory (expand-file-name "lisp" user-emacs-directory)))
-    (normal-top-level-add-subdirs-to-load-path)))
+  (dolist (dir '("lisp" "site-lisp"))
+    (let ((default-directory (expand-file-name dir user-emacs-directory)))
+      (normal-top-level-add-subdirs-to-load-path))))
 
 (advice-add #'package-initialize :after #'update-load-path)
 (advice-add #'package-initialize :after #'add-subdirs-to-load-path)
