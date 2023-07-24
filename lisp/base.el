@@ -107,7 +107,6 @@
 ;; Start server
 (require 'server)
 (use-package server
-  :ensure nil
   :if luiznux-server
   :init
   (if (or (server-running-p) (daemonp))
@@ -115,12 +114,13 @@
     (add-hook 'after-init-hook 'server-start)))
 
 ;; History
+(use-package desktop
+  :hook (after-init . desktop-save-mode))
+
 (use-package saveplace
-  :ensure nil
   :hook (after-init . save-place-mode))
 
 (use-package recentf
-  :ensure nil
   :bind (("C-x C-r" . recentf-open-files))
   :hook (after-init . recentf-mode)
   :init (setq recentf-max-saved-items 300
@@ -136,7 +136,6 @@
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
 
 (use-package savehist
-  :ensure nil
   :hook (after-init . savehist-mode)
   :init (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
               history-length 1000

@@ -82,7 +82,7 @@
 (require 'init-highlight)
 (require 'init-ibuffer)
 (require 'init-kill-ring)
-(require 'init-persp)
+(require 'init-workspace)
 (require 'init-window)
 (require 'init-treemacs)
 (require 'init-centaur-tabs)
