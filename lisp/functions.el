@@ -95,7 +95,7 @@ This issue has been addressed in 28."
 
 ;; Open custom file
 (defun find-custom-file()
-  "Open `custom-file'."
+  "Open option `custom-file'."
   (interactive)
   (unless (file-exists-p custom-file)
     (user-error "The custom file doesn't exist"))
@@ -368,7 +368,7 @@ Native tree-sitter is introduced since 29."
 (defun custom-set-variable (variable value &optional no-save)
   "Set the VARIABLE to VALUE, and return VALUE.
 
-  Save to `custom-file' if NO-SAVE is nil."
+  Save to option `custom-file' if NO-SAVE is nil."
   (customize-set-variable variable value)
   (when (and (not no-save)
              (file-writable-p custom-file))
@@ -388,7 +388,7 @@ Native tree-sitter is introduced since 29."
 
 REFRESH is non-nil, will refresh archive contents.
 ASYNC specifies whether to perform the downloads in the background.
-Save to `custom-file' if NO-SAVE is nil."
+Save to option `custom-file' if NO-SAVE is nil."
   (interactive
    (list
     (intern
