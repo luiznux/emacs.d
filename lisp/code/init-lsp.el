@@ -28,23 +28,6 @@
   :defines (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)
   :autoload lsp-enable-which-key-integration
   :commands (lsp-format-buffer lsp-organize-imports)
-  :custom-face
-  (lsp-headerline-breadcrumb-path-error-face ((t :inherit lsp-headerline-breadcrumb-path-face
-                                                 :underline (:style wave :color ,(face-foreground 'error)))))
-  (lsp-headerline-breadcrumb-path-warning-face ((t :inherit lsp-headerline-breadcrumb-path-face
-                                                   :underline (:style wave :color ,(face-foreground 'warning)))))
-  (lsp-headerline-breadcrumb-path-info-face ((t :inherit lsp-headerline-breadcrumb-path-face
-                                                :underline (:style wave :color ,(face-foreground 'success)))))
-  (lsp-headerline-breadcrumb-path-hint-face ((t :inherit lsp-headerline-breadcrumb-path-face
-                                                :underline (:style wave :color ,(face-foreground 'success)))))
-  (lsp-headerline-breadcrumb-symbols-error-face ((t :inherit lsp-headerline-breadcrumb-symbols-face
-                                                    :underline (:style wave :color ,(face-foreground 'error)))))
-  (lsp-headerline-breadcrumb-symbols-warning-face ((t :inherit lsp-headerline-breadcrumb-symbols-face
-                                                      :underline (:style wave :color ,(face-foreground 'warning)))))
-  (lsp-headerline-breadcrumb-symbols-info-face ((t :inherit lsp-headerline-breadcrumb-symbols-face
-                                                   :underline (:style wave :color ,(face-foreground 'success)))))
-  (lsp-headerline-breadcrumb-symbols-hint-face ((t :inherit lsp-headerline-breadcrumb-symbols-face
-                                                   :underline (:style wave :color ,(face-foreground 'success)))))
   :hook ((prog-mode . (lambda ()
                         (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode 'snippet-mode)
                           (lsp-deferred))))
@@ -126,8 +109,7 @@
         (nerd-icons-icon-for-extension file-ext)))
     (advice-add #'lsp-icons-get-by-file-ext :override #'my-lsp-icons-get-by-file-ext)
     (defvar lsp-symbol-alist
-      '(
-        (misc          nerd-icons-codicon "nf-cod-symbol_namespace" :face font-lock-warning-face)
+      '((misc          nerd-icons-codicon "nf-cod-symbol_namespace" :face font-lock-warning-face)
         (document      nerd-icons-codicon "nf-cod-symbol_file" :face font-lock-string-face)
         (namespace     nerd-icons-codicon "nf-cod-symbol_namespace" :face font-lock-type-face)
         (string        nerd-icons-codicon "nf-cod-symbol_string" :face font-lock-doc-face)
