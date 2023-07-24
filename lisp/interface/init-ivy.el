@@ -18,8 +18,6 @@
 ;;
 ;;; Code:
 
-(require 'functions)
-
 (use-package counsel
   :diminish ivy-mode counsel-mode
   :commands (ivy-immediate-done

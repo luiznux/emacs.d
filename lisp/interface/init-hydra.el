@@ -18,9 +18,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-(require 'functions)
-
 (use-package hydra
   :hook (emacs-lisp-mode . hydra-add-imenu))
 

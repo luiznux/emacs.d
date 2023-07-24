@@ -18,9 +18,6 @@
 ;;; Code:
 
 (require 'subr-x)
-(require 'constants)
-(require 'custom-config)
-(require 'functions)
 
 ;; Compatibility
 (use-package compat :demand t)

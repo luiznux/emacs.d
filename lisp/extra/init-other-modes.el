@@ -18,8 +18,6 @@
 ;;
 ;;; Code:
 
-(require 'functions)
-
 (use-package google-this)
 (use-package google-translate
   :bind

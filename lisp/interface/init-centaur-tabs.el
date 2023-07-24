@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-
 (use-package centaur-tabs
   :defines (evil-normal-state-map centaur-tabs-excluded-prefixes)
   :commands (centaur-tabs-group-by-projectile-project

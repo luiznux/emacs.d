@@ -18,9 +18,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-(require 'functions)
 (require 'my-custom-emojis)
 
 ;; Optimization

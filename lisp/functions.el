@@ -18,9 +18,6 @@
 ;;; Code:
 
 (require 'cl-lib)
-
-(require 'constants)
-(require 'custom-config)
 (require 'org)
 
 (defvar line-breaker)

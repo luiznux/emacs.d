@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-
 ;; Restore old window configurations
 (use-package winner
   :ensure nil

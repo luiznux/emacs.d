@@ -16,9 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'functions)
-
 ;; Rectangle
 (use-package rect
   :ensure nil

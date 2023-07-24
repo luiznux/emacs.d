@@ -16,9 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-
 ;; A tree layout file explorer
 (use-package treemacs
   :commands (treemacs-toggle-fixed-width

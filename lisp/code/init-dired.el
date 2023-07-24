@@ -20,9 +20,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'functions)
-
 ;; Directory operations
 (use-package dired
   :ensure nil

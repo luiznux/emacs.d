@@ -16,9 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'functions)
-
 (use-package markdown-mode
   :mode (("README\\.md\\'" . gfm-mode))
   :init

@@ -16,10 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-(require 'constants)
-(require 'functions)
-
 ;; Prettify Symbols
 ;; e.g. display “lambda” as “λ”
 (use-package prog-mode

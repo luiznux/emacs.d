@@ -18,10 +18,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-(require 'functions)
-
 ;; Load `custom-file'
 (and (file-readable-p custom-file) (load custom-file))
 

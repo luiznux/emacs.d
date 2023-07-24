@@ -65,6 +65,11 @@
 
 (update-load-path)
 
+;; Requisites
+(require 'constants)
+(require 'custom-config)
+(require 'functions)
+
 (require 'packages)
 
 ;; Core packages

@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'functions)
-
 ;; Highlight the current line
 (use-package hl-line
   :ensure nil

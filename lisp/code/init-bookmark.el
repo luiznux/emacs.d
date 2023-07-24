@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'functions)
-
 ;; Bookmark
 (use-package bookmark
   :ensure nil

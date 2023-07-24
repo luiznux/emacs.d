@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'functions)
-
 ;; C/C++ Mode
 (use-package cc-mode
   :ensure nil

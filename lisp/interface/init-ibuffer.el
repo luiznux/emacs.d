@@ -16,9 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'functions)
-
 (use-package ibuffer
   :ensure nil
   :bind ("C-x C-b" . ibuffer)

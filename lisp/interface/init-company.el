@@ -16,9 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-(require 'functions)
-
 (use-package company
   :diminish
   :defines (company-dabbrev-ignore-case company-dabbrev-downcase)

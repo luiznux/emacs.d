@@ -16,9 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-(require 'functions)
-
 (use-package dashboard
   :diminish dashboard-mode
   :functions (nerd-icons-faicon

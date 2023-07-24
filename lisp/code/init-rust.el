@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-
 (use-package rustic
   :init
   (setq rustic-lsp-client 'lsp-mode))

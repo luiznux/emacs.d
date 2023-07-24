@@ -15,9 +15,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-
 ;; Ctags IDE on the True Editor
 ;; @see https://github.com/universal-ctags/citre#quick-start
 (use-package citre

@@ -18,11 +18,7 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-(require 'functions)
 (require 'org-auto-update-state)
-
 (require 'init-color-agenda)
 (require 'init-org-env)
 

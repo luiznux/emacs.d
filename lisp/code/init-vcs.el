@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-
 (use-package magit
   :defer t
   :hook (git-commit-setup . turn-off-auto-fill)
