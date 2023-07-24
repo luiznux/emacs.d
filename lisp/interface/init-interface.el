@@ -360,7 +360,10 @@
 
 ;; Icons
 (use-package nerd-icons
-  :demand t)
+  :config
+  (when (and (display-graphic-p)
+             (not (font-installed-p nerd-icons-font-family)))
+    (nerd-icons-install-fonts t)))
 
 ;; Show line numbers
 (use-package display-line-numbers
