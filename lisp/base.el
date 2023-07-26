@@ -237,8 +237,6 @@
 (with-no-warnings
   (setq line-breaker page-delimiter))
 
-(global-hl-line-mode 1)
-
 (setq inhibit-compacting-font-caches  t ; Don’t compact font caches during GC.
       delete-by-moving-to-trash       t ; Deleting files go to OS's trash folder
       delete-old-versions             t ; Delete excess backup files silently

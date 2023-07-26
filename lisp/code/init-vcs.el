@@ -18,7 +18,6 @@
 
 (use-package magit
   :defer t
-  :hook (git-commit-setup . turn-off-auto-fill)
   :init (setq magit-diff-refine-hunk t)
   :config
   (when (fboundp 'transient-append-suffix)
