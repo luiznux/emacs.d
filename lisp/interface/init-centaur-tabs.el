@@ -58,7 +58,7 @@
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
 
   :config
-  (dolist (excluded-prefixes '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*"
+  (dolist (excluded-prefixes '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics"
                                 "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*"))
     (cl-pushnew excluded-prefixes centaur-tabs-excluded-prefixes)))
 
