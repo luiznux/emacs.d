@@ -330,7 +330,7 @@
   (use-package emojify
     :hook ((org-agenda-mode . emojify-mode)
            (org-mode        . emojify-mode))
-    :bind ("C-c m" . 'emojify-insert-emoji)
+    :bind ("C-c e" . 'emojify-insert-emoji)
     :init
     (setq emojify-company-tooltips-p   t
           emojify-composed-text-p      nil
@@ -346,13 +346,7 @@
              when (font-installed-p font)
              return (if (>= emacs-major-version 28)
                         (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
-                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
-    :config
-    (use-package company-emojify
-      :init
-      (setq company-emojify-insert-unicode nil
-            company-emojify-emoji-styles   '(github))
-      (add-to-list 'company-backends 'company-emojify)))
+                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))))
 
   ;; Make mail look pretty
   (use-package all-the-icons-gnus
