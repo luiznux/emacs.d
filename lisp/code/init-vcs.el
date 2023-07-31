@@ -17,7 +17,6 @@
 ;;; Code:
 
 (use-package magit
-  :defer t
   :init (setq magit-diff-refine-hunk t)
   :config
   (when (fboundp 'transient-append-suffix)
