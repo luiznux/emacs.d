@@ -37,10 +37,9 @@
 
 (defun childframe-workable-p ()
   "Whether childframe is workable."
-  (or (not (or noninteractive
-               emacs-basic-display
-               (not (display-graphic-p))))
-      (daemonp)))
+  (not (or noninteractive
+           emacs-basic-display
+           (not (display-graphic-p)))))
 
 
 ;; Font
