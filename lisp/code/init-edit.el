@@ -174,6 +174,10 @@
   (with-no-warnings
     after-init-hook . (undohist-initialize)))
 
+(use-package vundo
+  :bind ("C-x u" . vundo)
+  :config (setq vundo-glyph-alist vundo-unicode-symbols))
+
 ;; Preview when `goto-line'
 (use-package goto-line-preview
   :bind ([remap goto-line] . goto-line-preview))
