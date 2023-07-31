@@ -16,8 +16,8 @@
 ;;
 ;;; Code:
 
-(when (version< emacs-version "26.1")
-  (error "This requires Emacs 26.1 and above!"))
+(when (version< emacs-version "28.1")
+  (error "This requires Emacs 28.1 and above!"))
 
 ;; avoid anoing message
 (setq byte-compile-warnings '(cl-functions))
