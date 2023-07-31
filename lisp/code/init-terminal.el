@@ -96,6 +96,7 @@
            (executable-find "libtool")
            (executable-find "make"))
   (use-package vterm
+    :hook (vterm-mode . turn-off-evil-mode)
     :bind (:map vterm-mode-map
            ([f9] . (lambda ()
                      (interactive)
