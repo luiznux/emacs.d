@@ -109,8 +109,6 @@
   (("C-<f5>"  . quickrun)
    ("C-c C-e" . quickrun-shell)))
 
-(use-package csv-mode)
-
 ;; cucumber support
 ;; read https://github.com/michaelklishin/cucumber.el
 (use-package feature-mode
@@ -124,11 +122,11 @@
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package ag)
+(use-package csv-mode)
 (use-package terraform-mode)
 (use-package vimrc-mode)
 (use-package dart-mode)
 (use-package mermaid-mode)
-(use-package plantuml-mode)
 (use-package cask-mode)
 (use-package cmake-mode)
 (use-package rmsbolt)                   ; A compiler output viewer
