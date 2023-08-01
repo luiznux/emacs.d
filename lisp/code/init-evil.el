@@ -26,22 +26,12 @@
   :init
   (setq evil-want-integration t
         evil-want-keybinding  nil
-        evil-undo-system      'undo-tree))
+        evil-undo-system      'undo-redo))
 
 (use-package evil-collection
   :after evil
   :hook (after-init . evil-collection-init)
   :custom (setq evil-collection-setup-minibuffer nil))
-
-;; dependency for evil-undo-system
-(use-package undo-tree
-  :diminish
-  :hook (after-init . global-undo-tree-mode)
-  :init
-  ;; Prevent undo tree files from polluting your git repo
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))
-        undo-tree-visualizer-timestamps   t
-        undo-tree-visualizer-diff         t))
 
 (use-package evil-org
   :after org

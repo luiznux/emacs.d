@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-
 (use-package centaur-tabs
   :defines (evil-normal-state-map centaur-tabs-excluded-prefixes)
   :commands (centaur-tabs-group-by-projectile-project
@@ -43,6 +41,7 @@
           ("g T" . centaur-tabs-backward)))
   :init
   (setq centaur-tabs-style                    "chamfer"
+        centaur-tabs-icon-type                'nerd-icons
         centaur-tabs-height                   32
         centaur-tabs-set-bar                  'under
         centaur-tabs-set-icons                t
@@ -54,12 +53,12 @@
         x-underline-at-descent-line           t)
 
   (centaur-tabs-headline-match)
-  (centaur-tabs-group-by-projectile-project)
+;;(centaur-tabs-group-by-projectile-project)
   (centaur-tabs-enable-buffer-reordering)
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
 
   :config
-  (dolist (excluded-prefixes '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*"
+  (dolist (excluded-prefixes '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics"
                                 "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*"))
     (cl-pushnew excluded-prefixes centaur-tabs-excluded-prefixes)))
 

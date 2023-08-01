@@ -16,10 +16,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-(require 'constants)
-(require 'functions)
-
 ;; Prettify Symbols
 ;; e.g. display “lambda” as “λ”
 (use-package prog-mode
@@ -44,7 +40,7 @@
 (use-package grep
   :ensure nil
   :autoload grep-apply-setting
-  :config
+  :init
   (cond
    ((executable-find "ugrep")
     (grep-apply-setting
@@ -67,35 +63,27 @@
 
 ;; Cross-referencing commands
 (use-package xref
-  :ensure nil
   :config
   (with-no-warnings
     ;; Use faster search tool
-    (when emacs/>=28p
-      (add-to-list 'xref-search-program-alist
-                   '(ugrep . "xargs -0 ugrep <C> --null -ns -e <R>"))
-      (cond
-       ((executable-find "ugrep")
-        (setq xref-search-program 'ugrep))
-       ((executable-find "rg")
-        (setq xref-search-program 'ripgrep))))
-
+    (setq xref-search-program (cond
+                               ((executable-find "ugrep") 'ugrep)
+                               ((executable-find "rg") 'ripgrep)
+                               (t 'grep)))
+    ;; Select from xref candidates in minibuffer
+    (setq xref-show-definitions-function #'xref-show-definitions-completing-read
+          xref-show-xrefs-function #'xref-show-definitions-completing-read)
     ;; Select from xref candidates with Ivy
-    (if emacs/>=28p
-        (setq xref-show-definitions-function #'xref-show-definitions-completing-read
-              xref-show-xrefs-function #'xref-show-definitions-completing-read)
-      (use-package ivy-xref
-        :after ivy
-        :init
-        (when emacs/>=27p
-          (setq xref-show-definitions-function #'ivy-xref-show-defs))
-        (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)))))
+    (use-package ivy-xref
+      :after ivy
+      :init
+      (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))))
 
 ;; Jump to definition
 (use-package dumb-jump
   :commands xref-show-definitions-completing-read
   :pretty-hydra
-  ((:title (pretty-hydra-title "Dump Jump" 'faicon "anchor")
+  ((:title (pretty-hydra-title "Dump Jump" 'faicon "nf-fa-anchor")
     :color blue :quit-key ("q" "C-g"))
    ("Jump"
     (("j" dumb-jump-go "Go")
@@ -109,9 +97,7 @@
   :bind ("C-M-j" . dumb-jump-hydra/body)
   :init
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate) ; use M-. to go to definition
-  (setq  dumb-jump-prefer-searcher       'ag
-         dumb-jump-force-searcher        'ag
-         dumb-jump-selector              'ivy))
+  (setq dumb-jump-selector 'ivy))
 
 ;; Code styles
 (use-package editorconfig
@@ -122,16 +108,6 @@
   :bind
   (("C-<f5>"  . quickrun)
    ("C-c C-e" . quickrun-shell)))
-
-(when emacs/>=27p
-  (use-package csv-mode))
-
-(use-package dart-mode
-  :defines (projectile-project-root-files-bottom-up)
-  :config
-  (with-eval-after-load 'projectile
-    (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
-    (add-to-list 'projectile-project-root-files-bottom-up "BUILD")))
 
 ;; cucumber support
 ;; read https://github.com/michaelklishin/cucumber.el
@@ -146,10 +122,11 @@
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package ag)
+(use-package csv-mode)
 (use-package terraform-mode)
 (use-package vimrc-mode)
+(use-package dart-mode)
 (use-package mermaid-mode)
-(use-package plantuml-mode)
 (use-package cask-mode)
 (use-package cmake-mode)
 (use-package rmsbolt)                   ; A compiler output viewer

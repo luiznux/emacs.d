@@ -18,17 +18,13 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-(require 'functions)
-
 ;; Load `custom-file'
 (and (file-readable-p custom-file) (load custom-file))
 
 ;; HACK: DO NOT save package-selected-packages to `custom-file'.
 ;; https://github.com/jwiegley/use-package/issues/383#issuecomment-247801751
 (defun my-package--save-selected-packages (&optional value)
-  "Set `package-selected-packages' to VALUE but don't save to variable `custom-file'."
+  "Set `package-selected-packages' to VALUE but don't save to option `custom-file'."
   (when value
     (setq package-selected-packages value))
   (unless after-init-time
@@ -49,17 +45,13 @@
   (package-install 'use-package))
 
 ;; Should set before loading `use-package'
-(eval-and-compile
-  (setq use-package-always-ensure t)
-  (setq use-package-always-defer t)
-  (setq use-package-expand-minimally t)
-  (setq use-package-enable-imenu-support t))
+(setq use-package-always-ensure t
+      use-package-always-defer t
+      use-package-expand-minimally t
+      use-package-enable-imenu-support t)
 
-(eval-when-compile
-  (require 'use-package))
-
-;; Don't display minor modes
-(use-package diminish)
+;; Don't display minor modes and required by `use-package'
+(use-package diminish :ensure t)
 
 ;; Update GPG keyring for GNU ELPA
 (use-package gnu-elpa-keyring-update)

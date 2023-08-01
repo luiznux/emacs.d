@@ -18,9 +18,6 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-(require 'functions)
-
 (use-package hydra
   :hook (emacs-lisp-mode . hydra-add-imenu))
 
@@ -37,11 +34,11 @@
                                       &key face height v-adjust)
     "Add an icon in the hydra title."
     (let ((face (or face `(:foreground ,(face-background 'highlight))))
-          (height (or height 1.0))
+          (height (or height 1.2))
           (v-adjust (or v-adjust 0.0)))
       (concat
-       (when (and (icon-displayable-p) icon-type icon-name)
-         (let ((f (intern (format "all-the-icons-%s" icon-type))))
+       (when (and (icons-displayable-p) icon-type icon-name)
+         (let ((f (intern (format "nerd-icons-%s" icon-type))))
            (when (fboundp f)
              (concat
               (apply f (list icon-name :face face :height height :v-adjust v-adjust))
@@ -50,7 +47,7 @@
 
   ;; Global toggles
   (with-no-warnings
-    (pretty-hydra-define toggles-hydra (:title (pretty-hydra-title "Toggles" 'faicon "toggle-on" :v-adjust -0.1)
+    (pretty-hydra-define toggles-hydra (:title (pretty-hydra-title "Toggles" 'faicon "nf-fa-toggle_on")
                                         :color amaranth :quit-key ("q" "C-g"))
       ("Basic"
        (("n" (cond ((fboundp 'display-line-numbers-mode)
@@ -78,8 +75,8 @@
         ("h i" highlight-indent-guides-mode "indent" :toggle t)
         ("h t" global-hl-todo-mode "todo" :toggle t))
        "Program"
-       (("f" flycheck-mode "flycheck" :toggle t)
-        ("F" flymake-mode "flymake" :toggle t)
+       (("F" flycheck-mode "flycheck" :toggle t)
+        ("f" flymake-mode "flymake" :toggle t)
         ("O" hs-minor-mode "hideshow" :toggle t)
         ("u" subword-mode "subword" :toggle t)
         ("W" which-function-mode "which function" :toggle t)

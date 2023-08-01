@@ -16,13 +16,11 @@
 ;;
 ;;; Code:
 
-(require 'functions)
-
 ;; Highlight the current line
 (use-package hl-line
   :ensure nil
   :hook ((after-init . global-hl-line-mode)
-         (( eshell-mode shell-mode term-mode vterm-mode) .
+         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
 ;; Highlight matching parens
@@ -41,14 +39,14 @@
   :diminish
   :custom-face
   (symbol-overlay-default-face ((t (:inherit region :background unspecified :foreground unspecified))))
-  (symbol-overlay-face-1 ((t (:inherit all-the-icons-blue :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-2 ((t (:inherit all-the-icons-pink :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-3 ((t (:inherit all-the-icons-yellow :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-4 ((t (:inherit all-the-icons-orange :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-5 ((t (:inherit all-the-icons-red :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-6 ((t (:inherit all-the-icons-purple :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-7 ((t (:inherit all-the-icons-green :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-8 ((t (:inherit all-the-icons-cyan :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-1 ((t (:inherit nerd-icons-blue :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-2 ((t (:inherit nerd-icons-pink :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-3 ((t (:inherit nerd-icons-yellow :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-4 ((t (:inherit nerd-icons-purple :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-5 ((t (:inherit nerd-icons-red :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-6 ((t (:inherit nerd-icons-orange :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-7 ((t (:inherit nerd-icons-green :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-8 ((t (:inherit nerd-icons-cyan :background unspecified :foreground unspecified :inverse-video t))))
   :bind (("M-i"  . symbol-overlay-put)
          ("M-n"  . symbol-overlay-jump-next)
          ("M-p"  . symbol-overlay-jump-prev)
@@ -206,13 +204,12 @@
       (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))))
 
 ;; Pulse modified region
-(if emacs/>=27p
-    (use-package goggles
-      :diminish
-      :hook ((prog-mode text-mode) . goggles-mode))
-  (use-package volatile-highlights
-    :diminish
-    :hook (after-init . volatile-highlights-mode)))
+(use-package goggles
+  :diminish
+  :hook ((prog-mode text-mode) . goggles-mode))
+(use-package volatile-highlights
+  :diminish
+  :hook (after-init . volatile-highlights-mode))
 
 ;; Pulse current line
 (use-package pulse

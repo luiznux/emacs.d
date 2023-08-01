@@ -18,9 +18,6 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-(require 'functions)
 (require 'my-custom-emojis)
 
 ;; Optimization
@@ -46,6 +43,11 @@
 (when (and sys/mac-ns-p sys/mac-x-p)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (add-hook 'server-after-make-frame-hook
+            (lambda ()
+              (if (display-graphic-p)
+                  (menu-bar-mode 1)
+                (menu-bar-mode -1))))
   (add-hook 'after-load-theme-hook
             (lambda ()
               (let ((bg (frame-parameter nil 'background-mode)))
@@ -58,23 +60,17 @@
 (use-package doom-themes
   :custom-face
   (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
-  :custom (doom-themes-treemacs-theme "doom-colors")
   :init (load-theme 'doom-one t)
   :config
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-
-  ;; Enable customized theme
-  ;; FIXME https://github.com/emacs-lsp/lsp-treemacs/issues/89
-  (with-eval-after-load 'lsp-treemacs
-    (doom-themes-treemacs-config)))
+  (doom-themes-org-config))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :bind (:map doom-modeline-mode-map
          ("C-<f6>" . doom-modeline-hydra/body))
   :pretty-hydra
-  ((:title (pretty-hydra-title "Mode Line" 'fileicon "emacs" :face 'all-the-icons-purple :v-adjust -0.1)
+  ((:title (pretty-hydra-title "Mode Line" 'sucicon "nf-custom-emacs" :face 'nerd-icons-purple)
     :color amaranth :quit-key ("q" "C-g"))
    ("Icon"
     (("i" (setq doom-modeline-icon (not doom-modeline-icon))
@@ -108,8 +104,8 @@
       "misc info" :toggle doom-modeline-display-misc-in-all-mode-lines)
      ("g l" (setq doom-modeline-lsp (not doom-modeline-lsp))
       "lsp" :toggle doom-modeline-lsp)
-     ("g p" (setq doom-modeline-persp-name (not doom-modeline-persp-name))
-      "perspective" :toggle doom-modeline-persp-name)
+     ("g k" (setq doom-modeline-workspace-name (not doom-modeline-workspace-name))
+      "workspace" :toggle doom-modeline-workspace-name)
      ("g g" (setq doom-modeline-github (not doom-modeline-github))
       "github" :toggle doom-modeline-github)
      ("g n" (setq doom-modeline-gnus (not doom-modeline-gnus))
@@ -212,7 +208,6 @@
         doom-modeline-buffer-modification-icon    t
         doom-modeline-modal-icon                  t
         doom-modeline-lsp                         t
-        doom-modeline-github                      t
         doom-modeline-persp-name                  t
         doom-modeline-persp-icon                  t
         doom-modeline-minor-modes                 t
@@ -236,11 +231,11 @@
            completion-in-region-mode
            eshell-mode shell-mode
            term-mode vterm-mode
+           treemacs-mode
            lsp-ui-imenu-mode
            pdf-annot-list-mode
            flycheck-error-list-mode
            lsp-treemacs-error-list-mode) . hide-mode-line-mode)))
-
 
 (when fancy-modeline
   (use-package nyan-mode
@@ -270,33 +265,6 @@
 (use-package minions
   :hook (doom-modeline-mode . minions-mode))
 
-;; Child frame
-(use-package posframe
-  :hook (after-load-theme . posframe-delete-all)
-  :init
-  (defface posframe-border
-    `((t (:inherit region)))
-    "Face used by the `posframe' border."
-    :group 'posframe)
-
-  (with-eval-after-load 'persp-mode
-    (add-hook 'persp-load-buffer-functions
-              (lambda (&rest _)
-                (posframe-delete-all))))
-  :config
-  (with-no-warnings
-    (defun my-posframe--prettify-frame (&rest _)
-      (set-face-background 'fringe nil posframe--frame))
-    (advice-add #'posframe--create-posframe :after #'my-posframe--prettify-frame)
-
-    (defun posframe-poshandler-frame-center-near-bottom (info)
-      (cons (/ (- (plist-get info :parent-frame-width)
-                  (plist-get info :posframe-width))
-               2)
-            (/ (+ (plist-get info :parent-frame-height)
-                  (* 2 (plist-get info :font-height)))
-               2)))))
-
 (use-package which-key
   :diminish
   :bind ("C-h M-m" . which-key-show-major-mode)
@@ -314,7 +282,6 @@
 
 ;; Fast search tool `ripgrep'
 (use-package rg
-  :defines projectile-command-map
   :hook (after-init . rg-enable-default-bindings)
   :bind (:map rg-global-map
          ("c" . rg-dwim-current-dir)
@@ -323,16 +290,13 @@
   :init (setq rg-group-result t
               rg-show-columns t)
   :config
-  (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases)
+  (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases))
 
-  (with-eval-after-load 'projectile
-    (bind-key "s R" #'rg-project projectile-command-map)))
-
-(when emacs-icon
+(when emacs-emojify
   (use-package emojify
     :hook ((org-agenda-mode . emojify-mode)
            (org-mode        . emojify-mode))
-    :bind ("C-c m" . 'emojify-insert-emoji)
+    :bind ("C-c e" . 'emojify-insert-emoji)
     :init
     (setq emojify-company-tooltips-p   t
           emojify-composed-text-p      nil
@@ -348,86 +312,18 @@
              when (font-installed-p font)
              return (if (>= emacs-major-version 28)
                         (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend)
-                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
-    :config
-    (use-package company-emojify
-      :init
-      (setq company-emojify-insert-unicode nil
-            company-emojify-emoji-styles   '(github))
-      (add-to-list 'company-backends 'company-emojify)))
-
-  ;; Add icons for emacs
-  (use-package all-the-icons
-    :custom (all-the-icons-scale-factor 1.1)
-    :init (unless (or (font-installed-p "all-the-icons")
-                      (daemonp))
-            (emacs-install-fonts))
-    :config
-    ;; Support more icons
-    (let ((extension-icon-alist
-           '(("bat"  all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver)
-             ("cmd"  all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver)
-             ("conf" all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-yellow)
-             ("eln"  all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-dsilver)
-             ("epub" all-the-icons-faicon "book"         :height 1.0 :v-adjust -0.1 :face all-the-icons-green)
-             ("exe"  all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-dsilver)
-             ("make" all-the-icons-fileicon "gnu"        :face all-the-icons-dorange)
-             ("rss"  all-the-icons-octicon "rss"         :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
-             ("toml" all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-yellow)
-             ("tsx"  all-the-icons-fileicon "tsx"        :height 1.0 :v-adjust -0.1 :face all-the-icons-cyan-alt)
-             ("xpm"  all-the-icons-octicon "file-media"  :v-adjust 0.0 :face all-the-icons-dgreen))))
-      (dolist (icon extension-icon-alist)
-        (add-to-list 'all-the-icons-extension-icon-alist icon)))
-
-    (let ((regexp-icon-alist
-           '(("\\.[bB][iI][nN]$"               all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-yellow)
-             ("^config$"                       all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-dorange)
-             ("\\.\\(ba\\|z\\)shrc$"           all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dpink)
-             ("\\.\\(bash\\|zsh\\)*_?profile$" all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dred)
-             ("\\.\\(ba\\|z\\)sh_history$"     all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dsilver)
-             ("\\.zshenv$"                     all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dred)
-             ("\\.org_archive$"                all-the-icons-fileicon "org"        :face all-the-icons-dsilver)
-             ("Cask\\'"                        all-the-icons-fileicon "elisp"      :height 1.0 :v-adjust -0.2 :face all-the-icons-blue)
-             ("NEWS$"                          all-the-icons-faicon "newspaper-o"  :height 0.9 :v-adjust -0.2)
-             ("^Rakefile$"                     all-the-icons-alltheicon "ruby-alt" :face all-the-icons-red))))
-      (dolist (icon regexp-icon-alist)
-        (add-to-list 'all-the-icons-regexp-icon-alist icon)))
-
-    (let ((mode-icon-alist
-           '((xwidget-webkit-mode           all-the-icons-faicon "chrome"          :v-adjust -0.1 :face all-the-icons-blue)
-             (bongo-playlist-mode           all-the-icons-material "queue_music"   :height 1.2 :face all-the-icons-green)
-             (bongo-library-mode            all-the-icons-material "library_music" :height 1.1 :face all-the-icons-green)
-             (simple-mpc-mode               all-the-icons-faicon "music"           :v-adjust -0.1 :face all-the-icons-green)
-             (gnus-group-mode               all-the-icons-fileicon "gnu"           :face all-the-icons-silver)
-             (gnus-summary-mode             all-the-icons-octicon "inbox"          :height 1.0 :v-adjust 0.0 :face all-the-icons-orange)
-             (gnus-article-mode             all-the-icons-octicon "mail"           :height 1.1 :v-adjust 0.0 :face all-the-icons-lblue)
-             (message-mode                  all-the-icons-octicon "mail"           :height 1.1 :v-adjust 0.0 :face all-the-icons-lblue)
-             (diff-mode                     all-the-icons-octicon "git-compare"    :v-adjust 0.0 :face all-the-icons-lred)
-             (flycheck-error-list-mode      all-the-icons-octicon "checklist"      :height 1.1 :v-adjust 0.0 :face all-the-icons-lred)
-             (newsticker-mode               all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
-             (newsticker-treeview-mode      all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
-             (newsticker-treeview-list-mode all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-orange)
-             (newsticker-treeview-item-mode all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
-             (conf-mode                     all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-yellow)
-             (conf-space-mode               all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-yellow)
-             (gitconfig-mode                all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-dorange)
-             (forge-topic-mode              all-the-icons-alltheicon "git"         :face all-the-icons-blue)
-             (help-mode                     all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1 :face all-the-icons-purple)
-             (helpful-mode                  all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1 :face all-the-icons-purple)
-             (Info-mode                     all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1)
-             (cask-mode                     all-the-icons-fileicon "elisp"         :height 1.0 :v-adjust -0.2 :face all-the-icons-blue)
-             (ein:notebooklist-mode         all-the-icons-faicon "book"            :face all-the-icons-lorange)
-             (ein:notebook-mode             all-the-icons-fileicon "jupyter"       :height 1.2 :face all-the-icons-orange)
-             (ein:notebook-multilang-mode   all-the-icons-fileicon "jupyter"       :height 1.2 :face all-the-icons-dorange)
-             (nov-mode                      all-the-icons-faicon "book"            :height 1.0 :v-adjust -0.1 :face all-the-icons-green)
-             (gfm-mode                      all-the-icons-octicon "markdown"       :face all-the-icons-lblue)
-             (osx-dictionary-mode           all-the-icons-material "library_books" :face all-the-icons-lblue))))
-      (dolist (icon mode-icon-alist)
-        (add-to-list 'all-the-icons-mode-icon-alist icon))))
+                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))))
 
   ;; Make mail look pretty
   (use-package all-the-icons-gnus
     :config (all-the-icons-gnus-setup)))
+
+;; Icons
+(use-package nerd-icons
+  :config
+  (when (and (display-graphic-p)
+             (not (font-installed-p nerd-icons-font-family)))
+    (nerd-icons-install-fonts t)))
 
 ;; Show line numbers
 (use-package display-line-numbers
@@ -468,19 +364,19 @@
       scroll-margin                        0 ;; keyboard scroll at the bottom of the screen
       scroll-conservatively                100000
       auto-window-vscroll                  nil
-      mouse-wheel-follow-mouse             't ;; scroll window under mouse
       scroll-preserve-screen-position      t)
 
 ;; Good pixel line scrolling
 (if (fboundp 'pixel-scroll-precision-mode)
     (pixel-scroll-precision-mode t)
-  (when (and emacs/>=27p (not sys/macp))
+  (unless sys/macp
     (use-package good-scroll
       :diminish
       :hook (after-init . good-scroll-mode)
       :bind (([remap next] . good-scroll-up-full-screen)
              ([remap prior] . good-scroll-down-full-screen)))))
-(with-no-warnings
+
+(when (fboundp 'pixel-scroll-precision-mode)
   (setq pixel-scroll-precision-large-scroll-height  40.0))
 
 ;; Smooth scrolling over images
@@ -491,6 +387,31 @@
 ;; Use fixed pitch where it's sensible
 (use-package mixed-pitch
   :diminish)
+
+;; Child frame
+(when (childframe-workable-p)
+  (use-package posframe
+    :hook (after-load-theme . posframe-delete-all)
+    :init
+    (defface posframe-border
+      `((t (:inherit region)))
+      "Face used by the `posframe' border."
+      :group 'posframe)
+    (defvar posframe-border-width 2
+      "Default posframe border width.")
+    :config
+    (with-no-warnings
+      (defun my-posframe--prettify-frame (&rest _)
+        (set-face-background 'fringe nil posframe--frame))
+      (advice-add #'posframe--create-posframe :after #'my-posframe--prettify-frame)
+
+      (defun posframe-poshandler-frame-center-near-bottom (info)
+        (cons (/ (- (plist-get info :parent-frame-width)
+                    (plist-get info :posframe-width))
+                 2)
+              (/ (+ (plist-get info :parent-frame-height)
+                    (* 2 (plist-get info :font-height)))
+                 2))))))
 
 (with-no-warnings
   (when sys/macp

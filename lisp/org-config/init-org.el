@@ -18,11 +18,7 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-(require 'functions)
 (require 'org-auto-update-state)
-
 (require 'init-color-agenda)
 (require 'init-org-env)
 
@@ -36,7 +32,7 @@
                        (:strike-through t))))
   :pretty-hydra
   ;; See `org-structure-template-alist'
-  ((:title (pretty-hydra-title "Org Template" 'fileicon "org" :face 'all-the-icons-green :height 1.1 :v-adjust 0.0)
+  ((:title (pretty-hydra-title "Org Template" 'sucicon "nf-custom-orgmode" :face 'nerd-icons-green)
     :color blue :quit-key ("q" "C-g"))
    ("Basic"
     (("a" (hot-expand "<a") "ascii")
@@ -331,19 +327,18 @@ prepended to the element after the #+HEADER: tag."
       :config
       (org-pretty-tags-global-mode)))
 
-  (when emacs/>=27p
-    ;; Auto-toggle Org LaTeX fragments
-    (use-package org-fragtog
-      :diminish
-      :hook (org-mode . org-fragtog-mode))
+  ;; Auto-toggle Org LaTeX fragments
+  (use-package org-fragtog
+    :diminish
+    :hook (org-mode . org-fragtog-mode))
 
-    ;; Preview
-    (use-package org-preview-html
-      :diminish
-      :bind (:map org-mode-map
-             ("C-c C-h" . org-preview-html-mode))
-      :init (when (featurep 'xwidget-internal)
-              (setq org-preview-html-viewer 'xwidget))))
+  ;; Preview
+  (use-package org-preview-html
+    :diminish
+    :bind (:map org-mode-map
+           ("C-c C-h" . org-preview-html-mode))
+    :init (when (featurep 'xwidget-internal)
+            (setq org-preview-html-viewer 'xwidget)))
 
   (use-package ox-pandoc
     :when (executable-find "pandoc")
@@ -460,11 +455,10 @@ prepended to the element after the #+HEADER: tag."
 
     (org-roam-db-autosync-enable))
 
-  (when emacs/>=27p
-    (use-package org-roam-ui
-      :bind ("C-c n u" . org-roam-ui-mode)
-      :init (when (featurep 'xwidget-internal)
-              (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)))))
+  (use-package org-roam-ui
+    :bind ("C-c n u" . org-roam-ui-mode)
+    :init (when (featurep 'xwidget-internal)
+            (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url))))
 
 
 (provide 'init-org)

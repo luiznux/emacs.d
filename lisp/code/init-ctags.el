@@ -15,15 +15,12 @@
 ;;
 ;;; Code:
 
-(require 'constants)
-(require 'custom-config)
-
 ;; Ctags IDE on the True Editor
 ;; @see https://github.com/universal-ctags/citre#quick-start
 (use-package citre
   :diminish
   :commands citre-jump-back
-  :functions (projectile-project-root xref-go-back)
+  :functions xref-go-back
   :bind (:map prog-mode-map
          ("C-x c j" . citre-jump+)
          ("C-x c k" . citre-jump-back+)
@@ -35,9 +32,6 @@
         citre-default-create-tags-file-location 'global-cache
         citre-use-project-root-when-creating-tags t
         citre-prompt-language-for-ctags-command t)
-
-  (with-eval-after-load 'projectile
-    (setq citre-project-root-function #'projectile-project-root))
 
   (defun citre-jump+ ()
     "Jump to the definition of the symbol at point.

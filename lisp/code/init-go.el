@@ -31,21 +31,6 @@
   (use-package go-fill-struct)
   (use-package go-impl)
 
-  ;; Install: See https://github.com/golangci/golangci-lint#install
-  (use-package flycheck-golangci-lint
-    :if (executable-find "golangci-lint")
-    :after flycheck
-    :defines flycheck-disabled-checkers
-    :hook (go-mode . (lambda ()
-                       "Enable golangci-lint."
-                       (setq flycheck-disabled-checkers '(go-gofmt
-                                                          go-golint
-                                                          go-vet
-                                                          go-build
-                                                          go-test
-                                                          go-errcheck))
-                       (flycheck-golangci-lint-setup))))
-
   (use-package go-tag
     :bind (:map go-mode-map
            ("C-c t a" . go-tag-add)
@@ -64,6 +49,10 @@
            ("C-c t b" . go-test-current-benchmark)
            ("C-c t c" . go-test-current-coverage)
            ("C-c t x" . go-run))))
+
+(when (emacs-treesit-available-p)
+  (use-package go-ts-mode
+    :init (setq go-ts-mode-indent-offset 4)))
 
 ;; Local Golang playground for short snippets
 (use-package go-playground

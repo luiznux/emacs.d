@@ -16,8 +16,8 @@
 ;;
 ;;; Code:
 
-(when (version< emacs-version "26.1")
-  (error "This requires Emacs 26.1 and above!"))
+(when (version< emacs-version "28.1")
+  (error "This requires Emacs 28.1 and above!"))
 
 ;; avoid anoing message
 (setq byte-compile-warnings '(cl-functions))
@@ -52,18 +52,24 @@
 ;; Optimize: Force "lisp" at the head to reduce the startup time.
 (defun update-load-path (&rest _)
   "Update `load-path'."
-  (dolist (dir '("lisp"))
+  (dolist (dir '("lisp" "site-lisp"))
     (push (expand-file-name dir user-emacs-directory) load-path)))
 
 (defun add-subdirs-to-load-path (&rest _)
   "Add subdirectories to `load-path'."
-  (let ((default-directory (expand-file-name "lisp" user-emacs-directory)))
-    (normal-top-level-add-subdirs-to-load-path)))
+  (dolist (dir '("lisp" "site-lisp"))
+    (let ((default-directory (expand-file-name dir user-emacs-directory)))
+      (normal-top-level-add-subdirs-to-load-path))))
 
 (advice-add #'package-initialize :after #'update-load-path)
 (advice-add #'package-initialize :after #'add-subdirs-to-load-path)
 
 (update-load-path)
+
+;; Requisites
+(require 'constants)
+(require 'custom-config)
+(require 'functions)
 
 (require 'packages)
 
@@ -82,7 +88,7 @@
 (require 'init-highlight)
 (require 'init-ibuffer)
 (require 'init-kill-ring)
-(require 'init-persp)
+(require 'init-workspace)
 (require 'init-window)
 (require 'init-treemacs)
 (require 'init-centaur-tabs)
@@ -99,8 +105,7 @@
 
 ;; Programming
 (require 'init-vcs)
-(require 'init-flycheck)
-(require 'init-projectile)
+(require 'init-flymake)
 (require 'init-lsp)
 (require 'init-ctags)
 

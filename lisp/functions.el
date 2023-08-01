@@ -18,9 +18,6 @@
 ;;; Code:
 
 (require 'cl-lib)
-
-(require 'constants)
-(require 'custom-config)
 (require 'org)
 
 (defvar line-breaker)
@@ -38,6 +35,12 @@
   (run-hooks 'after-load-theme-hook))
 (advice-add #'load-theme :after #'run-after-load-theme-hook)
 
+(defun childframe-workable-p ()
+  "Whether childframe is workable."
+  (not (or noninteractive
+           emacs-basic-display
+           (not (display-graphic-p)))))
+
 
 ;; Font
 
@@ -48,57 +51,7 @@
 (defun emacs-install-fonts ()
   "Install necessary fonts."
   (interactive)
-
-  (let* ((font-dest (cond
-                     ;; Default Linux install directories
-                     ((member system-type '(gnu gnu/linux gnu/kfreebsd))
-                      (concat (or (getenv "XDG_DATA_HOME")
-                                  (concat (getenv "HOME") "/.local/share"))
-                              "/fonts/"))
-                     ;; Default MacOS install directory
-                     ((eq system-type 'darwin)
-                      (concat (getenv "HOME") "/Library/Fonts/"))))
-         (known-dest? (stringp font-dest))
-         (font-dest (or font-dest (read-directory-name "Font installation directory: " "~/"))))
-
-    (unless (file-directory-p font-dest) (mkdir font-dest t))
-
-    ;; Download `all-the-fonts'
-    (when (bound-and-true-p all-the-icons-font-names)
-      (let ((url-format "https://raw.githubusercontent.com/domtronn/all-the-icons.el/master/fonts/%s"))
-        (mapc (lambda (font)
-                (url-copy-file (format url-format font) (expand-file-name font font-dest) t))
-              all-the-icons-font-names)))
-
-    ;; Download `Symbola'
-    ;; See https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip
-    (let* ((url "https://fontlibrary.org/assets/downloads/symbola/cf81aeb303c13ce765877d31571dc5c7/symbola.zip")
-           (temp-file (make-temp-file "symbola-" nil ".zip"))
-           (dir (concat (file-name-directory temp-file) "/symbola/"))
-           (unzip-script (cond ((executable-find "unzip")
-                                (format "mkdir -p %s && unzip -qq %s -d %s"
-                                        dir temp-file dir))
-                               ((executable-find "powershell")
-                                (format "powershell -noprofile -noninteractive \
-  -nologo -ex bypass Expand-Archive -path '%s' -dest '%s'" temp-file dir))
-                               (t (user-error "Unable to extract '%s' to '%s'! \
-  Please check unzip, powershell or extract manually" temp-file dir)))))
-      (url-copy-file url temp-file t)
-      (when (file-exists-p temp-file)
-        (shell-command-to-string unzip-script)
-        (let* ((font-name "Symbola.otf")
-               (temp-font (expand-file-name font-name dir)))
-          (if (file-exists-p temp-font)
-              (copy-file temp-font (expand-file-name font-name font-dest) t)
-            (message "Failed to download `Symbola'!")))))
-
-    (when known-dest?
-      (message "Fonts downloaded, updating font cache... <fc-cache -f -v> ")
-      (shell-command-to-string (format "fc-cache -f -v")))
-
-    (message "Successfully %s `all-the-icons' and `Symbola' fonts to `%s'!"
-             (if known-dest? "installed" "downloaded")
-             font-dest)))
+  (nerd-icons-install-fonts))
 
 (require 'display-line-numbers)
 (defcustom display-line-numbers-exempt-modes
@@ -140,8 +93,8 @@ This issue has been addressed in 28."
   (browse-url luiznux-homepage))
 
 ;; Open custom file
-(defun open-custom-file()
-  "Open or create `custom-file'."
+(defun find-custom-file()
+  "Open option `custom-file'."
   (interactive)
   (unless (file-exists-p custom-file)
     (user-error "The custom file doesn't exist"))
@@ -351,12 +304,11 @@ exist after each headings's drawers."
   (if (fboundp 'native-compile-async)
       (native-compile-async package-user-dir t)))
 
-(defun icon-displayable-p ()
+(defun icons-displayable-p ()
   "Return non-nil if icons are displayable."
   (and emacs-icon
-       (or (display-graphic-p) (daemonp))
-       (or (featurep 'all-the-icons)
-           (require 'all-the-icons nil t))))
+       (or (featurep 'nerd-icons)
+           (require 'nerd-icons nil t))))
 
 (defun emacs-treesit-available-p ()
   "Check whether tree-sitter is available.
@@ -367,7 +319,7 @@ Native tree-sitter is introduced since 29."
 (defun too-long-file-p ()
   "Check whether the file is too long."
   (if (fboundp 'buffer-line-statistics)
-      (> (car (buffer-line-statistics)) 3000)
+      (> (car (buffer-line-statistics)) 10000)
     (> (buffer-size) 100000)))
 
 (define-minor-mode emacs-read-mode
@@ -378,7 +330,7 @@ Native tree-sitter is introduced since 29."
       (progn
         (and (fboundp 'olivetti-mode) (olivetti-mode 1))
         (and (fboundp 'mixed-pitch-mode) (mixed-pitch-mode 1))
-        (text-scale-set +2))
+        (text-scale-set +1))
     (progn
       (and (fboundp 'olivetti-mode) (olivetti-mode -1))
       (and (fboundp 'mixed-pitch-mode) (mixed-pitch-mode -1))
@@ -415,7 +367,7 @@ Native tree-sitter is introduced since 29."
 (defun custom-set-variable (variable value &optional no-save)
   "Set the VARIABLE to VALUE, and return VALUE.
 
-  Save to `custom-file' if NO-SAVE is nil."
+  Save to option `custom-file' if NO-SAVE is nil."
   (customize-set-variable variable value)
   (when (and (not no-save)
              (file-writable-p custom-file))
@@ -435,7 +387,7 @@ Native tree-sitter is introduced since 29."
 
 REFRESH is non-nil, will refresh archive contents.
 ASYNC specifies whether to perform the downloads in the background.
-Save to `custom-file' if NO-SAVE is nil."
+Save to option `custom-file' if NO-SAVE is nil."
   (interactive
    (list
     (intern

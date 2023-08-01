@@ -16,24 +16,23 @@
 ;;
 ;;; Code:
 
-(require 'custom-config)
-(require 'functions)
-(require 'all-the-icons)
-
 (use-package dashboard
   :diminish dashboard-mode
-  :functions (all-the-icons-faicon
-              all-the-icons-material)
-  :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
+  :functions (nerd-icons-faicon
+              nerd-icons-mdicon)
+  :custom-face
+  (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
+  (dashboard-items-face ((t (:weight bold))))
+  (dashboard-no-items-face ((t (:weight normal))))
   :pretty-hydra
-  ((:title (pretty-hydra-title "Dashboard" 'material "dashboard" :height 1.2 :v-adjust -0.2)
+  ((:title (pretty-hydra-title "Dashboard" 'mdicon "nf-md-view_dashboard")
     :color pink :quit-key ("q" "C-g"))
    ("Navigator"
     (("U" update-packages "update" :exit t)
      ("H" browse-homepage "homepage" :exit t)
-     ("R" restore-previous-session "recover session" :exit t)
+     ("R" restore-session "recover session" :exit t)
      ("L" restore-session "list sessions" :exit t)
-     ("S" open-custom-file "settings" :exit t)
+     ("S" find-custom-file "settings" :exit t)
      ("N" centaur-tabs--create-new-tab "create new tab" :exit t))
     "Section"
     (("}" dashboard-next-section "next")
@@ -55,64 +54,62 @@
   :bind (("<f2>" . open-dashboard)
          :map dashboard-mode-map
          ("S-<f2>" . dashboard-hydra/body)
-         ("R"      . restore-previous-session)
+         ("R"      . restore-session)
          ("L"      . restore-session)
-         ("S"      . open-custom-file)
+         ("S"      . find-custom-file)
          ("U"      . update-packages)
          ("N"      . centaur-tabs--create-new-tab)
          ("q"      . quit-dashboard))
-  :hook (dashboard-mode . (lambda () (setq-local frame-title-format nil)
+  :hook (dashboard-mode . (lambda ()
+                            ;; No title
+                            (setq-local frame-title-format nil)
                             (when open-agenda-with-dashboard
                               (open-agenda-on-right-buffer))))
   :init
   (setq dashboard-startup-banner       (or luiznux-logo 'logo)
         dashboard-show-shortcuts       nil
+        dashboard-projects-backend     'project-el
+        dashboard-display-icons-p      #'icons-displayable-p
+        dashboard-icon-type            'nerd-icons
+        dashboard-path-style           'truncate-middle
+        dashboard-path-max-length      80
         dashboard-set-heading-icons    emacs-icon
         dashboard-set-file-icons       emacs-icon
         dashboard-set-init-info        t
-        dashboard-items                '((recents   . 10) (projects  . 5))
         dashboard-set-navigator        t
+        dashboard-items                '((recents   . 10) (projects  . 5))
+        dashboard-heading-icons        '((recents   . "nf-oct-history") (projects  . "nf-oct-briefcase"))
         dashboard-navigator-buttons    `(;;line1
-                                         ((,(when (icon-displayable-p)
-                                              (all-the-icons-octicon "mark-github" :height 1.0 :v-adjust 0.0))
+                                         ((,(when (icons-displayable-p)
+                                              (nerd-icons-mdicon "nf-md-github" :height 1.5))
                                            "Github" "My Github"
                                            (lambda (&rest _) (browse-url "https://luiznux.com")))
 
-                                          (,(when (icon-displayable-p)
-                                              (all-the-icons-material "restore" :height 1.35 :v-adjust -0.24))
+                                          (,(when (icons-displayable-p)
+                                              (nerd-icons-mdicon "nf-md-backup_restore" :height 1.5))
                                            "Restore" "Restore previous session"
-                                           (lambda (&rest _) (restore-previous-session)))
+                                           (lambda (&rest _) (restore-session)))
 
-                                          (,(when (icon-displayable-p)
-                                              (all-the-icons-octicon "tools" :height 1.0 :v-adjust -0.1))
+                                          (,(when (icons-displayable-p)
+                                              (nerd-icons-mdicon "nf-md-tools" :height 1.5))
                                            "Config" "Open custom file"
                                            (lambda (&rest _) (find-file custom-file)))
 
-                                          (,(when (icon-displayable-p)
-                                              (all-the-icons-faicon "plus" :height 1.2 :v-adjust -0.1))
+                                          (,(when (icons-displayable-p)
+                                              (nerd-icons-faicon "nf-fa-plus" :height 1.3))
                                            "New Tab" "New Tab"
                                            (lambda (&rest _) (centaur-tabs--create-new-tab))))))
   (dashboard-setup-startup-hook)
 
   :config
   (with-no-warnings
-    (defun restore-previous-session ()
+    (defun restore-session ()
       "Restore the previous session."
       (interactive)
-      (when (bound-and-true-p persp-mode)
-        (restore-session persp-auto-save-fname)))
-
-    (defun restore-session (fname)
-      "Restore the specified session."
-      (interactive (list (read-file-name "Load perspectives from a file: "
-                                         persp-save-dir)))
-      (when (bound-and-true-p persp-mode)
-        (message "Restoring session...")
-        (quit-window t)
-        (condition-case-unless-debug err
-            (persp-load-state-from-file fname)
-          (error "Error: Unable to restore session -- %s" err))
-        (message "Restoring session...done")))
+      (message "Restoring previous session...")
+      (quit-window t)
+      (desktop-read)
+      (message "Restoring previous session...done"))
 
     (defun dashboard-goto-recent-files ()
       "Go to recent files."
