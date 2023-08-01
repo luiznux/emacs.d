@@ -63,13 +63,7 @@
   :init (load-theme 'doom-one t)
   :config
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-
-  ;; Enable customized theme
-  ;; FIXME https://github.com/emacs-lsp/lsp-treemacs/issues/89
-  (when (featurep 'all-the-icons)
-    (with-eval-after-load 'lsp-treemacs
-      (doom-themes-treemacs-config))))
+  (doom-themes-org-config))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -243,7 +237,6 @@
            flycheck-error-list-mode
            lsp-treemacs-error-list-mode) . hide-mode-line-mode)))
 
-
 (when fancy-modeline
   (use-package nyan-mode
     :custom
@@ -271,33 +264,6 @@
 ;; A minor-mode menu for mode-line
 (use-package minions
   :hook (doom-modeline-mode . minions-mode))
-
-;; Child frame
-(use-package posframe
-  :hook (after-load-theme . posframe-delete-all)
-  :init
-  (defface posframe-border
-    `((t (:inherit region)))
-    "Face used by the `posframe' border."
-    :group 'posframe)
-
-  (with-eval-after-load 'persp-mode
-    (add-hook 'persp-load-buffer-functions
-              (lambda (&rest _)
-                (posframe-delete-all))))
-  :config
-  (with-no-warnings
-    (defun my-posframe--prettify-frame (&rest _)
-      (set-face-background 'fringe nil posframe--frame))
-    (advice-add #'posframe--create-posframe :after #'my-posframe--prettify-frame)
-
-    (defun posframe-poshandler-frame-center-near-bottom (info)
-      (cons (/ (- (plist-get info :parent-frame-width)
-                  (plist-get info :posframe-width))
-               2)
-            (/ (+ (plist-get info :parent-frame-height)
-                  (* 2 (plist-get info :font-height)))
-               2)))))
 
 (use-package which-key
   :diminish
@@ -398,7 +364,6 @@
       scroll-margin                        0 ;; keyboard scroll at the bottom of the screen
       scroll-conservatively                100000
       auto-window-vscroll                  nil
-      mouse-wheel-follow-mouse             't ;; scroll window under mouse
       scroll-preserve-screen-position      t)
 
 ;; Good pixel line scrolling
@@ -410,7 +375,8 @@
       :hook (after-init . good-scroll-mode)
       :bind (([remap next] . good-scroll-up-full-screen)
              ([remap prior] . good-scroll-down-full-screen)))))
-(with-no-warnings
+
+(when (fboundp 'pixel-scroll-precision-mode)
   (setq pixel-scroll-precision-large-scroll-height  40.0))
 
 ;; Smooth scrolling over images
@@ -421,6 +387,31 @@
 ;; Use fixed pitch where it's sensible
 (use-package mixed-pitch
   :diminish)
+
+;; Child frame
+(when (childframe-workable-p)
+  (use-package posframe
+    :hook (after-load-theme . posframe-delete-all)
+    :init
+    (defface posframe-border
+      `((t (:inherit region)))
+      "Face used by the `posframe' border."
+      :group 'posframe)
+    (defvar posframe-border-width 2
+      "Default posframe border width.")
+    :config
+    (with-no-warnings
+      (defun my-posframe--prettify-frame (&rest _)
+        (set-face-background 'fringe nil posframe--frame))
+      (advice-add #'posframe--create-posframe :after #'my-posframe--prettify-frame)
+
+      (defun posframe-poshandler-frame-center-near-bottom (info)
+        (cons (/ (- (plist-get info :parent-frame-width)
+                    (plist-get info :posframe-width))
+                 2)
+              (/ (+ (plist-get info :parent-frame-height)
+                    (* 2 (plist-get info :font-height)))
+                 2))))))
 
 (with-no-warnings
   (when sys/macp
