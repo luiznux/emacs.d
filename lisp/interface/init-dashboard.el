@@ -81,7 +81,7 @@
         dashboard-heading-icons        '((recents   . "nf-oct-history") (projects  . "nf-oct-briefcase"))
         dashboard-navigator-buttons    `(;;line1
                                          ((,(when (icons-displayable-p)
-                                              (nerd-icons-mdicon "nf-md-github" :height 1.5))
+                                              (nerd-icons-mdicon "nf-md-github" :height 1.4))
                                            "Github" "My Github"
                                            (lambda (&rest _) (browse-url "https://luiznux.com")))
 
@@ -91,12 +91,12 @@
                                            (lambda (&rest _) (restore-session)))
 
                                           (,(when (icons-displayable-p)
-                                              (nerd-icons-mdicon "nf-md-tools" :height 1.5))
+                                              (nerd-icons-mdicon "nf-md-tools" :height 1.3))
                                            "Config" "Open custom file"
                                            (lambda (&rest _) (find-file custom-file)))
 
                                           (,(when (icons-displayable-p)
-                                              (nerd-icons-faicon "nf-fa-plus" :height 1.3))
+                                              (nerd-icons-faicon "nf-fa-plus" :height 1.2))
                                            "New Tab" "New Tab"
                                            (lambda (&rest _) (centaur-tabs--create-new-tab))))))
   (dashboard-setup-startup-hook)
