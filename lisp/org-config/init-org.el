@@ -104,7 +104,7 @@
         org-fontify-done-headline          t ; Strike through headlines for done tasks in Org
         org-use-property-inheritance       t ; I like to inhert properties from their parents
         org-cycle-separator-lines          2
-        org-ellipsis                       "⤵"
+        org-ellipsis                       "  ⤵"
         bidi-paragraph-direction           t
         org-image-actual-width             nil ; avoid wrong size of images
 
