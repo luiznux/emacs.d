@@ -18,8 +18,6 @@
 ;;
 ;;; Code:
 
-(require 'init-org)
-
 (use-package org-agenda
   :ensure nil
   :commands org-current-level
@@ -29,7 +27,8 @@
               my-agenda-indent-string
               org-agenda-format-date-aligned)
 
-  :bind ("C-c a" . org-agenda)
+  :bind (("C-c a"  . org-agenda)
+         ("M-<f2>" . org-agenda-hydra/body))
 
   :custom-face
   ;; Fancy style for my `org-agenda' buffer
@@ -40,7 +39,57 @@
   (org-scheduled-previously ((t (:foreground "medium turquoise"))))
   (org-scheduled-today ((t (:foreground "deep sky blue"))))
 
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Org Agenda" 'octicon "nf-oct-checklist" :face 'nerd-icons-lgreen)
+    :color blue :quit-key ("q" "C-g"))
+   ("View"
+    (("a" (org-agenda) "agenda commands")
+     ("d" org-agenda-day-view (if (eq 'day (org-agenda-cts)) "[x]" "[ ]"))
+     ("w" org-agenda-week-view (if (eq 'week (org-agenda-cts)) "[x]" "[ ]"))
+     ("m" org-agenda-month-view (if (eq 'month (org-agenda-cts)) "[x]" "[ ]"))
+     ("y" org-agenda-year-view (if (eq 'year (org-agenda-cts)) "[x]" "[ ]")))
+    "Motion"
+    ((">" (org-agenda-later-week) "next week")
+     ("<" (org-agenda-earlier-week) "previous week")
+     ("." (org-agenda-later-month) "next month")
+     ("," (org-agenda-earlier-month) "previous month"))))
+
   :init
+  (defun org-agenda-cts ()
+    (and (eq major-mode 'org-agenda-mode)
+         (let ((args (get-text-property
+                      (min (1- (point-max)) (point))
+                      'org-last-args)))
+           (nth 2 args))))
+
+  (defun org-agenda-later-week ()
+    "Set `week' current agenda span and call org-agenda-later"
+    (interactive)
+    (unless (eq 'week org-agenda-current-span)
+      (setq org-agenda-current-span 'week) (org-agenda-week-view))
+    (org-agenda-later '1))
+
+  (defun org-agenda-earlier-week ()
+    "Same as `org-agenda-later-week' but previous"
+    (interactive)
+    (unless (eq 'week org-agenda-current-span)
+      (setq org-agenda-current-span 'week) (org-agenda-week-view))
+    (org-agenda-earlier '1))
+
+  (defun org-agenda-later-month ()
+    "Set `month' current agenda span and call org-agenda-later"
+    (interactive)
+    (unless (eq 'month org-agenda-current-span)
+      (setq org-agenda-current-span 'month) (org-agenda-month-view))
+    (org-agenda-later '1))
+
+  (defun org-agenda-earlier-month ()
+    "Same as `org-agenda-later-month' but previous"
+    (interactive)
+    (unless (eq 'month org-agenda-current-span)
+      (setq org-agenda-current-span 'month) (org-agenda-month-view))
+    (org-agenda-earlier '1))
+
   (defun my-agenda-prefix ()
     (format "%s" (my-agenda-indent-string (org-current-level))))
 
