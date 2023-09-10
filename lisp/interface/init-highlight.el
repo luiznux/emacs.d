@@ -150,8 +150,12 @@
          ("C-c t p" . hl-todo-previous)
          ("C-c t n" . hl-todo-next)
          ("C-c t o" . hl-todo-occur)
+         ("C-c t r" . hl-todo-rg)
          ("C-c t i" . hl-todo-insert))
-  :hook (after-init . global-hl-todo-mode)
+  :hook ((after-init . global-hl-todo-mode)
+         (hl-todo-mode . (lambda ()
+                           (add-hook 'flymake-diagnostic-functions
+                                     #'hl-todo-flymake nil t))))
   :init (setq hl-todo-require-punctuation t
               hl-todo-highlight-punctuation ":")
   :config
@@ -160,7 +164,19 @@
   (dolist (keyword '("TRICK" "WORKAROUND"))
     (add-to-list 'hl-todo-keyword-faces `(,keyword . "#d0bf8f")))
   (dolist (keyword '("DEBUG" "STUB"))
-    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#7cb8bb"))))
+    (add-to-list 'hl-todo-keyword-faces `(,keyword . "#7cb8bb")))
+
+  (defun hl-todo-rg (regexp &optional files dir)
+    "Use `rg' to find all TODO or similar keywords."
+    (interactive
+     (progn
+       (unless (require 'rg nil t)
+         (error "`rg' is not installed"))
+       (let ((regexp (replace-regexp-in-string "\\\\[<>]*" "" (hl-todo--regexp))))
+         (list regexp
+               (rg-read-files)
+               (read-directory-name "Base directory: " nil default-directory t)))))
+    (rg regexp files dir)))
 
 ;; Highlight uncommitted changes using VC
 (use-package diff-hl
