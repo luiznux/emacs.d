@@ -380,9 +380,10 @@
   (setq pixel-scroll-precision-large-scroll-height  40.0))
 
 ;; Smooth scrolling over images
-(use-package iscroll
-  :diminish
-  :hook (image-mode . iscroll-mode))
+(unless emacs/>=30p
+  (use-package iscroll
+    :diminish
+    :hook (image-mode . iscroll-mode)))
 
 ;; Use fixed pitch where it's sensible
 (use-package mixed-pitch
