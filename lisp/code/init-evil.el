@@ -16,12 +16,12 @@
 ;;
 ;;; Code:
 
+(defvar evil-want-C-u-scroll t)  ; moved the universal arg to <leader> u
+
 (use-package evil
   :demand t
-  :commands 'evil-scroll-up
   :bind (:map evil-normal-state-map
-         ("M-." . nil)
-         ("C-u" . 'evil-scroll-up))
+         ("M-." . nil))
   :hook (after-init . evil-mode)
   :init
   (setq evil-want-integration t
@@ -58,6 +58,13 @@
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))
+
+(use-package evil-embrace
+  :after evil-surround
+  :hook ((org-mode . embrace-org-mode-hook)
+         (emacs-lisp-mode . embrace-emacs-lisp-mode-hook))
+  :init
+  (evil-embrace-enable-evil-surround-integration))
 
 (use-package evil-matchit
   :config
