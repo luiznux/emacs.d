@@ -20,6 +20,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'constants))
+
 ;; Directory operations
 (use-package dired
   :ensure nil

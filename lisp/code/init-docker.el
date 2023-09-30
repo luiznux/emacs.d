@@ -16,6 +16,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'constants))
+
 (use-package docker
   :bind ("C-c d" . docker)
   :init

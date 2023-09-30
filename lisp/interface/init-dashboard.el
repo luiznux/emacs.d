@@ -16,6 +16,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'custom-config))
+
 (use-package dashboard
   :diminish dashboard-mode
   :functions (nerd-icons-faicon

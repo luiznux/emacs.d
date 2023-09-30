@@ -16,6 +16,10 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'constants)
+  (require 'custom-config))
+
 ;; Prettify Symbols
 ;; e.g. display “lambda” as “λ”
 (use-package prog-mode

@@ -16,6 +16,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'custom-config))
+
 ;; Performace tuning
 ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance/
 (setq read-process-output-max (* 1024 1024)) ;; 1MB

@@ -20,9 +20,18 @@
 (require 'cl-lib)
 (require 'org)
 
+;; Suppress warnings
+(eval-when-compile
+  (require 'constants)
+  (require 'custom-config))
+
 (defvar line-breaker)
 (defvar user-email)
 
+(declare-function nerd-icons-install-fonts 'nerd-icons)
+(declare-function ivy-read 'ivy)
+(declare-function browse-url-interactive-arg 'browse-url)
+(declare-function xwidget-buffer 'xwidget)
 (declare-function xwidget-webkit-current-session 'xwidget)
 
 

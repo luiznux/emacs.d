@@ -16,6 +16,9 @@
 ;;
 ;;; code:
 
+(eval-when-compile
+  (require 'constants))
+
 (bind-key "M-<f7>" #'emacs-read-mode)
 
 ;; PDF reader

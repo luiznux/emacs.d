@@ -18,6 +18,7 @@
 ;;; Code:
 
 (require 'subr-x)
+(require 'functions)
 
 ;; Compatibility
 (use-package compat :demand t)

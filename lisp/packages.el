@@ -18,6 +18,10 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'constants)
+  (require 'custom-config))
+
 ;; Load `custom-file'
 (and (file-readable-p custom-file) (load custom-file))
 

@@ -16,6 +16,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'constants))
+
 (use-package magit
   :init (setq magit-diff-refine-hunk t)
   :config

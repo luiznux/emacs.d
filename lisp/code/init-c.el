@@ -16,6 +16,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'custom-config))
+
 ;; C/C++ Mode
 (use-package cc-mode
   :ensure nil

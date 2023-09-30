@@ -18,6 +18,10 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'constants)
+  (require 'custom-config))
+
 (require 'my-custom-emojis)
 
 ;; Optimization

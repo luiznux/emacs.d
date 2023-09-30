@@ -16,6 +16,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'custom-config))
+
 ;; A tree layout file explorer
 (use-package treemacs
   :commands (treemacs-toggle-fixed-width

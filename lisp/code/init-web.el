@@ -18,6 +18,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'custom-config))
+
 ;; eww
 (use-package eww
   :ensure nil
