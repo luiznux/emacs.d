@@ -114,7 +114,7 @@
 (use-package desktop
   :hook (after-init . desktop-save-mode)
   :init
-  (setq desktop-path '("~/.emacs.d/.cache/")))
+  (setq desktop-dirname  "~/.emacs.d/.cache/"))
 
 (use-package saveplace
   :hook (after-init . save-place-mode))
