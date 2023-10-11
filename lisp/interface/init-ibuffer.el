@@ -16,16 +16,14 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'custom-config))
+
 (use-package ibuffer
   :ensure nil
   :bind ("C-x C-b" . ibuffer)
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold)))
   :config
-  ;; Display icons for buffers
-  (use-package nerd-icons-ibuffer
-    :hook (ibuffer-mode . nerd-icons-ibuffer-mode)
-    :init (setq nerd-icons-ibuffer-icon emacs-icon))
-
   (with-eval-after-load 'counsel
     (with-no-warnings
       (defun my-ibuffer-find-file ()
@@ -37,6 +35,11 @@
                                      default-directory))))
           (counsel-find-file default-directory)))
       (advice-add #'ibuffer-find-file :override #'my-ibuffer-find-file))))
+
+;; Display icons for buffers
+(use-package nerd-icons-ibuffer
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode)
+  :init (setq nerd-icons-ibuffer-icon emacs-icon))
 
 ;; Group ibuffer's list by project
 (use-package ibuffer-project
