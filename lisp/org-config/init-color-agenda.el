@@ -7,14 +7,14 @@
 ;;; Commentary:
 ;;
 ;; This package simply apply a background and foreground color
-;; to a specific headers(that are defined above).
+;; to a specific headers(that are defined bellow).
 ;;
 ;; Also, it is not made by myself(I only done some mods for work as want),
 ;; source: https://llazarek.github.io/2018/07/improving-the-agenda.html
 ;;
 ;;; Code:
 
-(declare-function reduce "reduce")
+(declare-function cl-reduce cl-seq)
 
 ;; Helper definitions
 (setq ll/org/agenda-todo-words
