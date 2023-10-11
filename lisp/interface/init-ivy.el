@@ -18,6 +18,10 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'constants)
+  (require 'custom-config))
+
 (use-package counsel
   :diminish ivy-mode counsel-mode
   :commands (ivy-immediate-done
