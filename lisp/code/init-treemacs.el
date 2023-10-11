@@ -55,11 +55,10 @@
     (`(t . t)
      (treemacs-git-mode 'deferred))
     (`(t . _)
-     (treemacs-git-mode 'extended)))
+     (treemacs-git-mode 'simple)))
 
   (use-package treemacs-evil
-    :demand t
-    :after  treemacs evil)
+    :after (treemacs evil))
 
   (use-package treemacs-nerd-icons
     :demand t
