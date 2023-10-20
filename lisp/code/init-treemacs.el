@@ -24,11 +24,14 @@
   :commands (treemacs-toggle-fixed-width
              treemacs-follow-mode
              treemacs-filewatch-mode
-             treemacs-git-mode)
+             treemacs-git-mode
+             treemacs-fringe-indicator-mode)
   :custom-face
   (cfrs-border-color ((t (:inherit posframe-border))))
   :hook
-  (treemacs-mode . (lambda () (treemacs-toggle-fixed-width)))
+  (treemacs-mode . (lambda ()
+                     (treemacs-toggle-fixed-width)
+                     (treemacs-fringe-indicator-mode 'always)))
   :bind (([f8]        . treemacs)
          ("M-0"       . treemacs-select-window)
          ("C-x t 1"   . treemacs-delete-other-windows)
@@ -58,6 +61,7 @@
      (treemacs-git-mode 'simple)))
 
   (use-package treemacs-evil
+    :demand t
     :after (treemacs evil))
 
   (use-package treemacs-nerd-icons
