@@ -82,6 +82,10 @@
 (unless (fboundp 'js-json-mode)
   (use-package json-mode))
 
+;; Alias for json format
+(defalias 'json-format-region 'json-pretty-print)
+(defalias 'json-format-buffer 'json-pretty-print-buffer)
+
 ;; JavaScript
 (use-package js
   :init (setq js-indent-level 2))
