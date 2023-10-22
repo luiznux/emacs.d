@@ -216,7 +216,7 @@
     (setq use-short-answers t)
   (fset 'yes-or-no-p 'y-or-n-p))
 
-(setq indent-line-function 'insert-tab)
+(setq indent-line-function 'indent-relative)
 (setq-default major-mode        'text-mode
               fill-column       80
               tab-width         4
