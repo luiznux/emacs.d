@@ -17,8 +17,6 @@
 ;;; Code:
 
 (use-package tabspaces
-  :commands (tabspaces-switch-or-create-workspace
-             tabspaces-open-or-create-project-and-workspace)
   :custom
   (tab-bar-show nil)
   (tabspaces-use-filtered-buffers-as-default t)
