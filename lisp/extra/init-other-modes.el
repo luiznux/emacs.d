@@ -21,8 +21,8 @@
 (use-package google-this)
 (use-package google-translate
   :bind
-  ("M-o t" . google-translate-at-point)
-  ("M-o T" . google-translate-at-point-reverse))
+  ("M-g t" . google-translate-at-point)
+  ("M-g T" . google-translate-at-point-reverse))
 
 (use-package olivetti
   :diminish
