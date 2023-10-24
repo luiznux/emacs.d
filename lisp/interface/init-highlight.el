@@ -280,7 +280,6 @@
 
 (use-package highlight-symbol
   :bind (:map prog-mode-map
-         ("M-o h" . highlight-symbol)
          ("M-p" . highlight-symbol-prev)
          ("M-n" . highlight-symbol-next)))
 
