@@ -80,6 +80,9 @@
   :hook ((text-mode . goto-address-mode)
          (prog-mode . goto-address-prog-mode)))
 
+(use-package link-hint
+  :bind (("M-o" . link-hint-open-link)))
+
 ;; https://github.com/purcell/whitespace-cleanup-mode
 (use-package whitespace-cleanup-mode
   :init
