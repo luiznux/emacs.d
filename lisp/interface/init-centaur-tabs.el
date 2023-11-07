@@ -17,7 +17,9 @@
 ;;; Code:
 
 (use-package centaur-tabs
-  :defines (evil-normal-state-map centaur-tabs-excluded-prefixes)
+  :defines (evil-normal-state-map
+            centaur-tabs-font-size
+            centaur-tabs-excluded-prefixes)
   :commands (centaur-tabs-group-by-projectile-project
              centaur-tabs-get-group-name
              centaur-tabs-headline-match
