@@ -22,7 +22,7 @@
   (tabspaces-use-filtered-buffers-as-default t)
   (tabspaces-default-tab "Default")
   (tabspaces-remove-to-default t)
-  (tabspaces-include-buffers '("*scratch*"))
+  (tabspaces-include-buffers '("*scratch*" "*Messages*" "*dashboard*" "*Org Agenda*"))
   ;; sessions
   (tabspaces-session t)
   (tabspaces-session-auto-restore t)
