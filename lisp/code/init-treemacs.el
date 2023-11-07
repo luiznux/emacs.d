@@ -64,6 +64,11 @@
     :demand t
     :after (treemacs evil))
 
+  (use-package treemacs-projectile
+    :after projectile
+    :bind (:map projectile-command-map
+           ("h" . treemacs-projectile)))
+
   (use-package treemacs-nerd-icons
     :demand t
     :when (icons-displayable-p)

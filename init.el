@@ -106,6 +106,7 @@
 ;; Programming
 (require 'init-vcs)
 (require 'init-flymake)
+(require 'init-projectile)
 (require 'init-lsp)
 (require 'init-ctags)
 
