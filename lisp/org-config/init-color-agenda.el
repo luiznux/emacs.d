@@ -28,7 +28,7 @@ current line.  If COUNT is non-nil, find the COUNT'th occurrence
 from the left."
   (save-excursion
     (beginning-of-line)
-    (let ((found (re-search-forward needle (point-at-eol) t count)))
+    (let ((found (re-search-forward needle (line-end-position) t count)))
       (if beginning
           (match-beginning 0)
         found))))
@@ -46,9 +46,9 @@ from the left."
   (while (re-search-forward tag nil t)
                                         ;(Unless (find-in-line "\\[#[A-Z]\\]")
     (let ((todo-end (or (ll/org/agenda/find-todo-word-end)
-                        (point-at-bol)))
+                        (line-beginning-position)))
           (tags-beginning (or (find-in-line tag t)
-                              (point-at-eol))))
+                              (line-end-position))))
       (add-text-properties todo-end
                            tags-beginning
                            `(face (:foreground ,col :background ,col2 :weight bold))))))
@@ -61,9 +61,9 @@ Also set unspecified background."
   (while (re-search-forward tag nil t)
                                         ;(Unless (find-in-line "\\[#[A-Z]\\]")
     (let ((todo-end (or (ll/org/agenda/find-todo-word-end)
-                        (point-at-bol)))
+                        (line-beginning-position)))
           (tags-beginning (or (find-in-line tag t)
-                              (point-at-eol))))
+                              (line-end-position))))
       (add-text-properties todo-end
                            tags-beginning
                            `(face (:foreground ,col :background unspecified :weight bold))))))
