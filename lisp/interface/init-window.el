@@ -32,6 +32,10 @@
                                       "*Ibuffer*"
                                       "*esh command on file*")))
 
+;; Tools for better resize window
+(use-package resize-window
+  :bind ("C-c ;" . resize-window))
+
 ;; Enforce rules for popups
 (use-package popper
   :custom
