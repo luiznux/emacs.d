@@ -204,6 +204,11 @@
               (vterm-reset-cursor-point)))))))
   (bind-key "C-`" #'shell-pop-posframe-toggle))
 
+(use-package terminal-here
+  :config
+  (setq terminal-here-linux-terminal-command 'alacritty
+        terminal-here-mac-terminal-command   'iterm2))
+
 
 (provide 'init-terminal)
 ;;; init-terminal.el ends here
