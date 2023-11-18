@@ -125,8 +125,16 @@
   :ensure nil
   :mode (("\\.xaml$" . xml-mode)))
 
+(use-package csv-mode
+  :custom (csv-separators ' ("," ";" "\t"))
+  :init (setq csv-invisibility-default nil
+              csv-align-padding        3)
+  :config
+  (add-hook 'csv-mode-hook 'csv-highlight)
+  (add-hook 'csv-mode-hook 'csv-align-mode)
+  (add-hook 'csv-mode-hook #'(lambda () (interactive) (toggle-truncate-lines 1))))
+
 (use-package ag)
-(use-package csv-mode)
 (use-package terraform-mode)
 (use-package vimrc-mode)
 (use-package dart-mode)
