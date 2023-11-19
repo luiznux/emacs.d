@@ -30,6 +30,9 @@
   (org-done ((t (:strike-through t))))
   (org-headline-done ((((class color) (min-colors 16) (background dark))
                        (:strike-through t))))
+  (org-level-1 ((t (:inherit outline-1 :height 1.2))))
+  (org-level-2 ((t (:inherit outline-2 :height 1.1))))
+
   :pretty-hydra
   ;; See `org-structure-template-alist'
   ((:title (pretty-hydra-title "Org Template" 'sucicon "nf-custom-orgmode" :face 'nerd-icons-green)
@@ -110,8 +113,8 @@
 
         ;; log time on rescheduling and changing deadlines
         org-log-done                       'time
-        org-log-reschedule                 'time
-        org-log-redeadline                 'time
+        org-log-reschedule                 'note
+        org-log-redeadline                 'note
         org-log-repeat                     nil
         org-log-into-drawer                "LOG"
         org-agenda-show-log                t

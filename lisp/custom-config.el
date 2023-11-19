@@ -173,7 +173,7 @@ Nil to use font supports ligatures."
     ("#+DATE:"          . ?📆)
     ("#+LAST_MODIFIED:" . "")
 
-    ("#+OPTIONS:"      . ?⛭)
+    ("#+OPTIONS:"      . "")
     ("#+SETUPFILE:"    . ?⚒)
     ("#+TAGS:"         . "")
     ("#+TITLE:"        . ?📓)
@@ -185,7 +185,7 @@ Nil to use font supports ligatures."
 
     (":WILD_NOTIFIER_NOTIFY_BEFORE:" . "")
 
-    (":PROPERTIES:"    . "")
+    (":PROPERTIES:"    . "")
     (":END:"           . "🔚")
     (":STYLE:"         . "")
     (":LOG:"           . "")
@@ -206,7 +206,7 @@ Nil to use font supports ligatures."
     ("#+begin_quote"   . ?»)
     ("#+end_quote"     . ?«)
 
-    ("#+HEADERS"       . ?☰)
+    ("#+HEADERS"       . ?)
     ("#+RESULTS:"      . ?💻))
   "A list of symbol prettifications for `org-mode'."
   :group 'luiznux
