@@ -86,6 +86,7 @@
 (use-package speed-type
   :commands (speed-type-text))
 (use-package snow)
+(use-package clippy)
 
 
 (provide 'init-other-modes)
