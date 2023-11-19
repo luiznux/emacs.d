@@ -34,6 +34,7 @@
   :custom (setq evil-collection-setup-minibuffer nil))
 
 (use-package evil-org
+  :commands (evil-org-mode)
   :after org
   :hook (org-mode . (lambda () (evil-org-mode)))
   :config
@@ -48,18 +49,22 @@
   (setq evil-goggles-pulse nil))
 
 (use-package evil-multiedit
-  :bind (:map evil-visual-state-map
-         ("R" . 'evil-multiedit-match-all)))
+  :commands evil-multiedit-default-keybinds
+  :init
+  (evil-multiedit-default-keybinds))
 
 (use-package evil-commentary
+  :commands evil-commentary-mode
   :config
   (evil-commentary-mode 1))
 
 (use-package evil-surround
+  :commands global-evil-surround-mode
   :config
   (global-evil-surround-mode 1))
 
 (use-package evil-embrace
+  :commands evil-embrace-enable-evil-surround-integration
   :after evil-surround
   :hook ((org-mode . embrace-org-mode-hook)
          (emacs-lisp-mode . embrace-emacs-lisp-mode-hook))
@@ -67,6 +72,7 @@
   (evil-embrace-enable-evil-surround-integration))
 
 (use-package evil-matchit
+  :commands global-evil-matchit-mode
   :config
   (global-evil-matchit-mode 1))
 
