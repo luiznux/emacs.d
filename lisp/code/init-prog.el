@@ -127,11 +127,9 @@
 
 (use-package csv-mode
   :custom (csv-separators ' ("," ";" "\t"))
-  :init (setq csv-invisibility-default nil
-              csv-align-padding        3)
+  :init (setq csv-align-padding  2)
   :config
   (add-hook 'csv-mode-hook 'csv-highlight)
-  (add-hook 'csv-mode-hook 'csv-align-mode)
   (add-hook 'csv-mode-hook #'(lambda () (interactive) (toggle-truncate-lines 1))))
 
 (use-package ag)
