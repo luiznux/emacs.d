@@ -240,7 +240,7 @@
            lsp-ui-imenu-mode
            pdf-annot-list-mode
            flycheck-error-list-mode
-           lsp-treemacs-error-list-mode) . hide-mode-line-mode)))
+           lsp-treemacs-error-list-mode) . turn-on-hide-mode-line-mode)))
 
 (when fancy-modeline
   (use-package nyan-mode
