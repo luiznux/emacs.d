@@ -16,6 +16,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'constants))
+
 ;; Highlight the current line
 (use-package hl-line
   :ensure nil
