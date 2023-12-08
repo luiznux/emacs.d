@@ -90,8 +90,9 @@
 ;; Environment
 (when (or sys/mac-x-p sys/linux-x-p (daemonp))
   (use-package exec-path-from-shell
+    :commands exec-path-from-shell-initialize
     :init
-    (setq exec-path-from-shell-variables '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO"
+    (setq exec-path-from-shell-variables '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "GPG_TTY"
                                            "PATH" "MANPATH"
                                            "LANG" "LC_CTYPE"))
     ;; change params for bash
@@ -222,6 +223,10 @@
               tab-width         4
               line-spacing      0.2
               indent-tabs-mode  nil) ; Permanently indent with spaces, never with TABs
+
+;; EasyPG
+(setq-default plstore-cache-passphrase-for-symmetric-encryption t
+              epg-pinentry-mode 'loopback)
 
 ;; Disable auto indent on text-mode
 (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))

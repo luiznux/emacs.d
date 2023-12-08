@@ -406,8 +406,7 @@ prepended to the element after the #+HEADER: tag."
     :defines luiznux-client-id luiznux-client-secret
     :init
     (load "~/org/org-api.el") ;; file with the keys
-    (setq plstore-cache-passphrase-for-symmetric-encryption t
-          org-gcal-client-id  luiznux-client-id
+    (setq org-gcal-client-id  luiznux-client-id
           org-gcal-client-secret luiznux-client-secret
           org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
 
