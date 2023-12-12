@@ -27,17 +27,15 @@
              centaur-tabs-enable-buffer-reordering)
   :hook ((after-init . centaur-tabs-mode)
          ((dashboard-mode
-           calendar-mode
-           process-menu-mode
-           helpful-mode
-           grep-mode
-           vterm-mode term-mode
-           magit-mode git-commit-mode
-           minibuffer-mode which-key-mode
+           calendar-mode process-menu-mode
+           helpful-mode grep-mode vterm-mode term-mode
+           magit-mode git-commit-mode minibuffer-mode which-key-mode
            org-agenda-mode org-capture-mode) . centaur-tabs-local-mode))
-  :bind (("C-<prior>" . centaur-tabs-backward)
-         ("C-<next>" . centaur-tabs-forward)
-         ("C-c t" . centaur-tabs-counsel-switch-group)
+  :bind (("C-<prior>"   . centaur-tabs-backward)
+         ("C-<next>"    . centaur-tabs-forward)
+         ("C-S-<prior>" . centaur-tabs-move-current-tab-to-left)
+         ("C-S-<next>"  . centaur-tabs-move-current-tab-to-right)
+         ("C-c t t"     . centaur-tabs-counsel-switch-group)
          (:map evil-normal-state-map
           ("g t" . centaur-tabs-forward)
           ("g T" . centaur-tabs-backward)))
@@ -51,17 +49,17 @@
         centaur-tabs-set-modified-marker      t
         centaur-tabs-show-navigation-buttons  nil
         centaur-tabs-show-count               nil
-        centaur-tabs-adjust-buffer-order      t
         x-underline-at-descent-line           t)
 
   (centaur-tabs-headline-match)
-;;(centaur-tabs-group-by-projectile-project)
-  (centaur-tabs-enable-buffer-reordering)
+  ;;(centaur-tabs-group-by-projectile-project)
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
 
   :config
-  (dolist (excluded-prefixes '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics"
-                                "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*"))
+  (dolist
+      (excluded-prefixes
+       '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics"
+          "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*"))
     (cl-pushnew excluded-prefixes centaur-tabs-excluded-prefixes)))
 
 
