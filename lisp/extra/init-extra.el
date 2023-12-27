@@ -1,4 +1,4 @@
-;;; init-other-modes.el --- Initialize other modes configurations   -*- lexical-binding: t -*-
+;;; init-extra.el --- Initialize extra packages configurations   -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -6,15 +6,14 @@
 ;;
 ;;; Commentary:
 ;;
+;;  ███████╗██╗  ██╗████████╗██████╗  █████╗
+;;  ██╔════╝╚██╗██╔╝╚══██╔══╝██╔══██╗██╔══██╗
+;;  █████╗   ╚███╔╝    ██║   ██████╔╝███████║
+;;  ██╔══╝   ██╔██╗    ██║   ██╔══██╗██╔══██║
+;;  ███████╗██╔╝ ██╗   ██║   ██║  ██║██║  ██║
+;;  ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝
 ;;
-;;   ██████╗ ████████╗██╗  ██╗███████╗██████╗ ███████╗
-;;  ██╔═══██╗╚══██╔══╝██║  ██║██╔════╝██╔══██╗██╔════╝
-;;  ██║   ██║   ██║   ███████║█████╗  ██████╔╝███████╗
-;;  ██║   ██║   ██║   ██╔══██║██╔══╝  ██╔══██╗╚════██║
-;;  ╚██████╔╝   ██║   ██║  ██║███████╗██║  ██║███████║
-;;   ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
-;;
-;; Emacs other modes configuration.
+;; Extra packages configuration.
 ;;
 ;;; Code:
 
@@ -89,5 +88,5 @@
 (use-package clippy)
 
 
-(provide 'init-other-modes)
-;;; init-other-modes.el ends here
+(provide 'init-extra)
+;;; init-extra.el ends here

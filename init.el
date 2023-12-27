@@ -101,7 +101,7 @@
 
 (require 'init-reader)
 (require 'init-docker)
-(require 'init-other-modes)
+(require 'init-extra)
 
 ;; Programming
 (require 'init-vcs)
