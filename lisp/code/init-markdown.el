@@ -77,7 +77,7 @@ mermaid.initialize({
     ;; Preview with built-in webkit
     (defun my-markdown-export-and-preview (fn)
       "Preview with `xwidget' if applicable, otherwise with the default browser."
-      (if (featurep 'xwidget-internal)
+      (if (and (featurep 'xwidget-internal) emacs-xwidget-internal)
           (custom-webkit-browse-url (concat "file://" (markdown-export)) t)
         (funcall fn)))
     (advice-add #'markdown-export-and-preview :around #'my-markdown-export-and-preview))
@@ -89,6 +89,8 @@ mermaid.initialize({
     :bind (:map markdown-mode-command-map
            ("g" . grip-mode))
     :init
+    (setq grip-preview-use-webkit emacs-xwidget-internal)
+
     (with-eval-after-load 'org
       (bind-key "C-c C-g" #'grip-mode org-mode-map))
 

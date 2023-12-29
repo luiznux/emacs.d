@@ -32,7 +32,7 @@
 ;; Webkit browser
 (use-package xwidget
   :ensure nil
-  :if (featurep 'xwidget-internal)
+  :if (and (featurep 'xwidget-internal) emacs-xwidget-internal)
   :bind (("C-c C-z w" . xwidget-webkit-browse-url)
          :map xwidget-webkit-mode-map
          ("h"         . xwidget-hydra/body))

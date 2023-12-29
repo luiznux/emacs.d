@@ -180,8 +180,8 @@ browser defined by `browse-url-generic-program'."
         (when link
           (message "Sent to browser: %s" link)
           (cond
-           ((featurep 'xwidget-internal)
-            (centaur-webkit-browse-url link))
+           ((and (featurep 'xwidget-internal) emacs-xwidget-internal)
+            (custom-webkit-browse-url link))
            (use-generic-p
             (browse-url-generic link))
            (t (browse-url link))))))
@@ -197,8 +197,8 @@ browser defined by `browse-url-generic-program'."
                  do (elfeed-untag entry 'unread)
                  when (elfeed-entry-link entry)
                  do (cond
-                     ((featurep 'xwidget-internal)
-                      (centaur-webkit-browse-url it t))
+                     ((and (featurep 'xwidget-internal) emacs-xwidget-internal)
+                      (custom-webkit-browse-url it t))
                      (use-generic-p
                       (browse-url-generic it))
                      (t (browse-url it))))

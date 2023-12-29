@@ -206,7 +206,7 @@ prepended to the element after the #+HEADER: tag."
       (when text (insert text))))
 
   ;; Use embedded webkit browser if possible
-  (when (featurep 'xwidget-internal)
+  (when (and (featurep 'xwidget-internal) emacs-xwidget-internal)
     (push '("\\.\\(x?html?\\|pdf\\)\\'"
             .
             (lambda (file _link)
@@ -340,7 +340,7 @@ prepended to the element after the #+HEADER: tag."
     :diminish
     :bind (:map org-mode-map
            ("C-c C-h" . org-preview-html-mode))
-    :init (when (featurep 'xwidget-internal)
+    :init (when (and (featurep 'xwidget-internal) emacs-xwidget-internal)
             (setq org-preview-html-viewer 'xwidget)))
 
   (use-package ox-pandoc
@@ -430,7 +430,7 @@ prepended to the element after the #+HEADER: tag."
           org-roam-node-display-template  (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
           org-roam-dailies-directory      "journal/"
           org-roam-v2-ack                 t
-          org-roam-graph-viewer           (if (featurep 'xwidget-internal)
+          org-roam-graph-viewer           (if (and (featurep 'xwidget-internal) emacs-xwidget-internal)
                                               #'xwidget-webkit-browse-url
                                             #'browse-url))
 
@@ -459,7 +459,7 @@ prepended to the element after the #+HEADER: tag."
 
   (use-package org-roam-ui
     :bind ("C-c n u" . org-roam-ui-mode)
-    :init (when (featurep 'xwidget-internal)
+    :init (when (and (featurep 'xwidget-internal) emacs-xwidget-internal)
             (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url))))
 
 

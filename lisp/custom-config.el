@@ -128,6 +128,11 @@ Like `nyan-mode' and `parrot-mode'"
   :group 'luiznux
   :type 'string)
 
+(defcustom emacs-xwidget-internal nil
+  "Enable using `xwidget-webkit' or not."
+  :group 'luiznux
+  :type 'boolean)
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)
