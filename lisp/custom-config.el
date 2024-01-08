@@ -133,6 +133,12 @@ Like `nyan-mode' and `parrot-mode'"
   :group 'luiznux
   :type 'boolean)
 
+(defcustom emacs-completion-framework 'company
+  "Set completion framework."
+  :group 'luiznux
+  :type '(choice (const :tag "Company" company)
+                 (const :tag "Corfu" corfu)))
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)

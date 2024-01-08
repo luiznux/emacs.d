@@ -151,10 +151,11 @@
     :diminish
     :hook (restclient-mode . restclient-test-mode))
 
-  (with-eval-after-load 'company
-    (use-package company-restclient
-      :defines company-backends
-      :init (add-to-list 'company-backends 'company-restclient))))
+  (when (eq emacs-completion-framework 'company)
+    (with-eval-after-load 'company
+      (use-package company-restclient
+        :defines company-backends
+        :init (add-to-list 'company-backends 'company-restclient)))))
 
 ;; YAML mode
 (use-package yaml-mode)

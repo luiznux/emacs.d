@@ -81,6 +81,7 @@
 (require 'init-evil)
 (require 'init-ivy)
 (require 'init-company)
+(require 'init-corfu)
 
 (require 'init-bookmark)
 (require 'init-dashboard)

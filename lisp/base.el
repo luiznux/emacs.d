@@ -92,7 +92,8 @@
   (use-package exec-path-from-shell
     :commands exec-path-from-shell-initialize
     :init
-    (setq exec-path-from-shell-variables '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "GPG_TTY"
+    (setq exec-path-from-shell-variables '("SSH_AUTH_SOCK" "SSH_AGENT_PID"
+                                           "GPG_AGENT_INFO" "GPG_TTY"
                                            "PATH" "MANPATH"
                                            "LANG" "LC_CTYPE"))
     ;; change params for bash
@@ -252,6 +253,7 @@
       auth-source-save-behavior       nil
       standard-indent                 4
       tab-always-indent               'complete
+      completion-cycle-threshold      3
       uniquify-buffer-name-style      'post-forward-angle-brackets ; Show path if names are same
 
       adaptive-fill-regexp "[ t]+|[ t]*([0-9]+.|*+)[ t]*"

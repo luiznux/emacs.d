@@ -62,6 +62,7 @@
   :hook (after-load-theme . solaire-global-mode))
 
 (use-package doom-themes
+  :commands doom-themes-org-config
   :custom-face
   (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
   :init (load-theme 'doom-one t)
@@ -233,7 +234,6 @@
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
-           completion-in-region-mode
            eshell-mode shell-mode
            term-mode vterm-mode
            treemacs-mode
@@ -299,12 +299,12 @@
 
 (when emacs-emojify
   (use-package emojify
+    :commands emojify-insert-emoji
     :hook ((org-agenda-mode . emojify-mode)
            (org-mode        . emojify-mode))
     :bind ("C-c e" . 'emojify-insert-emoji)
     :init
-    (setq emojify-company-tooltips-p   t
-          emojify-composed-text-p      nil
+    (setq emojify-composed-text-p      nil
           emojify-display-style        'image
           emojify-user-emojis          my-custom-emojis)
 
@@ -321,6 +321,7 @@
 
   ;; Make mail look pretty
   (use-package all-the-icons-gnus
+    :commands all-the-icons-gnus-setup
     :config (all-the-icons-gnus-setup)))
 
 ;; Icons
@@ -382,7 +383,7 @@
              ([remap prior] . good-scroll-down-full-screen)))))
 
 (when (fboundp 'pixel-scroll-precision-mode)
-  (setq pixel-scroll-precision-large-scroll-height  40.0))
+  (setq-default pixel-scroll-precision-large-scroll-height  40.0))
 
 ;; Smooth scrolling over images
 (unless emacs/>=30p
