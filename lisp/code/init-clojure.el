@@ -17,9 +17,8 @@
 ;;; Code:
 
 (use-package cider
-  :hook ((cider-repl-mode . cider-company-enable-fuzzy-completion)
-         (cider-mode      . cider-company-enable-fuzzy-completion)
-         (cider-test-report-mode . jcf-soft-wrap))
+  :commands cider-enable-flex-completion
+  :hook (cider-test-report-mode . jcf-soft-wrap)
   :config
   (setq cider-repl-pop-to-buffer-on-connect      'nil ;;display-only
         cider-completion-annotations-include-ns  'always
@@ -28,7 +27,8 @@
         cider-repl-use-content-types             t
         cider-repl-wrap-history                  t
         cider-repl-buffer-size-limit             100000
-        cider-repl-history-size                  1000))
+        cider-repl-history-size                  1000)
+  (cider-enable-flex-completion))
 
 (when (executable-find "lein")
   (use-package dizzee
