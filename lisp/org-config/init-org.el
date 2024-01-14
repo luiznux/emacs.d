@@ -249,8 +249,8 @@ prepended to the element after the #+HEADER: tag."
   (use-package ob-http
     :init(cl-pushnew '(http . t) load-language-alist))
 
-  (org-babel-do-load-languages
-   'org-babel-load-languages load-language-alist)
+  (add-hook 'after-init-hook (lambda ()(org-babel-do-load-languages
+                                   'org-babel-load-languages load-language-alist)))
 
   ;; easy templates special blocks in latex export
   (add-to-list 'org-structure-template-alist '("f" . "figure"))
@@ -408,7 +408,8 @@ prepended to the element after the #+HEADER: tag."
     (load "~/org/org-api.el") ;; file with the keys
     (setq org-gcal-client-id  luiznux-client-id
           org-gcal-client-secret luiznux-client-secret
-          org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
+          org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))
+          org-gcal-recurring-events-mode 'nested))
 
   (use-package org-roam
     :diminish
