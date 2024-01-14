@@ -19,6 +19,9 @@
 ;;
 ;;; Code:
 
+
+;; Constants for agenda stuffs
+
 (defconst luiznux-personal-agenda
   (concat emacs-org-directory "/personal/"))
 
@@ -31,6 +34,18 @@
 (defconst luiznux-birthday-agenda
   (concat luiznux-general-agenda "birthdays.org"))
 
+
+;; Functions for templates
+
+(defun custom-template-schedule ()
+  "Set schedule or deadline based on user answer."
+  (let ((schedule (y-or-n-p "Schedule it ?"))
+        (deadline (y-or-n-p "Insert Deadline ?")))
+    (when deadline (call-interactively 'org-deadline))
+    (when schedule (call-interactively 'org-schedule))))
+
+
+;; Custom templates and agenda views based on enviroment.
 
 (pcase luiznux-enviroment-type
 
@@ -41,7 +56,7 @@
                                         ((agenda
                                           ""
                                           ((org-agenda-overriding-header        "My Agenda 📅")
-                                           (org-agenda-span                     '2)))
+                                           (org-agenda-span                     '3)))
 
                                          (tags-todo
                                           "work"
@@ -76,9 +91,9 @@
                                            (org-agenda-prefix-format            '((agenda . "")))
                                            (org-agenda-sorting-strategy         '(category-keep)))))))
 
-         org-capture-templates       '(("w"               ; key
-                                        "          Create Work task"  ; description
-                                        entry               ; type
+         org-capture-templates       '(("w" ; key
+                                        "          Create Work task" ; description
+                                        entry ; type
                                         (file "~/org/work/work.org") ; target
                                         "* TODO %^{Title} %^g\nSCHEDULED: %^t\n#+description: %^{Description  }\n%?" ; template
                                         :empty-lines-before 2 ; properties
@@ -89,7 +104,8 @@
                                         "          Add an event on the agenda calendar"
                                         entry
                                         (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
-                                        "** %^{Is it a todo?|TODO|MEETING|WARNING} %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description  }\n%?"
+                                        "** %^{Is a todo?|TODO|MEETING|WARNING|} %^{Title}\n#+description: %^{Description  }\n%?"
+                                        :prepare-finalize custom-template-schedule
                                         :empty-lines-before 2
                                         :empty-lines-after  2
                                         :jump-to-captured   t)
@@ -110,7 +126,7 @@
                                         ((agenda
                                           ""
                                           ((org-agenda-overriding-header        "My Agenda 📅")
-                                           (org-agenda-span                     '2)))
+                                           (org-agenda-span                     '3)))
 
                                          (tags-todo
                                           "+CATEGORY=\"studie \""
@@ -160,7 +176,8 @@
                                         "          Add an event on the agenda calendar"
                                         entry
                                         (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
-                                        "** %^{Is it a todo?|TODO|MEETING|WARNING} %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description  }\n%?"
+                                        "** %^{Is a todo?|TODO|MEETING|WARNING|} %^{Title}\n#+description: %^{Description  }\n%?"
+                                        :prepare-finalize custom-template-schedule
                                         :empty-lines-before 2
                                         :empty-lines-after  2
                                         :jump-to-captured   t)
@@ -184,7 +201,7 @@
                                         :jump-to-captured   t
                                         :created            t))))
 
-  ;; Nil is the default value
+  ;; nil is the default value
   ('nil
    (setq org-agenda-files             (list org-directory luiznux-general-agenda)
          org-agenda-custom-commands   '(("x" "My Agenda :)"
@@ -220,7 +237,8 @@
                                          "          Add an event on the agenda calendar"
                                          entry
                                          (file+headline "~/org/agenda/agenda.org" "My TODOs 🍩")
-                                         "** %^{Is it a todo?|TODO|MEETING|WARNING} %^{Title}\nSCHEDULED: %^t\n#+description: %^{Description  }\n%?"
+                                         "** %^{Is a todo?|TODO|MEETING|WARNING|} %^{Title}\n#+description: %^{Description  }\n%?"
+                                         :prepare-finalize custom-template-schedule
                                          :empty-lines-before 2
                                          :empty-lines-after  2
                                          :jump-to-captured   t)
