@@ -33,6 +33,11 @@
     :hook ((after-init . global-corfu-mode)
            (global-corfu-mode . corfu-popupinfo-mode)))
 
+  (use-package corfu-prescient
+    :hook (corfu-mode . corfu-prescient-mode)
+    :init
+    (setq prescient-filter-method '(literal fuzzy initialism)))
+
   (unless (display-graphic-p)
     (use-package corfu-terminal
       :hook (global-corfu-mode . corfu-terminal-mode)))
