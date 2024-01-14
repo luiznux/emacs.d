@@ -29,11 +29,11 @@
 (defvar line-breaker)
 (defvar user-email)
 
-(declare-function nerd-icons-install-fonts 'nerd-icons)
-(declare-function ivy-read 'ivy)
-(declare-function browse-url-interactive-arg 'browse-url)
-(declare-function xwidget-buffer 'xwidget)
-(declare-function xwidget-webkit-current-session 'xwidget)
+(declare-function browse-url-interactive-arg "browse-url")
+(declare-function nerd-icons-install-fonts "ext:nerd-icons")
+(declare-function xwidget-webkit-current-session "xwidget")
+(declare-function xwidget-buffer "xwidget")
+(declare-function ivy-read "ivy")
 
 
 ;; UI
@@ -322,7 +322,7 @@ exist after each headings's drawers."
 
 (defun emacs-treesit-available-p ()
   "Check whether tree-sitter is available.
-Native tree-sitter is introduced since 29."
+Native tree-sitter is introduced since 29.1."
   (and (fboundp 'treesit-available-p)
        (treesit-available-p)))
 
@@ -441,12 +441,12 @@ NEW-SESSION specifies whether to create a new xwidget-webkit session."
   (let* ((separator (or separator ?\, ?\;))
          (n (count-matches (string separator) (line-beginning-position) (line-end-position)))
          (colors (cl-loop for i from 0 to 1.0 by (/ 2.0 n)
-                       collect (apply #'color-rgb-to-hex
-                                      (color-hsl-to-rgb i 0.3 0.5)))))
+                          collect (apply #'color-rgb-to-hex
+                                         (color-hsl-to-rgb i 0.3 0.5)))))
     (cl-loop for i from 2 to n by 2
-          for c in colors
-          for r = (format "^\\([^%c\n]+%c\\)\\{%d\\}" separator separator i)
-          do (font-lock-add-keywords nil `((,r (1 '(face (:foreground ,c)))))))))
+             for c in colors
+             for r = (format "^\\([^%c\n]+%c\\)\\{%d\\}" separator separator i)
+             do (font-lock-add-keywords nil `((,r (1 '(face (:foreground ,c)))))))))
 
 
 
