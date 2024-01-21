@@ -63,6 +63,9 @@
 
 (use-package doom-themes
   :commands doom-themes-org-config
+  :custom
+  (doom-themes-enable-bold t)
+  (doom-themes-enable-italic t)
   :custom-face
   (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
   :init (load-theme 'doom-one t)
