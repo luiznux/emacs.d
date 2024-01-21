@@ -20,6 +20,9 @@
   :init
   (setq rustic-lsp-client 'lsp-mode))
 
+(use-package ron-mode
+  :mode ("\\.ron" . ron-mode))
+
 (use-package rust-playground)
 
 
