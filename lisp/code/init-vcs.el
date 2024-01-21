@@ -19,6 +19,8 @@
 (eval-when-compile
   (require 'constants))
 
+;; Git
+;; See `magit-define-global-key-bindings'
 (use-package magit
   :init (setq magit-diff-refine-hunk t)
   :config
@@ -30,26 +32,18 @@
   ;; Access Git forges from Magit
   (use-package forge
     :demand t
-    :defines (forge-database-connector forge-topic-list-columns)
     :custom-face
     (forge-topic-label ((t (:inherit variable-pitch :height 0.9 :width condensed :weight regular :underline nil))))
-    :init
-    (setq forge-database-connector   (if (and (require 'emacsql-sqlite-builtin nil t)
-                                              (functionp 'emacsql-sqlite-builtin)
-                                              (functionp 'sqlite-open))
-                                         'sqlite-builtin
-                                       'sqlite)
-
-          forge-topic-list-columns   '(("#" 5 forge-topic-list-sort-by-number (:right-align t) number nil)
-                                       ("Title" 60 t nil title  nil)
-                                       ("State" 6 t nil state nil)
-                                       ("Updated" 10 t nil updated nil))
-          forge-add-default-bindings nil))
+    :init (setq forge-topic-list-columns
+                '(("#" 5 forge-topic-list-sort-by-number (:right-align t) number nil)
+                  ("Title" 60 t nil title  nil)
+                  ("State" 6 t nil state nil)
+                  ("Updated" 10 t nil updated nil))))
 
   ;; Show TODOs in magit
   (use-package magit-todos
     :defines magit-todos-nice
-    :commands magit-todos--scan-with-git-grep
+    :commands magit-todos-mode magit-todos--scan-with-git-grep
     :bind ("C-c C-t" . ivy-magit-todos)
     :init
     (setq magit-todos-nice (if (executable-find "nice") t nil))
