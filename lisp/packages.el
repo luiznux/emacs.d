@@ -20,7 +20,8 @@
 
 (eval-when-compile
   (require 'constants)
-  (require 'custom-config))
+  (require 'custom-config)
+  (require 'functions))
 
 ;; Load `custom-file'
 (and (file-readable-p custom-file) (load custom-file))
@@ -42,6 +43,9 @@
 (unless (bound-and-true-p package--initialized) ; To avoid warnings in 27
   (setq package-enable-at-startup nil)          ; To prevent initializing twice
   (package-initialize))
+
+;; More options
+(setq package-install-upgrade-built-in t)
 
 ;; Setup `use-package'
 (unless (package-installed-p 'use-package)

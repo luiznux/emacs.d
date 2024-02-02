@@ -71,6 +71,7 @@
 (require 'custom-config)
 (require 'functions)
 
+;; Packages
 (require 'packages)
 
 ;; Core packages

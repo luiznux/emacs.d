@@ -17,6 +17,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'package))
+
 (defgroup luiznux nil
   "Luiznux Emacs customization."
   :group 'convenience
