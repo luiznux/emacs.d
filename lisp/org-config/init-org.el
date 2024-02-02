@@ -154,6 +154,8 @@
         org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "|" "DONE(d!)")
                                                    (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
                                                    (sequence "MEETING(m!)" "|" "DONE(d!)")))
+        ;; small minibuffer for todo completion
+        org-use-fast-todo-selection        'expert
 
         org-todo-keyword-faces             '(("TODO"         . (:foreground "#6CCB6E" :weight bold))
                                              ("WARNING"      . (:foreground "#f32020" :weight bold))
