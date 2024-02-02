@@ -17,7 +17,7 @@
 ;;; code:
 
 (eval-when-compile
-  (require 'constants))
+  (require 'init-constants))
 
 (bind-key "M-<f7>" #'emacs-read-mode)
 

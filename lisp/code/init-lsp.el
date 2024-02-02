@@ -17,7 +17,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'custom-config))
+  (require 'init-custom))
 
 ;; Performace tuning
 ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance/

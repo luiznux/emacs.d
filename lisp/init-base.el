@@ -1,4 +1,4 @@
-;;; base.el --- Better default configurations.  -*- lexical-binding: t -*-
+;;; init-base.el --- Better default configurations.  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -18,7 +18,7 @@
 ;;; Code:
 
 (require 'subr-x)
-(require 'functions)
+(require 'init-functions)
 
 ;; Compatibility
 (use-package compat :demand t)
@@ -307,5 +307,5 @@
   (use-package emacsql-sqlite-builtin))
 
 
-(provide 'base)
-;;; base.el ends here
+(provide 'init-base)
+;;; init-base.el ends here

@@ -21,7 +21,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'constants))
+  (require 'init-constants))
 
 ;; Directory operations
 (use-package dired

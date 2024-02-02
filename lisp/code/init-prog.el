@@ -17,8 +17,8 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'constants)
-  (require 'custom-config))
+  (require 'init-constants)
+  (require 'init-custom))
 
 ;; Prettify Symbols
 ;; e.g. display “lambda” as “λ”

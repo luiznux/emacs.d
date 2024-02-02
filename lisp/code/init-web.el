@@ -19,7 +19,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'custom-config))
+  (require 'init-custom))
 
 ;; eww
 (use-package eww

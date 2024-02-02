@@ -1,4 +1,4 @@
-;;; packages.el --- Package configuration file  -*- lexical-binding: t -*-
+;;; init-packages.el --- Package configuration file  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -19,9 +19,9 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'constants)
-  (require 'custom-config)
-  (require 'functions))
+  (require 'init-constants)
+  (require 'init-custom)
+  (require 'init-functions))
 
 ;; Load `custom-file'
 (and (file-readable-p custom-file) (load custom-file))
@@ -73,5 +73,5 @@
     (defalias 'upgrade-packages #'auto-package-update-now)))
 
 
-(provide 'packages)
-;;; packages.el ends here
+(provide 'init-packages)
+;;; init-packages.el ends here

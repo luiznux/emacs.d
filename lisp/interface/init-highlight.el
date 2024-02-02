@@ -17,7 +17,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'constants))
+  (require 'init-constants))
 
 ;; Highlight the current line
 (use-package hl-line

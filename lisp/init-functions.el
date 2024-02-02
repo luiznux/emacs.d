@@ -1,4 +1,4 @@
-;;; functions.el --- Define functions.	-*- lexical-binding: t -*-
+;;; init-functions.el --- Define functions.	-*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -23,8 +23,8 @@
 
 ;; Suppress warnings
 (eval-when-compile
-  (require 'constants)
-  (require 'custom-config))
+  (require 'init-constants)
+  (require 'init-custom))
 
 (defvar line-breaker)
 (defvar user-email)
@@ -448,9 +448,8 @@ NEW-SESSION specifies whether to create a new xwidget-webkit session."
              for r = (format "^\\([^%c\n]+%c\\)\\{%d\\}" separator separator i)
              do (font-lock-add-keywords nil `((,r (1 '(face (:foreground ,c)))))))))
 
-
 
 
 
-(provide 'functions)
-;;; functions.el ends here
+(provide 'init-functions)
+;;; init-functions.el ends here

@@ -17,7 +17,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'custom-config))
+  (require 'init-custom))
 
 (use-package go-mode
   :functions (go-install-tools exec-path-from-shell-copy-envs)

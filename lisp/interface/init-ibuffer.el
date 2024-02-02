@@ -17,7 +17,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'custom-config))
+  (require 'init-custom))
 
 (use-package ibuffer
   :ensure nil

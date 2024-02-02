@@ -19,8 +19,8 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'constants)
-  (require 'custom-config))
+  (require 'init-constants)
+  (require 'init-custom))
 
 (require 'my-custom-emojis)
 

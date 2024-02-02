@@ -1,4 +1,4 @@
-;;; custom-config.el --- Custom configuration file  -*- lexical-binding: t -*-
+;;; init-custom.el --- Custom configuration file  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -229,5 +229,6 @@ Nil to use font supports ligatures."
 ;; Load `custom-file'
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-(provide 'custom-config)
-;;; custom-config.el ends here
+
+(provide 'init-custom)
+;;; init-custom.el ends here

@@ -67,15 +67,15 @@
 (update-load-path)
 
 ;; Requisites
-(require 'constants)
-(require 'custom-config)
-(require 'functions)
+(require 'init-constants)
+(require 'init-custom)
+(require 'init-functions)
 
 ;; Packages
-(require 'packages)
+(require 'init-packages)
 
 ;; Core packages
-(require 'base)
+(require 'init-base)
 (require 'init-hydra)
 (require 'init-interface)
 (require 'init-edit)

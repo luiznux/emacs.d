@@ -1,4 +1,4 @@
-;;; constants.el --- Constants definitions file  -*- lexical-binding: t -*-
+;;; init-constants.el --- Constants definitions file  -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -81,5 +81,5 @@
   (>= emacs-major-version 30)
   "Emacs is 30 or above.")
 
-(provide 'constants)
-;;; constants.el ends here
+(provide 'init-constants)
+;;; init-constants.el ends here
