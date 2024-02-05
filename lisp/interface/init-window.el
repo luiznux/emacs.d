@@ -48,18 +48,19 @@
   :hook (emacs-startup . popper-echo-mode)
   :init
   (setq popper-reference-buffers
-        '("\\*Messages\\*"
+        '("\\*Messages\\*$"
           "Output\\*$" "\\*Pp Eval Output\\*$"
           "^\\*eldoc.*\\*$"
-          "\\*Compile-Log\\*"
-          "\\*Completions\\*"
-          "\\*Warnings\\*"
-          "\\*Async Shell Command\\*"
-          "\\*Apropos\\*"
-          "\\*Backtrace\\*"
-          "\\*Calendar\\*"
-          "\\*Finder\\*"
-          "\\*Embark Actions\\*"
+          "\\*Compile-Log\\*$"
+          "\\*Completions\\*$"
+          "\\*Warnings\\*$"
+          "\\*Async Shell Command\\*$"
+          "\\*Apropos\\*$"
+          "\\*Backtrace\\*$"
+          "\\*Calendar\\*$"
+          "\\*Fd\\*$" "\\*Find\\*$" "\\*Finder\\*$"
+          "\\*Kill Ring\\*$"
+          "\\*Embark \\(Collect\\|Live\\):.*\\*$"
 
           bookmark-bmenu-mode
           compilation-mode
