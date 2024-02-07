@@ -63,6 +63,7 @@
           "\\*Embark \\(Collect\\|Live\\):.*\\*$"
 
           bookmark-bmenu-mode
+          comint-mode
           compilation-mode
           help-mode helpful-mode
           tabulated-list-mode
@@ -76,7 +77,7 @@
           ivy-occur-mode ivy-occur-grep-mode
           osx-dictionary-mode
 
-          "^\\*Process List\\*" process-menu-mode
+          "^\\*Process List\\*$" process-menu-mode
           list-environment-mode cargo-process-mode
 
           "^\\*.*eshell.*\\*.*$"
