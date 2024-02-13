@@ -64,7 +64,7 @@
         lsp-eldoc-render-all               nil
         lsp-lens-enable                    t
         lsp-modeline-code-actions-enable   t
-        lsp-modeline-diagnostics-enable    t
+        lsp-modeline-diagnostics-enable    nil
         lsp-keep-workspace-alive           nil
         lsp-semantic-tokens-enable         t
         lsp-progress-spinner-type          'progress-bar-filled
@@ -76,11 +76,13 @@
         lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
 
   :config
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               clojurex-mode))
+  (dolist (m '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode))
     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+
+  ;; Use `cider' for completions and indentation
+  (when (derived-mode-p 'clojure-mode 'clojurec-mode 'clojurescript-mode 'cider-mode)
+    (setq-local  lsp-enable-indentation nil
+                 lsp-completion-enable  nil))
 
   (with-no-warnings
     ;; Disable `lsp-mode' in `git-timemachine-mode'
