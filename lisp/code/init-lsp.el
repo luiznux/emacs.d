@@ -239,6 +239,35 @@
 
   :config
   (with-no-warnings
+    ;; Display peek in child frame if possible
+    ;; @see https://github.com/emacs-lsp/lsp-ui/issues/441
+    (defvar lsp-ui-peek--buffer nil)
+    (defun lsp-ui-peek--peek-display (fn src1 src2)
+      (if (childframe-workable-p)
+          (-let* ((win-width (frame-width))
+                  (lsp-ui-peek-list-width (/ (frame-width) 2))
+                  (string (-some--> (-zip-fill "" src1 src2)
+                            (--map (lsp-ui-peek--adjust win-width it) it)
+                            (-map-indexed 'lsp-ui-peek--make-line it)
+                            (-concat it (lsp-ui-peek--make-footer)))))
+            (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
+            (posframe-show lsp-ui-peek--buffer
+                           :string (mapconcat 'identity string "")
+                           :min-width (frame-width)
+                           :internal-border-color (face-background 'posframe-border nil t)
+                           :internal-border-width 1
+                           :poshandler #'posframe-poshandler-frame-center))
+        (funcall fn src1 src2)))
+    (defun lsp-ui-peek--peek-destroy (fn)
+      (if (childframe-workable-p)
+          (progn
+            (when (bufferp lsp-ui-peek--buffer)
+              (posframe-hide lsp-ui-peek--buffer))
+            (setq lsp-ui-peek--last-xref nil))
+        (funcall fn)))
+    (advice-add #'lsp-ui-peek--peek-new :around #'lsp-ui-peek--peek-display)
+    (advice-add #'lsp-ui-peek--peek-hide :around #'lsp-ui-peek--peek-destroy)
+
     ;; Handle docs
     (defun my-lsp-ui-doc--handle-hr-lines nil
       (let (bolp next before after)
@@ -596,7 +625,7 @@
 
 (defconst org-babel-lang-list
   '("go" "python" "ipython" "ruby" "js" "css" "sass" "c" "rust" "java" "cpp" "c++" "shell")
-"The supported programming languages for interactive Babel.")
+  "The supported programming languages for interactive Babel.")
 (dolist (lang org-babel-lang-list)
   (eval `(lsp-org-babel-enable ,lang)))
 
