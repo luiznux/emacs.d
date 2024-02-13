@@ -25,13 +25,11 @@
              treemacs-follow-mode
              treemacs-filewatch-mode
              treemacs-git-mode
-             treemacs-fringe-indicator-mode)
+             treemacs--disable-fringe-indicator)
   :custom-face
   (cfrs-border-color ((t (:inherit posframe-border))))
   :hook
-  (treemacs-mode . (lambda ()
-                     (treemacs-toggle-fixed-width)
-                     (treemacs-fringe-indicator-mode 'always)))
+  (treemacs-mode . (lambda () (treemacs--disable-fringe-indicator)))
   :bind (([f8]        . treemacs)
          ("M-0"       . treemacs-select-window)
          ("C-x t 1"   . treemacs-delete-other-windows)
@@ -46,6 +44,7 @@
         treemacs-missing-project-action        'remove
         treemacs-sorting                       'alphabetic-asc
         treemacs-follow-after-init             t
+        treemacs-width-is-initially-locked     nil
         treemacs-width                         30
         treemacs-no-png-images                 (not emacs-icon)
         ;;treemacs-text-scale                    -1
