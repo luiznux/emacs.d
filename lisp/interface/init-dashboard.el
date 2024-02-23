@@ -34,7 +34,6 @@
     (("U" update-packages "update" :exit t)
      ("H" browse-homepage "homepage" :exit t)
      ("R" restore-session "recover session" :exit t)
-     ("L" restore-session "list sessions" :exit t)
      ("S" find-custom-file "settings" :exit t)
      ("N" centaur-tabs--create-new-tab "create new tab" :exit t))
     "Section"
@@ -58,7 +57,6 @@
          :map dashboard-mode-map
          ("S-<f2>" . dashboard-hydra/body)
          ("R"      . restore-session)
-         ("L"      . restore-session)
          ("S"      . find-custom-file)
          ("U"      . update-packages)
          ("N"      . centaur-tabs--create-new-tab)
@@ -111,7 +109,11 @@
       (interactive)
       (message "Restoring previous session...")
       (quit-window t)
-      (desktop-read)
+      (cond
+       ((bound-and-true-p tabspaces-mode)
+        (tabspaces-restore-session))
+       ((bound-and-true-p desktop-save-mode)
+        (desktop-read)))
       (message "Restoring previous session...done"))
 
     (defun dashboard-goto-recent-files ()
