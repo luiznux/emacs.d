@@ -25,18 +25,7 @@
   (tabspaces-include-buffers '("*scratch*" "*Messages*" "*dashboard*" "*Org Agenda*"))
   ;; sessions
   (tabspaces-session t)
-  (tabspaces-session-auto-restore t)
-  :config
-  (defun tabspaces-ivy-switch-buffer (buffer)
-    "Display the local buffer BUFFER in the selected window.
-This is the frame/tab-local equivilant to `switch-to-buffer'."
-    (interactive
-     (list
-      (let ((blst (mapcar #'buffer-name (tabspaces-buffer-list))))
-        (read-buffer
-         "Switch to local buffer: " blst nil
-         (lambda (b) (member (if (stringp b) b (car b)) blst))))))
-    (ivy-switch-buffer buffer)))
+  (tabspaces-session-auto-restore t))
 
 (provide 'init-workspace)
 ;;; init-workspace.el ends here
