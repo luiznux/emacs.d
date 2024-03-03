@@ -46,6 +46,7 @@
         treemacs-follow-after-init             t
         treemacs-width-is-initially-locked     nil
         treemacs-width                         30
+        treemacs-file-extension-regex treemacs-last-period-regex-value
         treemacs-no-png-images                 (not emacs-icon)
         ;;treemacs-text-scale                    -1
         treemacs-recenter-after-project-expand 'on-distance)
@@ -68,13 +69,17 @@
     :bind (:map projectile-command-map
            ("h" . treemacs-projectile)))
 
-  (use-package treemacs-nerd-icons
+  (use-package my-custom-treemacs-theme
+    :load-path "~/.emacs.d/lisp/extra"
+    :commands icons-displayable-p
     :demand t
+    :after (treemacs lsp-treemacs nerd-icons)
     :when (icons-displayable-p)
     :custom-face
     (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-green :height 1.3))))
     (treemacs-nerd-icons-file-face ((t (:inherit nerd-icons-dsilver))))
-    :config (treemacs-load-theme "nerd-icons"))
+    :config
+    (with-no-warnings (treemacs-load-theme "custom-nerd-icons")))
 
   (use-package treemacs-magit
     :hook ((magit-post-commit
@@ -85,7 +90,9 @@
 
   (use-package treemacs-tab-bar
     :demand t
-    :config (treemacs-set-scope-type 'Tabs)))
+    :commands treemacs-set-scope-type
+    :config
+    (treemacs-set-scope-type 'Tabs)))
 
 
 (provide 'init-treemacs)
