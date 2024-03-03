@@ -1,4 +1,4 @@
-;;; my-custom-emojis.el --- List of my emojis -*- lexical-binding: t  t no-byte-compile: t-*-
+;;; my-custom-emojis.el --- List of custom emojis   -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -6,7 +6,7 @@
 ;;
 ;;; Commentary:
 ;;
-;; This file is a list whith my custom emojis list
+;; This file is a list whith my custom emojis list, used on `emoji'.
 ;;
 ;;
 ;; ███████╗███╗   ███╗ ██████╗      ██╗██╗███████╗       ██╗
