@@ -76,12 +76,7 @@
                                (t 'grep)))
     ;; Select from xref candidates in minibuffer
     (setq xref-show-definitions-function #'xref-show-definitions-completing-read
-          xref-show-xrefs-function #'xref-show-definitions-completing-read)
-    ;; Select from xref candidates with Ivy
-    (use-package ivy-xref
-      :after ivy
-      :init
-      (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))))
+          xref-show-xrefs-function #'xref-show-definitions-completing-read)))
 
 ;; Jump to definition
 (use-package dumb-jump
@@ -100,8 +95,8 @@
      ("b" dumb-jump-back "Back"))))
   :bind ("C-M-j" . dumb-jump-hydra/body)
   :init
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate) ; use M-. to go to definition
-  (setq dumb-jump-selector 'ivy))
+  ;; use M-. to go to definition
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 ;; Code styles
 (use-package editorconfig

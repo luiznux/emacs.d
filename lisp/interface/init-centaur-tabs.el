@@ -35,7 +35,6 @@
          ("C-<next>"    . centaur-tabs-forward)
          ("C-S-<prior>" . centaur-tabs-move-current-tab-to-left)
          ("C-S-<next>"  . centaur-tabs-move-current-tab-to-right)
-         ("C-c t t"     . centaur-tabs-counsel-switch-group)
          (:map evil-normal-state-map
           ("g t" . centaur-tabs-forward)
           ("g T" . centaur-tabs-backward)))

@@ -22,19 +22,7 @@
 (use-package ibuffer
   :ensure nil
   :bind ("C-x C-b" . ibuffer)
-  :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold)))
-  :config
-  (with-eval-after-load 'counsel
-    (with-no-warnings
-      (defun my-ibuffer-find-file ()
-        (interactive)
-        (let ((default-directory (let ((buf (ibuffer-current-buffer)))
-                                   (if (buffer-live-p buf)
-                                       (with-current-buffer buf
-                                         default-directory)
-                                     default-directory))))
-          (counsel-find-file default-directory)))
-      (advice-add #'ibuffer-find-file :override #'my-ibuffer-find-file))))
+  :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
 ;; Display icons for buffers
 (use-package nerd-icons-ibuffer

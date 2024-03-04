@@ -33,7 +33,6 @@
 (declare-function nerd-icons-install-fonts "ext:nerd-icons")
 (declare-function xwidget-webkit-current-session "xwidget")
 (declare-function xwidget-buffer "xwidget")
-(declare-function ivy-read "ivy")
 
 
 ;; UI
@@ -416,9 +415,8 @@ Save to option `custom-file' if NO-SAVE is nil."
   (interactive
    (list
     (intern
-     (ivy-read "Select package archives: "
-               (mapcar #'car luiznux-package-archives-alist)
-               :preselect (symbol-name luiznux-package-archives)))))
+     (completing-read "Select package archives: "
+                      (mapcar #'car luiznux-package-archives-alist)))))
   ;; Set option
   (custom-set-variable 'luiznux-package-archives archives no-save)
 
