@@ -222,7 +222,6 @@
         lsp-ui-doc-header                  t
         lsp-ui-peek-enable                 t
         lsp-ui-peek-show-directory         t
-        lsp-ui-sideline-show-code-actions  t
         lsp-ui-sideline-ignore-duplicate   t
         lsp-ui-doc-show-with-mouse         (display-graphic-p)
         lsp-ui-doc-show-with-cursor        (not (display-graphic-p))
