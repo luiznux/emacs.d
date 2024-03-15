@@ -51,14 +51,14 @@
         x-underline-at-descent-line           t)
 
   (centaur-tabs-headline-match)
-  ;;(centaur-tabs-group-by-projectile-project)
+  (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
 
   :config
   (dolist
       (excluded-prefixes
-       '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics"
-          "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*"))
+       '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics" "*Kill Ring*"
+          "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*" "*compilation*"))
     (cl-pushnew excluded-prefixes centaur-tabs-excluded-prefixes)))
 
 
