@@ -90,7 +90,6 @@
          ([remap Info-search]        . consult-info)
          ([remap isearch-forward]    . consult-line)
          ([remap recentf-open-files] . consult-recent-file)
-         ("C-S-s"   . consult-line-symbol-at-point)
 
          ;; C-x bindings in `ctl-x-map'
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
@@ -257,8 +256,9 @@ value of the selected COLOR."
 (use-package consult-project-extra)
 
 (use-package consult-org-roam
-  :defines consult-org-roam-grep-func
   :after org-roam
+  :diminish
+  :defines consult-org-roam-grep-func
   :custom (consult-org-roam-grep-func #'consult-ripgrep)
   :bind
   ;; Define some convenient keybindings as an addition
@@ -272,6 +272,14 @@ value of the selected COLOR."
   :config
   (consult-customize
    consult-org-roam-forward-links :preview-key '(:debounce 0.5 any)))
+
+(use-package consult-notes
+  :after org-roam
+  :commands (consult-notes-org-headings-mode consult-notes-org-roam-mode)
+  :config
+  (setq consult-notes-file-dir-sources '(("roam" ?k "~/org/roam")))
+  (consult-notes-org-headings-mode)
+  (consult-notes-org-roam-mode))
 
 (use-package consult-flyspell
   :bind ("M-g s" . consult-flyspell))
