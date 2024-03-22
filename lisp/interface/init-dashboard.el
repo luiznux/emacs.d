@@ -76,8 +76,6 @@
         dashboard-path-max-length      80
         dashboard-set-heading-icons    emacs-icon
         dashboard-set-file-icons       emacs-icon
-        dashboard-set-init-info        t
-        dashboard-set-navigator        t
         dashboard-items                '((recents   . 10) (projects  . 5))
         dashboard-heading-icons        '((recents   . "nf-oct-history") (projects  . "nf-oct-briefcase"))
         dashboard-navigator-buttons    `(;;line1
@@ -99,7 +97,18 @@
                                           (,(when (icons-displayable-p)
                                               (nerd-icons-faicon "nf-fa-plus" :height 1.2))
                                            "New Tab" "New Tab"
-                                           (lambda (&rest _) (centaur-tabs--create-new-tab))))))
+                                           (lambda (&rest _) (centaur-tabs--create-new-tab)))))
+
+        dashboard-startupify-list      '(dashboard-insert-banner
+                                         dashboard-insert-newline
+                                         dashboard-insert-banner-title
+                                         dashboard-insert-newline
+                                         dashboard-insert-navigator
+                                         dashboard-insert-newline
+                                         dashboard-insert-init-info
+                                         dashboard-insert-items
+                                         dashboard-insert-newline
+                                         dashboard-insert-footer))
   (dashboard-setup-startup-hook)
 
   :config
