@@ -39,10 +39,9 @@
     (add-to-list 'projectile-project-root-files-bottom-up val))
 
   ;; Registry my org-files as project
-;;  (with-no-warnings
-;;    (projectile-register-project-type 'org '("config.org")
-;;                                      :project-file "config.org"))
-)
+  (with-no-warnings
+    (projectile-register-project-type 'org '("config.org")
+                                      :project-file "config.org")))
 
 
 (provide 'init-projectile)
