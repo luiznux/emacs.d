@@ -378,6 +378,12 @@ Native tree-sitter is introduced since 29.1."
   (ido-mode 1))
 ;;(add-hook 'after-init-hook #'enable-ido-mode)
 
+(defun silence-function-messages (orig-fun &rest args)
+  "Advice function that silences all messages in ORIG-FUN with ARGS."
+  (let ((inhibit-message t)      ;Don't show the messages in Echo area
+        (message-log-max nil))   ;Don't show the messages in the *Messages* buffer
+    (apply orig-fun args)))
+
 (defun read-path-variable-from-zshrc ()
   "Read the path variable from zshrc."
   (interactive)

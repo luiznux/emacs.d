@@ -142,6 +142,13 @@ Like `nyan-mode' and `parrot-mode'"
   :type '(choice (const :tag "Company" company)
                  (const :tag "Corfu" corfu)))
 
+(defcustom emacs-parsing-system 'tree-sitter
+  "Set parsing system program."
+  :group 'luiznux
+  :type '(choice (const :tag "built-in treesit package" treesit)
+                 (const :tag "3rd party tree-sitter package" tree-sitter)
+                 (const :tag "no parsing system" nil)))
+
 ;; source: https://github.com/seagle0128/.emacs.d
 (defcustom custom-prettify-symbols-alist
   '(("lambda" . ?λ)

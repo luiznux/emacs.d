@@ -16,6 +16,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'init-custom))
+
 ;; Rectangle
 (use-package rect
   :ensure nil
@@ -152,7 +155,7 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region)
   :config
-  (when (emacs-treesit-available-p)
+  (when (and (emacs-treesit-available-p) (eq emacs-parsing-system 'treesit))
     (defun treesit-mark-bigger-node ()
       "Use tree-sitter to mark regions."
       (let* ((root (treesit-buffer-root-node))

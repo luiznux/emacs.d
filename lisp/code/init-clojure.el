@@ -16,6 +16,14 @@
 ;;
 ;;; Code:
 
+(when (eq emacs-parsing-system 'tree-sitter)
+  (use-package clojure-mode
+    :defines tree-sitter-major-mode-language-alist
+    :config
+    (with-eval-after-load 'tree-sitter-langs
+      (setf tree-sitter-major-mode-language-alist
+            (cl-remove 'clojure-mode tree-sitter-major-mode-language-alist :key #'car)))))
+
 (use-package cider
   :commands cider-enable-flex-completion
   :hook ((clojure-mode . cider-mode)
