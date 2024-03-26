@@ -141,7 +141,7 @@
                           :extensions ("config-open" "configuration-open")
                           :fallback 'same-as-icon)
     (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_cog" :face 'nerd-icons-cyan) treemacs-nerd-icons-tab)
-                          :extensions ("config-closed" "configuration-open")
+                          :extensions ("config-closed" "configuration-closed")
                           :fallback 'same-as-icon)
     ;; settings
     (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_wrench" :face 'nerd-icons-cyan-alt) treemacs-nerd-icons-tab)
@@ -149,6 +149,13 @@
                           :fallback 'same-as-icon)
     (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_wrench" :face 'nerd-icons-cyan-alt) treemacs-nerd-icons-tab)
                           :extensions ("settings-closed")
+                          :fallback 'same-as-icon)
+    ;; tools
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_wrench_outline" :face 'nerd-icons-cyan-alt) treemacs-nerd-icons-tab)
+                          :extensions ("tools-open")
+                          :fallback 'same-as-icon)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_wrench_outline" :face 'nerd-icons-cyan-alt) treemacs-nerd-icons-tab)
+                          :extensions ("tools-closed")
                           :fallback 'same-as-icon)
     ;; java
     (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-faicon "nf-fa-folder_open" :face 'nerd-icons-lmaroon) treemacs-nerd-icons-tab)
@@ -206,6 +213,13 @@
     (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_table" :face 'nerd-icons-green) treemacs-nerd-icons-tab)
                           :extensions ("repository-closed")
                           :fallback 'same-as-icon)
+    ;; modules
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_multiple_outline" :face 'nerd-icons-lmaroon) treemacs-nerd-icons-tab)
+                          :extensions ("module-open" "modules-open")
+                          :fallback 'same-as-icon)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_multiple_outline" :face 'nerd-icons-lmaroon) treemacs-nerd-icons-tab)
+                          :extensions ("module-closed" "modules-closed")
+                          :fallback 'same-as-icon)
     ;; security
     (treemacs-create-icon :icon (format "%s%s%s" chevron-down(nerd-icons-mdicon "nf-md-folder_lock" :face 'nerd-icons-lyellow) treemacs-nerd-icons-tab)
                           :extensions ("security-open")
@@ -213,11 +227,18 @@
     (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_lock" :face 'nerd-icons-lyellow) treemacs-nerd-icons-tab)
                           :extensions ("security-closed")
                           :fallback 'same-as-icon)
+    ;; templates
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down(nerd-icons-mdicon "nf-md-folder_file_outline" :face 'nerd-icons-yellow) treemacs-nerd-icons-tab)
+                          :extensions ("template-open" "templates-open")
+                          :fallback 'same-as-icon)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_file_outline" :face 'nerd-icons-yellow) treemacs-nerd-icons-tab)
+                          :extensions ("template-closed" "templates-closed")
+                          :fallback 'same-as-icon)
     ;; plugins
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-down(nerd-icons-mdicon "nf-md-folder_plus" :face 'nerd-icons-pink) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down(nerd-icons-mdicon "nf-md-folder_multiple_plus" :face 'nerd-icons-pink) treemacs-nerd-icons-tab)
                           :extensions ("plugins-open")
                           :fallback 'same-as-icon)
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_plus" :face 'nerd-icons-pink) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_multiple_plus" :face 'nerd-icons-pink) treemacs-nerd-icons-tab)
                           :extensions ("plugins-closed")
                           :fallback 'same-as-icon)
     ;; utils
@@ -242,10 +263,10 @@
                           :extensions ("custom-closed")
                           :fallback 'same-as-icon)
     ;; deploy
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-down(nerd-icons-mdicon "nf-md-folder_arrow_up_outline" :face 'nerd-icons-orange) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down(nerd-icons-mdicon "nf-md-folder_arrow_up" :face 'nerd-icons-orange) treemacs-nerd-icons-tab)
                           :extensions ("deploy-open")
                           :fallback 'same-as-icon)
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_arrow_up_outline" :face 'nerd-icons-orange) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_arrow_up" :face 'nerd-icons-orange) treemacs-nerd-icons-tab)
                           :extensions ("deploy-closed")
                           :fallback 'same-as-icon)
     ;; api
@@ -256,10 +277,10 @@
                           :extensions ("api-closed")
                           :fallback 'same-as-icon)
     ;; rest
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_pound" :face 'nerd-icons-yellow) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_pound_outline" :face 'nerd-icons-yellow) treemacs-nerd-icons-tab)
                           :extensions ("rest-open")
                           :fallback 'same-as-icon)
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_pound" :face 'nerd-icons-yellow) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_pound_outline" :face 'nerd-icons-yellow) treemacs-nerd-icons-tab)
                           :extensions ("rest-closed")
                           :fallback 'same-as-icon)
     ;; client
