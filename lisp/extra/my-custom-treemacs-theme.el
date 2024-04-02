@@ -185,12 +185,12 @@
     (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_home" :face 'nerd-icons-dcyan) treemacs-nerd-icons-tab)
                           :extensions ("domain-closed")
                           :fallback 'same-as-icon)
-    ;; model
+    ;; model, entity, dto
     (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_eye_outline" :face 'nerd-icons-cyan) treemacs-nerd-icons-tab)
-                          :extensions ("model-open")
+                          :extensions ("model-open" "entity-open" "dto-open")
                           :fallback 'same-as-icon)
     (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_eye_outline" :face 'nerd-icons-cyan) treemacs-nerd-icons-tab)
-                          :extensions ("model-closed")
+                          :extensions ("model-closed" "entity-closed" "dto-closed")
                           :fallback 'same-as-icon)
     ;; controller
     (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_cog_outline" :face 'nerd-icons-red) treemacs-nerd-icons-tab)
