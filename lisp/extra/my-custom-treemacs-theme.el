@@ -59,10 +59,11 @@
     (treemacs-create-icon :icon (format "%s%s" (nerd-icons-octicon "nf-oct-repo"  :face 'treemacs-nerd-icons-root-face) treemacs-nerd-icons-tab)
                           :extensions (root-closed root-open)
                           :fallback 'same-as-icon)
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-faicon "nf-fa-folder_open" :face 'treemacs-nerd-icons-file-face) treemacs-nerd-icons-tab)
+    ;; default directory
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-faicon "nf-fa-folder_open" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
                           :extensions (dir-open)
                           :fallback 'same-as-icon)
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-faicon "nf-fa-folder" :face 'treemacs-nerd-icons-file-face) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-faicon "nf-fa-folder" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
                           :extensions (dir-closed)
                           :fallback 'same-as-icon)
     ;; Custom directory
@@ -74,10 +75,10 @@
                           :extensions ("src-closed")
                           :fallback 'same-as-icon)
     ;; main
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-faicon "nf-fa-folder_open" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-faicon "nf-fa-folder_open" :face 'nerd-icons-lblue) treemacs-nerd-icons-tab)
                           :extensions ("main-open")
                           :fallback 'same-as-icon)
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-faicon "nf-fa-folder" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-faicon "nf-fa-folder" :face 'nerd-icons-lblue) treemacs-nerd-icons-tab)
                           :extensions ("main-closed")
                           :fallback 'same-as-icon)
     ;; test
@@ -326,10 +327,10 @@
                           :extensions ("doc-closed""docs-closed")
                           :fallback 'same-as-icon)
     ;; key
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_key" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_key_outline" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
                           :extensions ("key-open")
                           :fallback 'same-as-icon)
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_key" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_key_outline" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
                           :extensions ("key-closed")
                           :fallback 'same-as-icon)
     ;; github
@@ -354,10 +355,10 @@
                           :extensions ("icons-closed" "img-closed" "image-closed" "images-closed" "screenshots-open")
                           :fallback 'same-as-icon)
     ;; docker
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-faicon "nf-fa-folder_open" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-faicon "nf-fa-folder_open" :face 'nerd-icons-lblue) treemacs-nerd-icons-tab)
                           :extensions ("docker-open")
                           :fallback 'same-as-icon)
-    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-faicon "nf-fa-folder" :face 'nerd-icons-blue) treemacs-nerd-icons-tab)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-faicon "nf-fa-folder" :face 'nerd-icons-lblue) treemacs-nerd-icons-tab)
                           :extensions ("docker-closed")
                           :fallback 'same-as-icon)
     ;; npm
