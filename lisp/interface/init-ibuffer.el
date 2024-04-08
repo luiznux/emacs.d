@@ -36,7 +36,8 @@
                      (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
                      (unless (eq ibuffer-sorting-mode 'project-file-relative)
                        (ibuffer-do-sort-by-project-file-relative))))
-  :init (setq ibuffer-project-use-cache t)
+  :init (setq ibuffer-project-use-cache t
+              ibuffer-auto-mode t)
   :config
   (defun my-ibuffer-project-group-name (root type)
     "Return group name for project ROOT and TYPE."
