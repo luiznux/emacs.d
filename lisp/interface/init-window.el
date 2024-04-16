@@ -94,6 +94,7 @@
           "\\*quickrun\\*$"
           "\\*tldr\\*$"
           "\\*vc-.*\\**"
+          "\\*vc\\*"
           "\\*diff-hl\\**"
           "^\\*macro expansion\\**"
 
