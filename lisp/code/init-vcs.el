@@ -22,7 +22,8 @@
 ;; Git
 ;; See `magit-define-global-key-bindings'
 (use-package magit
-  :init (setq magit-diff-refine-hunk t)
+  :init (setq  auto-revert-check-vc-info t
+               magit-diff-refine-hunk    t)
   :config
   (when (fboundp 'transient-append-suffix)
     ;; Add switch: --tags
