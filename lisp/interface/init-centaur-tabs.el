@@ -59,7 +59,7 @@
       (excluded-prefixes
        '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics" "*Kill Ring*"
           "*flycheck-posframe-buffer*" "*Shell Command Output*" "*dashboard*" "*Directory*" "*vterm*" "*compilation*"
-          "magit:" "magit-"))
+          "magit:" "magit-" "*vc*"))
     (cl-pushnew excluded-prefixes centaur-tabs-excluded-prefixes)))
 
 
