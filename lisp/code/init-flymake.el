@@ -73,9 +73,10 @@
   :if (executable-find "aspell")
   :commands ispell-init-process
   :hook
-  (flyspell-mode . (lambda ()
-                     (dolist (key '("C-;" "C-," "C-."))
-                       (unbind-key key flyspell-mode-map))))
+  ((git-commit-mode . flyspell-mode)
+   (flyspell-mode   . (lambda ()
+                        (dolist (key '("C-;" "C-," "C-."))
+                          (unbind-key key flyspell-mode-map)))))
   :custom-face
   (flyspell-incorrect ((t (:underline (:color "#f1fa8c" :style wave)))))
   (flyspell-duplicate ((t (:underline (:color "#50fa7b" :style wave)))))
@@ -84,7 +85,6 @@
         ispell-program-name          "aspell"
         ispell-extra-args            '("--sug-mode=ultra")
         ispell-dictionary            "english")
-  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   :config
   (defun spell-buffer-pt-BR ()
     "Spell check in portuguese."
