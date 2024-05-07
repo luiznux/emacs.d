@@ -44,10 +44,10 @@
 
 ;; Emacs Lisp Package Archive (ELPA)
 (defcustom luiznux-package-archives-alist
-  '((melpa    . (("gnu"           . "http://elpa.gnu.org/packages/")
-                 ("nongnu"        . "http://elpa.nongnu.org/nongnu/")
-                 ("melpa"         . "http://melpa.org/packages/")
-                 ("melpa-stable"  . "http://stable.melpa.org/packages/"))))
+  '((melpa    . (("gnu"           . "https://elpa.gnu.org/packages/")
+                 ("nongnu"        . "https://elpa.nongnu.org/nongnu/")
+                 ("melpa"         . "https://melpa.org/packages/")
+                 ("melpa-stable"  . "https://stable.melpa.org/packages/"))))
   "A list of the package archives."
   :group 'luiznux
   :type '(alist :key-type (symbol :tag "Archive group name")
