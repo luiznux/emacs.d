@@ -1,32 +1,32 @@
 name: CI
 
 on:
-    push:
-    pull_request:
+  push:
+  pull_request:
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        continue-on-error: ${{ matrix.experimental }}
-        strategy:
-            fail-fast: false
-            matrix:
-                emacs-version: [28.2, 29.2]
-                experimental: [false]
-                include:
-                    - emacs-version: snapshot
-                      experimental: true
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        emacs-version: [28.2, 29.3]
+        experimental: [false]
+        include:
+          - emacs-version: snapshot
+            experimental: true
 
-        steps:
-            - uses: purcell/setup-emacs@master
-              with:
-                  version: ${{ matrix.emacs-version }}
+    steps:
+      - uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs-version }}
 
-            - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-            - name: test
-              run: ./test-startup.sh
+      - name: test
+        run: ./.github/workflows/test-startup.sh
