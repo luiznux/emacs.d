@@ -25,11 +25,9 @@
              treemacs-follow-mode
              treemacs-filewatch-mode
              treemacs-git-mode
-             treemacs--disable-fringe-indicator)
+             treemacs-fringe-indicator-mode)
   :custom-face
   (cfrs-border-color ((t (:inherit posframe-border))))
-  :hook
-  (treemacs-mode . (lambda () (treemacs--disable-fringe-indicator)))
   :bind (([f8]        . treemacs)
          ("M-0"       . treemacs-select-window)
          ("C-x t 1"   . treemacs-delete-other-windows)
@@ -53,6 +51,7 @@
 
   (treemacs-follow-mode     t)
   (treemacs-filewatch-mode  t)
+  (treemacs-fringe-indicator-mode 'always)
   (pcase (cons (not (null (executable-find "git")))
                (not (null (executable-find "python3"))))
     (`(t . t)
