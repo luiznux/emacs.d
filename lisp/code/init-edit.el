@@ -84,7 +84,17 @@
          (prog-mode . goto-address-prog-mode)))
 
 (use-package link-hint
-  :bind (("M-o" . link-hint-open-link)))
+  :bind ("M-o" . link-hint-open-link)
+  :init
+  (with-eval-after-load 'embark
+    (setq link-hint-action-fallback-commands
+          (list :open (lambda ()
+                        (condition-case _
+                            (progn
+                              (embark-dwim)
+                              t)
+                          (error
+                           nil)))))))
 
 ;; https://github.com/purcell/whitespace-cleanup-mode
 (use-package whitespace-cleanup-mode
