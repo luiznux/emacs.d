@@ -136,12 +136,6 @@ Like `nyan-mode' and `parrot-mode'"
   :group 'luiznux
   :type 'boolean)
 
-(defcustom emacs-completion-framework 'company
-  "Set completion framework."
-  :group 'luiznux
-  :type '(choice (const :tag "Company" company)
-                 (const :tag "Corfu" corfu)))
-
 (defcustom emacs-parsing-system 'tree-sitter
   "Set parsing system program."
   :group 'luiznux

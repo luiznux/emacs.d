@@ -17,7 +17,6 @@
       luiznux-package-archives 'melpa
       luiznux-server           t)
 
-;;(setq emacs-completion-framework 'corfu) ; Set completion framework `company' or `corfu'
 ;;(setq emacs-parsing-system 'tree-sitter) ; Set parsing system `treesit' or `tree-sitter'
 ;;(setq doom-modeline-font-size value)     ; Set `doom-modeline' font size value
 ;;(setq centaur-tabs-font-size  value)     ; Set `centaur-tabs' font size value
