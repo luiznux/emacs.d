@@ -263,6 +263,7 @@
            lsp-ui-imenu-mode
            pdf-annot-list-mode
            flycheck-error-list-mode
+           flymake-diagnostics-buffer-mode
            lsp-treemacs-error-list-mode) . turn-on-hide-mode-line-mode)))
 
 (when fancy-modeline

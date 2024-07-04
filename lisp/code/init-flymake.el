@@ -20,6 +20,11 @@
   :diminish
   :functions my-elisp-flymake-byte-compile
   :hook (prog-mode . flymake-mode)
+  :bind (:map flymake-mode-map
+         ("C-c ! l" . flymake-show-buffer-diagnostics)
+         ("C-c ! n" . flymake-goto-next-error)
+         ("C-c ! p" . flymake-goto-prev-error)
+         ("C-c ! c" . flymake-start))
   :init (setq flymake-no-changes-timeout nil
               flymake-fringe-indicator-position 'right-fringe)
   :config
@@ -32,7 +37,10 @@
   (advice-add 'elisp-flymake-byte-compile :around #'my-elisp-flymake-byte-compile))
 
 (use-package flymake-diagnostic-at-point
-  :commands flymake-diagnostic-at-point-mode
+  :commands (childframe-workable-p
+             flymake-diagnostic-at-point-mode
+             flymake-diagnostic-at-point-display-posframe
+             posframe-show posframe-hide)
   :hook (flymake-mode . flymake-diagnostic-at-point-mode)
   :config
   (when (and (childframe-workable-p)
@@ -67,6 +75,20 @@
     (setq flymake-diagnostic-at-point-display-diagnostic-function
           #'flymake-diagnostic-at-point-display-posframe)))
 
+;; Use flycheck checkers with flymake, to extend its coverage
+(use-package flymake-flycheck
+  :commands flymake-flycheck-all-chained-diagnostic-functions
+  :init
+  (with-eval-after-load 'flycheck
+    (setq-default flycheck-disabled-checkers
+                  (append (default-value 'flycheck-disabled-checkers)
+                          '(emacs-lisp emacs-lisp-checkdoc emacs-lisp-package))))
+
+  (defun sanityinc/enable-flymake-flycheck ()
+    (setq-local flymake-diagnostic-functions
+                (append flymake-diagnostic-functions
+                        (flymake-flycheck-all-chained-diagnostic-functions))))
+  (add-hook 'flymake-mode-hook 'sanityinc/enable-flymake-flycheck))
 
 (use-package flyspell
   :ensure nil
@@ -103,6 +125,7 @@
   :bind ("C-," . flyspell-correct-at-point))
 
 (use-package flyspell-correct-popup
+  :commands flyspell-correct-popup
   :after flyspell-correct
   :bind(:map popup-menu-keymap
         ("M-j" . popup-next)
