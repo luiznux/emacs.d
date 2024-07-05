@@ -28,6 +28,9 @@
   :init (setq flymake-no-changes-timeout nil
               flymake-fringe-indicator-position 'right-fringe)
   :config
+  ;; suppress warning
+  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+
   ;; Check elisp with `load-path'
   (defun my-elisp-flymake-byte-compile (fn &rest args)
     "Wrapper for `elisp-flymake-byte-compile'."
