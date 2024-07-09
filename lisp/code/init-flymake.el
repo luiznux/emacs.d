@@ -78,21 +78,6 @@
     (setq flymake-diagnostic-at-point-display-diagnostic-function
           #'flymake-diagnostic-at-point-display-posframe)))
 
-;; Use flycheck checkers with flymake, to extend its coverage
-(use-package flymake-flycheck
-  :commands flymake-flycheck-all-chained-diagnostic-functions
-  :init
-  (with-eval-after-load 'flycheck
-    (setq-default flycheck-disabled-checkers
-                  (append (default-value 'flycheck-disabled-checkers)
-                          '(emacs-lisp emacs-lisp-checkdoc emacs-lisp-package))))
-
-  (defun sanityinc/enable-flymake-flycheck ()
-    (setq-local flymake-diagnostic-functions
-                (append flymake-diagnostic-functions
-                        (flymake-flycheck-all-chained-diagnostic-functions))))
-  (add-hook 'flymake-mode-hook 'sanityinc/enable-flymake-flycheck))
-
 (use-package flyspell
   :ensure nil
   :if (executable-find "aspell")
