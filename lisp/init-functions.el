@@ -173,6 +173,12 @@ Only works in buffers that are related with files"
           (t
            (error-message-string "Fail to get path name.")))))
 
+(defun selected-region-or-symbol-at-point ()
+  "Return the selected region, otherwise return the symbol at point."
+  (if (region-active-p)
+      (buffer-substring-no-properties (region-beginning) (region-end))
+    (thing-at-point 'symbol t)))
+
 
 ;; Buffer
 
