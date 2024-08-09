@@ -405,10 +405,11 @@ prepended to the element after the #+HEADER: tag."
     :defines luiznux-client-id luiznux-client-secret
     :init
     (load "~/org/org-api.el") ;; file with the keys
-    (setq org-gcal-client-id  luiznux-client-id
-          org-gcal-client-secret luiznux-client-secret
-          org-gcal-file-alist '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))
-          org-gcal-recurring-events-mode 'nested))
+    (setq org-gcal-recurring-events-mode 'nested
+          org-gcal-down-days             120
+          org-gcal-client-secret         luiznux-client-secret
+          org-gcal-client-id             luiznux-client-id
+          org-gcal-file-alist            '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
 
   (use-package org-roam
     :diminish
