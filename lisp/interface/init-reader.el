@@ -28,6 +28,7 @@
     :diminish (pdf-view-themed-minor-mode
                pdf-view-midnight-minor-mode
                pdf-view-printer-minor-mode)
+    :functions pdf-tools-install
     :defines pdf-annot-activate-created-annotations
     :hook ((pdf-tools-enabled . pdf-view-auto-slice-minor-mode)
            (pdf-tools-enabled . pdf-isearch-minor-mode))
@@ -179,12 +180,9 @@ browser defined by `browse-url-generic-program'."
       (let ((link (elfeed-entry-link elfeed-show-entry)))
         (when link
           (message "Sent to browser: %s" link)
-          (cond
-           ((and (featurep 'xwidget-internal) emacs-xwidget-internal)
-            (custom-webkit-browse-url link))
-           (use-generic-p
-            (browse-url-generic link))
-           (t (browse-url link))))))
+          (if use-generic-p
+              (browse-url-generic link)
+            (emacs-browse-url link)))))
     (advice-add #'elfeed-show-visit :override #'my-elfeed-show-visit)
 
     (defun my-elfeed-search-browse-url (&optional use-generic-p)
@@ -196,12 +194,9 @@ browser defined by `browse-url-generic-program'."
         (cl-loop for entry in entries
                  do (elfeed-untag entry 'unread)
                  when (elfeed-entry-link entry)
-                 do (cond
-                     ((and (featurep 'xwidget-internal) emacs-xwidget-internal)
-                      (custom-webkit-browse-url it t))
-                     (use-generic-p
-                      (browse-url-generic it))
-                     (t (browse-url it))))
+                 do (if use-generic-p
+                        (browse-url-generic it)
+                      (emacs-browse-url it)))
         (mapc #'elfeed-search-update-entry entries)
         (unless (or elfeed-search-remain-on-entry (use-region-p))
           (forward-line))))

@@ -413,6 +413,7 @@ prepended to the element after the #+HEADER: tag."
 
   (use-package org-roam
     :diminish
+    :functions emacs-browse-url
     :defines org-roam-graph-viewer
     :hook (before-save . time-stamp)
     :bind ((("C-c n l" . org-roam-buffer-toggle)
@@ -431,9 +432,7 @@ prepended to the element after the #+HEADER: tag."
           org-roam-node-display-template  (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
           org-roam-dailies-directory      "journal/"
           org-roam-v2-ack                 t
-          org-roam-graph-viewer           (if (and (featurep 'xwidget-internal) emacs-xwidget-internal)
-                                              #'xwidget-webkit-browse-url
-                                            #'browse-url))
+          org-roam-graph-viewer           #'emacs-browse-url)
 
     (setq org-roam-capture-templates '(("d" "default" plain "%?"
                                         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
@@ -460,8 +459,7 @@ prepended to the element after the #+HEADER: tag."
 
   (use-package org-roam-ui
     :bind ("C-c n u" . org-roam-ui-mode)
-    :init (when (and (featurep 'xwidget-internal) emacs-xwidget-internal)
-            (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url))))
+    :init (setq org-roam-ui-browser-function #'emacs-browse-url)))
 
 
 (provide 'init-org)

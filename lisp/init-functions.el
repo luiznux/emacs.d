@@ -97,7 +97,7 @@ This issue has been addressed in 28."
 
 ;; Browse the homepage
 (defun browse-homepage ()
-  "Browse the Github page of Centaur Emacs."
+  "Browse my github page."
   (interactive)
   (browse-url luiznux-homepage))
 
@@ -433,17 +433,24 @@ Save to option `custom-file' if NO-SAVE is nil."
 (defalias 'luiznux-set-package-archives #'set-package-archives)
 
 ;; Browse URL
-(defun custom-webkit-browse-url (url &optional pop-buffer new-session)
-  "Browse URL with xwidget-webkit' and switch or pop to the buffer.
-
-POP-BUFFER specifies whether to pop to the buffer.
-NEW-SESSION specifies whether to create a new xwidget-webkit session."
+(defun emacs-browse-url (url)
+  "Open URL using a configurable method.
+See `browse-url' for more details."
   (interactive (progn
                  (require 'browse-url)
-                 (browse-url-interactive-arg "xwidget-webkit URL: ")))
-  (or (featurep 'xwidget-internal)
-      (user-error "Your Emacs was not compiled with xwidgets support"))
+                 (browse-url-interactive-arg "URL: ")))
+  (if (and (featurep 'xwidget-internal) (display-graphic-p) emacs-xwidget-internal)
+      (custom-webkit-browse-url url t)
+    (browse-url url)))
 
+(defun custom-webkit-browse-url (url &optional pop-buffer new-session)
+  "Browse URL with xwidget-webkit' and switch or pop to the buffer.
+POP-BUFFER specifies whether to pop to the buffer.
+NEW-SESSION specifies whether to create a new xwidget-webkit session.
+Interactively, URL defaults to the string looking like a url around point."
+  (interactive (progn
+                 (require 'browse-url)
+                 (browse-url-interactive-arg "URL: ")))
   (xwidget-webkit-browse-url url new-session)
   (let ((buf (xwidget-buffer (xwidget-webkit-current-session))))
     (when (buffer-live-p buf)
