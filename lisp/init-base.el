@@ -302,10 +302,6 @@
 (bind-keys ("C-c K"   . revert-this-buffer)
            ("C-c C-l" . reload-init-file))
 
-;; Sqlite
-(when (fboundp 'sqlite-open)
-  (use-package emacsql-sqlite-builtin))
-
 
 (provide 'init-base)
 ;;; init-base.el ends here
