@@ -39,7 +39,7 @@
           ("g t" . centaur-tabs-forward)
           ("g T" . centaur-tabs-backward)))
   :init
-  (setq centaur-tabs-style                    "chamfer"
+  (setq centaur-tabs-style                    "box"
         centaur-tabs-icon-type                'nerd-icons
         centaur-tabs-height                   32
         centaur-tabs-set-bar                  'under
