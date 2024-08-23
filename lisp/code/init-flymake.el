@@ -78,48 +78,13 @@
     (setq flymake-diagnostic-at-point-display-diagnostic-function
           #'flymake-diagnostic-at-point-display-posframe)))
 
-(use-package flyspell
-  :ensure nil
-  :if (executable-find "aspell")
-  :commands ispell-init-process
-  :hook
-  ((git-commit-mode . flyspell-mode)
-   (flyspell-mode   . (lambda ()
-                        (dolist (key '("C-;" "C-," "C-."))
-                          (unbind-key key flyspell-mode-map)))))
-  :custom-face
-  (flyspell-incorrect ((t (:underline (:color "#f1fa8c" :style wave)))))
-  (flyspell-duplicate ((t (:underline (:color "#50fa7b" :style wave)))))
+;; spell-checker
+;; requires libenchant, see https://github.com/minad/jinx
+(use-package jinx
+  :hook ((outline-mode git-commit-mode) . jinx-mode)
+  :bind ("C-," . jinx-correct)
   :init
-  (setq flyspell-issue-message-flag  nil
-        ispell-program-name          "aspell"
-        ispell-extra-args            '("--sug-mode=ultra")
-        ispell-dictionary            "english")
-  :config
-  (defun spell-buffer-pt-BR ()
-    "Spell check in portuguese."
-    (interactive)
-    (ispell-change-dictionary "brasileiro")
-    (flyspell-buffer))
-
-  (defun spell-buffer-en-US ()
-    "Spell check in english."
-    (interactive)
-    (ispell-change-dictionary "english")
-    (flyspell-buffer)))
-
-(use-package flyspell-correct
-  :after flyspell
-  :bind ("C-," . flyspell-correct-at-point))
-
-(use-package flyspell-correct-popup
-  :commands flyspell-correct-popup
-  :after flyspell-correct
-  :bind(:map popup-menu-keymap
-        ("M-j" . popup-next)
-        ("M-k" . popup-previous))
-  :init
-  (setq flyspell-correct-interface #'flyspell-correct-popup))
+  (setq jinx-languages "en_US pt_BR"))
 
 
 (provide 'init-flymake)
