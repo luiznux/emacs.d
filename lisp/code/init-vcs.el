@@ -22,13 +22,8 @@
 ;; Git
 ;; See `magit-define-global-key-bindings'
 (use-package magit
-  :init (setq  auto-revert-check-vc-info t
-               magit-diff-refine-hunk    t)
+  :init (setq  auto-revert-check-vc-info t)
   :config
-  (when (fboundp 'transient-append-suffix)
-    ;; Add switch: --tags
-    (transient-append-suffix 'magit-fetch
-      "-p" '("-t" "Fetch all tags" ("-t" "--tags"))))
 
   ;; Access Git forges from Magit
   (use-package forge
