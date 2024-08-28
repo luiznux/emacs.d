@@ -23,7 +23,7 @@
 ;; https://github.com/emacs-lsp/lsp-mode#supported-languages
 (use-package lsp-mode
   :diminish
-  :defines (lsp-diagnostics-disabled-modes lsp-clients-python-library-directories)
+  :defines (lsp-diagnostics-disabled-modes lsp-diagnostics-provider lsp-clients-python-library-directories)
   :autoload lsp-enable-which-key-integration
   :commands (lsp-format-buffer lsp-organize-imports)
   :preface
@@ -65,6 +65,7 @@
         lsp-eldoc-enable-hover             t
         lsp-eldoc-render-all               nil
         lsp-lens-enable                    t
+        lsp-diagnostics-provider           t
         lsp-modeline-code-actions-enable   t
         lsp-modeline-diagnostics-enable    nil
         lsp-keep-workspace-alive           nil
@@ -368,7 +369,7 @@
          ("C-<f8>" . lsp-treemacs-errors-list)
          ("M-<f8>" . lsp-treemacs-symbols)
          ("s-<f8>" . lsp-treemacs-java-deps-list))
-  :init (lsp-treemacs-sync-mode 1)
+  :init (setq lsp-treemacs-sync-mode t)
   :config
   (with-eval-after-load 'ace-window
     (when (boundp 'aw-ignored-buffers)
