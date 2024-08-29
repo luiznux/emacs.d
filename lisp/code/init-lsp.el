@@ -36,9 +36,6 @@
                         (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode 'snippet-mode)
                           (lsp-deferred))))
          ((markdown-mode yaml-mode yaml-ts-mode) . lsp-deferred)
-
-         ((clojure-mode . lsp) (clojurec-mode . lsp) (clojurescript-mode . lsp))
-
          (lsp-mode . (lambda ()
                        ;; Integrate `which-key'
                        (lsp-enable-which-key-integration)
@@ -575,7 +572,6 @@
 
 ;; Sql fomater
 (use-package sqlformat
-  :hook (sql-mode . sqlformat-on-save-mode)
   :init
   (when (executable-find "pgformatter")
     (setq sqlformat-command 'pgformatter)
