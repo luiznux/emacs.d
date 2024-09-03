@@ -60,13 +60,15 @@
   (setq lsp-keymap-prefix                  "C-c l"
         lsp-use-plists                     t
         lsp-eldoc-enable-hover             t
-        lsp-eldoc-render-all               nil
         lsp-lens-enable                    t
         lsp-diagnostics-provider           t
         lsp-modeline-code-actions-enable   t
-        lsp-modeline-diagnostics-enable    nil
-        lsp-keep-workspace-alive           nil
         lsp-semantic-tokens-enable         t
+
+        lsp-modeline-diagnostics-enable    nil
+        lsp-enable-symbol-highlighting     nil
+        lsp-keep-workspace-alive           nil
+
         lsp-progress-spinner-type          'progress-bar-filled
 
         ;; For diagnostics
