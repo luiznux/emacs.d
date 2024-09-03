@@ -81,7 +81,6 @@
 (require 'init-edit)
 (require 'init-evil)
 (require 'init-completion)
-(require 'init-corfu)
 
 (require 'init-bookmark)
 (require 'init-dashboard)
