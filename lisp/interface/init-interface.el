@@ -455,7 +455,10 @@
 (pcase font-ligatures-support
   ('t
    (use-package fira-code-mode
-     :hook prog-mode))
+     :if (display-graphic-p)
+     :hook prog-mode
+     :config (unless (font-installed-p "Fira Code Symbol")
+               (fira-code-mode-install-fonts t))))
   ('composite
    (use-package composite
      :ensure nil

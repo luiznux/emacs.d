@@ -105,11 +105,15 @@ The default value in inherit from the `face-attribute' minus 26"
   :type 'int)
 
 (defcustom font-ligatures-support t
-  "Set font ligatures support."
+  "Set font ligatures support.
+Possible values are:
+ * t: `fira-code-mode' for display ligatures, works only on graphic mode
+ * \\='composite: `composite' for display ligatures, requires compatible font
+ * nil: `prettify-symbols-mode' instead of font ligatures"
   :group 'luiznux
   :type '(choice (const :tag "`fira-code-mode' for display ligatures" t)
-                 (const :tag "`composite.el' for display ligatures, requires compatible font" composite)
-                 (const :tag "use prettify-symbols instead of ligatures") nil))
+                 (const :tag "`composite' for display ligatures" composite)
+                 (const :tag "`prettify-symbols-mode' instead of ligatures") nil))
 
 (defcustom fancy-modeline nil
   "Enable fancy stuffs in mode line or not.
