@@ -77,31 +77,21 @@
         (symbol-overlay-mode 1)))
     (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay)))
 
-;; Highlight indentions
-(use-package highlight-indent-guides
-  :diminish
-  :hook ((prog-mode yaml-mode) . (lambda ()
-                                   "Highlight indentations in small files for better performance."
-                                   (unless (too-long-file-p)
-                                     (highlight-indent-guides-mode 1))))
-  :init (setq highlight-indent-guides-auto-stack-character-face-perc 120
-              highlight-indent-guides-auto-top-character-face-perc   120
-              highlight-indent-guides-auto-character-face-perc       30
-              highlight-indent-guides-suppress-auto-error            t
-              highlight-indent-guides-responsive                     'top
-              highlight-indent-guides-method                         'character)
+;; Highlight and colorize indentation
+(use-package indent-bars
+  :defines (indent-bars-treesit-scope-min-lines
+            indent-bars-treesit-ignore-blank-lines-types
+            indent-bars-ts-styling-scope)
+  :hook ((prog-mode lsp-mode) . indent-bars-mode)
   :config
-  (with-no-warnings
-    ;; Disable in `macrostep' expanding
-    (with-eval-after-load 'macrostep
-      (advice-add #'macrostep-expand
-                  :after (lambda (&rest _)
-                           (when highlight-indent-guides-mode
-                             (highlight-indent-guides-mode -1))))
-      (advice-add #'macrostep-collapse
-                  :after (lambda (&rest _)
-                           (when (derived-mode-p 'prog-mode 'yaml-mode)
-                             (highlight-indent-guides-mode 1)))))))
+  (setq indent-bars-color                    '(highlight :face-bg t :blend 0.15)
+        indent-bars-color-by-depth           '(:regexp "outline-\\([0-9]+\\)" :blend 1)
+        indent-bars-highlight-current-depth  '(:blend 0.5)
+        indent-bars-pattern                  "."
+        indent-bars-width-frac               0.1
+        indent-bars-pad-frac                 0.1
+        indent-bars-display-on-blank-lines   nil
+        indent-bars-treesit-support          t))
 
 ;; Colorize color names in buffers
 (use-package colorful-mode
@@ -161,6 +151,7 @@
 
 ;; Highlight uncommitted changes using VC
 (use-package diff-hl
+  :functions diff-hl-flydiff-mode
   :custom (diff-hl-draw-borders nil)
   :custom-face
   (diff-hl-change ((t (:inherit custom-changed :foreground unspecified :background unspecified))))
