@@ -32,19 +32,13 @@
    (use-package tree-sitter
      :ensure tree-sitter-langs
      :diminish
-     :commands tree-sitter-langs-install-grammars
-     :defines (tree-sitter-debug-jump-buttons
-               tree-sitter-debug-highlight-jump-region)
+     :functions silence-function-messages
      :hook ((after-init . global-tree-sitter-mode)
             (tree-sitter-after-on . tree-sitter-hl-mode))
      :init
      (advice-add 'tree-sitter-langs-install-grammars :around #'silence-function-messages)
      (advice-add 'tree-sitter-langs--call :around #'silence-function-messages)
-     (advice-add 'tsc-dyn-get--log :around #'silence-function-messages)
-     :config
-     (setq tree-sitter-debug-jump-buttons t
-           ;; and this highlights the entire sub tree in your code
-           tree-sitter-debug-highlight-jump-region t)))
+     (advice-add 'tsc-dyn-get--log :around #'silence-function-messages)))
 
   ('nil
    (message "No parsing system is defined")))
