@@ -39,15 +39,14 @@
          ([mouse-1]   . treemacs-single-click-expand-action))
   :config
   (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+        treemacs-file-extension-regex          treemacs-last-period-regex-value
         treemacs-missing-project-action        'remove
-        treemacs-sorting                       'alphabetic-asc
+        treemacs-sorting                       'alphabetic-numeric-case-insensitive-asc
         treemacs-follow-after-init             t
         treemacs-width-is-initially-locked     nil
+        treemacs-recenter-after-file-follow    'always
         treemacs-width                         30
-        treemacs-file-extension-regex treemacs-last-period-regex-value
-        treemacs-no-png-images                 (not emacs-icon)
-        ;;treemacs-text-scale                    -1
-        treemacs-recenter-after-project-expand 'on-distance)
+        treemacs-no-png-images                 (not emacs-icon))
 
   (treemacs-follow-mode     t)
   (treemacs-filewatch-mode  t)
