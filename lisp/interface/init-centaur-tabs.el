@@ -49,12 +49,10 @@
         centaur-tabs-show-navigation-buttons  nil
         centaur-tabs-show-count               nil
         x-underline-at-descent-line           t)
-
+  :config
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
-
-  :config
   (dolist
       (excluded-prefixes
        '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics" "*Kill Ring*"
