@@ -39,7 +39,6 @@
   (orderless-component-separator #'orderless-escapable-split-on-space))
 
 (use-package vertico
-  :defines vertico-mouse-mode
   :custom-face
   (vertico-current ((t (:nherit hilight :background "#2257A0" :extend t))))
   :bind (:map vertico-map
@@ -56,11 +55,11 @@
          ("M-<" . vertico-first)
          ("M->" . vertico-last))
   :hook ((after-init . vertico-mode)
+         (after-init . vertico-mouse-mode)
          (rfn-eshadow-update-overlay . vertico-directory-tidy))
-  :init
-  (setq vertico-mouse-mode t
-        vertico-resize     'grow-only
-        vertico-count      12))
+  :config
+  (setq vertico-resize     'grow-only
+        vertico-count      13))
 
 (use-package nerd-icons-completion
   :commands icons-displayable-p
@@ -139,15 +138,6 @@
 
          ;; Minibuffer history
          :map minibuffer-local-map
-         ("C-s" . (lambda ()
-                    "Insert the selected region or current symbol at point."
-                    (interactive)
-                    (insert (with-current-buffer
-                                (window-buffer (minibuffer-selected-window))
-                              (or (and transient-mark-mode mark-active (/= (point) (mark))
-                                       (buffer-substring-no-properties (point) (mark)))
-		                          (thing-at-point 'symbol t)
-                                  "")))))
          ("M-s" . consult-history)                 ;; orig. next-matching-history-element
          ("M-r" . consult-history))                ;; orig. previous-matching-history-element
 
