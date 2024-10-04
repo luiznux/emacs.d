@@ -458,7 +458,8 @@
      :if (display-graphic-p)
      :hook prog-mode
      :config (unless (font-installed-p "Fira Code Symbol")
-               (fira-code-mode-install-fonts t))))
+               (fira-code-mode-install-fonts t))
+     (setq fira-code-mode-disabled-ligatures '("[]"))))
   ('composite
    (use-package composite
      :ensure nil
