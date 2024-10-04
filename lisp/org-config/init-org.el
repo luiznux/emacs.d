@@ -300,9 +300,10 @@ prepended to the element after the #+HEADER: tag."
   (use-package org-autolist
     :hook (org-mode . org-autolist-mode))
 
-  ;; Make org markers visible
-  (use-package org-appear
-    :hook (org-mode . org-appear-mode))
+  (when emacs/>=29p
+    ;; Make org markers visible
+    (use-package org-appear
+      :hook (org-mode . org-appear-mode)))
 
   ;; Web page content to org mode
   (use-package org-web-tools)
