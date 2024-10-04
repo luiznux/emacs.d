@@ -77,24 +77,6 @@
         (symbol-overlay-mode 1)))
     (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay)))
 
-;; Highlight and colorize indentation
-(use-package indent-bars
-  :hook ((prog-mode lsp-mode) . indent-bars-mode)
-  :custom
-  (indent-bars-treesit-support (if emacs-parsing-system t nil))
-  (indent-bars-treesit-ignore-blank-lines-types '("module"))
-  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
-	                                   if_statement with_statement while_statement)))
-  :config
-  (require 'indent-bars-ts)
-  (setq indent-bars-color                    '(highlight :face-bg t :blend 0.15)
-        indent-bars-color-by-depth           '(:regexp "outline-\\([0-9]+\\)" :blend 1)
-        indent-bars-highlight-current-depth  '(:blend 0.5)
-        indent-bars-pattern                  "."
-        indent-bars-width-frac               0.1
-        indent-bars-pad-frac                 0.1
-        indent-bars-display-on-blank-lines   nil))
-
 ;; Colorize color names in buffers
 (use-package colorful-mode
   :diminish
@@ -102,6 +84,25 @@
   :init (setq colorful-use-prefix nil)
   :config (dolist (mode '(html-mode php-mode help-mode helpful-mode org-mode))
             (add-to-list 'global-colorful-modes mode)))
+
+;; Highlight and colorize indentation
+(use-package indent-bars
+  :after colorful-mode
+  :hook ((prog-mode lsp-mode) . indent-bars-mode)
+  :custom
+  (indent-bars-treesit-support (if emacs-parsing-system t nil))
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
+                                       if_statement with_statement while_statement)))
+  :config
+  (require 'indent-bars-ts)
+  (setq indent-bars-color-by-depth           '(:regexp "outline-\\([0-9]+\\)" :blend 1)
+        indent-bars-highlight-current-depth  '(:blend 0.5)
+        indent-bars-color                    '(highlight :face-bg t :blend 0.15)
+        indent-bars-pattern                  "."
+        indent-bars-starting-column          1
+        indent-bars-width-frac               0.1
+        indent-bars-pad-frac                 0.1))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
@@ -197,6 +198,7 @@
 (use-package goggles
   :diminish
   :hook ((prog-mode text-mode) . goggles-mode))
+
 (use-package volatile-highlights
   :diminish
   :hook (after-init . volatile-highlights-mode))
