@@ -79,19 +79,21 @@
 
 ;; Highlight and colorize indentation
 (use-package indent-bars
-  :defines (indent-bars-treesit-scope-min-lines
-            indent-bars-treesit-ignore-blank-lines-types
-            indent-bars-ts-styling-scope)
   :hook ((prog-mode lsp-mode) . indent-bars-mode)
+  :custom
+  (indent-bars-treesit-support (if emacs-parsing-system t nil))
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
+	                                   if_statement with_statement while_statement)))
   :config
+  (require 'indent-bars-ts)
   (setq indent-bars-color                    '(highlight :face-bg t :blend 0.15)
         indent-bars-color-by-depth           '(:regexp "outline-\\([0-9]+\\)" :blend 1)
         indent-bars-highlight-current-depth  '(:blend 0.5)
         indent-bars-pattern                  "."
         indent-bars-width-frac               0.1
         indent-bars-pad-frac                 0.1
-        indent-bars-display-on-blank-lines   nil
-        indent-bars-treesit-support          t))
+        indent-bars-display-on-blank-lines   nil))
 
 ;; Colorize color names in buffers
 (use-package colorful-mode
