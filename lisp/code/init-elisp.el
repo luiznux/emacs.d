@@ -32,6 +32,9 @@
     :hook ((emacs-lisp-mode inferior-emacs-lisp-mode) . highlight-defined-mode)
     :init (setq highlight-defined-face-use-itself t))
 
+  (use-package eros
+    :hook (emacs-lisp-mode . eros-mode))
+
   (with-no-warnings
     ;; Align indent keywords
     ;; @see https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned

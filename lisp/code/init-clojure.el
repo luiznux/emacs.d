@@ -19,6 +19,7 @@
 (when (eq emacs-parsing-system 'tree-sitter)
   (use-package clojure-mode
     :defines tree-sitter-major-mode-language-alist
+    :hook (clojure-mode . eros-mode)
     :config
     (with-eval-after-load 'tree-sitter-langs
       (setf tree-sitter-major-mode-language-alist
@@ -53,9 +54,6 @@
 
 (use-package clj-refactor
   :hook (clojure-mode . clj-refactor-mode))
-
-(use-package eros
-  :hook (clojure-mode . eros-mode))
 
 (use-package clojure-snippets)
 (use-package inf-clojure)
