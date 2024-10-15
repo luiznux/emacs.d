@@ -95,7 +95,8 @@
     (setq exec-path-from-shell-variables '("SSH_AUTH_SOCK" "SSH_AGENT_PID"
                                            "GPG_AGENT_INFO" "GPG_TTY"
                                            "PATH" "MANPATH"
-                                           "LANG" "LC_CTYPE"))
+                                           "LANG" "LC_CTYPE"
+                                           "LSP_USE_PLISTS"))
     ;; change params for bash
     (if (equal (getenv "SHELL") "/bin/bash")
         (setq exec-path-from-shell-arguments '("-l"))
