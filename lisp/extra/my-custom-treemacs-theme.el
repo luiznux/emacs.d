@@ -368,6 +368,14 @@
     (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-sucicon "nf-custom-folder_npm" :face 'nerd-icons-lred) treemacs-nerd-icons-tab)
                           :extensions ("npm-closed")
                           :fallback 'same-as-icon)
+    ;; profiles
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-mdicon "nf-md-folder_account" :face 'nerd-icons-red-alt) treemacs-nerd-icons-tab)
+                          :extensions ("profiles-open")
+                          :fallback 'same-as-icon)
+    (treemacs-create-icon :icon (format "%s%s%s" chevron-right (nerd-icons-mdicon "nf-md-folder_account" :face 'nerd-icons-red-alt) treemacs-nerd-icons-tab)
+                          :extensions ("profiles-closed")
+                          :fallback 'same-as-icon)
+
     ;; lisp
     (treemacs-create-icon :icon (format "%s%s%s" chevron-down (nerd-icons-faicon "nf-fa-folder_open" :face 'nerd-icons-purple) treemacs-nerd-icons-tab)
                           :extensions ("lisp-open")
