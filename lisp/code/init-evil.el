@@ -26,6 +26,7 @@
   :init
   (setq evil-want-integration t
         evil-want-keybinding  nil
+        evil-echo-state       nil
         evil-undo-system      'undo-redo))
 
 (use-package evil-collection
