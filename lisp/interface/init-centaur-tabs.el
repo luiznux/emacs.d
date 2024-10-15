@@ -21,9 +21,9 @@
             centaur-tabs-font-size
             centaur-tabs-excluded-prefixes)
   :commands (centaur-tabs-group-by-projectile-project
-             centaur-tabs-get-group-name
              centaur-tabs-headline-match
              centaur-tabs-change-fonts
+             centaur-tabs-adjust-buffer-order
              centaur-tabs-enable-buffer-reordering)
   :hook ((after-init . centaur-tabs-mode)
          ((dashboard-mode
@@ -31,10 +31,12 @@
            helpful-mode grep-mode vterm-mode term-mode
            magit-mode git-commit-mode minibuffer-mode which-key-mode
            org-agenda-mode org-capture-mode) . centaur-tabs-local-mode))
-  :bind (("C-<prior>"   . centaur-tabs-backward)
-         ("C-<next>"    . centaur-tabs-forward)
-         ("C-S-<prior>" . centaur-tabs-move-current-tab-to-left)
-         ("C-S-<next>"  . centaur-tabs-move-current-tab-to-right)
+  :bind (("C-<prior>"                 . centaur-tabs-backward)
+         ("C-<next>"                  . centaur-tabs-forward)
+         ("C-S-<prior>"               . centaur-tabs-move-current-tab-to-left)
+         ("C-S-<next>"                . centaur-tabs-move-current-tab-to-right)
+         ("<tab-line>C-<wheel-up>"    . centaur-tabs-move-current-tab-to-left)
+         ("<tab-line>C-<wheel-down>"  . centaur-tabs-move-current-tab-to-right)
          (:map evil-normal-state-map
           ("g t" . centaur-tabs-forward)
           ("g T" . centaur-tabs-backward)))
@@ -43,15 +45,18 @@
         centaur-tabs-icon-type                'nerd-icons
         centaur-tabs-height                   32
         centaur-tabs-set-bar                  'under
+        centaur-tabs-adjust-buffer-order      'right
         centaur-tabs-set-icons                t
         centaur-tabs-show-new-tab-button      t
         centaur-tabs-set-modified-marker      t
+        x-underline-at-descent-line           t
         centaur-tabs-show-navigation-buttons  nil
-        centaur-tabs-show-count               nil
-        x-underline-at-descent-line           t)
+        centaur-tabs-show-count               nil)
   :config
   (centaur-tabs-headline-match)
+  (centaur-tabs-enable-buffer-reordering)
   (centaur-tabs-group-by-projectile-project)
+  (advice-add 'centaur-tabs-buffer-track-killed :override #'ignore)
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
   (dolist
       (excluded-prefixes
