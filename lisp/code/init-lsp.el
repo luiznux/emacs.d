@@ -68,6 +68,7 @@
         lsp-modeline-diagnostics-enable    nil
         lsp-enable-symbol-highlighting     nil
         lsp-keep-workspace-alive           nil
+        lsp-completion-provider            :none
 
         lsp-progress-spinner-type          'progress-bar-filled
 
@@ -247,7 +248,12 @@
          ("M-<f6>" . lsp-ui-hydra/body)
          ("M-RET"  . lsp-ui-sideline-apply-code-actions)
          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references]  . lsp-ui-peek-find-references))
+         ([remap xref-find-references]  . lsp-ui-peek-find-references)
+         :map lsp-ui-peek-mode-map
+         ("j"   . lsp-ui-peek--select-next)
+         ("k"   . lsp-ui-peek--select-prev)
+         ("C-k" . lsp-ui-peek--select-prev-file)
+         ("C-j" . lsp-ui-peek--select-next-file))
 
   :hook (lsp-mode . lsp-ui-mode)
 
