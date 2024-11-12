@@ -16,22 +16,6 @@
 ;;
 ;;; Code:
 
-;; A few more useful configurations...
-(use-package emacs
-  :commands crm-indicator
-  :defines crm-separator
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-  (defun crm-indicator (args)
-    (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
-
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :custom
@@ -380,6 +364,27 @@ targets."
 (unless (display-graphic-p)
   (use-package corfu-terminal
     :hook (global-corfu-mode . corfu-terminal-mode)))
+
+;; A few more useful configurations...
+(use-package emacs
+  :commands crm-indicator
+  :defines crm-separator
+  :custom
+  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
+  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
+  ;; setting is useful beyond Corfu.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
 
 (use-package nerd-icons-corfu
   :after corfu
