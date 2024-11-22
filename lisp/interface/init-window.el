@@ -57,6 +57,7 @@
           "\\*Async Shell Command\\*$"
           "\\*Apropos\\*$"
           "\\*Backtrace\\*$"
+          "\\*Edebug Backtrace\\*$"
           "\\*Calendar\\*$"
           "\\*Fd\\*$" "\\*Find\\*$" "\\*Finder\\*$"
           "\\*Kill Ring\\*$"

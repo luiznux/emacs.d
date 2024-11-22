@@ -58,6 +58,7 @@
   (centaur-tabs-group-by-projectile-project)
   (advice-add 'centaur-tabs-buffer-track-killed :override #'ignore)
   (centaur-tabs-change-fonts (face-attribute 'default :font) centaur-tabs-font-size)
+
   (dolist
       (excluded-prefixes
        '( " *" "*Org Agenda*" "*Org Note*" "*Org Select*" "*Capture*" "*Calendar*" "*Flymake diagnostics" "*Kill Ring*"
