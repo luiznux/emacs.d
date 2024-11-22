@@ -82,7 +82,6 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   "Address blank screen issue with child-frame in fullscreen.
 This issue has been addressed in 28."
   (and sys/mac-cocoa-p
-       (not emacs/>=28p)
        (bound-and-true-p ns-use-native-fullscreen)
        (setq ns-use-native-fullscreen nil)))
 
