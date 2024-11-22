@@ -16,8 +16,6 @@
 ;;
 ;;; Code:
 
-(defvar evil-want-C-u-scroll t)  ; moved the universal arg to <leader> u
-
 (use-package evil
   :demand t
   :bind (:map evil-normal-state-map
@@ -25,6 +23,7 @@
   :hook (after-init . evil-mode)
   :init
   (setq evil-want-integration t
+        evil-want-C-u-scroll  t
         evil-want-keybinding  nil
         evil-echo-state       nil
         evil-undo-system      'undo-redo))
