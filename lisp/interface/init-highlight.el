@@ -29,6 +29,11 @@
 ;; Highlight matching parens
 (use-package paren
   :ensure nil
+  :custom-face
+  (show-paren-match ((((class color) (background light))
+                      (:box (:line-width (-1 . -1) :color "gray70")))
+                     (((class color) (background dark))
+                      (:box (:line-width (-1 . -1) :color "gray50")))))
   :hook (after-init . show-paren-mode)
   :init
   (setq show-paren-when-point-inside-paren t
@@ -50,7 +55,8 @@
   (symbol-overlay-face-6 ((t (:inherit nerd-icons-orange :background unspecified :foreground unspecified :inverse-video t))))
   (symbol-overlay-face-7 ((t (:inherit nerd-icons-green :background unspecified :foreground unspecified :inverse-video t))))
   (symbol-overlay-face-8 ((t (:inherit nerd-icons-cyan :background unspecified :foreground unspecified :inverse-video t))))
-  :bind (("M-i"  . symbol-overlay-put)
+  :bind (:map symbol-overlay-mode-map
+         ("M-i"  . symbol-overlay-put)
          ("M-n"  . symbol-overlay-jump-next)
          ("M-p"  . symbol-overlay-jump-prev)
          ("M-N"  . symbol-overlay-switch-forward)
