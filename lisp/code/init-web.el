@@ -117,10 +117,6 @@
 (use-package typescript-mode
   :mode ("\\.ts[x]\\'" . typescript-mode))
 
-;; Run Mocha or Jasmine tests
-(use-package mocha
-  :config (use-package mocha-snippets))
-
 ;; Major mode for editing web templates
 (use-package web-mode
   :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\|vue\\)$"
