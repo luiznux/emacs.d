@@ -289,10 +289,6 @@
   :bind (:map vc-prefix-map
          ("B" . browse-at-remote)))
 
-(use-package grip-mode
-  :init
-  (setq grip-preview-use-webkit t))
-
 ;; Git configuration modes
 (use-package git-modes)
 
