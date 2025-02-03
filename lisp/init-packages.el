@@ -59,7 +59,9 @@
       use-package-enable-imenu-support t)
 
 (use-package benchmark-init
-  :hook (after-init-hook . benchmark-init/deactivate))
+  :ensure t
+  :demand t
+  :hook (after-init . benchmark-init/deactivate))
 
 ;; Don't display minor modes and required by `use-package'
 (use-package diminish :ensure t)
