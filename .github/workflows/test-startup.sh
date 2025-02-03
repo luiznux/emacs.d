@@ -4,7 +4,6 @@ echo "Attempting startup..."
 
 export HOME="/home/runner"
 mkdir -p /home/runner/org/{agenda,work,personal,roam}
-mkdir -p $HOME/.emacs.d/elpa/gnupg && gpg --homedir $HOME/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 emacs -q --batch \
 --eval '(progn
           (let ((debug-on-error t)
