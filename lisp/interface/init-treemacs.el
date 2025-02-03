@@ -45,18 +45,13 @@
         treemacs-follow-after-init             t
         treemacs-width-is-initially-locked     nil
         treemacs-recenter-after-file-follow    'always
+        treemacs-git-mode                      (if (executable-find "python3") 'deferred 'simple)
         treemacs-width                         30
         treemacs-no-png-images                 (not emacs-icon))
 
   (treemacs-follow-mode     t)
   (treemacs-filewatch-mode  t)
   (treemacs-fringe-indicator-mode 'always)
-  (pcase (cons (not (null (executable-find "git")))
-               (not (null (executable-find "python3"))))
-    (`(t . t)
-     (treemacs-git-mode 'deferred))
-    (`(t . _)
-     (treemacs-git-mode 'simple)))
 
   (use-package treemacs-evil
     :demand t
