@@ -63,7 +63,7 @@
            ("h" . treemacs-projectile)))
 
   (use-package my-custom-treemacs-theme
-    :load-path "~/.emacs.d/lisp/extra"
+    :load-path (lambda () (concat user-emacs-directory "~/.emacs.d/lisp/extra"))
     :commands icons-displayable-p
     :demand t
     :after (treemacs lsp-treemacs nerd-icons)
