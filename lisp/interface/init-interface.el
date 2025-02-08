@@ -246,15 +246,9 @@
         doom-modeline-persp-icon                  t
         doom-modeline-minor-modes                 t
         doom-modeline-buffer-encoding             t
-        doom-modeline-buffer-file-name-style      'auto
+        doom-modeline-buffer-file-name-style      'relative-from-project
         doom-modeline-project-detection           'auto)
 
-  :config
-  ;; thanks to this stupid commit:
-  ;; https://git.savannah.gnu.org/cgit/emacs.git/commit/?id=3f843b25dc96867043feebb1d928bde4a7a777a3
-  ;; now I use this WORKAROUND:, mentioned in :
-  ;; https://github.com/seagle0128/doom-modeline/issues/486
-  ;; :pepe-sad:
   (if (facep 'mode-line-active) ;; for 29+
       (set-face-attribute 'mode-line-active nil :family (face-attribute 'default :font) :height doom-modeline-font-size)
     (set-face-attribute 'mode-line nil :family (face-attribute 'default :font) :height doom-modeline-font-size))
