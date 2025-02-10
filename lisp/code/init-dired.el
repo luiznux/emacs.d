@@ -29,15 +29,16 @@
   :bind (:map dired-mode-map
          ("C-c C-p" . wdired-change-to-wdired-mode))
   :config
-  ;; Guess a default target directory
-  (setq dired-dwim-target t)
-
-  ;; Always delete and copy recursively
-  (setq dired-recursive-deletes 'always
-        dired-recursive-copies 'always)
-
-  ;; Show directory first
-  (setq dired-listing-switches "-alh --group-directories-first")
+  (setq dired-auto-revert-buffer #'dired-buffer-stale-p ; don't prompt to revert, just do it
+        ;; Ask whether destination dirs should get created when copying/removing files.
+        dired-create-destination-dirs 'ask
+        ;; Guess a default target directory
+        dired-dwim-target t
+        ;; Always delete and copy recursively
+        dired-recursive-deletes 'always
+        dired-recursive-copies 'top
+        ;; Show directory first
+        dired-listing-switches "-alh -v --group-directories-first")
 
   (when sys/macp
     (if (executable-find "gls")
@@ -76,7 +77,17 @@
     :when (icons-displayable-p)
     :custom-face
     (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
-    :hook (dired-mode . nerd-icons-dired-mode))
+    :hook (dired-mode . nerd-icons-dired-mode)
+    :config
+    ;; WORKAROUND: display transparent background of icons
+    ;; @see https://github.com/rainstormstudio/nerd-icons-dired/issues/1#issuecomment-2628680359
+    (defun my-nerd-icons-dired--add-overlay (pos string)
+      "Add overlay to display STRING at POS."
+      (let ((ov (make-overlay (1- pos) pos)))
+        (overlay-put ov 'nerd-icons-dired-overlay t)
+        (overlay-put ov 'after-string
+                     (propertize "_" 'display string))))
+    (advice-add #'nerd-icons-dired--add-overlay :override #'my-nerd-icons-dired--add-overlay))
 
   ;; Extra Dired functionality
   (use-package dired-aux :ensure nil)
