@@ -21,8 +21,7 @@
 
 ;; A tree layout file explorer
 (use-package treemacs
-  :commands (treemacs-toggle-fixed-width
-             treemacs-follow-mode
+  :commands (treemacs-follow-mode
              treemacs-filewatch-mode
              treemacs-git-mode
              treemacs-fringe-indicator-mode)
@@ -49,7 +48,7 @@
         treemacs-width                         30
         treemacs-no-png-images                 (not emacs-icon))
 
-  (treemacs-follow-mode     t)
+  (treemacs-follow-mode   nil)
   (treemacs-filewatch-mode  t)
   (treemacs-fringe-indicator-mode 'always)
 
