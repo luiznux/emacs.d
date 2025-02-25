@@ -78,12 +78,9 @@
     (advice-add #'list-environment-entries :override #'my-list-environment-entries)))
 
 ;; games and useless things
-(use-package hackernews
-  :commands (hackernews))
-(use-package 2048-game
-  :commands (2048-game))
-(use-package speed-type
-  :commands (speed-type-text))
+(use-package hackernews)
+(use-package 2048-game)
+(use-package speed-type)
 (use-package snow)
 (use-package clippy)
 
