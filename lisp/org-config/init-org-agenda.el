@@ -169,9 +169,7 @@ based on `org-agenda-files'."
         (when (derived-mode-p 'org-agenda-mode)
           (org-agenda-maybe-redo)))))
 
-  (defadvice org-schedule (after refresh-agenda activate)
-    "Refresh org-agenda."
-    (org-agenda-refresh)))
+  (advice-add 'org-schedule :after #'org-agenda-refresh))
 
 ;; save all the agenda files after each capture
 (add-hook 'org-agenda-finalize-hook 'my/save-all-agenda-buffers)
