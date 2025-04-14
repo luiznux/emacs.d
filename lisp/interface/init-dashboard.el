@@ -61,11 +61,6 @@
          ("U"      . update-packages)
          ("N"      . centaur-tabs--create-new-tab)
          ("q"      . quit-dashboard))
-  :hook (dashboard-mode . (lambda ()
-                            ;; No title
-                            (setq-local frame-title-format nil)
-                            (when open-agenda-with-dashboard
-                              (open-agenda-on-right-buffer))))
   :init
   (setq dashboard-startup-banner       (or luiznux-logo 'logo)
         dashboard-show-shortcuts       nil
@@ -109,6 +104,8 @@
                                          dashboard-insert-items
                                          dashboard-insert-newline
                                          dashboard-insert-footer))
+  (when open-agenda-with-dashboard
+    (advice-add 'dashboard-mode :after #'open-agenda-on-right-buffer))
   (dashboard-setup-startup-hook)
 
   :config
