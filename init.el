@@ -76,6 +76,7 @@
 
 ;; Core packages
 (require 'init-base)
+(require 'init-keybinds)
 (require 'init-hydra)
 (require 'init-interface)
 (require 'init-edit)
