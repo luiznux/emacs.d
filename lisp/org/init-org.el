@@ -249,7 +249,7 @@ prepended to the element after the #+HEADER: tag."
     :init(cl-pushnew '(http . t) load-language-alist))
 
   (add-hook 'after-init-hook (lambda ()(org-babel-do-load-languages
-                                   'org-babel-load-languages load-language-alist)))
+                                        'org-babel-load-languages load-language-alist)))
 
   ;; easy templates special blocks in latex export
   (add-to-list 'org-structure-template-alist '("f" . "figure"))
@@ -403,14 +403,18 @@ prepended to the element after the #+HEADER: tag."
 
   (use-package org-gcal
     :if (file-exists-p "~/org/org-api.el")
-    :defines luiznux-client-id luiznux-client-secret
+    :defines (luiznux-client-id luiznux-client-secret agenda-id
+                                shows-id finances-id task-id)
     :init
     (load "~/org/org-api.el") ;; file with the keys
     (setq org-gcal-recurring-events-mode 'nested
           org-gcal-down-days             120
           org-gcal-client-secret         luiznux-client-secret
           org-gcal-client-id             luiznux-client-id
-          org-gcal-file-alist            '(("luiztagli10@gmail.com" .  "~/org/gcal.org"))))
+          org-gcal-file-alist            `((,agenda-id   . "~/org/agenda/agenda.org")
+                                           (,shows-id    . "~/org/agenda/events.org")
+                                           (,finances-id . "~/org/agenda/finances.org")
+                                           (,task-id     . "~/org/personal/tasks.org"))))
 
   (use-package org-roam
     :diminish

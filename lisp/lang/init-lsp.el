@@ -61,15 +61,12 @@
         lsp-use-plists                     t
         lsp-eldoc-enable-hover             t
         lsp-lens-enable                    t
-        lsp-diagnostics-provider           t
         lsp-modeline-code-actions-enable   t
         lsp-semantic-tokens-enable         t
-
         lsp-modeline-diagnostics-enable    nil
         lsp-enable-symbol-highlighting     nil
         lsp-keep-workspace-alive           nil
         lsp-completion-provider            :none
-
         lsp-progress-spinner-type          'progress-bar-filled
 
         ;; For diagnostics
@@ -77,6 +74,15 @@
 
         ;; For `lsp-clients'
         lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
+
+  (defadvice! +lsp--respect-user-defined-checkers-a (fn &rest args)
+    "Ensure user-defined `flycheck-checker' isn't overwritten by `lsp'."
+    :around #'lsp-diagnostics-flycheck-enable
+    (if flycheck-checker
+        (let ((old-checker flycheck-checker))
+          (apply fn args)
+          (setq-local flycheck-checker old-checker))
+      (apply fn args)))
 
   :config
   (use-package consult-lsp
@@ -551,15 +557,6 @@
 
       (setq lsp-treemacs-theme "lsp-nerd-icons"))))
 
-;; Python: pyright with black format
-(use-package lsp-pyright
-  :init (when (executable-find "python3")
-          (setq lsp-pyright-python-executable-cmd "python3"))
-  :config
-  (use-package python-black
-    :after python
-    :hook ((python-mode python-ts-mode) . python-black-on-save-mode)))
-
 ;; C/C++/Objective-C
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
@@ -570,7 +567,7 @@
     (cl-defmethod my-lsp-execute-command
       ((_server (eql ccls)) (command (eql ccls.xref)) arguments)
       (when-let* ((xrefs (lsp--locations-to-xref-items
-                         (lsp--send-execute-command (symbol-name command) arguments))))
+                          (lsp--send-execute-command (symbol-name command) arguments))))
         (xref--show-xrefs xrefs nil)))
     (advice-add #'lsp-execute-command :override #'my-lsp-execute-command)))
 

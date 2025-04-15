@@ -202,9 +202,7 @@
          ([M-kp-2] . pager-row-down)))
 
 (use-package undohist
-  :hook
-  (with-no-warnings
-    after-init-hook . (undohist-initialize)))
+  :hook (after-init . undohist-initialize))
 
 (use-package vundo
   :bind ("C-x u" . vundo)

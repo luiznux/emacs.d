@@ -16,6 +16,7 @@
 ;;; Code:
 
 (use-package projectile
+  :autoload project-p emacs-project-root projectile-project-root
   :bind (:map projectile-mode-map
          ("C-c p"   . projectile-command-map))
   :hook (after-init . projectile-mode)
@@ -41,7 +42,20 @@
   ;; Registry my org-files as project
   (with-no-warnings
     (projectile-register-project-type 'org '("config.org")
-                                      :project-file "config.org")))
+                                      :project-file "config.org"))
+
+  (defun project-p (&optional dir)
+    "Return t if DIR (defaults to `default-directory') is a valid project."
+    (and (emacs-project-root dir)
+         t))
+
+  (defun emacs-project-root (&optional dir)
+    "Return the project root of DIR (defaults to `default-directory').
+Returns nil if not in a project."
+    (let ((projectile-project-root
+           (unless dir (bound-and-true-p projectile-project-root)))
+          projectile-require-project-root)
+      (projectile-project-root dir))))
 
 
 (provide 'init-projectile)

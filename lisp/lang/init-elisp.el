@@ -4,10 +4,6 @@
 ;; URL: https://luiznux.com
 ;; This file is free software :)
 ;;
-;; Emacs Lisp configurations.
-;; This code is not made by myself and the source is:
-;; https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-elisp.el
-;;
 ;;; Commentary:
 ;;
 ;;
@@ -20,17 +16,51 @@
 ;;
 ;;; Code:
 
+(require 'init-keybinds)
+
 (use-package elisp-mode
   :ensure nil
+  :functions (+emacs-lisp/edebug-instrument-defun-on
+              +emacs-lisp/edebug-instrument-defun-off)
   :bind (:map emacs-lisp-mode-map
          ("C-c C-x" . ielm)
          ("C-c C-c" . eval-defun)
          ("C-c C-b" . eval-buffer))
   :config
+  (defun +emacs-lisp/edebug-instrument-defun-on ()
+    "Toggle on instrumentalisation for the function under `defun'."
+    (interactive)
+    (eval-defun 'edebugit))
+
+  (defun +emacs-lisp/edebug-instrument-defun-off ()
+    "Toggle off instrumentalisation for the function under `defun'."
+    (interactive)
+    (eval-defun nil))
+
+  (map! :localleader
+        :map (emacs-lisp-mode-map lisp-interaction-mode-map)
+        :desc "Expand macro" "m" #'macrostep-expand
+        (:prefix ("d" . "debug")
+         "f" #'+emacs-lisp/edebug-instrument-defun-on
+         "F" #'+emacs-lisp/edebug-instrument-defun-off)
+        (:prefix ("e" . "eval")
+         "b" #'eval-buffer
+         "d" #'eval-defun
+         "e" #'eval-last-sexp
+         "r" #'eval-region
+         "l" #'load-library)
+        (:prefix ("g" . "goto")
+         "f" #'find-function
+         "v" #'find-variable
+         "l" #'find-library))
+
   ;; Syntax highlighting of known Elisp symbols
   (use-package highlight-defined
     :hook ((emacs-lisp-mode inferior-emacs-lisp-mode) . highlight-defined-mode)
     :init (setq highlight-defined-face-use-itself t))
+
+  (use-package edebug-x
+    :hook (edebug-mode . edebug-x-mode))
 
   (use-package eros
     :hook (emacs-lisp-mode . eros-mode))
@@ -256,6 +286,9 @@ Lisp function does not specify a special indentation."
 (use-package overseer
   :diminish
   :hook (emacs-lisp-mode . overseer-mode))
+
+(use-package elisp-def
+  :hook (emacs-lisp-mode . elisp-def-mode))
 
 
 (provide 'init-elisp)
