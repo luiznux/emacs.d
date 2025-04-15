@@ -464,6 +464,7 @@ Interactively, URL defaults to the string looking like a url around point."
           (pop-to-buffer buf)
         (switch-to-buffer buf)))))
 
+
 ;; CSV
 (defun csv-highlight (&optional separator)
   "Set colors for columns on `csv-mode' using SEPARATOR."

@@ -61,15 +61,12 @@
         lsp-use-plists                     t
         lsp-eldoc-enable-hover             t
         lsp-lens-enable                    t
-        lsp-diagnostics-provider           t
         lsp-modeline-code-actions-enable   t
         lsp-semantic-tokens-enable         t
-
         lsp-modeline-diagnostics-enable    nil
         lsp-enable-symbol-highlighting     nil
         lsp-keep-workspace-alive           nil
         lsp-completion-provider            :none
-
         lsp-progress-spinner-type          'progress-bar-filled
 
         ;; For diagnostics
@@ -77,6 +74,15 @@
 
         ;; For `lsp-clients'
         lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
+
+  (defadvice! +lsp--respect-user-defined-checkers-a (fn &rest args)
+    "Ensure user-defined `flycheck-checker' isn't overwritten by `lsp'."
+    :around #'lsp-diagnostics-flycheck-enable
+    (if flycheck-checker
+        (let ((old-checker flycheck-checker))
+          (apply fn args)
+          (setq-local flycheck-checker old-checker))
+      (apply fn args)))
 
   :config
   (use-package consult-lsp

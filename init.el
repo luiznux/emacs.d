@@ -19,9 +19,6 @@
 (when (version< emacs-version "29.1")
   (error "This requires Emacs 29.1 and above!"))
 
-;; avoid anoing message
-(setq byte-compile-warnings '(cl-functions))
-
 ;;
 ;; Speed up startup
 ;;
@@ -41,6 +38,7 @@
   (let ((old-value file-name-handler-alist))
     (setq file-name-handler-alist nil)
     (set-default-toplevel-value 'file-name-handler-alist file-name-handler-alist)
+    (put 'file-name-handler-alist 'initial-value old-value)
     (add-hook 'emacs-startup-hook
               (lambda ()
                 "Recover file name handlers."
@@ -63,7 +61,6 @@
 
 (advice-add #'package-initialize :after #'update-load-path)
 (advice-add #'package-initialize :after #'add-subdirs-to-load-path)
-
 (update-load-path)
 
 ;; Requisites
@@ -106,14 +103,14 @@
 
 ;; Programming
 (require 'init-vcs)
-(require 'init-flymake)
+(require 'init-checker)
 (require 'init-projectile)
 (require 'init-lsp)
-(require 'init-ctags)
 
 (require 'init-prog)
 (require 'init-elisp)
 (require 'init-clojure)
+(require 'init-ctags)
 (require 'init-c)
 (require 'init-go)
 (require 'init-rust)
