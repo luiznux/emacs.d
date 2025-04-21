@@ -450,8 +450,9 @@
      :hook prog-mode
      :config (unless (font-installed-p "Fira Code Symbol")
                (fira-code-mode-install-fonts t))
-     (fira-code-mode-set-font)
-     (setq fira-code-mode-disabled-ligatures '("[]"))))
+     (setq fira-code-mode-disabled-ligatures '("[]"))
+     ;; prevents wrong fonts from being used to render ligatures
+     (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
   ('composite
    (use-package composite
      :ensure nil
