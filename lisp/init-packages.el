@@ -53,15 +53,24 @@
   (package-install 'use-package))
 
 ;; Should set before loading `use-package'
-(setq use-package-always-ensure t
-      use-package-always-defer t
-      use-package-expand-minimally t
-      use-package-enable-imenu-support t)
+(eval-when-compile
+  (setq use-package-always-ensure t
+        use-package-always-defer t
+        use-package-expand-minimally t
+        use-package-enable-imenu-support t))
+
+(eval-when-compile
+  (require 'use-package))
 
 (use-package benchmark-init
   :ensure t
   :demand t
   :hook (after-init . benchmark-init/deactivate))
+
+;; Load custom lisp scripts
+(use-package site-lisp
+  :init
+  (site-lisp-initialise))
 
 ;; Don't display minor modes and required by `use-package'
 (use-package diminish :ensure t)
