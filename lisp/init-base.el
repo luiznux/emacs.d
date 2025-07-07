@@ -262,6 +262,13 @@
       sentence-end "\\([。！？]\\|……\\|[.?!][]\"')}]*\\($\\|[ \t]\\)\\)[ \t\n]*"
       sentence-end-double-space nil)
 
+;; Async
+(use-package async
+  :functions (async-bytecomp-package-mode dired-async-mode)
+  :init
+  (async-bytecomp-package-mode 1)
+  (dired-async-mode 1))
+
 ;; eye-candy for Gnus
 ;; https://groups.google.com/g/gnu.emacs.gnus/c/pnOnQ1bnFB8
 (with-no-warnings
