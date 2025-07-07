@@ -442,6 +442,10 @@
     ;; Don't open a file in a new frame
     (setq ns-pop-up-frames nil)))
 
+(use-package highlight-numbers
+  :hook ((prog-mode conf-mode) . highlight-numbers-mode)
+  :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
+
 ;; Ligatures support
 (pcase font-ligatures-support
   ('t
