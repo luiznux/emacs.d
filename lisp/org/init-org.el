@@ -151,9 +151,8 @@
                                              (?C . (:foreground "#6CCB6E")))
 
         ;; Add and customize org TODO keywords
-        org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "|" "DONE(d!)")
-                                                   (sequence "WARNING(i@/!)" "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
-                                                   (sequence "MEETING(m!)" "|" "DONE(d!)")))
+        org-todo-keywords                  (quote ((sequence "TODO(t)" "DOING(o!)" "WAITING(w@/!)" "WARNING(i@/!)" "|" "DONE(d!)" "CANCELLED(c@/!)")
+                                                   (sequence "MEETING(m!)" "|" "DONE(d!)" "CANCELLED(c@/!)")))
         ;; small minibuffer for todo completion
         org-use-fast-todo-selection        'expert
 
@@ -249,7 +248,7 @@ prepended to the element after the #+HEADER: tag."
     :init(cl-pushnew '(http . t) load-language-alist))
 
   (add-hook 'after-init-hook (lambda ()(org-babel-do-load-languages
-                                        'org-babel-load-languages load-language-alist)))
+                                   'org-babel-load-languages load-language-alist)))
 
   ;; easy templates special blocks in latex export
   (add-to-list 'org-structure-template-alist '("f" . "figure"))
