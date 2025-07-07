@@ -19,7 +19,7 @@
 ;; Helper definitions
 (setq ll/org/agenda-todo-words
       '("work  " "studie  " "project  " "agenda  " "habit 🍩 " "bday  " "cap  " "task  " "conta 💸 " "holiday "
-        "Work Stuffs  " "Studies  " "My Projects  " "Birthdays  " "My Tasks  " "➔" "╰→"))
+        "events 🎸" "Work Stuffs  " "Studies  " "My Projects  " "Birthdays  " "My Tasks  " "➔" "╰→"))
 
 (defun find-in-line (needle &optional beginning count)
   "Find the position of the start of NEEDLE in the current line.
@@ -77,6 +77,7 @@ Also set unspecified background."
   (ll/org/agenda/color-headers-with "habit 🍩 " "#c8b6ff" "#655bc2")
   (ll/org/agenda/color-headers-with "bday  " "#2d2d2d" "#89ddff")
   (ll/org/agenda/color-headers-with "cap  " "#2d2d2d" "#c3e88d")
+  (ll/org/agenda/color-headers-with "events 🎸 " "#2d2d2d" "#e7ba51")
   (ll/org/agenda/color-headers-with "task  " "#2d2d2d" "#EBCB8B")
   (ll/org/agenda/color-headers-with "conta 💸" "#242D35" "#ae3d46")
   (ll/org/agenda/color-headers-with "holiday" "#242D35" "#fea0c2")
