@@ -62,7 +62,12 @@
              ;; reset consult-buffer to show all buffers
              (consult-customize consult--source-buffer :hidden nil :default t)
              (setq consult-buffer-sources (remove #'consult--source-workspace consult-buffer-sources)))))
-    (add-hook 'tabspaces-mode-hook #'my--consult-tabspaces)))
+    (add-hook 'tabspaces-mode-hook #'my--consult-tabspaces))
+
+  (defun my-tabspaces-burry-window (&rest _)
+    "Burry *Messages* buffer"
+    (quit-windows-on messages-buffer-name))
+  (advice-add #'tabspaces-restore-session :after #'my-tabspaces-burry-window))
 
 
 (provide 'init-workspace)
