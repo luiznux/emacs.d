@@ -201,9 +201,6 @@
          ([M-down] . pager-row-down)
          ([M-kp-2] . pager-row-down)))
 
-(use-package undohist
-  :hook (after-init . undohist-initialize))
-
 (use-package vundo
   :bind ("C-x u" . vundo)
   :config (setq vundo-glyph-alist vundo-unicode-symbols))
