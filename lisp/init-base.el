@@ -17,7 +17,6 @@
 ;;
 ;;; Code:
 
-(require 'subr-x)
 (require 'init-functions)
 
 ;; Compatibility

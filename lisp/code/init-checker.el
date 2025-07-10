@@ -1,4 +1,4 @@
-;;; init-flymake.el --- Initialize `flycheck-mode' and `flyspell-mode' configurations   -*- lexical-binding: t -*-
+;;; init-checker.el --- Initialize `flycheck-mode' and `flyspell-mode' configurations   -*- lexical-binding: t -*-
 ;;
 ;; Author: Luiz Tagliaferro <luiz@luiznux.com>
 ;; URL: https://luiznux.com
@@ -112,7 +112,10 @@ Do nothing if `lsp-ui-mode' is active and `lsp-ui-sideline-enable' is non-nil."
                  (not (evil-emacs-state-p)))
             (evil-normal-state-p)
           (and (not (region-active-p))
-               (not (ignore-errors (>= corfu--index 0)))))))))
+               (not (ignore-errors (>= corfu--index 0))))))))
+
+(use-package consult-flycheck
+  :bind("M-g f"   . consult-flycheck)))
 
 
 ;; spell-checker
