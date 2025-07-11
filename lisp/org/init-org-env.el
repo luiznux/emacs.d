@@ -57,7 +57,7 @@
 
   ;; Work type enviroment
   ('work
-   (setq org-agenda-files            (list luiznux-work-agenda-file emacs-org-directory)
+   (setq org-agenda-files            (list emacs-org-directory)
          org-agenda-custom-commands  '(("x" "My Agenda :)"
                                         ((tags-todo
                                           "work"
@@ -172,7 +172,7 @@
 
   ;; nil is the default value
   ('nil
-   (setq org-agenda-files             (list emacs-org-directory "default.org")
+   (setq org-agenda-files             (list emacs-org-directory )
          org-agenda-custom-commands   '(("x" "My Agenda :)"
                                          ((agenda
                                            ""
