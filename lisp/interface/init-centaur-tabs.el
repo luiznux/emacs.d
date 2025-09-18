@@ -17,6 +17,8 @@
 ;;; Code:
 
 (use-package centaur-tabs
+  :vc (:url "https://github.com/ema2159/centaur-tabs"
+       :rev "c72029609c7a6ae64cfcbf69331d6253319c0906")
   :defines (evil-normal-state-map
             centaur-tabs-font-size
             centaur-tabs-excluded-prefixes)
