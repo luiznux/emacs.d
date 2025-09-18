@@ -26,9 +26,6 @@
 ;; Optimize Garbage Collection for Startup
 (setq gc-cons-threshold most-positive-fixnum)
 
-;; Prevent flash of unstyled modeline at startup
-(setq-default mode-line-format nil)
-
 ;; Optimize `auto-mode-alist'
 (setq auto-mode-case-fold nil)
 
