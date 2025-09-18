@@ -255,12 +255,13 @@
   (set-face-attribute 'mode-line-inactive nil :family (face-attribute 'default :font) :height doom-modeline-font-size))
 
 (use-package hide-mode-line
+  :autoload turn-off-hide-mode-line-mode
   :hook (((completion-list-mode
            eshell-mode shell-mode
            term-mode vterm-mode
-           treemacs-mode
            lsp-ui-imenu-mode
            pdf-annot-list-mode
+           embark-collect-mode
            flycheck-error-list-mode
            flymake-diagnostics-buffer-mode
            lsp-treemacs-error-list-mode) . turn-on-hide-mode-line-mode)))
@@ -291,7 +292,7 @@
 
 ;; A minor-mode menu for mode-line
 (use-package minions
-  :hook (doom-modeline-mode . minions-mode))
+  :hook (after-init . minions-mode))
 
 ;; Search tools
 ;; Writable `grep' buffer
