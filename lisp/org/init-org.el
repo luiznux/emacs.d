@@ -394,11 +394,8 @@ prepended to the element after the #+HEADER: tag."
                                       (?B . "🅱")
                                       (?C . "🅲")
                                       (?D . "🅳"))))
-  (use-package org-wild-notifier
-    :hook (after-init . org-wild-notifier-mode)
-    :init
-    (setq org-wild-notifier-keyword-whitelist    '("TODO" "WAITING" "WARNING" "DOING" "MEETING")
-          org-wild-notifier-notification-title   "Agenda 📅"))
+
+  (use-package org-alert)
 
   (use-package org-gcal
     :if (file-exists-p "~/org/org-api.el")
