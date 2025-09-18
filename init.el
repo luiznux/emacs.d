@@ -79,10 +79,10 @@ Avoid placing large files like EAF in `site-lisp` to prevent slow startup."
 ;; Core packages
 (require 'init-base)
 (require 'init-keybinds)
+(require 'init-evil)
 (require 'init-hydra)
 (require 'init-interface)
 (require 'init-edit)
-(require 'init-evil)
 (require 'init-completion)
 
 (require 'init-bookmark)
