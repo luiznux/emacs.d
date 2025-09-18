@@ -43,6 +43,7 @@
         treemacs-sorting                       'alphabetic-numeric-case-insensitive-asc
         treemacs-follow-after-init             t
         treemacs-width-is-initially-locked     nil
+        treemacs-user-mode-line-format         'none
         treemacs-recenter-after-file-follow    'always
         treemacs-git-mode                      (if (executable-find "python3") 'deferred 'simple)
         treemacs-width                         30
